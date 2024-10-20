@@ -1,0 +1,51 @@
+.main-container1{
+    display: flex;
+    
+}
+
+
+.main-container1 .sidebarWrapper-main1{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.main-container1 .sidebarWrapper-main1.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.main-container1 .content-main1{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-container1 .content-main1 .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.tit-main1 {
+    margin-top: 70px;
+    margin-left: 30px;
+    background: #fff;
+    width: 161.5vh;
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1); /* Add this line for shadow */
+}
+
+.tit-main1 h1 {
+    font-size: 30px;
+    padding: 7px 20px;
+    font-weight: bold;
+   
+}
+
+.endengered{
+    margin-left: 161.9vh;
+    margin-top: -120px;
+  
+}

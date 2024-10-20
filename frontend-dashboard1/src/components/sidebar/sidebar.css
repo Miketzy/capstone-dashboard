@@ -1,0 +1,194 @@
+.sidebar {
+    margin-top: -1px;
+    width: 340px;
+    height: 100vh;
+    position: fixed;
+    top: 1px;
+    left: 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: #223243;
+    padding-bottom: 40px;
+    transition: all 0.3 ease;
+    z-index: 1000;
+  }
+  
+  .sidebar::-webkit-scrollbar {
+    width: 3px !important;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background: transparent !important;
+  }
+  
+  .sidebar:hover::-webkit-scrollbar {
+    background: transparent !important;
+  }
+  
+  .sidebar ul {
+    margin-bottom: 0px;
+    padding: 10px 15px;
+  }
+  .sidebar .top .sidebarTitle img{
+    width: 40px;
+    height: 35px;
+    border-radius: 20px;
+  }
+  .sidebar .top{
+    display: flex;
+    color: #00dfc4;
+    font-weight: bold;
+    font-family: sans-serif;
+   
+  }
+
+  .sidebar .top .sidebarTitle{
+    display: flex;
+    gap: 0.8rem;
+    margin-left: 20px;
+   margin-top: 10px;
+  }
+  .sidebar .top .sidebarTitle h2{
+    font-size: 25px; 
+  }
+
+.close{
+    margin-left: 30px;
+    margin-top: 6px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .close:hover{
+    color: #00dfc4;
+  }
+  
+  .sidebar ul li {
+    list-style: none;
+  }
+  
+  .sidebar ul li button {
+    color: rgba(255, 255, 255, 1) !important;
+    width: 37vh;
+    text-align: left;
+    justify-content: left;
+    margin-left: -1px;
+    border-radius: 10px !important;
+    padding: 12px 10px !important;
+    align-items: center;
+    text-transform: capitalize !important;
+    font-weight: 600 !important;
+    font-family: "Open Sans", sans-serif !important;
+    font-size: 19px;
+    margin: 5px;
+    top:10px;
+  }
+  
+  .sidebar ul li button .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+  
+  .sidebar ul li button .icon svg {
+    font-size: 22px;
+  }
+  
+  .sidebar ul li button * {
+    color: rgba(255, 255, 255, 1) !important;
+  }
+  
+  .sidebar ul li button .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+  }
+
+
+  .sidebar ul li button .arrow.open{
+    transform: rotate(90deg);
+  }
+  
+  .sidebar ul li button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .sidebar ul li button.active {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .link, .link1 {
+    text-decoration: none;
+    color: inherit; 
+  }
+  
+  .sidebar ul .submenu {
+    padding: 0px 45px;
+    position: relative; 
+    margin-top: 10px;
+  }
+  
+  .sidebar ul .submenu::before {
+    content: "";
+    width: 1px;
+    height: 95%;
+    position: absolute;
+    top: 0px;
+    left: 21px;
+    background: rgba(243, 236, 236, 0.8);
+  }
+  
+  .sidebar ul .submenu li {
+    width: 100%;
+    list-style: none;
+  }
+  
+  .sidebar ul .submenu li .link1 {
+    text-decoration: none;
+    color: rgb(243, 236, 236) !important;
+    display: block;
+    padding: 6px 0px;
+    font-size: 19px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .sidebar ul .submenu li .link1:hover {
+    color: #00dfc4 !important;
+  }
+
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+    .sidebar{
+      display: none;
+    }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait) {
+  /* Your CSS rules for Samsung Galaxy S8+ portrait mode */
+  .sidebar{
+    display: none;
+  }
+}
+/* Media query for iPad Mini in portrait mode */
+@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait) {
+  /* Your CSS rules for iPad Mini portrait mode */
+  .sidebar{
+    display: none;
+  }
+}
+
+/* Media query for iPad Air in portrait mode */
+@media only screen and (min-device-width: 820px) and (max-device-width: 820px) and (orientation: portrait) {
+  /* Your CSS rules for iPad Air portrait mode */
+  .sidebar{
+    display: none;
+  }
+}

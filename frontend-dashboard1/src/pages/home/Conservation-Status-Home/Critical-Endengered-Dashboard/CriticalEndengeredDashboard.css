@@ -1,0 +1,51 @@
+.main-container{
+    display: flex;
+    
+}
+
+
+.main-container .sidebarWrapper-main{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.main-container .sidebarWrapper-main.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.main-container .content-main{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-container .content-main .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.tit-main {
+    margin-top: 70px;
+    margin-left: 30px;
+    background: #fff;
+    width: 161.5vh;
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1); /* Add this line for shadow */
+}
+
+.tit-main h1 {
+    font-size: 30px;
+    padding: 7px 20px;
+    font-weight: bold;
+   
+}
+
+.critical-endengered{
+    margin-left: 161.9vh;
+    margin-top: -120px;
+  
+}

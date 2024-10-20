@@ -1,0 +1,46 @@
+.right-content{
+    padding: 85px 60px;
+    margin-left: -15px;
+    
+}
+
+
+.DashboardBoxWrapper{ 
+    display: grid;
+    flex: wrap;
+  gap: 15px; /* Adjust the gap between boxes as needed */
+  align-items: center;
+  justify-content: left;
+  }
+
+  
+.dashboardBox{
+    background-color: #ffffff; /* Example box color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 220px; /* Adjust the width based on the available space and gap */
+    height: 150px; /* Fixed height */ 
+  }
+  
+  .cards{
+    margin-left: 32%;
+    margin-top: -50px;
+  }
+
+  .card2{
+    margin-left: 31%;
+    margin-top:-100px;
+  }
+
+  .graphhome{
+    margin-left: 31%;
+   
+  }
+
+  .piehome{
+    margin-left: 31%;
+    margin-top: 29px;
+  }
+.tablehome{
+  margin-left: 28%;
+}

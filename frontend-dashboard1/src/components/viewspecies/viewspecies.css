@@ -1,0 +1,386 @@
+.ViewAndEditSpecies{
+    background: #fff;
+    width: 161vh;
+    margin-left: -106vh;
+    margin-top: 150px;
+}
+
+  .table-responsive1 {
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+  }
+  
+  .table1 {
+    width: 900vh;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse; /* Ensure borders are collapsed */
+  }
+  
+  .table1 th, .table1 td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border: 1px solid #e3e3e3; /* Border for table cells */
+    
+  }
+  
+  .table th {
+    background-color: #f8f9fa; /* Light grey background for table headers */
+    font-weight: bold; /* Bold text for table headers */
+    
+  }
+
+ 
+.thead-dark1 th,
+.table1 th {
+  text-align: center; /* Center-align text */
+  vertical-align: middle; /* Center-align content vertically */
+}
+
+.table1 tbody td{
+    font-size: 14px;
+    font-weight: 500;
+    
+    
+}
+.table1 .thead-dark1 th{
+    background-color: black;
+    border: black;
+    color: white;
+    width: 200vh;
+    font-size: 14px;
+}
+
+.table1 tbody .actions button{
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    margin: 0px 3px;
+    margin-left: 10px;
+}
+
+.table1 tbody .actions button svg{
+    font-size: 32px;
+}
+
+.table1 tbody .actions button.secondary{
+    background: rgba(203,60,231,0.7);
+}
+.table1 tbody .actions button.success{
+    background: rgba(26,159,83,0.7);
+}
+
+.table1 tbody .actions button.error{
+    background: rgba(241,17,51,0.7);
+}
+
+.table1 th:nth-child(1),
+.table1 td:nth-child(1) {
+  width: 1px; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(2),
+.table1 td:nth-child(2) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table1 th:nth-child(3),
+.table1 td:nth-child(3) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(4),
+.table1 td:nth-child(4) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(5),
+.table1 td:nth-child(5) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table1 th:nth-child(6),
+.table1 td:nth-child(6) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(7),
+.table1 td:nth-child(7) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(8),
+.table1 td:nth-child(8) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table1 th:nth-child(9),
+.table1 td:nth-child(9) {
+  width: 9%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(10),
+.table1 td:nth-child(10) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(11),
+.table1 td:nth-child(11) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table1 th:nth-child(12),
+.table1 td:nth-child(12) {
+  width: 13%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table1 th:nth-child(13),
+.table1 td:nth-child(13) {
+  width: 4%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.tablefooter{
+  display: flex;
+  padding-bottom: 20px;
+}
+.pagination{
+  display: flex;
+  margin-left: auto;
+}
+
+/* Style for the search bar container */
+.search-container {
+  position: relative; /* Ensures the search icon is positioned relative to the container */
+  width: 100%; /* Adjust width as needed */
+  margin-bottom: 20px; /* Space below the search bar */
+}
+
+.search-bar {
+  width: 60%;
+  padding: 10px 40px; /* Adds padding to accommodate the search icon */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px; /* Adjust font size as needed */
+  margin-top: 20px;
+  margin-left: 35vh;
+}
+
+.search-icon {
+  position: absolute;
+  left: 36vh; /* Position from the left edge */
+  top: 65%;
+  transform: translateY(-50%); /* Vertically centers the icon */
+  color: #888; /* Adjust icon color as needed */
+  font-size: 25px; /* Adjust icon size as needed */
+  pointer-events: none; /* Ensures the icon doesn’t interfere with the input */
+}
+
+#transition-modal-title{
+  text-align: center;
+}
+#parent-modal-title{
+  text-align: center;
+  font-weight: bolder;
+}
+
+.eye-view{
+  margin-top: -60px;
+  font-family: sans-serif;
+}
+.eye-view .images img{
+  width: 100px;
+  height: 100px;
+}
+.eye-view h4{
+  font-weight: 500;
+  font-size: 18px;
+  margin-left: 10px;
+}
+.specific-name1,.scientifi-name1,.common-name1,.habitat1,
+.population1,.date1{
+  display: flex;
+  margin: 10px;
+  margin-left: 1px;
+}
+.conservationstatus1 p{
+  color: black;
+  font-size: 18px;
+  margin-left: 1px;
+  margin-top: 5px;
+ 
+}
+.threats1{
+  margin-top: 5px;
+}
+.threats1 p{
+  margin-top: 5px;
+  color: black;
+  font-size: 18px;
+  margin-left: 1px;
+ 
+}
+.conservation-effort1{
+  margin-top: 5px;
+}
+.conservation-effort1 p{
+  margin-top: 5px;
+  color: black;
+  font-size: 18px;
+  margin-left: 1px;
+}
+.description1 {
+  margin-top: 5px;
+}
+.description1 p{
+  margin-top: 5px;
+  color: black;
+  font-size: 18px;
+  margin-left: 1px;
+ 
+}
+.location1 h4{
+  margin-left: 1px;
+  margin-top: 5px;
+}
+.species-category1{
+  display: flex;
+}
+.edit-image img{
+  height: 150px;
+  width: 150px;
+}
+
+.edit-species .edit-image{
+  height: 200px;
+  width: 200px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.edit-image .edit-upload{
+  position: absolute;
+  bottom: 50px;
+  left: -5px;
+  width: 103%;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.3);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.edit-upload .edit-icon{
+  color: white;
+  font-size: 35px;
+  margin-left: -100%;
+}
+.edit-image .edit-upload input{
+  display: none;
+}
+
+.edit-image:hover .edit-upload {
+  display: flex;
+}
+
+.edit-species{
+  display: flex;
+  margin: 10px;
+}
+
+.edit-pencil-specific input{
+  width: 50vh;
+  height: 50px;
+  font-size: 18px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.edit-location{
+  margin-left: 100px;
+}
+
+.edit-pencil-specific select{
+  width: 50vh;
+  height: 50px;
+  font-size: 18px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.edit-pencil-specific label{
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+
+.edit-pencil-status{
+  margin-left: 140px;
+  
+}
+
+.edit-pencil-location label{
+  margin-left: 21vh;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+.edit-pencil-location input{
+  width: 103vh;
+  height: 50px;
+  font-size: 18px;
+  margin: 10px;
+  padding: 10px;
+  margin-left: 20vh;
+}
+.edit-pencil-status textarea{
+  width: 103vh;
+  height: 130px;
+  font-size: 18px;
+  margin: 10px;
+  padding: 10px;
+  margin-left: 3vh;
+} 
+
+.edit-pencil-status label{
+  padding: 35px;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+
+#edit-button{
+  background: black;
+  color: white;
+  font-weight: bold;
+  width: 50vh;
+  margin-left: 50vh;
+}
+
+#edit-button:hover{
+  background-color: #25756c;
+}

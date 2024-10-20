@@ -1,0 +1,227 @@
+.cardAnime {
+    background-color: #fff;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    width: 159vh;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin: 15px 0px;
+    border-radius: 10px;
+    margin-left: -5vh;
+    margin-top: -5vh;
+  }
+  
+  .cardAnime .hd{
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .table-responsive {
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+  }
+  
+  .table {
+    width: 900vh;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse; /* Ensure borders are collapsed */
+  }
+  
+  .table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border: 1px solid #e3e3e3; /* Border for table cells */
+    
+  }
+  
+  .table th {
+    background-color: #f8f9fa; /* Light grey background for table headers */
+    font-weight: bold; /* Bold text for table headers */
+    
+  }
+
+ 
+.thead-dark th,
+.table th {
+  text-align: center; /* Center-align text */
+  vertical-align: middle; /* Center-align content vertically */
+}
+
+.table tbody td{
+    font-size: 14px;
+    font-weight: 500;
+    
+    
+}
+.table .thead-dark th{
+    background-color: black;
+    border: black;
+    color: white;
+    width: 200vh;
+    font-size: 14px;
+}
+
+.table tbody .actions button{
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    margin: 0px 3px;
+    margin-left: 10px;
+}
+
+.table tbody .actions button svg{
+    font-size: 32px;
+}
+
+.table tbody .actions button.secondary{
+    background: rgba(203,60,231,0.7);
+}
+.table tbody .actions button.success{
+    background: rgba(26,159,83,0.7);
+}
+
+.table tbody .actions button.error{
+    background: rgba(241,17,51,0.7);
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 1px; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table th:nth-child(6),
+.table td:nth-child(6) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(8),
+.table td:nth-child(8) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table th:nth-child(9),
+.table td:nth-child(9) {
+  width: 9%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(10),
+.table td:nth-child(10) {
+  width: 10%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(11),
+.table td:nth-child(11) {
+  width: 6%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.table th:nth-child(12),
+.table td:nth-child(12) {
+  width: 13%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+.table th:nth-child(13),
+.table td:nth-child(13) {
+  width: 4%; /* Specific Name column width */
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.tablefooter{
+  display: flex;
+  padding-bottom: 20px;
+}
+.pagination{
+  display: flex;
+  margin-left: auto;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+  .cardAnime{
+    margin-left: 160px;
+    margin-top: -50px;
+    width: 340px;
+  }
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 414px) and (orientation: portrait) {
+  .cardAnime{
+    margin-left: 145px;
+    width: 380px;
+  }
+}
+
+/* Media query for iPhone 14 Pro Max in portrait mode */
+@media only screen and (min-device-width: 430px) and (max-device-width: 430px) and (orientation: portrait) {
+  .cardAnime{
+    margin-left: 145px;
+    width: 380px;
+  }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait){
+  .cardAnime{
+    margin-left: 22vh;
+    width: 45vh;
+    margin-top: -7vh;
+  }
+}
+/* Media query for Samsung Galaxy S20 Ultra in portrait mode */
+@media only screen and (min-device-width: 412px) and (max-device-width: 412px) and (orientation: portrait) {
+  /* Your CSS rules for Samsung Galaxy S20 Ultra portrait mode */
+  .cardAnime{
+    margin-left: 15.5vh;
+    width: 42.5vh;
+    margin-top: -7vh;
+  }
+}
+
+ /* Media query for iPad Mini in portrait mode */
+ @media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait){
+  .cardAnime{
+    margin-left: -1vh;
+    width: 72.5vh;
+    margin-top: -17vh;
+  }
+ }

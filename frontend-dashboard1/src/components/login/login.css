@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  
+  .body-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #223243;
+  }
+  
+  .container-login {
+    position: relative;
+    max-width: 700px;
+    width: 30%;
+    border-radius: 20px;
+    padding: 25px;
+    border: 8px solid #223243;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+      5px 5px 15px rgba(0, 0, 0, 0.35),
+      inset -5px 15px rgba(255, 255, 255, 0.1),
+      inset 5px 5px 15px rgba(0, 0, 0, 0.35);
+  }
+  
+  .container-login h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .container-login .form-login {
+    margin-top: 10px;
+  }
+  
+  .form-login .input-box {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .input-box label {
+    color: #00dfc4;
+    margin-left: 4%;
+  }
+  
+  .form-login .input-box input {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    margin-top: 8px;
+    padding: 0 15px;
+    border: none;
+    background: #fff;
+    border: 1px solid #fff;
+    box-shadow: -5px -5px 15px rgba(255, 253, 253, 0.1),
+      5px 5px 15px rgba(0, 0, 0, 0.35);
+    transition: 0.5s;
+    border-radius: 50px;
+  }
+  
+  .container-login .form-login button {
+    height: 40px;
+    width: 80%;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 10%;
+    margin-top: 30px;
+    cursor: pointer;
+    border-radius: 50px;
+    background: #00dfc4;
+    border: none;
+    color: #223243;
+    font-weight: 500;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+      5px 5px 15px rgba(0, 0, 0, 0.35),
+      inset -5px 15px rgba(255, 255, 255, 0.1),
+      inset 5px 5px 15px rgba(0, 0, 0, 0.35);
+  }
+  
+  .container-login .form-login button:hover {
+    background-color: blue;
+  }
+  
+   p {
+    margin-top: 15px;
+    gap: 8px;
+    margin-left: 20%;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+  }
+  
+  .container-login a {
+    display: flex;
+    margin-top: -2px;
+    gap: 8px;
+    margin-left: -1%;
+    color: #fff;
+    font-weight: 500;
+
+  }
+  
+  @media screen and (max-width: 500px) {
+    .container-login {
+      width: 80%;
+    }
+  
+    p {
+      font-size: 10px;
+    }
+  }
+  

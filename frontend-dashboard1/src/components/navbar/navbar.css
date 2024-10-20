@@ -1,0 +1,431 @@
+header {
+    background: #223243;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0;
+    width: 170vh;
+    height: 60px;
+    align-items: center;
+    position: fixed;
+    margin-left: -3px;
+    z-index: 500;
+
+
+  }
+  .users{
+    display: flex;
+  }
+
+  .container-fluid {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+ 
+ 
+
+  #rounded-circle:hover{
+    color: aqua;
+  }
+
+ 
+  .user-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .user-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0;
+  }
+
+  .myAcc {
+    display: flex;
+    align-items: flex-start; /* Align icons at the top */
+    margin-top: -36px;
+    margin-left: 148vh;
+    
+  }
+
+  .user-icon {
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+  }
+  
+  .user-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .menu {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatarAcc {
+    margin-right: 10px;
+  }
+  
+  .avatarAcc .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .fname {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .email {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .MuiMenu-paper {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.32);
+  }
+  
+  .MuiMenuItem-root {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .MuiListItemIcon-root {
+    min-width: 36px;
+  }
+  
+  .MuiAvatar-root {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+  }
+
+  .search1{
+    margin-top: -35px;
+    margin-left: 100px;
+  }
+
+  #rounded-circle{
+    margin-top: 10px;
+    margin-left: -70px;
+    color: #fff;
+  }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+    header{
+      margin-left: -76px;
+      width: 476px;
+      
+    }
+
+    .search1{
+      display: none;
+    }
+
+  .myAcc {
+    display: flex;
+    margin-left: 49vh;
+    margin-top: -69px; 
+  }
+
+  #rounded{
+    margin-left: 215px;
+    margin-top: -55px;
+   
+  }
+  #messages{
+    color: #fff;
+    margin-left: 260px;
+    margin-top: -90px;
+  }
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-width: 414px) and (orientation: portrait) {
+  header{
+    height: 60px;
+    width: 450px; 
+    margin-left: -100px;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 42vh;
+    margin-top: -69px; 
+  }
+
+  #rounded{
+    margin-left: 235px;
+    margin-top: -55px;
+   
+  }
+  #messages{
+    color: #fff;
+    margin-left: 295px;
+    margin-top: -90px;
+  }
+  #rounded-circle{
+    margin-left: 20px;
+  }
+}
+
+/* Media query for iPhone 12 Pro in portrait mode */
+@media only screen and (min-device-width: 390px) and (max-device-width: 390px) and (orientation: portrait) {
+  header{
+    height: 60px;
+    width: 455px; 
+    margin-left: -100px;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 43vh;
+    margin-top: -69px; 
+  }
+
+  #rounded{
+    margin-left: 29vh;
+    margin-top: -55px;
+   
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 35vh;
+    margin-top: -90px;
+  }
+
+  #rounded-circle{
+    margin-left: 25px;
+  }
+}
+
+/* Media query for iPhone 14 Pro Max in portrait mode */
+@media only screen and (min-device-width: 430px) and (max-device-width: 430px) and (orientation: portrait) {
+  header{
+    height: 60px;
+    width: 50vh; 
+    margin-left: -100px;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 42vh;
+    margin-top: -69px; 
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 35vh;
+    margin-top: -90px;
+    font-size: 28px;
+  }
+
+  #rounded{
+    margin-left: 29vh;
+    margin-top: -55px;
+    font-size: 28px;
+   
+  }
+
+  #rounded-circle{
+    margin-left: 25px;
+    font-size: 28px;
+  }
+
+  
+
+}
+@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait) {
+  /* Your CSS rules for Samsung Galaxy S8+ portrait mode */
+  header{
+    height: 60px;
+    width: 50vh; 
+    margin-left: -10vh;
+  }
+
+  .search1{
+    display: none;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 42vh;
+    margin-top: -69px; 
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 33vh;
+    margin-top: -90px;
+    font-size: 28px;
+  }
+
+  #rounded{
+    margin-left: 27vh;
+    margin-top: -55px;
+    font-size: 28px;
+   
+  }
+
+
+}
+
+/* Media query for Samsung Galaxy S20 Ultra in portrait mode */
+@media only screen and (min-device-width: 412px) and (max-device-width: 412px) and (orientation: portrait) {
+  header{
+    height: 60px;
+    width: 50vh; 
+    margin-left: -10vh;
+  }
+
+  .search1{
+    display: none;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 40vh;
+    margin-top: -69px; 
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 33vh;
+    margin-top: -90px;
+    font-size: 28px;
+  }
+
+  #rounded{
+    margin-left: 27vh;
+    margin-top: -55px;
+    font-size: 28px;
+   
+  }
+
+
+}
+
+/* Media query for iPad Mini in portrait mode */
+@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait) {
+  /* Your CSS rules for iPad Mini portrait mode */
+  header{
+    height: 60px;
+    width: 50vh; 
+    margin-left: -10vh;
+  }
+
+  .search1{
+   display: none;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 40vh;
+    margin-top: -69px; 
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 33vh;
+    margin-top: -90px;
+    font-size: 28px;
+  }
+
+  #rounded{
+    margin-left: 27vh;
+    margin-top: -55px;
+    font-size: 28px;
+   
+  }
+
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait){
+  header{
+    height: 60px;
+    width: 80vh; 
+    margin-left: -18vh;
+  }
+
+  .search1{
+   display: none;
+  }
+
+  .myAcc {
+    display: flex;
+    margin-left: 73vh;
+    margin-top: -70px; 
+  }
+
+  #messages{
+    color: #fff;
+    margin-left: 66vh;
+    margin-top: -85px;
+    font-size: 30px;
+  }
+
+  #rounded{
+    margin-left: 60vh;
+    margin-top: -55px;
+    font-size: 30px;
+   
+  }
+  #rounded-circle{
+    margin-left: 25px;
+    font-size: 30px;
+  }
+
+}
+
+/* Media query for iPad Air in portrait mode */
+@media only screen and (min-device-width: 820px) and (max-device-width: 820px) and (orientation: portrait) {
+  /* Your CSS rules for iPad Air portrait mode */
+  header{
+    height: 70px;
+    width: 85vh; 
+    margin-left: -18vh;
+  }
+  .search1{
+   margin-left: 4vh;
+   }
+   .myAcc {
+    display: flex;
+    margin-left: 67vh;
+    margin-top: -70px; 
+  }
+  #messages{
+    color: #fff;
+    margin-left: 61vh;
+    margin-top: -85px;
+    font-size: 30px;
+  }
+  #rounded{
+    margin-left: 56vh;
+    margin-top: -55px;
+    font-size: 30px;
+   
+  }
+
+  #rounded-circle{
+    margin-left: 40px;
+    font-size: 50px;
+  }
+}
+
+

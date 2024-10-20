@@ -1,0 +1,116 @@
+.chart-container {
+  width: 159.5vh; /* Keep 100% for responsiveness */
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-left: -11.5vh;
+}
+
+.chart-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 10px;
+  }
+
+  .chart-title {
+    font-size: 20px;
+  }
+}
+
+.chart-background {
+  background-color: #000; /* Keeping the black background */
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* Media query for iPhone SE in portrait mode */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+  .chart-container {
+    padding: 10px;
+    height: 80vh;
+    margin-left: 140px;
+    margin-right: auto;
+    width: 77%;
+    max-width: 375px; /* Ensure it fits the screen */
+  }
+
+  .chart-title {
+    font-size: 20px;
+  }
+
+  .chart-background {
+    height: 450px; /* Adjusted height */
+    padding: 10px;
+  }
+
+  .custom-responsive-container {
+    height: 400px !important; /* Adjusted chart height for smaller screens */
+    width: 490px !important; /* Added width to fit within the iPhone SE screen */
+    margin-left: -100px;
+    margin-top: 20px;
+  }
+  /* Increase the font size for XAxis and YAxis labels */
+.custom-bar-chart .recharts-cartesian-axis-tick-value {
+  font-size: 17px !important; /* Increase the font size of axis labels */
+}
+
+  .recharts-bar-rectangle {
+    width: 40px !important; /* Increased bar width */
+  }
+
+  .recharts-cartesian-axis-tick-value {
+    font-size: 16px !important; /* Increased font size of axis labels for better readability */
+  }
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 414px) and (orientation: portrait) {
+  .chart-container{
+    margin-left: 125px;
+    width: 90%;
+    height: 550px;
+  }
+}
+
+/* Media query for iPhone 14 Pro Max in portrait mode */
+@media only screen and (min-device-width: 430px) and (max-device-width: 430px) and (orientation: portrait) {
+  .chart-container{
+    margin-left: 125px;
+    width: 90%;
+    height: 550px;
+  }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait){
+  .chart-container{
+    margin-left: 19.5vh;
+    width: 45vh;
+    height: 95vh;
+  }
+}
+/* Media query for Samsung Galaxy S20 Ultra in portrait mode */
+@media only screen and (min-device-width: 412px) and (max-device-width: 412px) and (orientation: portrait) {
+  /* Your CSS rules for Samsung Galaxy S20 Ultra portrait mode */
+  .chart-container{
+    margin-left: 13vh;
+    width: 65vh;
+    height: 520px;
+  }
+}
+
+/* Media query for iPad Mini in portrait mode */
+@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait){
+  .chart-container{
+    margin-left: -4vh;
+    width: 72.5vh;
+    height: 520px;
+    margin-top: 3vh;
+  }
+}
