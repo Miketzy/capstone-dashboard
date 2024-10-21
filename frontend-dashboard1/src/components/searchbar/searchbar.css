@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     width: 480px;
-    height: 38px;
+    height: 36px;
     background: #f0f5ff;
     margin-top: -31px;
     border-radius: 6px;
@@ -29,4 +29,7 @@ input{
 
 .searchBox svg{
     font-size: 20px;
+}
+.result{
+    z-index: 1;
 }

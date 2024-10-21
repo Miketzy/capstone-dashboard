@@ -1,0 +1,53 @@
+.image-gallery-container {
+  padding: 20px;
+}
+
+.image-gallery-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  gap: 10px; /* Space between grid items */
+}
+
+.grid-item {
+  background-color: #f0f0f0; /* Background color for the image container */
+  border-radius: 8px; /* Optional: for rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
+  overflow: hidden; /* Ensure rounded corners are applied to the content inside */
+  padding: 10px; /* Optional: padding inside the grid item */
+}
+
+.grid-item img {
+  width: 100%; /* Full width of grid item */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure images cover the container */
+}
+
+.grid-item p {
+  color: black;
+  font-size: 20px;
+  margin-left: 5px;
+  margin-top: -1px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.searchbar-gallery {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.grid-container p {
+  color: black;
+}

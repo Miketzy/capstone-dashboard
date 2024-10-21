@@ -1,0 +1,40 @@
+.contributor-main {
+    display: flex;
+    overflow-x: hidden;
+    
+}
+
+
+.contributor-main .contributor-sidebarWrapper{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.contributor-main  .contributor-sidebarWrapper.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.contributor-main  .contributor-content{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.contributor-main  .contributor-content .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+
+
+.contributorGallery{
+    margin-left: 30px;
+    margin-top: 60px;
+  
+  
+}
+
+

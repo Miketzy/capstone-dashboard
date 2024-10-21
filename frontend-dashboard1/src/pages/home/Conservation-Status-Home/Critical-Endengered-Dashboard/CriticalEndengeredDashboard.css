@@ -29,23 +29,23 @@
 
 .tit-main {
     margin-top: 70px;
-    margin-left: 30px;
+    margin-left: 40px;
     background: #fff;
-    width: 161.5vh;
+    width: 160.5vh;
     height: 50px;
     border-radius: 10px;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1); /* Add this line for shadow */
 }
 
 .tit-main h1 {
-    font-size: 30px;
-    padding: 7px 20px;
+    font-size: 25px;
+    padding: 10px 20px;
     font-weight: bold;
    
 }
 
 .critical-endengered{
-    margin-left: 161.9vh;
+    margin-left: 164.6vh;
     margin-top: -120px;
   
 }

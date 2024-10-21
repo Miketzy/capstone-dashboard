@@ -1,6 +1,6 @@
 .sidebar {
     margin-top: -1px;
-    width: 340px;
+    width: 300px;
     height: 100vh;
     position: fixed;
     top: 1px;
@@ -45,19 +45,20 @@
   .sidebar .top .sidebarTitle{
     display: flex;
     gap: 0.8rem;
-    margin-left: 20px;
-   margin-top: 10px;
+    margin-left: 25px;
+   margin-top: 15px;
   }
   .sidebar .top .sidebarTitle h2{
-    font-size: 25px; 
+    font-size: 24px; 
   }
 
 .close{
-    margin-left: 30px;
-    margin-top: 6px;
-    font-size: 25px;
+    margin-left: 150px;
+    margin-top: 10px;
+    font-size: 20px;
     cursor: pointer;
     color: #fff;
+    display: none;
   }
 
   .close:hover{
@@ -70,21 +71,44 @@
   
   .sidebar ul li button {
     color: rgba(255, 255, 255, 1) !important;
-    width: 37vh;
+    width: 42vh !important;
     text-align: left;
     justify-content: left;
-    margin-left: -1px;
+    margin-left: -10px;
     border-radius: 10px !important;
     padding: 12px 10px !important;
     align-items: center;
     text-transform: capitalize !important;
     font-weight: 600 !important;
     font-family: "Open Sans", sans-serif !important;
-    font-size: 19px;
+    font-size: 14px;
     margin: 5px;
     top:10px;
   }
   
+
+  .number-count{
+    margin-left: 10px;
+    margin-top: -15px;
+    font-size: 11px;
+    background-color: red;
+    text-align: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 30px;
+  }
+
+  .number-count.no-requests {
+  display: none;
+   
+  }
+  .msg-count{
+    margin-top: -1px;
+    font-size: 11px;
+    font-size: bold;
+  }
+
+ 
   .sidebar ul li button .icon {
     display: flex;
     align-items: center;
@@ -151,17 +175,18 @@
     list-style: none;
   }
   
-  .sidebar ul .submenu li .link1 {
+  .sidebar ul .submenu li  {
     text-decoration: none;
     color: rgb(243, 236, 236) !important;
     display: block;
     padding: 6px 0px;
-    font-size: 19px;
+    font-size: 14px;
     font-weight: 500;
     transition: all 0.3s ease-in-out;
+    cursor: pointer;
   }
   
-  .sidebar ul .submenu li .link1:hover {
+  .sidebar ul .submenu li:hover {
     color: #00dfc4 !important;
   }
 

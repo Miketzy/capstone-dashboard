@@ -3,6 +3,7 @@
     margin-top: 150px;
     background: #fff;
     width: 162vh;
+    border-radius: 20px;
   }
   
   .table-responsive4 {
@@ -73,95 +74,108 @@
   .table4 th:nth-child(1),
   .table4 td:nth-child(1) {
     width: 1%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+    font-weight: bold;
   }
   
   .table3 th:nth-child(1),
   .table3 td:nth-child(1) {
     width: 1px; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+    font-weight: bold;
   }
   
   .table4 th:nth-child(2),
   .table4 td:nth-child(2) {
     width: 6%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
   }
   .table4 th:nth-child(3),
   .table4 td:nth-child(3) {
     width: 6%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+   
   }
   
   .table4 th:nth-child(4),
   .table4 td:nth-child(4) {
     width: 6%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+
   }
   
   .table4 th:nth-child(5),
   .table4 td:nth-child(5) {
     width: 10%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+ 
   }
   .table4 th:nth-child(6),
   .table4 td:nth-child(6) {
     width: 6%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+
   }
   
   .table4 th:nth-child(7),
   .table4 td:nth-child(7) {
     width: 10%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+
   }
   
   .table4 th:nth-child(8),
   .table4 td:nth-child(8) {
     width: 10%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+   
   }
   .table4 th:nth-child(9),
   .table4 td:nth-child(9) {
     width: 9%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+  
   }
   
   .table4 th:nth-child(10),
   .table4 td:nth-child(10) {
     width: 10%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+   
   }
   
   .table4 th:nth-child(11),
   .table4 td:nth-child(11) {
     width: 6%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+   
   }
   
   .table4 th:nth-child(12),
   .table4 td:nth-child(12) {
     width: 13%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+  
   }
   .table4 th:nth-child(13),
   .table4 td:nth-child(13) {
     width: -30%; /* Specific Name column width */
-    vertical-align: middle;
-    text-transform: capitalize;
+    text-align: justify;
+    line-height: 1.5;
+   
   }
   .tablefooter{
     display: flex;

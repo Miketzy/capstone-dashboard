@@ -29,7 +29,7 @@
 
 .tit-main4 {
     margin-top: 70px;
-    margin-left: 30px;
+    margin-left: 40px;
     background: #fff;
     width: 161.5vh;
     height: 50px;
@@ -38,14 +38,14 @@
 }
 
 .tit-main4 h1 {
-    font-size: 30px;
-    padding: 7px 20px;
+    font-size: 25px;
+    padding: 10px 20px;
     font-weight: bold;
    
 }
 
 .least-concern{
-    margin-left: 161.9vh;
+    margin-left: 164.6vh;
     margin-top: -120px;
   
 }

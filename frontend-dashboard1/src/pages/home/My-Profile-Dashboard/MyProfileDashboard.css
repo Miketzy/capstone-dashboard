@@ -1,0 +1,38 @@
+.main-profile{
+    display: flex;
+    overflow-x: hidden;
+    
+}
+
+
+.main-profile .sidebarWrapper-profile{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.main-profile .sidebarWrapper-profile.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.main-profile .content-profile{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-profile .content-profile .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+
+
+.my-profile{
+    margin-left: 2.6vh;
+    margin-top: 10.5vh;
+  
+}
+

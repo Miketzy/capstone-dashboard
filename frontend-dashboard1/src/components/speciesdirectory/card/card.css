@@ -4,7 +4,7 @@
     flex-wrap: wrap;
     gap: 160px; /* Adjust the gap between columns */
     box-sizing: border-box;
-    margin-left: -5px;
+    margin-left: -8px;
   }
   
   /* Each column */
@@ -28,7 +28,8 @@
   .box1{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
   .box-2 {
     width: 30.5vh;/* Adjust width to fit within the column */
@@ -46,7 +47,8 @@
   .box2{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
 
   .box-3 {
@@ -66,7 +68,8 @@
   .box3{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
   .boxes{
     width: 30vh; /* Adjust width to fit within the column */
@@ -83,7 +86,8 @@
   .boxes1{
     margin-top: 40px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
  
 
@@ -103,6 +107,7 @@
       margin-top: -140px;
       margin-left: 140px;
       width: 340px;
+      
     }
     .box1{
       margin-left: 120px;

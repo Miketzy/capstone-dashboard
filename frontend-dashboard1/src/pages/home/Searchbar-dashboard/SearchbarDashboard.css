@@ -1,0 +1,36 @@
+.search-main{
+    display: flex;
+    overflow-x: hidden;
+    
+}
+
+
+.search-main .search-sidebarWrapper{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.search-main .search-sidebarWrapper.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.search-main .search-content{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+   
+}
+
+.search-main .search-content .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.results-container{
+    margin-left: -145px;
+    z-index: -1000;
+}
+

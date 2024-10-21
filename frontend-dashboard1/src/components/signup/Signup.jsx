@@ -4,13 +4,14 @@ import "./signup.css";
 
 function Register() {
   const [formData, setFormData] = useState({
+    username: "",
     firstname: "",
     middlename: "",
     lastname: "",
-    birthdate: "",
-    address: "",
+    phone_number: "+63",
     email: "",
     gender: "",
+    status: "",
     password: "",
     confirmPassword: "",
   });
@@ -27,9 +28,16 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    let formattedPhoneNumber = formData.phone_number;
+    if (formattedPhoneNumber.startsWith("+63")) {
+      formattedPhoneNumber = "0" + formattedPhoneNumber.slice(3);
+    }
+
+    const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
+
     fetch("http://localhost:8080/register", {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify(updatedFormData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -50,9 +58,11 @@ function Register() {
           alert(data.error);
         } else {
           alert("Registration successful!");
-          navigate("/"); // Redirect to another page
+          // Redirect to the login form after successful registration
+          navigate("/");
         }
       })
+
       .catch((error) => {
         console.error("Error:", error);
         alert("An error occurred during registration.");
@@ -64,19 +74,31 @@ function Register() {
       <div className="container">
         <form className="form signup" onSubmit={handleSubmit}>
           <h2>Registration Form</h2>
-
           <div className="column">
+            <div className="input-box">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter your Username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <div className="input-box">
               <label htmlFor="firstname">Firstname</label>
               <input
                 type="text"
                 id="firstname"
-                placeholder="Enter your Firstname"
+                placeholder="Enter your firstname"
                 value={formData.firstname}
                 onChange={handleChange}
+                required
               />
             </div>
-
+          </div>
+          <div className="column2">
             <div className="input-box">
               <label htmlFor="middlename">Middle Name</label>
               <input
@@ -87,62 +109,40 @@ function Register() {
                 onChange={handleChange}
               />
             </div>
+            <div className="input-box">
+              <label htmlFor="lastname">Last Name</label>
+              <input
+                type="text"
+                id="lastname"
+                placeholder="Enter your last name"
+                value={formData.lastname}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           <div className="column2">
             <div className="input-box">
-              <label htmlFor="lastname">Lastname</label>
-              <input
-                type="text"
-                id="lastname"
-                placeholder="Enter your lastname"
-                value={formData.lastname}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-box">
-              <label htmlFor="birthdate">Birthdate</label>
-              <input
-                type="date"
-                id="birthdate"
-                value={formData.birthdate}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="input-box">
-            <label htmlFor="address" className="address">
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              placeholder="Enter your Address"
-              value={formData.address}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="column3">
-            <div className="input-box">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email" className="email">
+                Email Address
+              </label>
               <input
                 type="email"
                 id="email"
                 placeholder="Enter your Email Address"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
             </div>
-
             <div className="input-box">
               <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
                 value={formData.gender}
                 onChange={handleChange}
+                required
               >
                 <option value="" disabled>
                   Select your gender
@@ -150,7 +150,43 @@ function Register() {
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
-                <option value="prefer_not_to_say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="column3">
+            <div className="input-box">
+              <label htmlFor="phone_number">Phone Number</label>
+              <input
+                type="tel"
+                id="phone_number"
+                value={formData.phone_number}
+                onChange={(e) => {
+                  let inputValue = e.target.value;
+                  if (!inputValue.startsWith("+63") && inputValue.length > 0) {
+                    inputValue = "+63" + inputValue.replace(/^0/, "");
+                  }
+                  setFormData({ ...formData, phone_number: inputValue });
+                }}
+                pattern="\+63[0-9]{10}"
+                placeholder="*********"
+                required
+              />
+            </div>
+
+            <div className="input-box">
+              <label htmlFor="status">Account Type</label>
+              <select
+                id="status"
+                value={formData.status}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>
+                  Select your role
+                </option>
+                <option value="admin">Admin</option>
+                <option value="contributor">Contributor</option>
               </select>
             </div>
           </div>
@@ -164,9 +200,9 @@ function Register() {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
+                required
               />
             </div>
-
             <div className="input-box">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
@@ -175,16 +211,17 @@ function Register() {
                 placeholder="Confirm password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
 
-          <button type="submit">Submit</button>
-
+          <button type="submit">Register</button>
           <p>
             Already have an account? Please click
             <a href="/" className="login">
-              Login
+              {" "}
+              Login{" "}
             </a>
           </p>
         </form>

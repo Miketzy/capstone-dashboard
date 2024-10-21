@@ -1,0 +1,101 @@
+.otp-body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #223243;
+}
+
+.otp-container {
+    display: flex;
+    height: 50vh;
+    width: 70vh;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: #223243;
+    border: 8px solid #223243;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+      5px 5px 15px rgba(0, 0, 0, 0.35),
+      inset -5px 15px rgba(255, 255, 255, 0.1),
+      inset 5px 5px 15px rgba(0, 0, 0, 0.35);
+  }
+  
+  .otp-fields {
+    display: flex;
+    gap: 10px;
+  }
+  .otp-container h1{
+    font-size: 30px;
+    margin-top: 10px;
+    color: #fff;
+  }
+  
+  .otp-input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 30px;
+  }
+
+  .otp-button{
+    width: 100%;
+    padding: 10px;
+    background-color: #00dfc4;
+    color: black;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px; /* Add margin on top for spacing */
+    border-radius: 30px;
+  }
+
+  .otp-button:hover {
+    background-color: #fff;
+  }
+  
+  .otp-button:disabled {
+    background-color: #c0c0c0;
+    cursor: not-allowed;
+  }
+
+  .otp-body .p-emailname{
+    margin-left: -10px;
+    display: flex;
+    color: white;
+  }
+  .otp-body .email-tag{
+    margin-top: 1.5px;
+    margin-left: -2px;
+    color: blue;
+  }
+
+  .timer {
+    display: flex;
+    margin-left: 50px;
+  }
+  .timer p{
+    margin-left: -60px;
+  }
+
+  .timer .resend-button {
+    font-size: 14px;
+    margin-left: 9px;
+    cursor: pointer;
+    color: white;
+  }
+
+  .v-emmage{
+    margin-left: -10px;
+    margin-top: -1px;
+    color: red;
+  }
+
+  
+  

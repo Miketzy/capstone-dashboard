@@ -37,7 +37,7 @@ function Directorypie() {
   return (
     <div className="pie-chart-container">
       <h1 className="pie-chart-title">Species Status</h1>
-      <ResponsiveContainer width="100%" height={600} className="pie">
+      <ResponsiveContainer width="100%" height={540} className="pie">
         <PieChart>
           <Pie
             data={data}

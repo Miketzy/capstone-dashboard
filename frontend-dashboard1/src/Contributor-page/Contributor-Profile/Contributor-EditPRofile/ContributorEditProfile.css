@@ -1,0 +1,131 @@
+.contributoredit-profile-container{
+    display: flex;
+    gap: 20px;
+    background: #fff;
+    width: 162vh;
+    margin-left: 20px;
+    height: 88vh;
+    border-radius: 30px;
+}
+.contributoreditprofile-imgholder{
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px;
+  
+    
+}
+.contributoreditprofile-upload .profile-icon{
+    color: white;
+    font-size: 35px;
+}
+
+.contributoreditprofile-imgholder .contributoreditprofile-upload input{
+    display: none;
+}
+
+.contributoreditprofile-imgholder .contributoreditprofile-upload{
+    position: absolute;
+    bottom: 30px;
+    left: 5;
+    width: 75%;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+} 
+
+
+.contributoredit-profile-inputfield{
+    flex-basis: 20%;
+    border-left: 5px groove #223243;
+    padding: 20px;
+}
+
+.contributoredit-profile-inputfield .contributoredit-profile-inputfield-1{
+    display: flex;
+    margin-left: 15px;
+    gap: 30px;
+    
+}
+
+.contributoredit-profile-1 label{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.contributoredit-profile-1 input {
+    width: 55vh;
+    height: 30px;
+    padding: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.contributoredit-profile-1 select{
+    width: 55vh;
+    height: 30px;
+    padding: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.contributoredit-profile-inputfield  .edit-profile-inputfield-2{
+    display: flex;
+    margin-left: 15px;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.contributoredit-profile-inputfield  .edit-profile-inputfield-3{
+    margin-top: 20px;
+}
+
+
+
+.contributoredit-profile-2 {
+    display: flex;
+    flex-direction: column; /* This makes the label stack on top of the input */
+    margin-bottom: 10px;
+  }
+  
+  .contributor-username {
+    margin-bottom: 5px; /* Add space between the label and the input */
+    font-size: 18px;
+    margin-left: 12px;
+    font-weight: bold;
+  }
+  
+  .contributoredit-username {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    height: 30px;
+    width: 55vh;
+    margin-left: 11px;
+  }
+  
+
+
+.contributorsave-changes-button button{
+    width: 50vh;
+    font-size: 18px;
+    height: 5vh;
+    margin-top: 25vh;
+    margin-left: 34vh;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    background: #007bff;
+    color:#fff;
+    font-weight: bold;
+}
+
+.contributorsave-changes-button button:hover{
+    background: #0056b3; 
+    color: #fff;
+}

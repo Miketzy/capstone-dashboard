@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import axios from "axios"; // Import axios for making HTTP requests
 
-function SpeciesComparisonGraph() {
+function Bargraph() {
   const [data, setData] = useState([
     { name: "Mammals", count: 0, color: "#8884d8" },
     { name: "Birds", count: 0, color: "#82ca9d" },
@@ -64,7 +64,7 @@ function SpeciesComparisonGraph() {
         <ResponsiveContainer
           className="custom-responsive-container"
           width="100%"
-          height={600}
+          height={400}
         >
           <BarChart
             className="custom-bar-chart"
@@ -100,4 +100,4 @@ function SpeciesComparisonGraph() {
   );
 }
 
-export default SpeciesComparisonGraph;
+export default Bargraph;

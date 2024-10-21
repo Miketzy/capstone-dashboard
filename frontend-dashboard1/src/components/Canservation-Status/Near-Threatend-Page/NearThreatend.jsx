@@ -9,10 +9,11 @@ function NearThreatend() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items per page
   const [searchTerm, setSearchTerm] = useState("");
+  const [message] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/near-threatend")
+      .get("http://localhost:8080/getNear-threatened") // Ensure this URL matches the backend endpoint
       .then((res) => setNearthreatend(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -24,7 +25,9 @@ function NearThreatend() {
       data.scientificname,
       data.commonname,
       data.speciescategories,
-    ].some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()))
+    ].some((field) =>
+      field ? field.toLowerCase().includes(searchTerm.toLowerCase()) : false
+    )
   );
 
   // Calculate the indices for the current page
@@ -43,6 +46,11 @@ function NearThreatend() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredNearthreatend.length / itemsPerPage);
 
+  // Extract date part from ISO string
+  const getDateOnly = (isoDate) => {
+    if (!isoDate) return "";
+    return isoDate.split("T")[0]; // Split at 'T' and take the first part
+  };
   return (
     <div className="nearthreatend-page">
       <div className="search-container">
@@ -71,27 +79,35 @@ function NearThreatend() {
               <th>Conservation Effort</th>
               <th>Species Categories</th>
               <th>Description</th>
-              <th>Date</th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((data, index) => (
-              <tr key={data.id}>
-                <td>{indexOfFirstItem + index + 1}</td>
-                <td>{data.specificname}</td>
-                <td>{data.scientificname}</td>
-                <td>{data.commonname}</td>
-                <td>{data.habitat}</td>
-                <td>{data.population}</td>
-                <td>{data.locations}</td>
-                <td>{data.conservationstatus}</td>
-                <td>{data.threats}</td>
-                <td>{data.conservationeffort}</td>
-                <td>{data.speciescategories}</td>
-                <td>{data.description}</td>
-                <td>{data.date}</td>
+            {currentItems.length > 0 ? (
+              currentItems.map((data, i) => (
+                <tr key={data.id}>
+                  <td>{indexOfFirstItem + i + 1}</td>
+                  <td>{data.specificname}</td>
+                  <td>{data.scientificname}</td>
+                  <td>{data.commonname}</td>
+                  <td>{data.habitat}</td>
+                  <td>{data.population}</td>
+                  <td>{data.locations}</td>
+                  <td>{data.conservationstatus}</td>
+                  <td>{data.threats}</td>
+                  <td>{data.conservationeffort}</td>
+                  <td>{data.speciescategory}</td>
+                  <td>{data.description}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="14" className="message">
+                  <div>
+                    <p>{message || "No species data"}</p>
+                  </div>
+                </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

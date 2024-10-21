@@ -1,0 +1,38 @@
+.contributorMyProfile-main {
+    display: flex;
+    overflow-x: hidden;
+    
+}
+
+
+.contributorMyProfile-main .contributorMyProfile-sidebarWrapper{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.contributorMyProfile-main  .contributorMyProfile-sidebarWrapper.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.contributorMyProfile-main .contributorMyProfile-content{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.contributorMyProfile-main .contributorMyProfile-content .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+
+
+.contributorMyProfile{
+    margin-left: 17px;
+    margin-top: 70px;
+}
+
+

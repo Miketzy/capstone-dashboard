@@ -1,0 +1,38 @@
+.contributorEditProfile-main {
+    display: flex;
+    overflow-x: hidden;
+    
+}
+
+
+.contributorEditProfile-main .contributorEditProfile-sidebarWrapper{
+   width: 20%;
+   flex: 0 0 20%;
+   transition: all 0.3s ease-in-out;
+
+}
+
+.contributorEditProfile-main  .contributorEditProfile-sidebarWrapper.toggle{
+    width: 80%;
+    flex: 0 0 80%;
+}
+
+.contributorEditProfile-main .contributorEditProfile-content{
+    width: 80%;
+    flex: 0 0 80%;
+    transition: all 0.3s ease-in-out;
+}
+
+.contributorEditProfile-main .contributorEditProfile-content .toggle{
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+
+
+.contributorEditProfile{
+    margin-left: 17px;
+    margin-top: 70px;
+}
+
+

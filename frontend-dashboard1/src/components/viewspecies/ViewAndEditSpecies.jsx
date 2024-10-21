@@ -12,7 +12,10 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
 import { BsPlusCircleDotted } from "react-icons/bs";
-import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS file for react-toastify
 
 const style = {
   position: "absolute",
@@ -54,10 +57,7 @@ function ViewAndEditSpecies() {
   const [pencilOpen, setPencilOpen] = useState(false);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
   const [image, setImage] = useState(null);
-
-  const handleIconClick = () => {
-    document.getElementById("imginput").click();
-  };
+  const [message] = useState("");
 
   const handleOpen = (species) => {
     setSelectedSpecies(species);
@@ -88,7 +88,7 @@ function ViewAndEditSpecies() {
         data.specificname,
         data.scientificname,
         data.commonname,
-        data.speciescategories,
+        data.speciescategory,
       ].some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .slice(indexOfFirstItem, indexOfLastItem);
@@ -103,47 +103,122 @@ function ViewAndEditSpecies() {
         data.specificname,
         data.scientificname,
         data.commonname,
-        data.speciescategories,
+        data.speciescategory,
       ].some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()))
     ).length / itemsPerPage
   );
 
-  const handleUpdateSpecies = () => {
-    if (selectedSpecies) {
-      axios
-        .put(
-          `http://localhost:8080/listspecies/${selectedSpecies.id}`,
-          selectedSpecies
-        )
-        .then((res) => {
-          setListspecies((prevList) =>
-            prevList.map((item) =>
-              item.id === selectedSpecies.id ? selectedSpecies : item
-            )
-          );
-          setPencilOpen(false);
-        })
-        .catch((err) => console.log(err));
+  const handleIconClick = () => {
+    document.getElementById("imginput").click();
+  };
+
+  // Function to handle file input
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file); // Set the selected file to state
+    }
+  };
+
+  const extractFileName = (filePath) => {
+    return filePath.split("/").pop();
+  };
+
+  const handleUpdateSpecies = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("specificname", selectedSpecies.specificname);
+    formData.append("scientificname", selectedSpecies.scientificname);
+    formData.append("commonname", selectedSpecies.commonname);
+    formData.append("habitat", selectedSpecies.habitat);
+    formData.append("population", selectedSpecies.population);
+    formData.append("location", selectedSpecies.location);
+    formData.append("conservationstatus", selectedSpecies.conservationstatus);
+    formData.append("threats", selectedSpecies.threats);
+    formData.append("date", selectedSpecies.date);
+    formData.append("conservationeffort", selectedSpecies.conservationeffort);
+    formData.append("speciescategory", selectedSpecies.speciescategory);
+    formData.append("description", selectedSpecies.description);
+
+    // Add the existing image file name if no new image is uploaded
+    formData.append(
+      "existingimage",
+      extractFileName(selectedSpecies.uploadimage)
+    );
+
+    // Add the image file if it exists
+    if (image) {
+      formData.append("uploadimage", image); // The file from the input
+    }
+
+    try {
+      await axios.put(
+        `http://localhost:8080/listspecies/${selectedSpecies.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      toast.success("🦄 Species updated successfully!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce, // Optional transition effect
+      });
+    } catch (error) {
+      console.error("Error updating species:", error);
+      toast.error("❌ Error updating species. Please try again.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce, // Optional transition effect
+      });
     }
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8080/delete-species/${id}`);
-      setListspecies(listspecies.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Error deleting species:", error);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
-      setSelectedSpecies({
-        ...selectedSpecies,
-        uploadimage: e.target.files[0],
-      });
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      confirmButtonClass: "btn btn-success",
+      cancelButtonClass: "btn btn-danger",
+      buttonsStyling: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:8080/delete-species/${id}`);
+          setListspecies(listspecies.filter((item) => item.id !== id));
+          Swal.fire("Species data successfully deleted! 😊"); // Success message with emoji
+        } catch (error) {
+          console.error("Error deleting species:", error);
+          Swal.fire(
+            "Error!",
+            "There was an error deleting the file. 😢",
+            "error"
+          ); // Error message with emoji
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Your species data is safe 🙂"); // Cancel message with emoji
+      }
+    });
   };
 
   return (
@@ -168,60 +243,67 @@ function ViewAndEditSpecies() {
               <th>Common Name</th>
               <th>Habitat</th>
               <th>Population</th>
-              <th>Locations</th>
+              <th>Map</th>
               <th>Conservation Status</th>
               <th>Threats</th>
               <th>Conservation Effort</th>
-              <th>Species Categories</th>
+              <th>Classification</th>
               <th>Description</th>
-              <th>Date</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((data, i) => (
-              <tr key={data.id}>
-                <td>{indexOfFirstItem + i + 1}</td>
-                <td>{data.specificname}</td>
-                <td>{data.scientificname}</td>
-                <td>{data.commonname}</td>
-                <td>{data.habitat}</td>
-                <td>{data.population}</td>
-                <td>{data.location}</td>
-                <td>{data.conservationstatus}</td>
-                <td>{data.threats}</td>
-                <td>{data.conservationeffort}</td>
-                <td>{data.speciescategories}</td>
-                <td>{data.description}</td>
-                <td>{data.date}</td>
-                <td>
-                  <div className="actions d-flex align-items-center">
-                    <Button
-                      className="secondary"
-                      color="secondary"
-                      onClick={() => handleOpen(data)}
-                    >
-                      <FaEye />
-                    </Button>
-                    <Button
-                      className="success"
-                      color="success"
-                      onClick={() => handlePencilOpen(data)}
-                    >
-                      <FaPencilAlt />
-                    </Button>
-
-                    <Button
-                      className="error"
-                      color="error"
-                      onClick={() => handleDelete(data.id)}
-                    >
-                      <MdDelete />
-                    </Button>
+            {currentItems.length > 0 ? (
+              currentItems.map((data, i) => (
+                <tr key={data.id}>
+                  <td>{indexOfFirstItem + i + 1}</td>
+                  <td>{data.specificname}</td>
+                  <td>{data.scientificname}</td>
+                  <td>{data.commonname}</td>
+                  <td>{data.habitat}</td>
+                  <td>{data.population}</td>
+                  <td>{data.location}</td>
+                  <td>{data.conservationstatus}</td>
+                  <td>{data.threats}</td>
+                  <td>{data.conservationeffort}</td>
+                  <td>{data.speciescategory}</td>
+                  <td>{data.description}</td>
+                  <td>
+                    <div className="actions d-flex align-items-center">
+                      <Button
+                        className="secondary"
+                        color="secondary"
+                        onClick={() => handleOpen(data)}
+                      >
+                        <FaEye />
+                      </Button>
+                      <Button
+                        className="success"
+                        color="success"
+                        onClick={() => handlePencilOpen(data)}
+                      >
+                        <FaPencilAlt />
+                      </Button>
+                      <Button
+                        className="error"
+                        color="error"
+                        onClick={() => handleDelete(data.id)}
+                      >
+                        <MdDelete />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="14" className="message">
+                  <div>
+                    <p>{message || "No species data"}</p>
                   </div>
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
@@ -280,18 +362,14 @@ function ViewAndEditSpecies() {
                 </div>
                 <div className="species-category1">
                   <h3>Species Categories:</h3>
-                  <h4>{selectedSpecies.speciescategories}</h4>
+                  <h4>{selectedSpecies.speciescategory}</h4>
                 </div>
                 <div className="population1">
                   <h3>Population:</h3>
                   <h4>{selectedSpecies.population}</h4>
                 </div>
-                <div className="date1">
-                  <h3>Date:</h3>
-                  <h4>{selectedSpecies.date}</h4>
-                </div>
                 <div className="location1">
-                  <h3>Location:</h3>
+                  <h3>Map:</h3>
                   <h4>{selectedSpecies.location}</h4>
                 </div>
                 <div className="conservationstatus1">
@@ -346,24 +424,32 @@ function ViewAndEditSpecies() {
                           <input
                             type="file"
                             id="imginput"
+                            name="uploadimage"
                             className="file"
-                            style={{ display: "none" }} // Hide the file input
+                            style={{ display: "none" }}
+                            onChange={handleImageUpload} // Handle file upload
                           />
+
                           <BsPlusCircleDotted
                             className="edit-icon"
-                            onClick={handleIconClick} // Trigger file input on click
+                            onClick={handleIconClick}
                             style={{
                               cursor: "pointer",
                               position: "absolute",
                               bottom: "20px",
                               right: "48px",
-                            }} // Position the icon over the image
+                            }}
                           />
                         </label>
+
                         {image ? (
                           <img
-                            src={image}
-                            alt="Uploaded Species"
+                            src={
+                              image
+                                ? URL.createObjectURL(image)
+                                : `/uploads/images/${selectedSpecies.uploadimage}`
+                            }
+                            alt="Species"
                             width="200"
                             height="200"
                           />
@@ -434,7 +520,7 @@ function ViewAndEditSpecies() {
                             id="species-categories"
                             className="edit-species-categories"
                             placeholder="Select species category"
-                            value={selectedSpecies.speciescategories || ""}
+                            value={selectedSpecies.speciescategory || ""}
                             onChange={(e) =>
                               setSelectedSpecies({
                                 ...selectedSpecies,
@@ -505,52 +591,50 @@ function ViewAndEditSpecies() {
                         </div>
 
                         <div className="edit-pencil-specific">
-                          <label htmlFor="edit-date"> Date</label>
-                          <input
-                            type="date"
-                            className="edit-date"
-                            value={selectedSpecies.date || ""}
+                          <label htmlFor="edit-status">
+                            Conservation Status
+                          </label>
+                          <select
+                            id="edit-conservation-status"
+                            className="edit-conservation-status"
+                            value={selectedSpecies.conservationstatus || ""}
                             onChange={(e) =>
                               setSelectedSpecies({
                                 ...selectedSpecies,
-                                date: e.target.value,
+                                conservationstatus: e.target.value,
                               })
                             }
-                          />
+                          >
+                            <option value="">
+                              Select a Conservation Status
+                            </option>
+                            <option value="critically-endangered">
+                              Critically-endangered
+                            </option>
+                            <option value="endangered">Endangered</option>
+                            <option value="vulnerable">Vulnerable</option>
+                            <option value="near-threatened">
+                              Near-threatened
+                            </option>
+                            <option value="least-concern">Least-concern</option>
+                          </select>
                         </div>
                       </div>
                     </div>
 
                     <div className="edit-pencil-location">
                       <label htmlFor="edit-location" className="location">
-                        Location
+                        Map
                       </label>
                       <input
                         className="edit-location"
-                        placeholder="Enter Location"
+                        placeholder="Mapping"
                         rows="4"
                         value={selectedSpecies.location || ""}
                         onChange={(e) =>
                           setSelectedSpecies({
                             ...selectedSpecies,
                             location: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="edit-pencil-status">
-                      <label htmlFor="edit-status" className="status">
-                        Conservation Status
-                      </label>
-                      <textarea
-                        className="edit-conservation-status"
-                        placeholder="Enter species conservation status"
-                        rows="4"
-                        value={selectedSpecies.conservationstatus || ""}
-                        onChange={(e) =>
-                          setSelectedSpecies({
-                            ...selectedSpecies,
-                            conservationstatus: e.target.value,
                           })
                         }
                       />
@@ -595,6 +679,20 @@ function ViewAndEditSpecies() {
                     <Button id="edit-button" onClick={handleUpdateSpecies}>
                       Save Changes
                     </Button>
+
+                    <ToastContainer
+                      position="top-center"
+                      autoClose={5000}
+                      hideProgressBar
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme="colored"
+                      transition={Bounce} // Optional transition effect
+                    />
                   </di>
                 </Typography>
               </>

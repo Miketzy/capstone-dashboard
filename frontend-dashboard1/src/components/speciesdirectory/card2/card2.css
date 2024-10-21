@@ -29,7 +29,8 @@
   .box4{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
   
   .box-5 {
@@ -43,13 +44,14 @@
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1); /* Add this line for shadow */
     font-size: 20px;
     font-weight: bold;
-    margin-left: -90px;
+    margin-left: -73px;
     margin-top: -170px;
   }
   .box5{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
   }
 
   .box-6 {
@@ -69,7 +71,9 @@
   .box6{
     margin-top: -3px;
     color: black;
-    font-size: 46px;
+    font-size: 38px;
+    margin-left: 70px;
+   
   }
 
   @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {

@@ -12,38 +12,30 @@ function Card() {
     // Fetch species counts from the backend API
     axios
       .get("http://localhost:8080/countSpecies")
-      .then((res) => {
-        setTotalSpecies(res.data.totalSpecies); // Assuming the response has a field `totalSpecies`
-      })
+      .then((res) => setTotalSpecies(res.data.totalSpecies)) // Set total species count
       .catch((err) => {
         console.error("Error fetching total species count:", err);
       });
 
     axios
       .get("http://localhost:8080/countmammals")
-      .then((res) => {
-        setMammalsCount(res.data.count); // Assuming the response has a field `totalSpecies`
-      })
+      .then((res) => setMammalsCount(res.data.count)) // Set mammals count
       .catch((err) => {
-        console.error("Error fetching total species count:", err);
+        console.error("Error fetching mammals count:", err);
       });
 
     axios
       .get("http://localhost:8080/countbirds")
-      .then((res) => {
-        setBirdsCount(res.data.count); // Assuming the response has a field `totalSpecies`
-      })
+      .then((res) => setBirdsCount(res.data.count)) // Set birds count
       .catch((err) => {
-        console.error("Error fetching total species count:", err);
+        console.error("Error fetching birds count:", err);
       });
 
     axios
       .get("http://localhost:8080/countReptiles")
-      .then((res) => {
-        setReptilesCount(res.data.count); // Assuming the response has a field `totalSpecies`
-      })
+      .then((res) => setReptilesCount(res.data.count)) // Set reptiles count
       .catch((err) => {
-        console.error("Error fetching total species count:", err);
+        console.error("Error fetching reptiles count:", err);
       });
   }, []);
 

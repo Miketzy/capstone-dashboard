@@ -11,6 +11,8 @@ header {
 
 
   }
+
+
   .users{
     display: flex;
   }
@@ -35,21 +37,13 @@ header {
     cursor: pointer;
   }
 
-  .user-icon {
-    width: 35px;
-    height: 35px;
-    display: inline-block;
-    overflow: hidden;
-    position: relative;
-    background-color: #f0f0f0;
-  }
+
 
   .myAcc {
     display: flex;
     align-items: flex-start; /* Align icons at the top */
-    margin-top: -36px;
-    margin-left: 148vh;
-    
+    margin-top: -35px;
+    margin-left: 160vh;
   }
 
   .user-icon {
@@ -80,8 +74,8 @@ header {
   }
   
   .avatarAcc .avatar {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
   
@@ -102,10 +96,12 @@ header {
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.32);
   }
   
+  
   .MuiMenuItem-root {
     display: flex;
     align-items: center;
     padding: 10px 20px;
+    
   }
   
   .MuiListItemIcon-root {
@@ -117,17 +113,34 @@ header {
     height: 32px;
     margin-right: 10px;
   }
+  
 
   .search1{
-    margin-top: -35px;
+    margin-top: 41px;
     margin-left: 100px;
   }
 
   #rounded-circle{
     margin-top: 10px;
-    margin-left: -70px;
+    margin-left: 40px;
     color: #fff;
+    display: none;
   }
+  
+  .MuiList-root .MuiButtonBase-root {
+    font-size: 14px;
+  }
+  
+  .MuiButtonBase-root .MuiAvatar-circular{
+    width: 20px;
+    height: 2px;
+  }
+
+  #account-menu{
+    margin-top: -10px;
+    margin-left: 2px;
+  }
+  
   @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
     header{
       margin-left: -76px;
@@ -157,6 +170,7 @@ header {
   }
 }
 
+
 @media only screen and (min-device-width: 414px) and (max-device-width: 414px) and (orientation: portrait) {
   header{
     height: 60px;
@@ -184,6 +198,7 @@ header {
     margin-left: 20px;
   }
 }
+
 
 /* Media query for iPhone 12 Pro in portrait mode */
 @media only screen and (min-device-width: 390px) and (max-device-width: 390px) and (orientation: portrait) {
@@ -215,6 +230,8 @@ header {
     margin-left: 25px;
   }
 }
+
+
 
 /* Media query for iPhone 14 Pro Max in portrait mode */
 @media only screen and (min-device-width: 430px) and (max-device-width: 430px) and (orientation: portrait) {

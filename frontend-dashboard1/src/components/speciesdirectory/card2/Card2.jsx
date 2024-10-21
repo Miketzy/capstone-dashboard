@@ -10,21 +10,23 @@ function Card2() {
   useEffect(() => {
     // Fetch amphibians count
     axios
-      .get("http://localhost:8080/countamphibians")
+      .get("http://localhost:8080/countAmphibians")
       .then((res) => setAmphibiansCount(res.data.count))
       .catch((err) => console.error("Error fetching amphibians count:", err));
 
     // Fetch invertebrates count
     axios
-      .get("http://localhost:8080/countinvertebrates")
+      .get("http://localhost:8080/countInvertebrates")
       .then((res) => setInvertebratesCount(res.data.count))
-      .catch((err) => console.error("Error fetching amphibians count:", err));
+      .catch((err) =>
+        console.error("Error fetching invertebrates count:", err)
+      );
 
     // Fetch fish count
     axios
-      .get("http://localhost:8080/countfish")
+      .get("http://localhost:8080/countFish")
       .then((res) => setFishCount(res.data.count))
-      .catch((err) => console.error("Error fetching amphibians count:", err));
+      .catch((err) => console.error("Error fetching fish count:", err));
   }, []);
 
   return (

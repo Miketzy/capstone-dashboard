@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./addspecies.css";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
 
 function AddSpecies() {
   const [image, setImage] = useState(null);
@@ -55,12 +57,33 @@ function AddSpecies() {
       .post("http://localhost:8080/create", formData)
       .then((response) => {
         setUploadStatus("Species added successfully!");
-        window.alert("Species added successfully!"); // Alert message for successful submission
+        toast.success("🦄 Species added successfully!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+          // Add transition effect
+        });
         console.log(response);
       })
       .catch((error) => {
         setUploadStatus("Failed to add species. Please try again.");
-        window.alert("Failed to add species. Please try again."); // Alert message for submission failure
+        toast.error("❌ Failed to add species. Please try again.", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce, // Add transition effect
+        });
         console.log(error);
       });
   };
@@ -83,15 +106,15 @@ function AddSpecies() {
               <img
                 src={image}
                 alt="Uploaded Species"
-                width="200"
-                height="200"
+                width="150"
+                height="150"
               />
             ) : (
               <img
-                src="/images/unknown-person-icon-Image-from_20220304.png"
+                src="/images/animals.jpg"
                 alt="Default Species"
-                width="200"
-                height="200"
+                width="150"
+                height="150"
               />
             )}
           </div>
@@ -160,14 +183,14 @@ function AddSpecies() {
 
         <div className="column-add3">
           <div className="input-box7">
-            <label htmlFor="species-categories">Species Categories</label>
+            <label htmlFor="species-categories">Classification</label>
             <select
               id="species-categories"
               className="species-categories"
               placeholder="Select species category"
               onChange={(e) => setSpeciescategory(e.target.value)}
             >
-              <option value="">Select a category</option>
+              <option value="">Select classification</option>
               <option value="mammals">Mammals</option>
               <option value="birds">Birds</option>
               <option value="reptiles">Reptiles</option>
@@ -178,37 +201,32 @@ function AddSpecies() {
           </div>
 
           <div className="input-box8">
-            <label htmlFor="date">Date</label>
-            <input
-              type="date"
-              className="date"
-              onChange={(e) => setDate(e.target.value)}
-            />
+            <label htmlFor="conservation-status">Conservation Status</label>
+            <select
+              id="conservation-status"
+              className="conservation-status"
+              onChange={(e) => setConservationstatus(e.target.value)}
+            >
+              <option value="">Select a Conservation Status</option>
+              <option value="critically-endangered">
+                Critically-endangered
+              </option>
+              <option value="endangered">Endangered</option>
+              <option value="vulnerable">Vulnerable</option>
+              <option value="near-threatened">Near-threatened</option>
+              <option value="least-concern">Least-concern</option>
+            </select>
           </div>
         </div>
 
         <div className="column-add9">
           <div className="input-box9">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="location">Map</label>
             <input
               type="text"
               className="location"
-              placeholder="Enter species location"
+              placeholder="Mapping"
               onChange={(e) => setLocation(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="column-add10">
-          <div className="input-box10">
-            <label htmlFor="conservation-status" className="textarea-label">
-              Conservation Status
-            </label>
-            <textarea
-              className="conservation-status"
-              placeholder="Enter species conservation status"
-              rows="4"
-              onChange={(e) => setConservationstatus(e.target.value)}
             />
           </div>
         </div>
@@ -248,7 +266,20 @@ function AddSpecies() {
           {uploadStatus && <p>{uploadStatus}</p>}{" "}
           {/* Display feedback message */}
         </div>
-
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+          toastClassName="custom-toast" // Use the custom class
+        />
         <br />
         <br />
       </div>

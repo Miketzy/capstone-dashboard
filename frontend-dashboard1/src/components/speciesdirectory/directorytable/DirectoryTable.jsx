@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./directorytable.css";
-import Button from "@mui/material/Button";
-import { FaEye } from "react-icons/fa";
-import { FaPencilAlt } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 
@@ -32,6 +28,12 @@ function DirectoryTable() {
   // Calculate total pages
   const totalPages = Math.ceil(listspecies.length / itemsPerPage);
 
+  // Extract date part from ISO string
+  const getDateOnly = (isoDate) => {
+    if (!isoDate) return "";
+    return isoDate.split("T")[0]; // Split at 'T' and take the first part
+  };
+
   return (
     <>
       <div className="cardAnime shadow border-0 mt-4">
@@ -40,7 +42,7 @@ function DirectoryTable() {
           <table className="table table-bordered">
             <thead className="thead-dark">
               <tr>
-                <th>#</th>
+                <th>No.</th>
                 <th>Specific Name</th>
                 <th>Scientific Name</th>
                 <th>Common Name</th>
@@ -50,10 +52,8 @@ function DirectoryTable() {
                 <th>Conservation Status</th>
                 <th>Threats</th>
                 <th>Conservation Effort</th>
-                <th>Species Categories</th>
+                <th>Classification</th>
                 <th>Description</th>
-                <th>Date</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -70,22 +70,8 @@ function DirectoryTable() {
                   <td>{data.conservationstatus}</td>
                   <td>{data.threats}</td>
                   <td>{data.conservationeffort}</td>
-                  <td>{data.speciescategories}</td>
+                  <td>{data.speciescategory}</td>
                   <td>{data.description}</td>
-                  <td>{data.date}</td>
-                  <td>
-                    <div className="actions d-flex align-items-center">
-                      <Button className="secondary" color="secondary">
-                        <FaEye />
-                      </Button>
-                      <Button className="success" color="success">
-                        <FaPencilAlt />
-                      </Button>
-                      <Button className="error" color="error">
-                        <MdDelete />
-                      </Button>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>

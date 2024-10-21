@@ -26,63 +26,66 @@ function Navbar() {
   const handleImageClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  useEffect(() => {
-    // Fetch user data from the backend
+  const fetchUserData = () => {
     axios
       .get("http://localhost:8080/", { withCredentials: true })
       .then((response) => {
-        console.log(response.data);
-        setUser({
-          firstname: response.data.firstname || "",
-          middlename: response.data.middlename || "",
-          lastname: response.data.lastname || "",
-          email: response.data.email || "",
-          image: response.data.image
-            ? `http://localhost:8080/uploads/avatar/${response.data.image}`
-            : "/images/unknown-person-icon-Image-from_20220304.png",
-        });
+        if (response.data.message === "Profile retrieved successfully") {
+          setUser({
+            firstname: response.data.user.firstname || "",
+            middlename: response.data.user.middlename || "",
+            lastname: response.data.user.lastname || "",
+            email: response.data.user.email || "",
+            image: response.data.user.image
+              ? `http://localhost:8080/uploads/avatar/${response.data.user.image}`
+              : "/images/unknown-person-icon-Image-from_20220304.png",
+          });
+        } else {
+          alert("Failed to fetch user data");
+        }
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
+        alert("An error occurred while fetching user data. Please try again.");
       });
+  };
+
+  useEffect(() => {
+    fetchUserData(); // Fetch user data on component mount
   }, []);
 
   const handleLogout = () => {
-    axios
-      .get("http://localhost:8080/logout")
-      .then((res) => {
-        console.log("Logout response:", res.data);
-        if (res.data.Message === "Success") {
-          navigate("/");
-        } else {
-          alert("Logout failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Logout error:", err);
-        alert("An error occurred during logout. Please try again.");
-      });
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      axios
+        .get("http://localhost:8080/logout", { withCredentials: true })
+        .then((res) => {
+          if (res.data.Message === "Success") {
+            setUser({
+              firstname: "",
+              middlename: "",
+              lastname: "",
+              email: "",
+              image: "/images/unknown-person-icon-Image-from_20220304.png",
+            });
+            navigate("/"); // Redirect to home or login page
+          } else {
+            alert("Logout failed: " + (res.data.Message || "Unknown error"));
+          }
+        })
+        .catch((err) => {
+          console.error("Logout error:", err);
+          alert("An error occurred during logout. Please try again.");
+        });
+    }
   };
 
   const handleProfile = () => {
-    axios
-      .get("http://localhost:8080/profile")
-      .then((res) => {
-        console.log("Profile response:", res.data);
-        if (res.data.Message === "Success") {
-          navigate("/my-profile");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
+    navigate("/my-profile"); // Navigate to user profile
   };
 
   return (
-    <header className="d-flex align-items-center">
+    <header className=" header d-flex align-items-center">
       <div className="container-fluid w-100">
         <div className="row d-flex align-items-center">
           <div className="col d-flex align-items-center">
@@ -91,7 +94,7 @@ function Navbar() {
             </Button>
 
             <div className="search1" id="search1">
-              <SearchBox />
+              <SearchBox />{" "}
             </div>
 
             <div className="ms-auto d-flex align-items-center">
@@ -117,8 +120,8 @@ function Navbar() {
                           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                           mt: 1.5,
                           "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
+                            width: 31,
+                            height: 31,
                             ml: -0.5,
                             mr: 1,
                           },
@@ -141,7 +144,7 @@ function Navbar() {
                     >
                       <div className="menu" onClick={handleClose}>
                         <div className="avatarAcc">
-                          <Avatar src={user.image} alt="" className="avatar" />
+                          <img src={user.image} alt="" className="avatar" />
                         </div>
                         <div>
                           <h6 className="fname">{`${user.firstname} ${user.middlename} ${user.lastname}`}</h6>

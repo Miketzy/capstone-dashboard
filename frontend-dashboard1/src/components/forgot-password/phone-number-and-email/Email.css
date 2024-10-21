@@ -1,0 +1,84 @@
+.email-request{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #223243;
+}
+.email-request-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #223243;
+    border-radius: 8px;
+    margin-top: -1vh;
+    border: 8px solid #223243;
+    box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.1),
+      5px 5px 15px rgba(0, 0, 0, 0.35),
+      inset -5px 15px rgba(255, 255, 255, 0.1),
+      inset 5px 5px 15px rgba(0, 0, 0, 0.35);
+  }
+  
+  .email-request-container h1{
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 25px;
+  }
+  .email-send {
+    margin-bottom: 20px;
+    margin-left: -1px;
+    margin-top: 20px;
+  }
+  
+  .email-send p {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #00dfc4;
+    font-size: 16px;
+    margin-left: 35px;
+    
+  }
+  
+  .email-send input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
+    border-radius: 30px;
+    margin-top: 10px;
+  }
+  
+  .email-send input:focus {
+    border-color: #00dfc4;
+    outline: none;
+  }
+  
+  /* Style for the button */
+.email-otp-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00dfc4;
+    color: black;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px; /* Add margin on top for spacing */
+    border-radius: 30px;
+  }
+  
+  .email-otp-button:hover {
+    background-color: #fff;
+  }
+  
+  .email-otp-button:disabled {
+    background-color: #c0c0c0;
+    cursor: not-allowed;
+  }
