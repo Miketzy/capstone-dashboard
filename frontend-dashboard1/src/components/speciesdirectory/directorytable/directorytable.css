@@ -57,6 +57,7 @@
     color: white;
     width: 200vh;
     font-size: 14px;
+    
 }
 
 .table tbody .actions button{
@@ -163,6 +164,8 @@
   width: 13%; /* Specific Name column width */
   text-align: justify;
   line-height: 1.5;
+  max-height: 400px; /* Palitan ito para sa nais mong taas */
+  overflow-y: auto;
 }
 .table th:nth-child(13),
 .table td:nth-child(13) {
@@ -180,6 +183,12 @@
   margin-left: auto;
 }
 
+.description-cell,
+.conservation-effort-cell {
+  max-height: 150px; /* Adjust based on desired height */
+  overflow-y: auto;
+  width: 100%;
+}
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
   .cardAnime{
     margin-left: 160px;

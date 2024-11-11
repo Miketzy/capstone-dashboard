@@ -5,21 +5,28 @@ import { RxDashboard } from "react-icons/rx";
 import { FaAngleRight } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import { LuClipboardEdit } from "react-icons/lu";
-import { MdCategory } from "react-icons/md";
-import { MdAnalytics } from "react-icons/md";
-import { GrStatusGood } from "react-icons/gr";
-import { GrGallery } from "react-icons/gr";
-import { IoCloseSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import { IoPeopleOutline } from "react-icons/io5";
+import { MdCategory, MdAnalytics } from "react-icons/md";
+import { GrStatusGood, GrGallery } from "react-icons/gr";
+import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function Sidebar() {
   const [activeTab, setActiveTab] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const [requestCount, setRequestCount] = useState(0);
 
-  // Fetch the request count when the component mounts
+  useEffect(() => {
+    setActiveTab(location.pathname);
+  }, [location]);
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setActiveTab(path);
+  };
+
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
@@ -31,303 +38,15 @@ function Sidebar() {
         console.error("Error fetching request count:", error);
       }
     };
-
     fetchRequestCount();
-  }, []); // Runs once when the component mounts
+  }, []);
 
-  const isOpenSubmenu = (tab) => {
-    setActiveTab(activeTab === tab ? null : tab);
-  };
-
-  const handleDirectory = () => {
-    axios
-      .get("http://localhost:8080/speciesDirectory")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-directory");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleAdd = () => {
-    axios
-      .get("http://localhost:8080/addSpecies")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/add-species");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleList = () => {
-    axios
-      .get("http://localhost:8080/list")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/list-of-species");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleMammals = () => {
-    axios
-      .get("http://localhost:8080/mammalsTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-categories/mammals");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleBirds = () => {
-    axios
-      .get("http://localhost:8080/birdsTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-categories/birds");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleReptile = () => {
-    axios
-      .get("http://localhost:8080/birdsTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-analytics");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleAmphibian = () => {
-    axios
-      .get("http://localhost:8080/amphibiansTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-categories/amphibians");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleInvertebrates = () => {
-    axios
-      .get("http://localhost:8080/invertebratesTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-categories/invertebrates");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleFish = () => {
-    axios
-      .get("http://localhost:8080/fishTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-categories/fish");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleAnalytics = () => {
-    axios
-      .get("http://localhost:8080/analytics")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-analytics");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleCritically = () => {
-    axios
-      .get("http://localhost:8080/criticallyTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/conservation-status/critical-endengered");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleEndangered = () => {
-    axios
-      .get("http://localhost:8080/endangeredTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/conservation-status/endengered");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleVulnerable = () => {
-    axios
-      .get("http://localhost:8080/vulnerableTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/conservation-status/vulnerable");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleLeastconcern = () => {
-    axios
-      .get("http://localhost:8080/least-concernTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/conservation-status/least-concern");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleNearhreatend = () => {
-    axios
-      .get("http://localhost:8080/near-threatendTable")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/conservation-status/near-threatend");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleGallery = () => {
-    axios
-      .get("http://localhost:8080/gallery")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/image-gallery");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleRequest = () => {
-    // Fetch the request count when this button is clicked
-    const fetchRequestCount = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/pending-request-count"
-        );
-        setRequestCount(response.data.count);
-      } catch (error) {
-        console.error("Error fetching request count:", error);
-      }
-    };
-
-    fetchRequestCount();
-
-    // Navigate to the contributor request page
-    axios
-      .get("http://localhost:8080/contributor-request")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/contributor-request");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
+  const toggleDropdown = (dropdownName) => {
+    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
   };
 
   return (
-    <div className="sidebar ">
+    <div className="sidebar">
       <div className="top">
         <div className="sidebarTitle">
           <h2>Admin</h2>
@@ -342,8 +61,10 @@ function Sidebar() {
       <ul>
         <li>
           <Button
-            className={`w-100 ${activeTab === 0 ? "active" : ""}`}
-            onClick={handleDirectory}
+            className={`w-100 ${
+              activeTab === "/species-directory" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/species-directory")}
           >
             <span className="icon">
               <RxDashboard />
@@ -354,8 +75,8 @@ function Sidebar() {
 
         <li>
           <Button
-            className={`w-100 ${activeTab === 1 ? "active" : ""}`}
-            onClick={handleAdd}
+            className={`w-100 ${activeTab === "/add-species" ? "active" : ""}`}
+            onClick={() => handleNavigation("/add-species")}
           >
             <span className="icon">
               <IoMdAddCircle />
@@ -366,8 +87,10 @@ function Sidebar() {
 
         <li>
           <Button
-            className={`w-100 ${activeTab === 2 ? "active" : ""}`}
-            onClick={handleList}
+            className={`w-100 ${
+              activeTab === "/list-of-species" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/list-of-species")}
           >
             <span className="icon">
               <LuClipboardEdit />
@@ -378,110 +101,172 @@ function Sidebar() {
 
         <li>
           <Button
-            className={`w-100 ${activeTab === 3 ? "active" : ""}`}
-            onClick={() => isOpenSubmenu(3)}
+            className={`w-100 ${
+              activeTab === "/species-categories" ? "active" : ""
+            }`}
+            onClick={() => toggleDropdown("species-categories")}
           >
             <span className="icon">
               <MdCategory />
             </span>
-            Species categories
-            <span className={`arrow ${activeTab === 3 ? "open" : ""}`}>
+            Classification
+            <span
+              className={`arrow ${
+                activeDropdown === "species-categories" ? "rotate" : ""
+              }`}
+            >
               <FaAngleRight />
             </span>
           </Button>
-          {activeTab === 3 && (
-            <div className="submenuWrapper">
-              <ul className="submenu">
-                <li onClick={handleMammals}>Mammals</li>
-
-                <li onClick={handleBirds}>Birds</li>
-
-                <li onClick={handleReptile}>Reptiles</li>
-
-                <li onClick={handleAmphibian}>Amphibians</li>
-
-                <li onClick={handleInvertebrates}>Invertebrates</li>
-
-                <li onClick={handleFish}>Fish</li>
-              </ul>
-            </div>
+          {activeDropdown === "species-categories" && (
+            <ul className="submenu">
+              <li
+                onClick={() => handleNavigation("/species-categories/mammals")}
+              >
+                Mammals
+              </li>
+              <li onClick={() => handleNavigation("/species-categories/birds")}>
+                Birds
+              </li>
+              <li
+                onClick={() => handleNavigation("/species-categories/reptiles")}
+              >
+                Reptiles
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/species-categories/amphibians")
+                }
+              >
+                Amphibians
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/species-categories/invertebrates")
+                }
+              >
+                Invertebrates
+              </li>
+              <li onClick={() => handleNavigation("/species-categories/fish")}>
+                Fish
+              </li>
+            </ul>
           )}
         </li>
-        <li onClick={handleAnalytics}>
-          <Button
-            className={`w-100 ${activeTab === 4 ? "active" : ""}`}
-            onClick={() => setActiveTab(4)}
-          >
-            <span className="icon">
-              <MdAnalytics />
-            </span>
-            Species Analytics
-          </Button>
-        </li>
+
         <li>
           <Button
-            className={`w-100 ${activeTab === 5 ? "active" : ""}`}
-            onClick={() => isOpenSubmenu(5)}
+            className={`w-100 ${
+              activeTab === "/conservation-status" ? "active" : ""
+            }`}
+            onClick={() => toggleDropdown("conservation-status")}
           >
             <span className="icon">
               <GrStatusGood />
             </span>
             Conservation Status
-            <span className={`arrow ${activeTab === 5 ? "open" : ""}`}>
+            <span
+              className={`arrow ${
+                activeDropdown === "conservation-status" ? "rotate" : ""
+              }`}
+            >
               <FaAngleRight />
             </span>
           </Button>
-          {activeTab === 5 && (
-            <div className="submenuWrapper">
-              <ul className="submenu">
-                <li onClick={handleCritically}>Critically Endangered</li>
-
-                <li onClick={handleEndangered}>Endangered</li>
-
-                <li onClick={handleVulnerable}>Vulnerable</li>
-
-                <li onClick={handleNearhreatend}>Near Threatened</li>
-
-                <li onClick={handleLeastconcern}>Least Concern</li>
-              </ul>
-            </div>
+          {activeDropdown === "conservation-status" && (
+            <ul className="submenu">
+              <li
+                onClick={() =>
+                  handleNavigation("/conservation-status/critical-endengered")
+                }
+              >
+                Critically Endangered
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/conservation-status/endengered")
+                }
+              >
+                Endangered
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/conservation-status/vulnerable")
+                }
+              >
+                Vulnerable
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/conservation-status/least-concern")
+                }
+              >
+                Least Concern
+              </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/conservation-status/near-threatend")
+                }
+              >
+                Near Threatened
+              </li>
+            </ul>
           )}
         </li>
 
-        <li onClick={handleGallery}>
+        <li>
           <Button
-            className={`w-100 ${activeTab === 7 ? "active" : ""}`}
-            onClick={() => setActiveTab(7)}
+            className={`w-100 ${
+              activeTab === "/species-analytics" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/species-analytics")}
+          >
+            <span className="icon">
+              <MdAnalytics />
+            </span>
+            Analytics
+          </Button>
+        </li>
+        <li>
+          <Button
+            className={`w-100 ${
+              activeTab === "/createQuestion" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/createQuestion")}
           >
             <span className="icon">
               <GrGallery />
             </span>
-            Image Gallery
+            Create Question
           </Button>
         </li>
 
-        <li onClick={handleRequest}>
+        <li>
           <Button
-            className={`sidebar-button ${activeTab === 8 ? "active" : ""}`}
-            onClick={() => setActiveTab(8)}
+            className={`w-100 ${
+              activeTab === "/image-gallery" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/image-gallery")}
+          >
+            <span className="icon">
+              <GrGallery />
+            </span>
+            Gallery
+          </Button>
+        </li>
+
+        <li>
+          <Button
+            className={`w-100 ${
+              activeTab === "/contributor-request" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/contributor-request")}
           >
             <span className="icon">
               <IoPeopleOutline />
             </span>
             Contributor Request
-            <div
-              className={`number-count ${
-                requestCount === 0 ? "no-requests" : ""
-              }`}
-            >
-              {requestCount > 0 ? (
-                <p className="msg-count">{requestCount}</p>
-              ) : (
-                <p className="msg-count" style={{ display: "none" }}>
-                  0
-                </p>
-              )}
-            </div>
+            {requestCount > 0 && <span className="badge">{requestCount}</span>}
           </Button>
         </li>
       </ul>

@@ -77,7 +77,7 @@ function NearThreatend() {
               <th>Conservation Status</th>
               <th>Threats</th>
               <th>Conservation Effort</th>
-              <th>Species Categories</th>
+              <th>Classification</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -94,9 +94,16 @@ function NearThreatend() {
                   <td>{data.locations}</td>
                   <td>{data.conservationstatus}</td>
                   <td>{data.threats}</td>
-                  <td>{data.conservationeffort}</td>
+                  <td>
+                    <div className="conservation-scroll">
+                      {data.conservationeffort}
+                    </div>
+                  </td>
                   <td>{data.speciescategory}</td>
-                  <td>{data.description}</td>
+                  <td>
+                    {" "}
+                    <div className="description-scroll">{data.description}</div>
+                  </td>
                 </tr>
               ))
             ) : (

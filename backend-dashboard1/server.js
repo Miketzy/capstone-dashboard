@@ -23,11 +23,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
+
+
+
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace this with your frontend URL
-  method: ["POST,GET"],
-  credentials: true, // Allows cookies to be sent from the client
+  origin: 'http://localhost:3000', // Payagan ang iyong React frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
+  credentials: true, // Kung gumagamit ka ng cookies o authorization headers
 }));
+
+
+
+
 
 
 const db = mysql2.createConnection({
@@ -1470,7 +1477,28 @@ app.post('/reset-password', (req, res) => {
   });
 });
 
+//Endpoint to add a multiple-choice question
+app.post("/api/questions", (req, res) => {
+  const { question, optionA, optionB, optionC, optionD, correctAnswer } =
+    req.body;
 
+  const query = `
+    INSERT INTO questions (question, optionA, optionB, optionC, optionD, correctAnswer)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    query,
+    [question, optionA, optionB, optionC, optionD, correctAnswer],
+    (err, result) => {
+      if (err) {
+        console.error("Error saving question:", err);
+        return res.status(500).json({ error: "Failed to save question." });
+      }
+      res.status(201).json({ message: "Question added successfully." });
+    }
+  );
+});
 
 
 

@@ -70,6 +70,12 @@
   .table-critical tbody .actions button.error {
     background: rgba(241, 17, 51, 0.7);
   }
+  .description-scroll,
+  .conservation-scroll {
+    max-height: 150px; /* Adjust based on desired height */
+    overflow-y: auto;
+    width: 100%;
+  }
   
   .table-critical th:nth-child(1),
   .table-critical td:nth-child(1) {

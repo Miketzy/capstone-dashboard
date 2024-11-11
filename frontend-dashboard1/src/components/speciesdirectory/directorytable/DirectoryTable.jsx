@@ -69,9 +69,15 @@ function DirectoryTable() {
                   <td>{data.locations}</td>
                   <td>{data.conservationstatus}</td>
                   <td>{data.threats}</td>
-                  <td>{data.conservationeffort}</td>
+                  <td>
+                    <div className="conservation-effort-cell">
+                      {data.conservationeffort}
+                    </div>
+                  </td>
                   <td>{data.speciescategory}</td>
-                  <td>{data.description}</td>
+                  <td>
+                    <div className="description-cell">{data.description}</div>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -87,7 +87,7 @@
   }
   
 
-  .number-count{
+  .badge{
     margin-left: 10px;
     margin-top: -15px;
     font-size: 11px;
@@ -137,7 +137,11 @@
   }
 
 
-  .sidebar ul li button .arrow.open{
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .arrow.rotate {
     transform: rotate(90deg);
   }
   

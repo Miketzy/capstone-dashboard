@@ -31,6 +31,7 @@ import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-
 import ContributorEditProfileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-EditProfile-Dashboard/ContributorEditProfileDashboard";
 import ContributorChangePasswordDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-ChangePassword-Dashboard/ContributorChangePasswordDashboard";
 import ContributorRequestDashboards from "./pages/home/Contributor-Request-Dashboard/ContributorRequestDashboards";
+import CreateQuizesDashboard from "./pages/home/Create-Quizes-Dashboard/CreateQuizesDashboard";
 
 
 
@@ -51,7 +52,7 @@ function App() {
         <Route path='/add-species' element={<AddSpeciesDashboard/>} />
         <Route path='/contributor-request' element={<ContributorRequestDashboards/>} />
         <Route path='/list-of-species' element={<ViewAndEditDashboard/>} />
-
+        <Route path='/createQuestion' element={<CreateQuizesDashboard/>} />
         <Route path='/species-categories/mammals' element={<MammalsTable/>} />
         <Route path='/species-categories/birds' element={<BirdsTableDashboard/>} />
         <Route path='/species-categories/reptiles' element={<ReptilesTableDashboard/>} />

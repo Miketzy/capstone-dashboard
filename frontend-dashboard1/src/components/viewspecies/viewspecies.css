@@ -30,6 +30,12 @@
     font-weight: bold; /* Bold text for table headers */
     
   }
+  .description-scroll,
+.conservation-scroll {
+  max-height: 150px; /* Adjust based on desired height */
+  overflow-y: auto;
+  width: 100%;
+}
 
  
 .thead-dark1 th,

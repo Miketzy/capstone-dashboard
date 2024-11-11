@@ -60,6 +60,12 @@
   .table6 tbody .actions button svg {
     font-size: 32px;
   }
+  .description-scroll,
+  .conservation-scroll {
+    max-height: 150px; /* Adjust based on desired height */
+    overflow-y: auto;
+    width: 100%;
+  }
   
   .table6 tbody .actions button.secondary {
     background: rgba(203, 60, 231, 0.7);
