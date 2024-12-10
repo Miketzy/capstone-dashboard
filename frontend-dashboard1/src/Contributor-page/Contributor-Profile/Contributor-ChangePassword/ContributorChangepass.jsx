@@ -31,13 +31,13 @@ function ContributorChangepass() {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Pass JWT token for authorization
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true, // Ensure cookies or credentials are passed
         }
       );
       setMessage(response.data.message);
-      setError(""); // Clear any previous errors
+      setError("");
 
       // Display an alert with the success message
       window.alert("Password has been changed successfully");

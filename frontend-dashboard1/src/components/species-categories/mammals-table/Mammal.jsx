@@ -11,7 +11,6 @@ function Mammal() {
   const [searchTerm, setSearchTerm] = useState("");
   const [message] = useState("");
 
-  // Fetch mammals data from the backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/getMammals") // Make sure backend is running on port 8080

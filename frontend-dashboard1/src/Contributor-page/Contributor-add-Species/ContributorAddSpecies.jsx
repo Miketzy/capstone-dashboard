@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ContributorAddSpecies.css";
-
+//conreibutor
 function ContributorAddSpecies() {
   const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
@@ -20,14 +20,14 @@ function ContributorAddSpecies() {
   const [conservationeffort, setConservationeffort] = useState("");
   const [description, setDescription] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage(imageUrl);
-      setFile(selectedFile); // Set the file object
+      setFile(selectedFile);
     }
   };
 

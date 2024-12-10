@@ -1,6 +1,6 @@
 .pie-chart-container {
     width: 159.5vh;
-    max-width: 1300px; /* Adjust if needed */
+    max-width: 1300px; 
     margin: 0 auto;
     padding: 20px;
     background-color: #f8f9fa; /* Light background color */

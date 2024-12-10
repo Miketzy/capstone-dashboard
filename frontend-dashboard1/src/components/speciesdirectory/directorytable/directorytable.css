@@ -15,7 +15,7 @@
     font-weight: bold;
   }
   .table-responsive {
-    overflow-x: auto; /* Enable horizontal scroll if needed */
+    overflow-x: auto; 
   }
   
   .table {

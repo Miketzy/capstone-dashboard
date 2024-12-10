@@ -11,7 +11,7 @@ import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaFileCircleQuestion } from "react-icons/fa6";
 import axios from "axios";
-
+//Side bar
 function Sidebar() {
   const [activeTab, setActiveTab] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);

@@ -5,6 +5,7 @@ import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
 function VulnerableDashboard() {
   return (
+    //
     <>
       <div>
         <div className=" main-container2 d-flex">

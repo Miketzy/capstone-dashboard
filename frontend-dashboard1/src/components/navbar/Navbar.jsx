@@ -88,7 +88,6 @@ function Navbar() {
           </h1>
         </div>
 
-        {/* Logo or Menu Icon */}
         <div className="flex items-center space-x-4 ml-[20px] mt-[5px]">
           <SearchBox />
         </div>

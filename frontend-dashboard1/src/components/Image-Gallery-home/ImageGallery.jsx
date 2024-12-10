@@ -5,7 +5,6 @@ function ImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch images from the backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/images")
@@ -36,7 +35,6 @@ function ImageGallery() {
 
   return (
     <div className="min-h-screen  flex flex-col items-center px-4 py-6">
-      {/* Search Bar */}
       <div className="w-full max-w-2xl mb-6">
         <input
           type="text"
@@ -46,8 +44,6 @@ function ImageGallery() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
-      {/* Image Gallery */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
         {filteredImages.length > 0 ? (
           filteredImages.map((image, index) => (

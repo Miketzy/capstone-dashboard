@@ -12,7 +12,7 @@ function MyProfile() {
     email: "",
     gender: "",
     phone_number: "",
-    image: "", // Default image path
+    image: "",
   });
   const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();

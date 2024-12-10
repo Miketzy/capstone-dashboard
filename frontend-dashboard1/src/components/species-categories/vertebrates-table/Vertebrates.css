@@ -18,7 +18,7 @@
   }
   
   .vertebratestable th,
-  .vertebratestable td { /* Fixed typo from .table1 td to .table2 td */
+  .vertebratestable td { 
     padding: 0.75rem;
     vertical-align: top;
     border: 1px solid #e3e3e3; /* Border for table cells */

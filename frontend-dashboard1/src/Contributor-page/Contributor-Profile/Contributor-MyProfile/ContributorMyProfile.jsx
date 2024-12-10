@@ -60,7 +60,7 @@ function ContributorMyProfile() {
   };
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return <p className="text-center">Loading....</p>;
   }
 
   return (

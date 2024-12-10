@@ -6,6 +6,7 @@ import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
 function NearThreatendDashboard() {
   return (
+    //
     <>
       <div>
         <div className=" main-container3 d-flex">

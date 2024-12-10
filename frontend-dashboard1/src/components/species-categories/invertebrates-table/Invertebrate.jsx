@@ -12,7 +12,6 @@ function Invertebrate() {
   const [message] = useState("");
 
   useEffect(() => {
-    // Make sure the endpoint matches your backend route
     axios
       .get("http://localhost:8080/getInvertebrates")
       .then((res) => setInvertebrates(res.data))

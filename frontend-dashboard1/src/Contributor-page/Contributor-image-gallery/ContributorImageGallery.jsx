@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ContributorImage.css"; // Make sure to import the CSS file for styling
+import "./ContributorImage.css";
 
 function ContributorImageGallery() {
   const [images, setImages] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch images from the backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/images")
       .then((response) => {
-        console.log("Fetched images:", response.data); // Log the fetched images
+        console.log("Fetched images:", response.data);
 
         // Sort images alphabetically by commonname
         const sortedImages = response.data.sort((a, b) =>
           a.commonname.localeCompare(b.commonname)
         );
 
-        setImages(sortedImages); // Set the sorted images
+        setImages(sortedImages);
         console.log(
           "Species Categories:",
           sortedImages.map((image) => image.speciescategory)
@@ -73,7 +72,7 @@ function ContributorImageGallery() {
                   e.target.src = "/path/to/default-image.png";
                 }}
               />
-              {/* Centered Text */}
+
               <p className="text-center mt-2 font-medium text-gray-700 ml-2">
                 {image.commonname}
               </p>

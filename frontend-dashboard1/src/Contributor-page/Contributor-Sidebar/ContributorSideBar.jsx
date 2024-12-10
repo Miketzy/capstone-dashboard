@@ -65,7 +65,7 @@ function ContributorSideBar() {
           <Button
             className={`w-100 ${
               activeTab === "/contributor-Gallery" ? "active" : ""
-            }`} // Compare with path, not a number
+            }`}
             onClick={() => handleGallery()} // Corrected to handleGallery
           >
             <span className="contributor-icon">

@@ -3,7 +3,7 @@ import ImageGallery from "../../../components/Image-Gallery-home/ImageGallery";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import "./ImageGalleryDashboard.css";
-
+//
 function ImageGallerDashboard() {
   return (
     <>

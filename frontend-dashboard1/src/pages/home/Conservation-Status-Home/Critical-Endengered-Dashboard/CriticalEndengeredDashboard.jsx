@@ -6,6 +6,7 @@ import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
 function CriticalEndengeredDashboard() {
   return (
+    //
     <>
       <div>
         <div className=" main-container d-flex">

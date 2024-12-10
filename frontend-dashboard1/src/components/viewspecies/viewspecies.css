@@ -7,14 +7,14 @@
 }
 
   .table-responsive1 {
-    overflow-x: auto; /* Enable horizontal scroll if needed */
+    overflow-x: auto; 
   }
   
   .table1 {
     width: 700vh;
     margin-bottom: 1rem;
     background-color: transparent;
-    border-collapse: collapse; /* Ensure borders are collapsed */
+    border-collapse: collapse; 
     
   }
   

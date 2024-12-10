@@ -47,7 +47,7 @@ function Amphibian() {
   // Extract date part from ISO string
   const getDateOnly = (isoDate) => {
     if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
+    return isoDate.split("T")[0];
   };
   return (
     <div className="amphibians">

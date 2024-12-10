@@ -7,7 +7,7 @@ import { CiSearch } from "react-icons/ci";
 function Birds() {
   const [birds, setBirds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); // Number of items per page
+  const [itemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [message] = useState("");
 

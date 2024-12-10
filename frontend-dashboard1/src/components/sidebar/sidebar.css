@@ -214,7 +214,7 @@
   }
 }
 
-/* Media query for iPad Air in portrait mode */
+
 @media only screen and (min-device-width: 820px) and (max-device-width: 820px) and (orientation: portrait) {
   /* Your CSS rules for iPad Air portrait mode */
   .sidebar{

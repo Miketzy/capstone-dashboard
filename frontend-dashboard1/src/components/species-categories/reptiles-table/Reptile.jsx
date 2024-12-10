@@ -11,7 +11,6 @@ function Reptile() {
   const [searchTerm, setSearchTerm] = useState("");
   const [message] = useState("");
 
-  // Fetch reptile data from the backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/getReptiles") // Updated endpoint

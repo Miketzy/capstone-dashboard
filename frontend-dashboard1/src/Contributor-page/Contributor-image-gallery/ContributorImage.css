@@ -10,7 +10,7 @@
   .contributor-grid-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
-    gap: 10px; /* Space between grid items */
+    gap: 10px; 
   }
   
   .contributor-grid-item {

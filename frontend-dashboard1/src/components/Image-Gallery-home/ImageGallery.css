@@ -13,6 +13,7 @@
   gap: 10px; /* Space between grid items */
 }
 
+
 .grid-item {
   background-color: #f0f0f0; /* Background color for the image container */
   border-radius: 8px; /* Optional: for rounded corners */

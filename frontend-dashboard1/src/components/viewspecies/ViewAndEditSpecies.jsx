@@ -213,10 +213,10 @@ function ViewAndEditSpecies() {
             "Error!",
             "There was an error deleting the file. 😢",
             "error"
-          ); // Error message with emoji
+          );
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Your species data is safe 🙂"); // Cancel message with emoji
+        Swal.fire("Your species data is safe 🙂");
       }
     });
   };

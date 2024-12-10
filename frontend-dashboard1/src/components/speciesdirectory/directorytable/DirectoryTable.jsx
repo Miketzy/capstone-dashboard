@@ -60,7 +60,6 @@ function DirectoryTable() {
               {currentItems.map((data, index) => (
                 <tr key={data.id}>
                   <td>{indexOfFirstItem + index + 1}</td>{" "}
-                  {/* Displays sequential numbers */}
                   <td>{data.specificname}</td>
                   <td>{data.scientificname}</td>
                   <td>{data.commonname}</td>

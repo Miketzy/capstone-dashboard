@@ -107,7 +107,7 @@ function ContributorNavbar() {
   };
 
   const handleProfile = () => {
-    navigate("/contributor-MyProfile"); // Navigate to user profile
+    navigate("/contributor-MyProfile");
   };
 
   return (
@@ -126,25 +126,25 @@ function ContributorNavbar() {
               className="rounded-circle"
               onClick={() => {
                 if (context && context.openNave) {
-                  context.openNave(); // Safe to call, context is defined
+                  context.openNave();
                 }
                 if (carContext && carContext.someCarFunction) {
-                  carContext.someCarFunction(); // Safe to call, carContext is defined
+                  carContext.someCarFunction();
                 }
 
                 if (profileContex && profileContex.someProfileFunction) {
-                  profileContex.someProfileFunction(); // Safe to call, carContext is defined
+                  profileContex.someProfileFunction();
                 }
 
                 if (
                   editprofileContex &&
                   editprofileContex.someEditProfileFunction
                 ) {
-                  editprofileContex.someEditProfileFunction(); // Safe to call, carContext is defined
+                  editprofileContex.someEditProfileFunction();
                 }
 
                 if (changeContex && changeContex.someChangeFunction) {
-                  changeContex.someChangeFunction(); // Safe to call, carContext is defined
+                  changeContex.someChangeFunction();
                 }
               }}
             >

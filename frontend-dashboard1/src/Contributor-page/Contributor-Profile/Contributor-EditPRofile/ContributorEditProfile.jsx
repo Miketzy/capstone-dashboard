@@ -125,8 +125,6 @@ function ContributorEditProfile({ onUpdateProfile }) {
                 onChange={handleImageChange}
               />
               <div className="bg-blue-500 p-2 rounded-full text-white cursor-pointer mt-20">
-                {" "}
-                {/* Added margin top here */}
                 <BsPlusCircleDotted size={20} />
               </div>
             </label>
