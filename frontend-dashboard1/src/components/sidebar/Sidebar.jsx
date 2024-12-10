@@ -9,6 +9,7 @@ import { MdCategory, MdAnalytics } from "react-icons/md";
 import { GrStatusGood, GrGallery } from "react-icons/gr";
 import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FaFileCircleQuestion } from "react-icons/fa6";
 import axios from "axios";
 
 function Sidebar() {
@@ -48,9 +49,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="top">
-        <div className="sidebarTitle">
-          <h2>Admin</h2>
-        </div>
+        <div className="sidebarTitle"></div>
         <div className="close" id="close-btn">
           <span className="material-icon-sharp">
             <IoCloseSharp />
@@ -147,6 +146,13 @@ function Sidebar() {
               >
                 Invertebrates
               </li>
+              <li
+                onClick={() =>
+                  handleNavigation("/species-categories/vertebrates")
+                }
+              >
+                Vertebrates
+              </li>
               <li onClick={() => handleNavigation("/species-categories/fish")}>
                 Fish
               </li>
@@ -235,7 +241,7 @@ function Sidebar() {
             onClick={() => handleNavigation("/createQuestion")}
           >
             <span className="icon">
-              <GrGallery />
+              <FaFileCircleQuestion />
             </span>
             Create Question
           </Button>

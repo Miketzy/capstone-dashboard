@@ -27,11 +27,13 @@ import Otphome from "./components/forgot-password/otp-code/Otphome";
 import SearchbarDashboard from "./pages/home/Searchbar-dashboard/SearchbarDashboard";
 import ContributorDashboard from "./pages/Contributor-Home/Contributor-Dashboard/ContributorDashboard";
 import ContributorImageGalleryDashboard from "./pages/Contributor-Home/Contributor-Image-Gallery-Dashboard/ContributorImageGalleryDashboard";
-import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/Contributot-MyProfile-Dashboard/ContributorMyprofileDashboard";
+
 import ContributorEditProfileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-EditProfile-Dashboard/ContributorEditProfileDashboard";
 import ContributorChangePasswordDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-ChangePassword-Dashboard/ContributorChangePasswordDashboard";
 import ContributorRequestDashboards from "./pages/home/Contributor-Request-Dashboard/ContributorRequestDashboards";
 import CreateQuizesDashboard from "./pages/home/Create-Quizes-Dashboard/CreateQuizesDashboard";
+import VertebratesTableDashboard from "./pages/home/species--categories-dashboard/vertebrates-dashboard/VertebratesTableDashboard";
+import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
 
 
 
@@ -58,7 +60,8 @@ function App() {
         <Route path='/species-categories/reptiles' element={<ReptilesTableDashboard/>} />
         <Route path='/species-categories/amphibians' element={<AmphibianstableDashboard/>} />
         <Route path='/species-categories/invertebrates' element={<InvertebratestableDashboard/>} />
-        <Route path='/species-categories/fish' element={<FishtablesDashboard/>} />
+        <Route path='/species-categories/vertebrates' element={<VertebratesTableDashboard/>} />
+         <Route path='/species-categories/fish' element={<FishtablesDashboard/>} />
 
         <Route path='/species-analytics' element={<SpeciesAnalyticsDasboard/>} />
         

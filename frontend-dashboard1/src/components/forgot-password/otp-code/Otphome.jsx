@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Otp.css";
 
 function Otphome() {
   const location = useLocation();
   const email = location.state?.email;
   const navigate = useNavigate();
 
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]); // State to hold OTP values
-  const [timer, setTimer] = useState(60); // State for countdown timer
-  const [canResend, setCanResend] = useState(false); // State for resend button
-  const [verificationMessage, setVerificationMessage] = useState(""); // State for verification message
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState("");
 
   // Timer effect
   useEffect(() => {
@@ -21,18 +20,16 @@ function Otphome() {
       }, 1000);
       return () => clearInterval(interval);
     } else {
-      setCanResend(true); // Enable resend button after timer ends
+      setCanResend(true);
     }
   }, [timer]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
     const newOtp = [...otp];
-    newOtp[index] = value.slice(0, 1); // Allow only one character
-
+    newOtp[index] = value.slice(0, 1);
     setOtp(newOtp);
 
-    // Move focus to the next input field
     if (value && index < newOtp.length - 1) {
       const nextInput = document.querySelector(`input[name="otp${index + 1}"]`);
       if (nextInput) nextInput.focus();
@@ -50,23 +47,19 @@ function Otphome() {
     setTimer(60);
     setCanResend(false);
 
-    // Send a request to the backend to resend the OTP
     axios
       .post("http://localhost:8080/send-otp", { email })
       .then((response) => {
-        console.log("Response from resend OTP:", response.data);
         setVerificationMessage("OTP has been resent to your email.");
       })
       .catch((error) => {
-        console.error("Error resending OTP:", error);
         setVerificationMessage("Error resending OTP.");
       });
   };
 
   const handleVerifyOTP = () => {
-    const otpCode = otp.join(""); // Combine the OTP array into a single string
+    const otpCode = otp.join("");
 
-    // Send the OTP to the backend for verification
     axios
       .post("http://localhost:8080/verify-otp", { email, otp: otpCode })
       .then((response) => {
@@ -75,24 +68,32 @@ function Otphome() {
           navigate("/new-password", { state: { email } });
         } else {
           setVerificationMessage("Invalid OTP. Please try again.");
-          setOtp(["", "", "", "", "", ""]); // Clear the OTP input fields for re-entry
+          setOtp(["", "", "", "", "", ""]);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setVerificationMessage("An error occurred while verifying OTP.");
       });
   };
 
   return (
-    <div className="otp-body">
-      <div className="otp-container">
-        <h1>Email Verification</h1>
+    <div
+      className="min-h-screen flex justify-center items-center bg-gray-100 p-4"
+      style={{
+        backgroundImage: "url('/images/durso.jpg')",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <h1 className="text-2xl font-semibold text-center mb-6">
+          Email Verification
+        </h1>
         {email && (
-          <p className="p-emailname">
-            OTP has been sent to: <span className="email-tag">{email}</span>
+          <p className="text-gray-600 text-center mb-6">
+            OTP has been sent to: <span className="font-semibold">{email}</span>
           </p>
         )}
-        <div className="otp-fields">
+        <div className="flex justify-between mb-6">
           {otp.map((value, index) => (
             <input
               key={index}
@@ -100,30 +101,36 @@ function Otphome() {
               name={`otp${index}`}
               value={value}
               onChange={(e) => handleChange(e, index)}
-              onKeyDown={(e) => handleBackspace(e, index)} // Handle backspace for navigation
+              onKeyDown={(e) => handleBackspace(e, index)}
               maxLength="1"
-              className="otp-input"
-              inputMode="numeric" // Allow only numeric input
+              className="w-10 h-10 text-center text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              inputMode="numeric"
             />
           ))}
         </div>
-        <button className="otp-button" onClick={handleVerifyOTP}>
+        <button
+          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:opacity-50"
+          onClick={handleVerifyOTP}
+        >
           Verify Account
         </button>
-        <div className="timer">
+        <div className="mt-4 text-center">
           <p>
             {canResend
               ? "You can resend the OTP."
               : `Resend OTP in ${timer} seconds`}
           </p>
           {canResend && (
-            <p className="resend-button" onClick={handleResendOTP}>
+            <p
+              className="text-blue-500 cursor-pointer mt-2"
+              onClick={handleResendOTP}
+            >
               Resend OTP
             </p>
           )}
         </div>
         {verificationMessage && (
-          <p className="v-emmage">{verificationMessage}</p>
+          <p className="mt-4 text-center text-red-500">{verificationMessage}</p>
         )}
       </div>
     </div>

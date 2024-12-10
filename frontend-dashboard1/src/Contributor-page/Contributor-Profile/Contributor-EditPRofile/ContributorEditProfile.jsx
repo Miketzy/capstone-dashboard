@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./ContributorEditProfile.css";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -20,31 +19,26 @@ function ContributorEditProfile({ onUpdateProfile }) {
   });
   const navigate = useNavigate();
 
-  // Handle image input and set the preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Create a local URL for the selected image
       setSelectedImage(URL.createObjectURL(file));
       setImageFile(file);
     }
   };
 
   useEffect(() => {
-    // Fetch user data from backend
     const fetchUserData = async () => {
       try {
         const res = await axios.get("http://localhost:8080/myprofile", {
           withCredentials: true,
         });
-
         const user = res.data.user;
         const imageUrl = user.image
           ? `http://localhost:8080/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
-
-        // Set user data including the image URL
         setUserData({
+          ...userData,
           firstname: user.firstname || "",
           middlename: user.middlename || "",
           lastname: user.lastname || "",
@@ -63,13 +57,11 @@ function ContributorEditProfile({ onUpdateProfile }) {
         setLoading(false);
       }
     };
-
     fetchUserData();
   }, [navigate]);
 
-  // Handle form submission to update the profile
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     const formData = new FormData();
     formData.append("firstname", userData.firstname);
     formData.append("middlename", userData.middlename);
@@ -83,7 +75,6 @@ function ContributorEditProfile({ onUpdateProfile }) {
     }
 
     const token = localStorage.getItem("token");
-
     if (!token) {
       alert("No token found. Please log in.");
       return;
@@ -97,167 +88,168 @@ function ContributorEditProfile({ onUpdateProfile }) {
         },
       });
 
-      // Check for successful response
       if (res.status === 200) {
-        console.log("Profile updated:", res.data);
-        setUserData(res.data);
-        setSelectedImage(
-          res.data.image
-            ? `http://localhost:8080/uploads/avatar/${res.data.image}`
-            : "/images/unknown-person-icon-Image-from_20220304.png"
-        );
-
+        alert("Profile updated successfully");
         if (onUpdateProfile) {
           onUpdateProfile(res.data);
         }
-
-        alert("Profile updated successfully");
         navigate("/my-profile");
       } else {
-        console.error("Failed to update profile:", res.data);
         alert("Failed to update profile. Please try again.");
       }
     } catch (err) {
       console.error("Error updating profile:", err);
-      if (err.response) {
-        console.error("Status code:", err.response.status);
-        console.error("Response data:", err.response.data);
-      }
       alert("Failed to update profile. Please check your input.");
     }
   };
+
   return (
-    <div className="contributoredit-profile-container">
-      <div className="edit-profile">
-        <div className="edit-profile-cards contributoreditprofile-imgholder">
-          <label
-            htmlFor="profile-imgInput"
-            className="contributoreditprofile-upload"
-          >
-            <input
-              type="file"
-              id="profile-imgInput"
-              accept="image/*"
-              onChange={handleImageChange}
+    <div className=" flex justify-center items-center py-10 px-4 sm:px-6 lg:px-8 min-h-screen">
+      <div className="bg-white shadow-md rounded-lg w-full max-w-4xl p-6">
+        <div className="flex justify-center">
+          <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-200 shadow">
+            <img
+              src={selectedImage || userData.image}
+              alt="Profile"
+              className="w-full h-full object-cover"
             />
-            <BsPlusCircleDotted className="profile-icon" />
-          </label>
-          <img
-            src={selectedImage ? selectedImage : userData.image}
-            alt="Profile"
-            width="150"
-            height="150"
-          />
-        </div>
-      </div>
-
-      <div className="contributoredit-profile-inputfield">
-        <div className="contributoredit-profile-inputfield-1">
-          <div className="contributoredit-profile-1">
-            <label htmlFor="firstname">Firstname</label>
-            <input
-              type="text"
-              placeholder="Enter your Firstname"
-              value={userData.firstname || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, firstname: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="contributoredit-profile-1">
-            <label htmlFor="middlename">Middle Name</label>
-            <input
-              type="text"
-              placeholder="Enter your Middle Name"
-              value={userData.middlename || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, middlename: e.target.value })
-              }
-            />
-          </div>
-        </div>
-
-        <div className="edit-profile-inputfield-2">
-          <div className="contributoredit-profile-1">
-            <label htmlFor="lastname">Lastname</label>
-            <input
-              type="text"
-              placeholder="Enter your Lastname"
-              value={userData.lastname || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, lastname: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="contributoredit-profile-1">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your Email"
-              value={userData.email || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, email: e.target.value })
-              }
-            />
-          </div>
-        </div>
-
-        <div className="edit-profile-inputfield-2">
-          <div className="contributoredit-profile-1">
-            <label htmlFor="gender">Gender</label>
-            <select
-              id="gender"
-              value={userData.gender || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, gender: e.target.value })
-              }
+            <label
+              htmlFor="profile-imgInput"
+              className="absolute inset-0 flex justify-center items-center"
             >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div className="contributoredit-profile-1">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Enter your Phone number"
-              value={userData.phone_number || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, phone_number: e.target.value })
-              }
-            />
+              <input
+                type="file"
+                id="profile-imgInput"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+              <div className="bg-blue-500 p-2 rounded-full text-white cursor-pointer mt-20">
+                {" "}
+                {/* Added margin top here */}
+                <BsPlusCircleDotted size={20} />
+              </div>
+            </label>
           </div>
         </div>
 
-        <div className="edit-profile-inputfield-3">
-          <div className="contributoredit-profile-2">
-            <label htmlFor="username" className="contributor-username">
+        <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Firstname
+              </label>
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="Enter your Firstname"
+                value={userData.firstname}
+                onChange={(e) =>
+                  setUserData({ ...userData, firstname: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Middlename
+              </label>
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="Enter your Middlename"
+                value={userData.middlename}
+                onChange={(e) =>
+                  setUserData({ ...userData, middlename: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Lastname
+              </label>
+              <input
+                type="text"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="Enter your Lastname"
+                value={userData.lastname}
+                onChange={(e) =>
+                  setUserData({ ...userData, lastname: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="Enter your Email"
+                value={userData.email}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Gender
+              </label>
+              <select
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                value={userData.gender}
+                onChange={(e) =>
+                  setUserData({ ...userData, gender: e.target.value })
+                }
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                placeholder="Enter your Phone number"
+                value={userData.phone_number}
+                onChange={(e) =>
+                  setUserData({ ...userData, phone_number: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
               Username
             </label>
             <input
               type="text"
-              className="contributoredit-username"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
               placeholder="Enter Username"
-              value={userData.username || ""}
+              value={userData.username}
               onChange={(e) =>
                 setUserData({ ...userData, username: e.target.value })
               }
             />
           </div>
-        </div>
-
-        <div className="edit-profile-inputfield-2">
-          <div className="contributorsave-changes-button">
-            <button className="edit-button" onClick={handleSubmit}>
+          <div className="flex justify-center mt-4">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow w-full sm:w-auto"
+            >
               Save Changes
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

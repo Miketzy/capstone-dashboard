@@ -19,12 +19,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
   overflow: hidden; /* Ensure rounded corners are applied to the content inside */
   padding: 10px; /* Optional: padding inside the grid item */
+  height: 80%;
 }
 
 .grid-item img {
   width: 100%; /* Full width of grid item */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: cover; /* Ensure images cover the container */
+  height: 85%; /* Maintain aspect ratio */
+  
 }
 
 .grid-item p {

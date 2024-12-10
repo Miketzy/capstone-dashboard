@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ImageGallery.css"; // Make sure to import the CSS file for styling
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch images from the backend
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/images")
       .then((response) => {
-        console.log("Fetched images:", response.data); // Log the fetched images
-        setImages(response.data); // Set the fetched images
-        console.log(
-          "Species Categories:",
-          response.data.map((image) => image.speciescategory)
-        ); // Print all speciescategories
+        const sortedImages = response.data.sort((a, b) =>
+          a.commonname.localeCompare(b.commonname)
+        );
+        setImages(sortedImages);
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
@@ -24,48 +21,59 @@ function ImageGallery() {
   }, []);
 
   const filteredImages = images.filter((image) => {
-    const searchTermLower = searchTerm.toLowerCase().trim(); // Clean up the search term
+    if (!image) return false;
+
+    const searchTermLower = searchTerm.toLowerCase().trim();
+
     return (
-      (image.specificname &&
-        image.specificname.toLowerCase().includes(searchTermLower)) ||
-      (image.commonname &&
-        image.commonname.toLowerCase().includes(searchTermLower)) ||
-      (image.scientificname &&
-        image.scientificname.toLowerCase().includes(searchTermLower)) ||
-      (image.speciescategory &&
-        image.speciescategory.toLowerCase().trim().includes(searchTermLower)) // Ensure the category is clean
+      image?.specificname?.toLowerCase().includes(searchTermLower) ||
+      image?.commonname?.toLowerCase().includes(searchTermLower) ||
+      image?.scientificname?.toLowerCase().includes(searchTermLower) ||
+      image?.speciescategory?.toLowerCase().includes(searchTermLower) ||
+      image?.classification?.toLowerCase().includes(searchTermLower)
     );
   });
 
   return (
-    <div className="image-gallery-container">
-      <div className="searchbar-gallery">
+    <div className="min-h-screen  flex flex-col items-center px-4 py-6">
+      {/* Search Bar */}
+      <div className="w-full max-w-2xl mb-6">
         <input
           type="text"
-          className="search-input"
+          className="w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
           placeholder="Search species..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <br />
-      <div className="grid-container">
+
+      {/* Image Gallery */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
         {filteredImages.length > 0 ? (
           filteredImages.map((image, index) => (
-            <div key={index} className="grid-item">
+            <div
+              key={index}
+              className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
+            >
               <img
                 src={`http://localhost:8080/uploads/images/${image.uploadimage}`}
                 alt={image.commonname}
+                className="w-full h-40 object-cover rounded-lg"
                 onError={(e) => {
-                  e.target.onerror = null; // Prevent infinite loop
-                  e.target.src = "/path/to/default-image.png"; // Set a fallback image
+                  e.target.onerror = null;
+                  e.target.src = "/path/to/default-image.png";
                 }}
               />
-              <p>{image.commonname}</p>
+              {/* Centered Text */}
+              <p className="text-center mt-2 font-medium text-gray-700 ml-2">
+                {image.commonname}
+              </p>
             </div>
           ))
         ) : (
-          <p>No species found</p>
+          <p className="col-span-full text-center text-gray-500">
+            No species found.
+          </p>
         )}
       </div>
     </div>

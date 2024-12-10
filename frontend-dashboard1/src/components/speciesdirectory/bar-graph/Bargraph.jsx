@@ -15,12 +15,13 @@ import axios from "axios"; // Import axios for making HTTP requests
 
 function Bargraph() {
   const [data, setData] = useState([
-    { name: "Mammals", count: 0, color: "#8884d8" },
-    { name: "Birds", count: 0, color: "#82ca9d" },
-    { name: "Reptiles", count: 0, color: "#ffc658" },
-    { name: "Amphibians", count: 0, color: "#ff8042" },
-    { name: "Invertebrates", count: 0, color: "#8dd1e1" },
-    { name: "Fish", count: 0, color: "#a4de6c" },
+    { name: "Mammals", count: 0, color: "#FFB3C6" },
+    { name: "Birds", count: 0, color: "#B3E0FF" },
+    { name: "Reptiles", count: 0, color: "#D9FFCC" },
+    { name: "Amphibians", count: 0, color: "#FFDAA6" },
+    { name: "Invertebrates", count: 0, color: "#C1A3FF" },
+    { name: "Vertebrates", count: 0, color: "#A8E6CF" },
+    { name: "Fish", count: 0, color: "#FFE6A6" },
   ]);
 
   useEffect(() => {
@@ -30,16 +31,17 @@ function Bargraph() {
       .then((res) => {
         const counts = res.data;
         setData([
-          { name: "Mammals", count: counts.mammals, color: "#8884d8" },
-          { name: "Birds", count: counts.birds, color: "#82ca9d" },
-          { name: "Reptiles", count: counts.reptiles, color: "#ffc658" },
-          { name: "Amphibians", count: counts.amphibians, color: "#ff8042" },
+          { name: "Mammals", count: counts.mammals, color: "#FFB3C6" }, // Light pink
+          { name: "Birds", count: counts.birds, color: "#B3E0FF" }, // Light blue
+          { name: "Reptiles", count: counts.reptiles, color: "#D9FFCC" }, // Light green
+          { name: "Amphibians", count: counts.amphibians, color: "#FFDAA6" }, // Light peach
           {
             name: "Invertebrates",
             count: counts.invertebrates,
-            color: "#8dd1e1",
-          },
-          { name: "Fish", count: counts.fish, color: "#a4de6c" },
+            color: "#C1A3FF",
+          }, // Light lavender
+          { name: "Vertebrates", count: counts.vertebrates, color: "#A8E6CF" }, // Light mint
+          { name: "Fish", count: counts.fish, color: "#FFE6A6" }, // Light yellow
         ]);
       })
       .catch((err) => {

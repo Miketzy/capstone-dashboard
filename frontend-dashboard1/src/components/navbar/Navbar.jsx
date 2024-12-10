@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "@mui/material/Button";
+import { Button, Menu, MenuItem, Avatar, ListItemIcon } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
-import "./navbar.css";
 import SearchBox from "../searchbar/Searchbox";
 import { useNavigate } from "react-router-dom";
 
@@ -51,12 +46,11 @@ function Navbar() {
   };
 
   useEffect(() => {
-    fetchUserData(); // Fetch user data on component mount
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (confirmLogout) {
+    if (window.confirm("Are you sure you want to log out?")) {
       axios
         .get("http://localhost:8080/logout", { withCredentials: true })
         .then((res) => {
@@ -68,7 +62,7 @@ function Navbar() {
               email: "",
               image: "/images/unknown-person-icon-Image-from_20220304.png",
             });
-            navigate("/"); // Redirect to home or login page
+            navigate("/");
           } else {
             alert("Logout failed: " + (res.data.Message || "Unknown error"));
           }
@@ -80,93 +74,73 @@ function Navbar() {
     }
   };
 
-  const handleProfile = () => {
-    navigate("/my-profile"); // Navigate to user profile
-  };
+  const handleProfile = () => navigate("/my-profile");
 
   return (
-    <header className=" header d-flex align-items-center">
-      <div className="container-fluid w-100">
-        <div className="row d-flex align-items-center">
-          <div className="col d-flex align-items-center">
-            <Button className="rounded-circle" id="rounded-circle">
-              <MenuOpenIcon />
-            </Button>
+    <header className="header">
+      <div className="container-na mx-auto flex justify-between items-center p-4">
+        <div className="mt-[-20px]">
+          <h1
+            className="font-bold text-M" // Tailwind classes for bold text and font size
+            style={{ color: "#00dfc4", fontFamily: "Arial" }} // Custom color and font family
+          >
+            Admin
+          </h1>
+        </div>
 
-            <div className="search1" id="search1">
-              <SearchBox />{" "}
-            </div>
+        {/* Logo or Menu Icon */}
+        <div className="flex items-center space-x-4 ml-[20px] mt-[5px]">
+          <SearchBox />
+        </div>
 
-            <div className="ms-auto d-flex align-items-center">
-              <div className="myAcc ms-3">
-                <div className="userImage">
-                  <span className="rounded-circle user-icon">
-                    <img
-                      src={user.image}
-                      alt="User"
-                      className="user-image"
-                      onClick={handleImageClick}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <Menu
-                      anchorEl={anchorEl}
-                      id="account-menu"
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      PaperProps={{
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          mt: 1.5,
-                          "& .MuiAvatar-root": {
-                            width: 31,
-                            height: 31,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                          "&::before": {
-                            content: '""',
-                            display: "block",
-                            position: "absolute",
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: "background.paper",
-                            transform: "translateY(-50%) rotate(45deg)",
-                            zIndex: 0,
-                          },
-                        },
-                      }}
-                      transformOrigin={{ horizontal: "right", vertical: "top" }}
-                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                    >
-                      <div className="menu" onClick={handleClose}>
-                        <div className="avatarAcc">
-                          <img src={user.image} alt="" className="avatar" />
-                        </div>
-                        <div>
-                          <h6 className="fname">{`${user.firstname} ${user.middlename} ${user.lastname}`}</h6>
-                          <p className="email">{user.email}</p>
-                        </div>
-                      </div>
-                      <hr />
-                      <MenuItem onClick={handleProfile}>
-                        <Avatar /> Profile
-                      </MenuItem>
-                      <MenuItem onClick={handleLogout}>
-                        <ListItemIcon>
-                          <Logout fontSize="small" />
-                        </ListItemIcon>
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                  </span>
-                </div>
-              </div>
+        {/* User Menu */}
+        <div className="flex items-center space-x-4 ml-4 mt-[-3vh] ">
+          {" "}
+          {/* Added ml-4 for margin-left */}
+          <img
+            src={user.image}
+            alt="User"
+            className="w-10 h-10 rounded-full cursor-pointer border border-gray-300"
+            onClick={handleImageClick}
+          />
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            PaperProps={{
+              elevation: 3,
+              sx: {
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <div className="p-4 text-center">
+              <Avatar src={user.image} className="mx-auto" />
+              <h6 className="text-sm font-semibold mt-2">
+                {`${user.firstname} ${user.middlename} ${user.lastname}`}
+              </h6>
+              <p className="text-xs text-gray-500">{user.email}</p>
             </div>
-          </div>
+            <hr className="my-2" />
+            <MenuItem onClick={handleProfile}>
+              <Avatar className="mr-2" /> Profile
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
         </div>
       </div>
     </header>

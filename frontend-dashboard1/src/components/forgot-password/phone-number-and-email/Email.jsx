@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Email.css";
 
 function Email() {
   const [email, setEmail] = useState("");
@@ -48,27 +47,41 @@ function Email() {
   };
 
   return (
-    <div className="email-request">
-      <div className="email-request-container">
-        <h1>EMAIL REQUEST</h1>
-        <div className="email-send">
-          <p>We will be sending you a OTP code to your email</p>
+    <div
+      className="min-h-screen flex justify-center items-center bg-gray-100 p-4"
+      style={{
+        backgroundImage: "url('/images/durso.jpg')",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <h1 className="text-2xl font-semibold text-center mb-6">
+          Email Request
+        </h1>
+        <p className="text-gray-600 text-center mb-4">
+          We will be sending you an OTP code to your email.
+        </p>
+
+        <div className="mb-4">
           <input
             id="otp-email"
             type="email"
             placeholder="Enter your Email"
             value={email}
             onChange={handleEmailChange}
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
+
         <button
-          className="email-otp-button"
           onClick={handleSendOTP}
+          className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:opacity-50" // Reduced padding from py-3 to py-2
           disabled={loading} // Disable button while loading
         >
-          {loading ? "Sending..." : "Send"}
+          {loading ? "Sending..." : "Send OTP"}
         </button>
-        {message && <p aria-live="polite">{message}</p>}
+
+        {message && <p className="mt-4 text-center text-red-500">{message}</p>}
       </div>
     </div>
   );

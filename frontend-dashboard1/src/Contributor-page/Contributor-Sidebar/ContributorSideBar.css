@@ -1,92 +1,43 @@
-.sidebar {
-    margin-top: -1px;
-    width: 300px;
-    height: 100vh;
-    position: fixed;
-    top: 1px;
-    left: 0px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    background: #223243;
-    padding-bottom: 40px;
-    transition: all 0.3 ease;
-    z-index: 1000;
-  }
-  
-  .sidebar::-webkit-scrollbar {
-    width: 3px !important;
-  }
-  
-  .sidebar::-webkit-scrollbar-thumb {
-    background: transparent !important;
-  }
-  
-  .sidebar:hover::-webkit-scrollbar {
-    background: transparent !important;
-  }
-  
-  .sidebar ul {
+.contributorsidebarpages{
+  width: 20%;
+  height: 100vh;
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  background:#223243;
+  transition: all 0.3s ease-in-out;
+}
+
+.toggle .contributorsidebarpages{
+  left: -100%;
+}
+
+
+  .contributorsidebarpages ul {
     margin-bottom: 0px;
     padding: 10px 15px;
   }
-  .sidebar .top .sidebarTitle img{
-    width: 40px;
-    height: 35px;
-    border-radius: 20px;
-  }
-  .sidebar .top{
-    display: flex;
-    color: #00dfc4;
-    font-weight: bold;
-    font-family: sans-serif;
-   
-  }
-
-  .sidebar .top .sidebarTitle{
-    display: flex;
-    gap: 0.8rem;
-    margin-left: 25px;
-   margin-top: 15px;
-  }
-  .sidebar .top .sidebarTitle h2{
-    font-size: 24px; 
-  }
-
-.close{
-    margin-left: 150px;
-    margin-top: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    color: #fff;
-    display: none;
-  }
-
-  .close:hover{
-    color: #00dfc4;
-  }
   
-  .sidebar ul li {
+  .contributorsidebarpagesul li {
     list-style: none;
   }
   
-  .sidebar ul li button {
+  .contributorsidebarpages ul li button {
     color: rgba(255, 255, 255, 1) !important;
-    width: 37vh;
     text-align: left;
     justify-content: left;
-    margin-left: -1px;
     border-radius: 10px !important;
-    padding: 12px 10px !important;
     align-items: center;
-    text-transform: capitalize !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     font-family: "Open Sans", sans-serif !important;
     font-size: 14px;
     margin: 5px;
     top:10px;
+    padding: 12px 15px !important;
+    text-transform: capitalize !important;
   }
   
-  .sidebar ul li button .icon {
+  .contributorsidebarpages ul li button .contributor-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,34 +46,21 @@
     margin-right: 10px;
   }
   
-  .sidebar ul li button .icon svg {
+  .contributorsidebarpages ul li button .contributor-icon svg {
     font-size: 22px;
+    color: white;
+    opacity: 0.8;
   }
   
-  .sidebar ul li button * {
+  .contributorsidebarpages ul li button * {
     color: rgba(255, 255, 255, 1) !important;
   }
   
-  .sidebar ul li button .arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
-    margin-left: auto;
-    transition: transform 0.3s ease;
-  }
-
-
-  .sidebar ul li button .arrow.open{
-    transform: rotate(90deg);
-  }
-  
-  .sidebar ul li button:hover {
+  .contributorsidebarpages ul li button:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
   }
   
-  .sidebar ul li button.active {
+  .contributorsidebarpages ul li button.active {
     background: rgba(255, 255, 255, 0.1) !important;
   }
   
@@ -130,67 +68,23 @@
     text-decoration: none;
     color: inherit; 
   }
-  
-  .sidebar ul .submenu {
-    padding: 0px 45px;
-    position: relative; 
-    margin-top: 10px;
-  }
-  
-  .sidebar ul .submenu::before {
-    content: "";
-    width: 1px;
-    height: 95%;
-    position: absolute;
-    top: 0px;
-    left: 21px;
-    background: rgba(243, 236, 236, 0.8);
-  }
-  
-  .sidebar ul .submenu li {
-    width: 100%;
-    list-style: none;
-  }
-  
-  .sidebar ul .submenu li  {
-    text-decoration: none;
-    color: rgb(243, 236, 236) !important;
-    display: block;
-    padding: 6px 0px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-  }
-  
-  .sidebar ul .submenu li:hover {
-    color: #00dfc4 !important;
-  }
-
-  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
-    .sidebar{
-      display: none;
+  @media only screen and (min-width:320px) and (max-width:992px){
+    .contributorsidebarpages{
+      width: 100% !important;
+      position: relative !important;
+      top: 0px !important;
+      max-width: inherit !important;
+      z-index: 10000;
+      
     }
-}
+  
+  }
+  
+  @media only screen and(max-width:320px) and (max-width:575px){
+    
+  
+    
+  }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait) {
-  /* Your CSS rules for Samsung Galaxy S8+ portrait mode */
-  .sidebar{
-    display: none;
-  }
-}
-/* Media query for iPad Mini in portrait mode */
-@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait) {
-  /* Your CSS rules for iPad Mini portrait mode */
-  .sidebar{
-    display: none;
-  }
-}
 
-/* Media query for iPad Air in portrait mode */
-@media only screen and (min-device-width: 820px) and (max-device-width: 820px) and (orientation: portrait) {
-  /* Your CSS rules for iPad Air portrait mode */
-  .sidebar{
-    display: none;
-  }
-}
+  

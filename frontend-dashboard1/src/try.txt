@@ -1,0 +1,13 @@
+ <div
+            className={`contributordashboard-sidebar ${
+              isToggleSidebar === true ? "toggle" : ""
+            }`}
+          >
+            <ContributorSideBar />
+          </div>
+
+          <div className="contributordashboard-content p-[85px] mt-[-20px]">
+            <div className="contributordashboard">
+              <ContributorAddSpecies />
+            </div>
+          </div>

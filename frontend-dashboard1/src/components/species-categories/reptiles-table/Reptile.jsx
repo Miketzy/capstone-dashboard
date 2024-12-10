@@ -78,7 +78,6 @@ function Reptile() {
               <th>Conservation Status</th>
               <th>Threats</th>
               <th>Conservation Effort</th>
-              <th>Classification</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -92,18 +91,15 @@ function Reptile() {
                   <td>{data.commonname}</td>
                   <td>{data.habitat}</td>
                   <td>{data.population}</td>
-                  <td>{data.locations}</td>
+                  <td>{data.location}</td>
                   <td>{data.conservationstatus}</td>
                   <td>{data.threats}</td>
                   <td>
-                    {" "}
                     <div className="conservation-scroll">
                       {data.conservationeffort}
                     </div>
                   </td>
-                  <td>{data.speciescategories}</td>
                   <td>
-                    {" "}
                     <div className="description-scroll">{data.description}</div>
                   </td>
                 </tr>

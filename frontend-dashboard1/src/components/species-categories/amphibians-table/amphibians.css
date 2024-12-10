@@ -2,7 +2,7 @@
     margin-left: -159vh;
     margin-top: 150px;
     background: #fff;
-    width: 162vh;
+    width: 160vh;
     border-radius: 20px;
   }
   
@@ -158,7 +158,7 @@
   
   .table6 th:nth-child(11),
   .table6 td:nth-child(11) {
-    width: 6%; /* Specific Name column width */
+    width: 100%; /* Specific Name column width */
     text-transform: capitalize;
     text-align: justify;
   }

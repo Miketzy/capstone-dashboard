@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./login.css"; // Ensure the path is correct
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,7 +10,6 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // Ensure credentials are sent with requests
   axios.defaults.withCredentials = true;
 
   const handleSubmit = async (e) => {
@@ -21,79 +19,53 @@ function Login() {
       const response = await axios.post("http://localhost:8080/login", values);
       if (response.data) {
         alert("Login successful!");
-
-        // Store the token in local storage
-        localStorage.setItem("token", response.data.token); // Make sure your backend sends back the token
-
-        // Store contributor's first name and last name in localStorage
+        localStorage.setItem("token", response.data.token);
         localStorage.setItem("contributor_firstname", response.data.firstname);
         localStorage.setItem("contributor_lastname", response.data.lastname);
         localStorage.setItem("contributor_email", response.data.email);
 
-        // Redirect based on user status
         if (response.data.status === "admin") {
-          console.log("Admin successfully logged in.");
           navigate("/species-directory");
         } else if (response.data.status === "contributor") {
-          console.log("Contributor successfully logged in.");
           navigate("/contributor-dashboard");
         } else {
-          console.log("Unknown status, redirecting to home.");
           navigate("/");
         }
       }
     } catch (error) {
-      console.error("Error:", error);
       const errorMessage =
         error.response?.data?.Message || "An error occurred during login.";
       alert(errorMessage);
     }
   };
 
-  const registerPage = () => {
-    axios
-      .get("http://localhost:8080/registerpage")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/registration");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
-
-  const handleEmail = () => {
-    axios
-      .get("http://localhost:8080/email")
-      .then((res) => {
-        console.log("Email Request response:", res.data);
-        if (res.data.Message === "Success") {
-          navigate("/email-request");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
+  const registerPage = () => navigate("/registration");
+  const handleEmail = () => navigate("/email-request");
 
   return (
-    <div className="body-login">
-      <div className="container-login">
-        <form className="form-login" onSubmit={handleSubmit}>
-          <h2>LOGIN</h2>
+    <div
+      className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-50 to-blue-100"
+      style={{
+        backgroundImage: "url('/images/durso.jpg')",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-center text-gray-700">LOGIN</h2>
 
-          <div className="input-box">
-            <label htmlFor="username">Username</label>
+        <form className="space-y-6 mt-6" onSubmit={handleSubmit}>
+          {/* Username Input */}
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Username
+            </label>
             <input
               type="text"
               id="username"
+              className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your username"
               onChange={(e) =>
                 setValues({ ...values, username: e.target.value })
@@ -102,11 +74,18 @@ function Login() {
             />
           </div>
 
-          <div className="input-box">
-            <label htmlFor="password">Password</label>
+          {/* Password Input */}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
+              className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your password"
               onChange={(e) =>
                 setValues({ ...values, password: e.target.value })
@@ -114,16 +93,37 @@ function Login() {
               required
             />
           </div>
-          <div className="forgot-password-login">
-            <h4 onClick={handleEmail}>Forgot Password</h4>
+
+          {/* Forgot Password */}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleEmail}
+              className="text-sm text-blue-500 hover:underline"
+            >
+              Forgot Password?
+            </button>
           </div>
 
-          <button type="submit">Login</button>
-
-          <p className="login-register">
-            Don't have an Account? <a onClick={registerPage}>Register</a>
-          </p>
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+          >
+            Login
+          </button>
         </form>
+
+        {/* Register Redirect */}
+        <p className="mt-6 text-sm text-center text-gray-600">
+          Don't have an account?{" "}
+          <button
+            onClick={registerPage}
+            className="text-blue-500 hover:underline"
+          >
+            Register
+          </button>
+        </p>
       </div>
     </div>
   );

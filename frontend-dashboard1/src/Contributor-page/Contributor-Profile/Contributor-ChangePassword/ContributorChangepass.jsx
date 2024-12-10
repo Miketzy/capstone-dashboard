@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./ContributorChangePassword.css"; // Import the CSS file
 
-function ContributorChangePassword() {
+function ContributorChangepass() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -52,47 +51,68 @@ function ContributorChangePassword() {
   };
 
   return (
-    <div className="contributorchange-password-container">
-      <div className="contributorchange-password">
-        <label htmlFor="current-password">Current Password</label>
+    <div className="max-w-md mx-auto p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold text-center mb-6">
+        Change Password
+      </h2>
+      <div className="mb-4">
+        <label
+          htmlFor="current-password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Current Password
+        </label>
         <input
           id="current-password"
           type="password"
           placeholder="Enter your current password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
+          className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         />
       </div>
-      <div className="contributorchange-password">
-        <label htmlFor="new-password">New Password</label>
+      <div className="mb-4">
+        <label
+          htmlFor="new-password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          New Password
+        </label>
         <input
           id="new-password"
           type="password"
           placeholder="Enter your new password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         />
       </div>
-      <div className="contributorchange-password">
-        <label htmlFor="confirm-password">Confirm Password</label>
+      <div className="mb-6">
+        <label
+          htmlFor="confirm-password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Confirm Password
+        </label>
         <input
           id="confirm-password"
           type="password"
           placeholder="Confirm your new password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         />
       </div>
       <button
         onClick={handlePasswordChange}
-        className="contributorchange-password-button"
+        className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         Change Password
       </button>
-      {error && <p className="error-message">{error}</p>}
-      {message && <p className="success-message">{message}</p>}
+      {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
+      {message && <p className="mt-4 text-green-500 text-center">{message}</p>}
     </div>
   );
 }
 
-export default ContributorChangePassword;
+export default ContributorChangepass;

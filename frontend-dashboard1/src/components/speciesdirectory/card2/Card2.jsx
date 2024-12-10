@@ -5,6 +5,7 @@ import "./card2.css";
 function Card2() {
   const [amphibiansCount, setAmphibiansCount] = useState(0);
   const [invertebratesCount, setInvertebratesCount] = useState(0);
+  const [vertebratesCount, setVertebratesCount] = useState(0);
   const [fishCount, setFishCount] = useState(0);
 
   useEffect(() => {
@@ -18,6 +19,14 @@ function Card2() {
     axios
       .get("http://localhost:8080/countInvertebrates")
       .then((res) => setInvertebratesCount(res.data.count))
+      .catch((err) =>
+        console.error("Error fetching invertebrates count:", err)
+      );
+
+    // Fetch invertebrates count
+    axios
+      .get("http://localhost:8080/countvertebrates")
+      .then((res) => setVertebratesCount(res.data.count))
       .catch((err) =>
         console.error("Error fetching invertebrates count:", err)
       );
@@ -42,6 +51,13 @@ function Card2() {
         <div className="box-5">
           <span className="boxs5">Invertebrates</span>
           <p className="box5">{invertebratesCount}</p>
+        </div>
+      </div>
+
+      <div className="col-div-3">
+        <div className="box-6">
+          <span className="boxs6">Vertebrates</span>
+          <p className="box6">{vertebratesCount}</p>
         </div>
       </div>
 

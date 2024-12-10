@@ -1,54 +1,88 @@
-.contributordashboard-main{
-    display: flex;
-    overflow-x: hidden;
-    
+/* Sidebar Styling */
+.contributordashboard-main .contributordashboard-sidebar {
+    width: 20%;
+    flex: 0 0 20%;
+    transition: width 0.3s ease-in-out, flex 0.3s ease-in-out;
 }
 
-
-.contributordashboard-main .contributordashboard-sidebarWrapper{
-   width: 20%;
-   flex: 0 0 20%;
-   transition: all 0.3s ease-in-out;
-
+.contributordashboard-main .contributordashboard-sidebar.toggle {
+    width: 0;
+    flex: 0 0 0;
+    overflow: hidden; /* Prevent content overflow when hidden */
 }
 
-.contributordashboard-main .contributordashboard-sidebarWrapper.toggle{
+/* Content Styling */
+.contributordashboard-content {
     width: 80%;
     flex: 0 0 80%;
+    transition: width 0.3s ease-in-out, flex 0.3s ease-in-out;
 }
 
-.contributordashboard-main .contributordashboard-content{
-    width: 80%;
-    flex: 0 0 80%;
-    transition: all 0.3s ease-in-out;
-}
-
-.contributordashboard-main .contributordashboard-content .toggle{
+.contributordashboard-content.toggle {
     width: 100%;
     flex: 0 0 100%;
 }
 
-.contributordashboard-tit {
-    margin-top: 70px;
-    margin-left: 40px;
-    background: #fff;
-    width: 159.5vh;
-    height: 50px;
-    border-radius: 10px;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1); /* Add this line for shadow */
+/* Responsive Styling for Tablets and Smaller Screens */
+@media only screen and (min-width:320px) and (max-width: 992px) {
+    .contributordashboard-main .contributordashboard-sidebar {
+        width: 80%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: -100%; /* Initially hidden */
+        z-index: 10000;
+        background-color: white; /* Ensure background visibility */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        transition: left 0.3s ease-in-out;
+        opacity: 0;
+    }
 
-}
+    .contributordashboard-main .contributordashboard-sidebar.open {
+        left: 0px !important; /* Slide in when toggled */
+        opacity: 1 !important;
+    }
 
-.contributordashboardtit1 h1 {
-    font-size: 25px;
-    padding: 10px 20px;
-    font-weight: bold;
-}
-
-.contributordashboard{
-    margin-left: 120px;
-    margin-top: 90px;
+    .contributordashboard-main .contributordashboard-content {
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    /* Sidebar overlay */
+.sidebarOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    z-index: 2000;
+    display: none; /* hidden by default */
+  }
   
+  .sidebarOverlay.show {
+    display: block;
+  }
+  
+  .sidebarOverlay.hidden {
+    display: none;
+  }
+  
+
+    
+    
 }
 
+/* Specific Styling for Small Phones */
+@media only screen and (max-width: 575px) {
+    .contributordashboard-main .contributordashboard-sidebar {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
 
+    .contributordashboard-main .contributordashboard-content {
+        padding: 10px; /* Add padding for better spacing */
+    }
+
+    .contributordashboard-sidebar{
+
+    }
+}

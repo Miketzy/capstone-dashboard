@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./addspecies.css";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
@@ -7,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
 
 function AddSpecies() {
   const [image, setImage] = useState(null);
-  const [file, setFile] = useState(null); // Corrected file state initialization
+  const [file, setFile] = useState(null);
   const [specificname, setSpecificname] = useState("");
   const [scientificname, setScientificname] = useState("");
   const [commonname, setCommonname] = useState("");
@@ -67,7 +66,6 @@ function AddSpecies() {
           progress: undefined,
           theme: "colored",
           transition: Bounce,
-          // Add transition effect
         });
         console.log(response);
       })
@@ -82,206 +80,246 @@ function AddSpecies() {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          transition: Bounce, // Add transition effect
+          transition: Bounce,
         });
         console.log(error);
       });
   };
 
   return (
-    <div className="container-body">
-      <div className="form addspecies">
-        <div className="column-add">
-          <div className="card imgholder">
-            <label htmlFor="imginput" className="upload">
-              <input
-                type="file"
-                id="imginput"
-                className="file"
-                onChange={handleImageChange}
-              />
-              <BsPlusCircleDotted className="icon" />
-            </label>
-            {image ? (
-              <img
-                src={image}
-                alt="Uploaded Species"
-                width="150"
-                height="150"
-              />
-            ) : (
-              <img
-                src="/images/animals.jpg"
-                alt="Default Species"
-                width="150"
-                height="150"
-              />
-            )}
+    <div className="mx-auto p-6">
+      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="col-span-1 sm:col-span-2">
+            <div className="relative">
+              <label
+                htmlFor="imginput"
+                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+              >
+                <input
+                  type="file"
+                  id="imginput"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+
+                {image ? (
+                  <img
+                    src={image}
+                    alt="Uploaded Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                ) : (
+                  <img
+                    src="/images/animals.jpg"
+                    alt="Default Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                )}
+              </label>
+            </div>
           </div>
 
-          <div className="input-box1">
-            <label htmlFor="specific-name">Specific Name</label>
+          <div className="col-span-1">
+            <label
+              htmlFor="specific-name"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Specific Name
+            </label>
             <input
               type="text"
               id="specific-name"
               placeholder="Enter specific name"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setSpecificname(e.target.value)}
             />
           </div>
 
-          <div className="input-box1">
-            <label htmlFor="scientific-name">Scientific Name</label>
+          <div className="col-span-1">
+            <label
+              htmlFor="scientific-name"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Scientific Name
+            </label>
             <input
               type="text"
               id="scientific-name"
               placeholder="Enter scientific name"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setScientificname(e.target.value)}
             />
           </div>
-        </div>
 
-        <div className="column-add1">
-          <div className="input-box2">
-            <label htmlFor="common-name">Common Name</label>
+          <div className="col-span-1">
+            <label
+              htmlFor="common-name"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Common Name
+            </label>
             <input
               type="text"
-              className="common-name"
+              id="common-name"
               placeholder="Enter common name"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setCommonname(e.target.value)}
             />
           </div>
-          <div className="input-box3">
-            <label htmlFor="habitat">Habitat</label>
+
+          <div className="col-span-1">
+            <label
+              htmlFor="population"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Population
+            </label>
             <input
               type="text"
-              className="habitat"
-              placeholder="Enter species habitat"
-              onChange={(e) => setHabitat(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="column-add2">
-          <div className="input-box4">
-            <label htmlFor="population">Population</label>
-            <input
-              type="text"
-              className="population"
+              id="population"
               placeholder="Enter species population"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setPopulation(e.target.value)}
             />
           </div>
-          <div className="input-box5">
-            <label htmlFor="threats">Threats</label>
+
+          <div className="col-span-1 sm:col-span-2 flex space-x-6">
+            <div className="w-full">
+              <label
+                htmlFor="species-categories"
+                className="block font-bold text-xl text-gray-700"
+              >
+                Classification
+              </label>
+              <select
+                id="species-categories"
+                className="w-full p-2 border border-gray-300 rounded-md mt-1"
+                onChange={(e) => setSpeciescategory(e.target.value)}
+              >
+                <option value="">Select classification</option>
+                <option value="mammals">Mammals</option>
+                <option value="birds">Birds</option>
+                <option value="reptiles">Reptiles</option>
+                <option value="amphibians">Amphibians</option>
+                <option value="invertebrates">Invertebrates</option>
+                <option value="vertebrates">Vertebrates</option>
+                <option value="fish">Fish</option>
+              </select>
+            </div>
+
+            <div className="w-full">
+              <label
+                htmlFor="conservation-status"
+                className="block font-bold text-xl text-gray-700"
+              >
+                Conservation Status
+              </label>
+              <select
+                id="conservation-status"
+                className="w-full p-2 border border-gray-300 rounded-md mt-1"
+                onChange={(e) => setConservationstatus(e.target.value)}
+              >
+                <option value="">Select a Conservation Status</option>
+                <option value="critically-endangered">
+                  Critically-endangered
+                </option>
+                <option value="endangered">Endangered</option>
+                <option value="vulnerable">Vulnerable</option>
+                <option value="near-threatened">Near-threatened</option>
+                <option value="least-concern">Least-concern</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="location"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Mapping
+            </label>
             <input
               type="text"
-              className="threats"
-              placeholder="Enter species threats"
-              onChange={(e) => setThreats(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="column-add3">
-          <div className="input-box7">
-            <label htmlFor="species-categories">Classification</label>
-            <select
-              id="species-categories"
-              className="species-categories"
-              placeholder="Select species category"
-              onChange={(e) => setSpeciescategory(e.target.value)}
-            >
-              <option value="">Select classification</option>
-              <option value="mammals">Mammals</option>
-              <option value="birds">Birds</option>
-              <option value="reptiles">Reptiles</option>
-              <option value="amphibians">Amphibians</option>
-              <option value="invertebrates">Invertebrates</option>
-              <option value="fish">Fish</option>
-            </select>
-          </div>
-
-          <div className="input-box8">
-            <label htmlFor="conservation-status">Conservation Status</label>
-            <select
-              id="conservation-status"
-              className="conservation-status"
-              onChange={(e) => setConservationstatus(e.target.value)}
-            >
-              <option value="">Select a Conservation Status</option>
-              <option value="critically-endangered">
-                Critically-endangered
-              </option>
-              <option value="endangered">Endangered</option>
-              <option value="vulnerable">Vulnerable</option>
-              <option value="near-threatened">Near-threatened</option>
-              <option value="least-concern">Least-concern</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="column-add9">
-          <div className="input-box9">
-            <label htmlFor="location">Map</label>
-            <input
-              type="text"
-              className="location"
-              placeholder="Mapping"
+              id="location"
+              placeholder="Enter location"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setLocation(e.target.value)}
             />
           </div>
-        </div>
 
-        <div className="column-add11">
-          <div className="input-box11">
-            <label htmlFor="conservation-effort" className="effort-label">
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="habitat"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Habitat
+            </label>
+            <textarea
+              id="habitat"
+              placeholder="Enter habitat"
+              className="w-full h-[32vh] p-2 border border-gray-300 rounded-md mt-1"
+              onChange={(e) => setHabitat(e.target.value)}
+            />
+          </div>
+
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="threats"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Threats
+            </label>
+            <textarea
+              id="threats"
+              placeholder="Enter threats"
+              className="w-full h-[32vh] p-2 border border-gray-300 rounded-md mt-1"
+              onChange={(e) => setThreats(e.target.value)}
+            />
+          </div>
+
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="conservation-effort"
+              className="block font-bold text-xl text-gray-700"
+            >
               Conservation Effort
             </label>
             <textarea
-              className="conservation-effort"
-              placeholder="Enter species conservation effort"
-              rows="4"
+              id="conservation-effort"
+              placeholder="Enter conservation effort"
+              className="w-full h-[32vh] p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setConservationeffort(e.target.value)}
             />
           </div>
-        </div>
 
-        <div className="column-add12">
-          <div className="input-box12">
-            <label htmlFor="description" className="description-label">
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="description"
+              className="block font-bold text-xl text-gray-700"
+            >
               Description
             </label>
             <textarea
-              className="description"
-              placeholder="Enter species description"
-              rows="4"
+              id="description"
+              placeholder="Enter description"
+              className="w-full h-[32vh] p-2 border border-gray-300 rounded-md mt-1"
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
+
+          <div className="col-span-1 sm:col-span-2 mt-6 flex justify-center">
+            <button
+              onClick={upload}
+              className="w-full sm:w-48 py-3 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none"
+            >
+              <BsPlusCircleDotted className="inline-block mr-2" />
+              Add Species
+            </button>
+          </div>
         </div>
 
-        <div className="input-box13">
-          <button className="submit" onClick={upload}>
-            Submit
-          </button>
-          {uploadStatus && <p>{uploadStatus}</p>}{" "}
-          {/* Display feedback message */}
-        </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-          transition={Bounce}
-          toastClassName="custom-toast" // Use the custom class
-        />
-        <br />
-        <br />
+        <ToastContainer />
       </div>
     </div>
   );

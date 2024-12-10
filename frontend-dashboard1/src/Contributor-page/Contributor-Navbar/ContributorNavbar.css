@@ -1,15 +1,37 @@
 header {
     background: #223243;
     border-bottom: 1px solid #e0e0e0;
-    padding: 0;
-    width: 175vh;
+    width: 101%;
     height: 60px;
-    align-items: center;
+    margin: 0px;
+    padding: 0px;
     position: fixed;
-    margin-left: -3px;
-    z-index: 500;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+  }
 
 
+
+  header span{
+    color: white;
+    font-size: 24px;
+    font-family: Arial;
+    font-weight: bold;
+   
+  }
+
+  header button.rounded-circle{
+    min-width: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: none;
+    
+  }
+
+  header button.rounded-circle svg{
+    color: white;
+    font-size: 20px !important;
   }
   #notification-menu{
     margin-left: 7px;  
@@ -167,12 +189,7 @@ header {
     margin-left: 100px;
   }
 
-  #rounded-circle{
-    margin-top: 10px;
-    margin-left: 40px;
-    color: #fff;
-    display: none;
-  }
+ 
   
   .MuiList-root .MuiButtonBase-root {
     font-size: 14px;
@@ -188,308 +205,51 @@ header {
     margin-left: 3px;
   }
   
-  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
-    header{
-      margin-left: -76px;
-      width: 476px;
-      
-    }
+  
+  
 
-    .search1{
-      display: none;
-    }
+@media only screen and (min-width:320px) and (max-width:992px){
+  header{
+    padding: 15px 0px;
+    height: 60px;
+  }
+ header .part1,header .part3{
+  padding: 0px !important;
+ }
 
-  .myAcc {
-    display: flex;
-    margin-left: 49vh;
-    margin-top: -69px; 
-  }
+ header .part1{
+  max-width: 40% !important;
+  flex: 0 0 40% !important;
+ }
 
-  #rounded{
-    margin-left: 215px;
-    margin-top: -55px;
-   
-  }
-  #messages{
-    color: #fff;
-    margin-left: 260px;
-    margin-top: -90px;
-  }
+ header .part1 span{
+  font-size: 18px;
+  margin-left: 1px;
+ }
+
+ header .part3{
+  max-width: 80% !important;
+  flex: 0 0 20% !important;
+ }
+
+ header button.rounded-circle{
+  display: block;
+  
 }
 
-
-@media only screen and (min-device-width: 414px) and (max-device-width: 414px) and (orientation: portrait) {
-  header{
-    height: 60px;
-    width: 450px; 
-    margin-left: -100px;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 42vh;
-    margin-top: -69px; 
-  }
-
-  #rounded{
-    margin-left: 235px;
-    margin-top: -55px;
-   
-  }
-  #messages{
-    color: #fff;
-    margin-left: 295px;
-    margin-top: -90px;
-  }
-  #rounded-circle{
-    margin-left: 20px;
-  }
 }
 
-
-/* Media query for iPhone 12 Pro in portrait mode */
-@media only screen and (min-device-width: 390px) and (max-device-width: 390px) and (orientation: portrait) {
-  header{
-    height: 60px;
-    width: 455px; 
-    margin-left: -100px;
+@media only screen and(max-width:320px) and (max-width:575px){
+  header .flex-row{
+    margin: auto !important;
   }
 
-  .myAcc {
-    display: flex;
-    margin-left: 43vh;
-    margin-top: -69px; 
-  }
-
-  #rounded{
-    margin-left: 29vh;
-    margin-top: -55px;
-   
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 35vh;
-    margin-top: -90px;
-  }
-
-  #rounded-circle{
-    margin-left: 25px;
-  }
-}
-
-
-
-/* Media query for iPhone 14 Pro Max in portrait mode */
-@media only screen and (min-device-width: 430px) and (max-device-width: 430px) and (orientation: portrait) {
-  header{
-    height: 60px;
-    width: 50vh; 
-    margin-left: -100px;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 42vh;
-    margin-top: -69px; 
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 35vh;
-    margin-top: -90px;
-    font-size: 28px;
-  }
-
-  #rounded{
-    margin-left: 29vh;
-    margin-top: -55px;
-    font-size: 28px;
-   
-  }
-
-  #rounded-circle{
-    margin-left: 25px;
-    font-size: 28px;
+  header button.rounded-circle{
+    display: block;
+    
   }
 
   
-
-}
-@media only screen and (min-device-width: 360px) and (max-device-width: 360px) and (orientation: portrait) {
-  /* Your CSS rules for Samsung Galaxy S8+ portrait mode */
-  header{
-    height: 60px;
-    width: 50vh; 
-    margin-left: -10vh;
-  }
-
-  .search1{
-    display: none;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 42vh;
-    margin-top: -69px; 
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 33vh;
-    margin-top: -90px;
-    font-size: 28px;
-  }
-
-  #rounded{
-    margin-left: 27vh;
-    margin-top: -55px;
-    font-size: 28px;
-   
-  }
-
-
-}
-
-/* Media query for Samsung Galaxy S20 Ultra in portrait mode */
-@media only screen and (min-device-width: 412px) and (max-device-width: 412px) and (orientation: portrait) {
-  header{
-    height: 60px;
-    width: 50vh; 
-    margin-left: -10vh;
-  }
-
-  .search1{
-    display: none;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 40vh;
-    margin-top: -69px; 
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 33vh;
-    margin-top: -90px;
-    font-size: 28px;
-  }
-
-  #rounded{
-    margin-left: 27vh;
-    margin-top: -55px;
-    font-size: 28px;
-   
-  }
-
-
-}
-
-/* Media query for iPad Mini in portrait mode */
-@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait) {
-  /* Your CSS rules for iPad Mini portrait mode */
-  header{
-    height: 60px;
-    width: 50vh; 
-    margin-left: -10vh;
-  }
-
-  .search1{
-   display: none;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 40vh;
-    margin-top: -69px; 
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 33vh;
-    margin-top: -90px;
-    font-size: 28px;
-  }
-
-  #rounded{
-    margin-left: 27vh;
-    margin-top: -55px;
-    font-size: 28px;
-   
-  }
-
-}
-@media only screen and (min-device-width: 768px) and (max-device-width: 768px) and (orientation: portrait){
-  header{
-    height: 60px;
-    width: 80vh; 
-    margin-left: -18vh;
-  }
-
-  .search1{
-   display: none;
-  }
-
-  .myAcc {
-    display: flex;
-    margin-left: 73vh;
-    margin-top: -70px; 
-  }
-
-  #messages{
-    color: #fff;
-    margin-left: 66vh;
-    margin-top: -85px;
-    font-size: 30px;
-  }
-
-  #rounded{
-    margin-left: 60vh;
-    margin-top: -55px;
-    font-size: 30px;
-   
-  }
-  #rounded-circle{
-    margin-left: 25px;
-    font-size: 30px;
-  }
-
-}
-
-/* Media query for iPad Air in portrait mode */
-@media only screen and (min-device-width: 820px) and (max-device-width: 820px) and (orientation: portrait) {
-  /* Your CSS rules for iPad Air portrait mode */
-  header{
-    height: 70px;
-    width: 85vh; 
-    margin-left: -18vh;
-  }
-  .search1{
-   margin-left: 4vh;
-   }
-   .myAcc {
-    display: flex;
-    margin-left: 67vh;
-    margin-top: -70px; 
-  }
-  #messages{
-    color: #fff;
-    margin-left: 61vh;
-    margin-top: -85px;
-    font-size: 30px;
-  }
-  #rounded{
-    margin-left: 56vh;
-    margin-top: -55px;
-    font-size: 30px;
-   
-  }
-
-  #rounded-circle{
-    margin-left: 40px;
-    font-size: 50px;
-  }
 }
 
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./signup.css";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -58,11 +57,9 @@ function Register() {
           alert(data.error);
         } else {
           alert("Registration successful!");
-          // Redirect to the login form after successful registration
           navigate("/");
         }
       })
-
       .catch((error) => {
         console.error("Error:", error);
         alert("An error occurred during registration.");
@@ -70,27 +67,47 @@ function Register() {
   };
 
   return (
-    <div className="body">
-      <div className="container">
-        <form className="form signup" onSubmit={handleSubmit}>
-          <h2>Registration Form</h2>
-          <div className="column">
-            <div className="input-box">
-              <label htmlFor="username">Username</label>
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100"
+      style={{
+        backgroundImage: "url('/images/durso.jpg')",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
+        <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">
+          Registration Form
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="username"
+              >
+                Username
+              </label>
               <input
                 type="text"
                 id="username"
-                placeholder="Enter your Username"
+                className="mt-1 h-[40px] p-[10px] block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter your username"
                 value={formData.username}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="input-box">
-              <label htmlFor="firstname">Firstname</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="firstname"
+              >
+                Firstname
+              </label>
               <input
                 type="text"
                 id="firstname"
+                className="mt-1 block  w-full h-[40px] p-[10px] rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 placeholder="Enter your firstname"
                 value={formData.firstname}
                 onChange={handleChange}
@@ -98,48 +115,69 @@ function Register() {
               />
             </div>
           </div>
-          <div className="column2">
-            <div className="input-box">
-              <label htmlFor="middlename">Middle Name</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="middlename"
+              >
+                Middlename
+              </label>
               <input
                 type="text"
                 id="middlename"
-                placeholder="Enter your middle name"
+                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter your middlename"
                 value={formData.middlename}
                 onChange={handleChange}
               />
             </div>
-            <div className="input-box">
-              <label htmlFor="lastname">Last Name</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="lastname"
+              >
+                Lastname
+              </label>
               <input
                 type="text"
                 id="lastname"
-                placeholder="Enter your last name"
+                className="mt-1 h-[40px] p-[10px] block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter your lastname"
                 value={formData.lastname}
                 onChange={handleChange}
                 required
               />
             </div>
           </div>
-
-          <div className="column2">
-            <div className="input-box">
-              <label htmlFor="email" className="email">
-                Email Address
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="email"
+              >
+                Email
               </label>
               <input
                 type="email"
                 id="email"
-                placeholder="Enter your Email Address"
+                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="input-box">
-              <label htmlFor="gender">Gender</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="gender"
+              >
+                Gender
+              </label>
               <select
                 id="gender"
+                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 value={formData.gender}
                 onChange={handleChange}
                 required
@@ -153,31 +191,39 @@ function Register() {
               </select>
             </div>
           </div>
-
-          <div className="column3">
-            <div className="input-box">
-              <label htmlFor="phone_number">Phone Number</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="phone_number"
+              >
+                Phone Number
+              </label>
               <input
                 type="tel"
                 id="phone_number"
+                className="mt-1 block w-full h-[40px] p-[10px] rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="+63XXXXXXXXX"
                 value={formData.phone_number}
                 onChange={(e) => {
-                  let inputValue = e.target.value;
-                  if (!inputValue.startsWith("+63") && inputValue.length > 0) {
-                    inputValue = "+63" + inputValue.replace(/^0/, "");
-                  }
-                  setFormData({ ...formData, phone_number: inputValue });
+                  let value = e.target.value;
+                  if (!value.startsWith("+63"))
+                    value = "+63" + value.replace(/^0/, "");
+                  setFormData({ ...formData, phone_number: value });
                 }}
-                pattern="\+63[0-9]{10}"
-                placeholder="*********"
                 required
               />
             </div>
-
-            <div className="input-box">
-              <label htmlFor="status">Account Type</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="status"
+              >
+                Account Type
+              </label>
               <select
                 id="status"
+                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 value={formData.status}
                 onChange={handleChange}
                 required
@@ -190,38 +236,52 @@ function Register() {
               </select>
             </div>
           </div>
-
-          <div className="column4">
-            <div className="input-box">
-              <label htmlFor="password">Password</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="password"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
+                className="mt-1 block w-full h-[40px] p-[10px] rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="input-box">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-600"
+                htmlFor="confirmPassword"
+              >
+                Confirm Password
+              </label>
               <input
                 type="password"
                 id="confirmPassword"
-                placeholder="Confirm password"
+                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
               />
             </div>
           </div>
-
-          <button type="submit">Register</button>
-          <p>
-            Already have an account? Please click
-            <a href="/" className="login">
-              {" "}
-              Login{" "}
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Register
+          </button>
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <a href="/" className="text-indigo-600 hover:underline">
+              Login
             </a>
           </p>
         </form>

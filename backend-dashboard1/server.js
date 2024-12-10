@@ -780,6 +780,20 @@ app.get("/getInvertebrates", (req, res) => {
   });
 });
 
+// Endpoint to get vertebrates species
+app.get("/getvertebrates", (req, res) => {
+  const query = "SELECT * FROM species WHERE speciescategory = 'vertebrates'";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching vertebrates data:", err);
+      return res.status(500).send("Server error. Failed to fetch vertebrates.");
+    }
+
+    res.status(200).json(result);  // Send back the list of vertebrates
+  });
+});
+
 // Endpoint to get fish species
 app.get("/getFish", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'fish'";
@@ -950,6 +964,20 @@ app.get("/countInvertebrates", (req, res) => {
   });
 });
 
+// Endpoint to get the count of Invertebrates
+app.get("/countvertebrates", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'"; // Ensure the field name is correct
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching vertebrates count:", err); // Updated error message
+      return res.status(500).send("Server error. Failed to fetch vertebrates count."); // Updated error message
+    }
+
+    res.status(200).json(result[0]); // Send back the count
+  });
+});
+
 
 // Endpoint to get the count of Fish
 app.get("/countFish", (req, res) => {
@@ -974,6 +1002,7 @@ app.get('/speciesCounts', (req, res) => {
    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'",
    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'",
   ];
 
@@ -990,7 +1019,8 @@ app.get('/speciesCounts', (req, res) => {
         reptiles: counts[2],
         amphibians: counts[3],
         invertebrates: counts[4],
-        fish: counts[5],
+        vertebrates: counts[5],
+        fish: counts[6],
       });
     })
     .catch(err => {
@@ -1477,10 +1507,9 @@ app.post('/reset-password', (req, res) => {
   });
 });
 
-//Endpoint to add a multiple-choice question
+// Endpoint to add a multiple-choice question
 app.post("/api/questions", (req, res) => {
-  const { question, optionA, optionB, optionC, optionD, correctAnswer } =
-    req.body;
+  const { question, optionA, optionB, optionC, optionD, correctAnswer } = req.body;
 
   const query = `
     INSERT INTO questions (question, optionA, optionB, optionC, optionD, correctAnswer)
@@ -1495,14 +1524,11 @@ app.post("/api/questions", (req, res) => {
         console.error("Error saving question:", err);
         return res.status(500).json({ error: "Failed to save question." });
       }
-      res.status(201).json({ message: "Question added successfully." });
+      // Successful response
+      res.status(201).json({ message: "Question saved successfully." });
     }
   );
 });
-
-
-
-
 
 app.listen(8080, () => {
   console.log('Server is running on port 8080');

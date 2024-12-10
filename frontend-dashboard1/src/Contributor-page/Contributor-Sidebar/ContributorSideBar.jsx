@@ -1,51 +1,29 @@
-import React, { useState } from "react";
-import "./ContributorSideBar.css";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
-
 import { IoMdAddCircle } from "react-icons/io";
 import { GrGallery } from "react-icons/gr";
 import { IoCloseSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import "./ContributorSideBar.css";
+import { MyContext } from "../../pages/Contributor-Home/Contributor-Dashboard/ContributorDashboard";
 
 function ContributorSideBar() {
   const [activeTab, setActiveTab] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isOpenSubmenu = (tab) => {
     setActiveTab(activeTab === tab ? null : tab);
   };
 
-  const handleDirectory = () => {
-    axios
-      .get("http://localhost:8080/speciesDirectory")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/species-directory");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
-  };
+  useEffect(() => {
+    setActiveTab(location.pathname); // Update activeTab on path change
+  }, [location]);
 
-  const handleAdd = () => {
-    axios
-      .get("http://localhost:8080/addSpecies")
-      .then((res) => {
-        if (res.data.Message === "Success") {
-          navigate("/contributor-dashboard");
-        } else {
-          alert("Navigate failed: " + (res.data.Message || "Unknown error"));
-        }
-      })
-      .catch((err) => {
-        console.error("Navigate error:", err);
-        alert("An error occurred during navigation. Please try again.");
-      });
+  const handleNavigation = (path) => {
+    navigate(path);
+    setActiveTab(path); // Set active tab on navigation
   };
 
   const handleGallery = () => {
@@ -64,26 +42,19 @@ function ContributorSideBar() {
       });
   };
 
-  return (
-    <div className="sidebar ">
-      <div className="top">
-        <div className="sidebarTitle">
-          <h2>Contributor</h2>
-        </div>
-        <div className="close" id="close-btn">
-          <span className="material-icon-sharp">
-            <IoCloseSharp />
-          </span>
-        </div>
-      </div>
+  const context = useContext(MyContext);
 
+  return (
+    <div className="contributorsidebarpages">
       <ul>
         <li>
           <Button
-            className={`w-100 ${activeTab === 1 ? "active" : ""}`}
-            onClick={handleAdd}
+            className={`w-100 ${
+              activeTab === "/contributor-dashboard" ? "active" : ""
+            }`}
+            onClick={() => handleNavigation("/contributor-dashboard")}
           >
-            <span className="icon">
+            <span className="contributor-icon">
               <IoMdAddCircle />
             </span>
             Add Species
@@ -92,10 +63,12 @@ function ContributorSideBar() {
 
         <li onClick={handleGallery}>
           <Button
-            className={`w-100 ${activeTab === 7 ? "active" : ""}`}
-            onClick={() => setActiveTab(7)}
+            className={`w-100 ${
+              activeTab === "/contributor-Gallery" ? "active" : ""
+            }`} // Compare with path, not a number
+            onClick={() => handleGallery()} // Corrected to handleGallery
           >
-            <span className="icon">
+            <span className="contributor-icon">
               <GrGallery />
             </span>
             Image Gallery

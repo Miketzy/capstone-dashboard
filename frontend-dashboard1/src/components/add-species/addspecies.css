@@ -126,7 +126,6 @@
 .input-box3 input{
     margin-left: -32px;
     margin-top: 5px;
-    text-transform: capitalize;
     outline: none;
     
 }
@@ -141,7 +140,6 @@
 .column-add2 input{
     width: 60vh;
     margin-top: 5px;
-    text-transform: capitalize;
     outline: none;
 }
 .column-add2 label{
@@ -206,7 +204,7 @@
     margin-top: 5px;
     font-size: 15px;
     text-transform: capitalize;
-    outline: none;
+   
 }
 
 .column-add9 label{

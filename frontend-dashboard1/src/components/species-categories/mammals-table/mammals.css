@@ -2,7 +2,7 @@
     margin-left: -159vh;
     margin-top: 150px;
     background: #fff;
-    width: 162vh;
+    width: 160vh;
     border-radius: 20px;
   }
   
@@ -80,97 +80,102 @@
   
   .table3 th:nth-child(1),
   .table3 td:nth-child(1) {
-    width: 1%; /* Specific Name column width */
+    
     font-weight: bold;
   }
   
   .table3 th:nth-child(1),
   .table3 td:nth-child(1) {
-    width: 1px; /* Specific Name column width */
+    width: -10px; /* Specific Name column width */
     text-align: justify;
     line-height: 1.5;
     font-weight: bold;
   }
   
   .table3 th:nth-child(2),
-  .table3 td:nth-child(2) {
-    width: 6%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  .table3 th:nth-child(3),
-  .table3 td:nth-child(3) {
-    width: 6%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(4),
-  .table3 td:nth-child(4) {
-    width: 6%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(5),
-  .table3 td:nth-child(5) {
-    width: 10%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  .table3 th:nth-child(6),
-  .table3 td:nth-child(6) {
-    width: 6%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(7),
-  .table3 td:nth-child(7) {
-    width: 10%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(8),
-  .table3 td:nth-child(8) {
-    width: 10%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  .table3 th:nth-child(9),
-  .table3 td:nth-child(9) {
-    width: 9%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(10),
-  .table3 td:nth-child(10) {
-    width: 10%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(11),
-  .table3 td:nth-child(11) {
-    width: 6%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  
-  .table3 th:nth-child(12),
-  .table3 td:nth-child(12) {
-    width: 13%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
-  .table3 th:nth-child(13),
-  .table3 td:nth-child(13) {
-    width: -30%; /* Specific Name column width */
-    text-align: justify;
-    line-height: 1.5;
-  }
+.table3 td:nth-child(2) {
+  width: 5%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(3),
+.table3 td:nth-child(3) {
+  width: 10%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(4),
+.table3 td:nth-child(4) {
+  width: 6%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(5),
+.table3 td:nth-child(5) {
+  width: 10%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(6),
+.table3 td:nth-child(6) {
+  width: 6%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(7),
+.table3 td:nth-child(7) {
+  width: 10%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(8),
+.table3 td:nth-child(8) {
+  width: 10%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(9),
+.table3 td:nth-child(9) {
+  width: 9%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(10),
+.table3 td:nth-child(10) {
+  width: 10%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(11),
+.table3 td:nth-child(11) {
+  width: 100%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(12),
+.table3 td:nth-child(12) {
+  width: 13%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.table3 th:nth-child(13),
+.table3 td:nth-child(13) {
+  width: 13%; /* Adjusted column width */
+  text-align: justify;
+  line-height: 1.5;
+}
+
 
   .tablefooter{
     display: flex;

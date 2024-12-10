@@ -1,78 +1,16 @@
-.conttributor-my-profile-container{
-    display: flex;
-    gap: 20px;
-    background: #fff;
-    width: 162vh;
-    margin-left: 20px;
-    height: 88vh;
-    border-radius: 30px;
-}
-.contributorprofile-imgholder{
-  width: 200px;
-  height: 200px;
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  padding: 20px;
-  
-    
+#probtn{
+    background: blue;
 }
 
-
-.contributoredit-button{
-    margin-top: 30px;
-    margin-left: 15px;
+#probtn:hover{
+    background: #1d4ed8;
 }
 
-.contributoredit-button .Edit-btn{
-    font-size: 15px;
-    width: 24vh;
-    justify-content: left;
-    color: black;
+#probtn1{
+    background: #fbbf24;
+    color: white;
 }
 
-.contributorchange-button{
-    margin-left: 15px;
-}
-
- .contributorchange-button .change-btn{
-    font-size: 15px;
-    color: black;
- }
-
-.Contributormyprofile-inputfield{
-    flex-basis: 20%;
-    border-left: 5px groove #223243;
-    padding: 20px;
-}
-
-.Contributormyprofile-inputfield .Contributorprofile-inputfield-1{
-    display: flex;
-    margin-left: 15px;
-    gap: 30px;
-    
-}
-
-.contributor-my-profile-1 label{
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.contributor-my-profile-1 input {
-    width: 55vh;
-    height: 30px;
-    padding: 5px;
-    font-size: 15px;
-    margin-top: 10px;
-    outline: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-}
-
-.Contributormyprofile-inputfield .Contributorprofile-inputfield-2{
-    display: flex;
-    margin-left: 15px;
-    gap: 30px;
-    margin-top: 20px;
+#probtn1:hover{
+    background-color: #d97706;
 }

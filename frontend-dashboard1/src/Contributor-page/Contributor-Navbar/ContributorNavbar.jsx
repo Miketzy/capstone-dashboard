@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { MdMenuOpen } from "react-icons/md";
+import { MdOutlineMenu } from "react-icons/md";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,8 +10,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
 import "./ContributorNavbar.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Divider } from "@mui/material";
+import { MyContext } from "../../pages/Contributor-Home/Contributor-Dashboard/ContributorDashboard";
+import { CarContext } from "../../pages/Contributor-Home/Contributor-Image-Gallery-Dashboard/ContributorImageGalleryDashboard";
+import { ProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
+import { EditProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-EditProfile-Dashboard/ContributorEditProfileDashboard";
+import { ChangeContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-ChangePassword-Dashboard/ContributorChangePasswordDashboard";
 
 function ContributorNavbar() {
   const [user, setUser] = useState({
@@ -20,6 +27,12 @@ function ContributorNavbar() {
     email: "",
     image: "/images/unknown-person-icon-Image-from_20220304.png",
   });
+
+  const context = useContext(MyContext);
+  const carContext = useContext(CarContext);
+  const profileContex = useContext(ProfileContext);
+  const editprofileContex = useContext(EditProfileContext);
+  const changeContex = useContext(ChangeContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -98,82 +111,114 @@ function ContributorNavbar() {
   };
 
   return (
-    <header className="d-flex align-items-center">
-      <div className="container-fluid w-100">
-        <div className="row d-flex align-items-center">
-          <div className="col d-flex align-items-center">
-            <Button className="rounded-circle" id="rounded-circle">
-              <MenuOpenIcon />
-            </Button>
+    <header className="flex items-center">
+      <div className="container mx-auto w-full">
+        <div className="flex items-center w-full">
+          {/* Contributor Text */}
+          <div className="flex items-center">
+            <span className="text-lg font-bold hidden lg:block">
+              CONTRIBUTOR
+            </span>
+          </div>
 
-            <div className="ms-auto d-flex align-items-center">
-              <div className="myAcc1 ms-3">
-                <div className="userImage">
-                  <span className="rounded-circle user-icon">
-                    <img
-                      src={user.image}
-                      alt="User"
-                      className="user-image"
-                      onClick={handleImageClick}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <Menu
-                      anchorEl={anchorEl}
-                      id="account-menu"
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                      PaperProps={{
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          mt: 1.5,
-                          borderRadius: "8px", // Optional: rounded corners
-                          "& .MuiAvatar-root": {
-                            width: 31,
-                            height: 31,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                          "&::before": {
-                            content: '""',
-                            display: "block",
-                            position: "absolute",
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: "background.paper",
-                            transform: "translateY(-50%) rotate(45deg)",
-                            zIndex: 0,
-                          },
+          <div className="dropdown position-relative">
+            <Button
+              className="rounded-circle"
+              onClick={() => {
+                if (context && context.openNave) {
+                  context.openNave(); // Safe to call, context is defined
+                }
+                if (carContext && carContext.someCarFunction) {
+                  carContext.someCarFunction(); // Safe to call, carContext is defined
+                }
+
+                if (profileContex && profileContex.someProfileFunction) {
+                  profileContex.someProfileFunction(); // Safe to call, carContext is defined
+                }
+
+                if (
+                  editprofileContex &&
+                  editprofileContex.someEditProfileFunction
+                ) {
+                  editprofileContex.someEditProfileFunction(); // Safe to call, carContext is defined
+                }
+
+                if (changeContex && changeContex.someChangeFunction) {
+                  changeContex.someChangeFunction(); // Safe to call, carContext is defined
+                }
+              }}
+            >
+              <MdMenuOpen />
+            </Button>
+          </div>
+
+          {/* User Image and Menu (always visible) */}
+          <div className="w-10/12 sm:w-12/12 flex items-center justify-end ml-auto">
+            <div className="myAcc1 ml-3">
+              <div className="userImage">
+                <span className="rounded-full user-icon cursor-pointer">
+                  <img
+                    src={user.image}
+                    alt="User"
+                    className="user-image"
+                    onClick={handleImageClick}
+                  />
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    PaperProps={{
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                        mt: 1.5,
+                        borderRadius: "8px",
+                        "& .MuiAvatar-root": {
+                          width: 31,
+                          height: 31,
+                          ml: -0.5,
+                          mr: 1,
                         },
-                      }}
-                      transformOrigin={{ horizontal: "right", vertical: "top" }}
-                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                    >
-                      <div className="menu" onClick={handleClose}>
-                        <div className="avatarAcc">
-                          <img src={user.image} alt="" className="avatar" />
-                        </div>
-                        <div>
-                          <h6 className="fname">{`${user.firstname} ${user.middlename} ${user.lastname}`}</h6>
-                          <p className="email">{user.email}</p>
-                        </div>
+                        "&::before": {
+                          content: '""',
+                          display: "block",
+                          position: "absolute",
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: "background.paper",
+                          transform: "translateY(-50%) rotate(45deg)",
+                          zIndex: 0,
+                        },
+                      },
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    <div className="menu" onClick={handleClose}>
+                      <div className="avatarAcc">
+                        <img src={user.image} alt="" className="avatar" />
                       </div>
-                      <hr />
-                      <MenuItem onClick={handleProfile}>
-                        <Avatar /> Profile
-                      </MenuItem>
-                      <MenuItem onClick={handleLogout}>
-                        <ListItemIcon>
-                          <Logout fontSize="small" />
-                        </ListItemIcon>
-                        Logout
-                      </MenuItem>
-                    </Menu>
-                  </span>
-                </div>
+                      <div>
+                        <h6 className="fname">{`${user.firstname} ${user.middlename} ${user.lastname}`}</h6>
+                        <p className="email">{user.email}</p>
+                      </div>
+                    </div>
+                    <hr />
+                    <MenuItem onClick={handleProfile}>
+                      <Avatar /> Profile
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      <ListItemIcon>
+                        <Logout fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </span>
               </div>
             </div>
           </div>

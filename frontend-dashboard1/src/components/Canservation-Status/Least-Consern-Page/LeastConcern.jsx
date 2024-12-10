@@ -91,7 +91,7 @@ function LeastConcern() {
                   <td>{data.commonname}</td>
                   <td>{data.habitat}</td>
                   <td>{data.population}</td>
-                  <td>{data.locations}</td>
+                  <td>{data.location}</td>
                   <td>{data.conservationstatus}</td>
                   <td>{data.threats}</td>
                   <td>

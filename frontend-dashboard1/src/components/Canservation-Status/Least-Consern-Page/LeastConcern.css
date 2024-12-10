@@ -164,7 +164,7 @@
   
   .table-leastconcern th:nth-child(12),
   .table-leastconcern td:nth-child(12) {
-    width: 13%; /* Specific Name column width */
+    width: 100%; /* Specific Name column width */
     line-height: 1.5;
     text-align: justify;
   }

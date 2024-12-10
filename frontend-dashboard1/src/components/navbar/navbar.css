@@ -1,15 +1,13 @@
-header {
+.header {
     background: #223243;
     border-bottom: 1px solid #e0e0e0;
     padding: 0;
-    width: 170vh;
+    width: 10vh;
     height: 60px;
     align-items: center;
     position: fixed;
     margin-left: -3px;
     z-index: 500;
-
-
   }
 
 
