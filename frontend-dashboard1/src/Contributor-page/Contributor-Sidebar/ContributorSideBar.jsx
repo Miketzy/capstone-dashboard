@@ -28,7 +28,7 @@ function ContributorSideBar() {
 
   const handleGallery = () => {
     axios
-      .get("http://localhost:8080/gallery")
+      .get("https://capstone-dashboard-d30v.onrender.com/gallery")
       .then((res) => {
         if (res.data.Message === "Success") {
           navigate("/contributor-Gallery");
