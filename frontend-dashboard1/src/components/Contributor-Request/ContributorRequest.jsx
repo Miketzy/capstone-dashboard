@@ -18,7 +18,7 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/request-table");
+        const res = await axios.get("https://capstone-dashboard-d30v.onrender.com/request-table");
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);
@@ -78,7 +78,7 @@ function ContributorRequest() {
   // Handle approval action
   const handleApprove = (id) => {
     axios
-      .put(`http://localhost:8080/species/approve/${id}`)
+      .put(`https://capstone-dashboard-d30v.onrender.com/species/approve/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the approved entry from the state
@@ -93,7 +93,7 @@ function ContributorRequest() {
   // Handle disapproval action (reject)
   const handleDisapprove = (id) => {
     axios
-      .delete(`http://localhost:8080/species/reject/${id}`)
+      .delete(`https://capstone-dashboard-d30v.onrender.com/species/reject/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the rejected entry from the state
