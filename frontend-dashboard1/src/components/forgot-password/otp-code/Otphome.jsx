@@ -48,7 +48,7 @@ function Otphome() {
     setCanResend(false);
 
     axios
-      .post("https://capstone-dashboard-d30v.onrender.com/send-otp", { email })
+      .post("https://bioexplorer-backend.onrender.com/send-otp", { email })
       .then((response) => {
         setVerificationMessage("OTP has been resent to your email.");
       })
@@ -61,7 +61,7 @@ function Otphome() {
     const otpCode = otp.join("");
 
     axios
-      .post("https://capstone-dashboard-d30v.onrender.com/verify-otp", { email, otp: otpCode })
+      .post("https://bioexplorer-backend.onrender.com/verify-otp", { email, otp: otpCode })
       .then((response) => {
         if (response.data.success) {
           setVerificationMessage("OTP verified successfully!");
