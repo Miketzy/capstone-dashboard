@@ -53,7 +53,7 @@ function AddSpecies() {
     formData.append("file", file);
 
     axios
-      .post("https://capstone-dashboard-d30v.onrender.com/create", formData)
+      .post("https://bioexplorer-backend.onrender.com/create", formData)
       .then((response) => {
         setUploadStatus("Species added successfully!");
         toast.success("🦄 Species added successfully!", {
