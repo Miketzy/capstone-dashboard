@@ -14,7 +14,7 @@ function Vertebrates() {
   useEffect(() => {
     // Make sure the endpoint matches your backend route
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/getvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/getvertebrates")
       .then((res) => setVertibrates(res.data))
       .catch((err) => console.log(err));
   }, []);
