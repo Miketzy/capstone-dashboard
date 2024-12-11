@@ -29,7 +29,7 @@ function Email() {
 
     setLoading(true);
     axios
-      .post("http://localhost:8080/send-otp", { email })
+      .post("https://capstone-dashboard-d30v.onrender.com/send-otp", { email })
       .then((response) => {
         setMessage(response.data);
         navigate("/otp", { state: { email } });
