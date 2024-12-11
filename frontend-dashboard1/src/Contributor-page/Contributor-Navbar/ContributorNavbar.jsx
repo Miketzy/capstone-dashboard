@@ -54,13 +54,7 @@ function ContributorNavbar() {
 
   const fetchUserData = () => {
     axios
-<<<<<<< HEAD
-      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", {
-        withCredentials: true,
-      })
-=======
       .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", { withCredentials: true })
->>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
       .then((response) => {
         if (response.data.message === "Profile retrieved successfully") {
           setUser({
