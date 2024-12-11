@@ -20,18 +20,12 @@ function ContributorMyProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-<<<<<<< HEAD
         const res = await axios.get(
           "https://bioexplorer-backend.onrender.com/cmyprofile",
           {
             withCredentials: true,
           }
         );
-=======
-        const res = await axios.get("https://bioexplorer-backend.onrender.com/cmyprofile", {
-          withCredentials: true,
-        });
->>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         const user = res.data.user;
 
         const imageUrl = user.image

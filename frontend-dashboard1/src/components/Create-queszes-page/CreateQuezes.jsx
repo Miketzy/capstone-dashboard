@@ -28,7 +28,6 @@ function CreateQuezes() {
     }
 
     try {
-<<<<<<< HEAD
       const response = await axios.post(
         "https://bioexplorer-backend.onrender.com/api/questions",
         {
@@ -40,16 +39,6 @@ function CreateQuezes() {
           correctAnswer,
         }
       );
-=======
-      const response = await axios.post("https://bioexplorer-backend.onrender.com/api/questions", {
-        question,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-        correctAnswer,
-      });
->>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
       alert(response.data.message);
       // I-clear ang lahat ng fields
       setQuestion("");

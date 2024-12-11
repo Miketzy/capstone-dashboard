@@ -54,7 +54,9 @@ function ContributorNavbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", { withCredentials: true })
+      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.data.message === "Profile retrieved successfully") {
           setUser({
@@ -84,13 +86,9 @@ function ContributorNavbar() {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       axios
-<<<<<<< HEAD
         .get("https://bioexplorer-backend.onrender.com/logout", {
           withCredentials: true,
         })
-=======
-        .get("https://bioexplorer-backend.onrender.com/logout", { withCredentials: true })
->>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         .then((res) => {
           if (res.data.Message === "Success") {
             setUser({

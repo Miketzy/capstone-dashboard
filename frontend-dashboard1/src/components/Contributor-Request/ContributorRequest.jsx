@@ -18,13 +18,9 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-<<<<<<< HEAD
         const res = await axios.get(
           "https://bioexplorer-backend.onrender.com/request-table"
         );
-=======
-        const res = await axios.get("https://bioexplorer-backend.onrender.com/request-table");
->>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);
