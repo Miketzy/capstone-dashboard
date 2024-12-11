@@ -34,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch("http://localhost:8080/register", {
+    fetch("https://capstone-dashboard-d30v.onrender.com/register", {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
