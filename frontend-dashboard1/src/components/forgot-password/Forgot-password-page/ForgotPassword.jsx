@@ -30,7 +30,7 @@ function ForgotPassword() {
     }
 
     axios
-      .post("http://localhost:8080/reset-password", {
+      .post("https://capstone-dashboard-d30v.onrender.com/reset-password", {
         email,
         password: newPassword,
       })
