@@ -20,13 +20,13 @@ function ContributorMyProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get("https://capstone-dashboard-d30v.onrender.com/cmyprofile", {
+        const res = await axios.get("https://bioexplorer-backend.onrender.com/cmyprofile", {
           withCredentials: true,
         });
         const user = res.data.user;
 
         const imageUrl = user.image
-          ? `https://capstone-dashboard-d30v.onrender.com/uploads/avatar/${user.image}`
+          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
 
         setUserData({
