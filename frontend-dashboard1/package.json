@@ -25,19 +25,11 @@
     "recharts": "^2.12.7",
     "socket.io-client": "^4.8.0",
     "sweetalert2": "^11.14.0",
-    "web-vitals": "^2.1.4",
-    "autoprefixer": "^10.4.20",
-    "babel-loader": "^9.2.1",
-    "eslint": "^8.57.1",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^5.1.4"
-
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts start",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -58,5 +50,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
   }
 }
