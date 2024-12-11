@@ -94,7 +94,7 @@ function ContributorAddSpecies() {
     setLoading(true); // Set loading to true
 
     axios
-      .post("http://localhost:8080/species/pending", formData, {
+      .post("https://capstone-dashboard-d30v.onrender.com/species/pending", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
