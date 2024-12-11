@@ -30,7 +30,7 @@ function ForgotPassword() {
     }
 
     axios
-      .post("https://capstone-dashboard-d30v.onrender.com/reset-password", {
+      .post("https://bioexplorer-backend.onrender.com/reset-password", {
         email,
         password: newPassword,
       })
