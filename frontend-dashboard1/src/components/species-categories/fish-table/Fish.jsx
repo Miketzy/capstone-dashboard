@@ -13,7 +13,7 @@ function Fish() {
 
   useEffect(() => {
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/getFish") // Make sure this matches your backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getFish") // Make sure this matches your backend endpoint
       .then((res) => setFish(res.data))
       .catch((err) => console.log(err));
   }, []);
