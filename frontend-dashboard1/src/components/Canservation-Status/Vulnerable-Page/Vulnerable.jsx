@@ -13,7 +13,7 @@ function Vulnerable() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getVulnerable")
+      .get("https://capstone-dashboard-d30v.onrender.com/getVulnerable")
       .then((res) => setVulnerable(res.data))
       .catch((err) => console.log(err));
   }, []);
