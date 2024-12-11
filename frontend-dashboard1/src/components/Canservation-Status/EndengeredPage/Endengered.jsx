@@ -13,7 +13,7 @@ function Endengered() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getEndangered") // Ensure the URL matches your backend endpoint
+      .get("https://capstone-dashboard-d30v.onrender.com/getEndangered") // Ensure the URL matches your backend endpoint
       .then((res) => setEndengered(res.data))
       .catch((err) => console.log(err));
   }, []);
