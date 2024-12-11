@@ -11,28 +11,28 @@ function Card() {
   useEffect(() => {
     // Fetch species counts from the backend API
     axios
-      .get("http://localhost:8080/countSpecies")
+      .get("https://capstone-dashboard-d30v.onrender.com/countSpecies")
       .then((res) => setTotalSpecies(res.data.totalSpecies)) // Set total species count
       .catch((err) => {
         console.error("Error fetching total species count:", err);
       });
 
     axios
-      .get("http://localhost:8080/countmammals")
+      .get("https://capstone-dashboard-d30v.onrender.com/countmammals")
       .then((res) => setMammalsCount(res.data.count)) // Set mammals count
       .catch((err) => {
         console.error("Error fetching mammals count:", err);
       });
 
     axios
-      .get("http://localhost:8080/countbirds")
+      .get("https://capstone-dashboard-d30v.onrender.com/countbirds")
       .then((res) => setBirdsCount(res.data.count)) // Set birds count
       .catch((err) => {
         console.error("Error fetching birds count:", err);
       });
 
     axios
-      .get("http://localhost:8080/countReptiles")
+      .get("https://capstone-dashboard-d30v.onrender.com/countReptiles")
       .then((res) => setReptilesCount(res.data.count)) // Set reptiles count
       .catch((err) => {
         console.error("Error fetching reptiles count:", err);
