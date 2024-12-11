@@ -13,7 +13,7 @@ function LeastConcern() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getLeast-concerned") // Updated URL to match backend endpoint
+      .get("https://capstone-dashboard-d30v.onrender.com/getLeast-concerned") // Updated URL to match backend endpoint
       .then((res) => setLeastConcern(res.data))
       .catch((err) => console.log(err));
   }, []);
