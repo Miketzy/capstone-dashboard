@@ -28,7 +28,7 @@ const port = 8080;  // Directly set the port to 4000
 
 
 app.use(cors({
-  origin: 'https://capstone-dashboard-1.onrender.com', // Payagan ang iyong React frontend
+  origin: 'https://bio-explorer-admin.onrender.com', // Payagan ang iyong React frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
   credentials: true, // Kung gumagamit ka ng cookies o authorization headers
 }));
@@ -718,7 +718,7 @@ app.get('/listspecies', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });
@@ -1220,7 +1220,7 @@ app.get('/request-table', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });
