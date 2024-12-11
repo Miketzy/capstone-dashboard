@@ -23,7 +23,7 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("http://localhost:8080/", { withCredentials: true })
+      .get("https://capstone-dashboard-d30v.onrender.com/", { withCredentials: true })
       .then((response) => {
         if (response.data.message === "Profile retrieved successfully") {
           setUser({
@@ -32,7 +32,7 @@ function Navbar() {
             lastname: response.data.user.lastname || "",
             email: response.data.user.email || "",
             image: response.data.user.image
-              ? `http://localhost:8080/uploads/avatar/${response.data.user.image}`
+              ? `https://capstone-dashboard-d30v.onrender.com/uploads/avatar/${response.data.user.image}`
               : "/images/unknown-person-icon-Image-from_20220304.png",
           });
         } else {
@@ -52,7 +52,7 @@ function Navbar() {
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       axios
-        .get("http://localhost:8080/logout", { withCredentials: true })
+        .get("https://capstone-dashboard-d30v.onrender.com/logout", { withCredentials: true })
         .then((res) => {
           if (res.data.Message === "Success") {
             setUser({
