@@ -27,12 +27,12 @@
     "sweetalert2": "^11.14.0",
     "web-vitals": "^2.1.4"
   },
- "scripts": {
-  "start": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts start",
-  "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
-},
+  "scripts": {
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts start",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -53,7 +53,11 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
+    "eslint": "^8.57.1",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16"
+    "tailwindcss": "^3.4.16",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4"
   }
 }
