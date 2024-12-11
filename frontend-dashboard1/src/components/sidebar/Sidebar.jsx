@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { RxDashboard } from "react-icons/rx";
 import { FaAngleRight } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
-import { LuClipboardEdit } from "react-icons/lu";
+import { MdEditCalendar } from "react-icons/md";
 import { MdCategory, MdAnalytics } from "react-icons/md";
 import { GrStatusGood, GrGallery } from "react-icons/gr";
 import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
@@ -92,7 +92,7 @@ function Sidebar() {
             onClick={() => handleNavigation("/list-of-species")}
           >
             <span className="icon">
-              <LuClipboardEdit />
+              <MdEditCalendar />
             </span>
             List of Species
           </Button>

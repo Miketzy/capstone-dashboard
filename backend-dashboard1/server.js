@@ -13,6 +13,7 @@ import crypto from 'crypto'; // For OTP generation
 import http from 'http';
 import { Server as socketIo } from 'socket.io'; // Correct way to import socket.io
 
+
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,11 +37,24 @@ app.use(cors({
 
 
 
-const db = mysql2.createConnection({
+const connection  = mysql2.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'reposatory01'
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error('Database Connection Error:', err);
+    return;
+  }
+  console.log('Connected to the database');
+});
+
+// Mag-handle ng error event
+connection.on('error', (err) => {
+  console.error('Database Error:', err);
 });
 
 
@@ -138,7 +152,7 @@ app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
   // Fetch the current image from the database if no new image is uploaded
   const selectSql = `SELECT image FROM users WHERE id = ?`;
 
-  db.query(selectSql, [userId], (selectErr, selectResults) => {
+  connection.query(selectSql, [userId], (selectErr, selectResults) => {
     if (selectErr) {
       console.error('Error fetching current image:', selectErr);
       return res.status(500).json({ message: 'Server error' });
@@ -162,7 +176,7 @@ app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
     `;
 
     // Execute the update query
-    db.query(updateSql, [firstname, middlename, lastname, email, gender, phone_number, username, imageToUpdate, userId], (err, results) => {
+    connection.query(updateSql, [firstname, middlename, lastname, email, gender, phone_number, username, imageToUpdate, userId], (err, results) => {
       if (err) {
         console.error('Database update error:', err);
         return res.status(500).json({ message: 'Server error' });
@@ -180,7 +194,7 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   const sql = "SELECT * FROM users WHERE username = ?";
-  db.query(sql, [username], (err, data) => {
+  connection.query(sql, [username], (err, data) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ Message: "Server Side Error" });
@@ -342,7 +356,7 @@ app.post('/register', (req, res) => {
   }
 
   const checkUserSql = "SELECT * FROM users WHERE username = ? OR email = ?";
-  db.query(checkUserSql, [username, email], (err, results) => {
+  connection.query(checkUserSql, [username, email], (err, results) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Server error." });
@@ -361,7 +375,7 @@ app.post('/register', (req, res) => {
         INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, status, password)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
-      db.query(insertUserSql, [
+      connection.query(insertUserSql, [
         username, firstname, middlename, lastname,
         phone_number, email, gender, status, hashedPassword
       ], (err, result) => {
@@ -416,7 +430,7 @@ app.post('/password-changes', verifyUser, async (req, res) => {
   }
 
   // Retrieve the user's current password from the database using the user ID from JWT
-  db.query('SELECT password FROM users WHERE id = ?', [req.userId], async (err, results) => {
+  connection.query('SELECT password FROM users WHERE id = ?', [req.userId], async (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Database error' });
     }
@@ -438,7 +452,7 @@ app.post('/password-changes', verifyUser, async (req, res) => {
     const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 
     // Update the password in the database
-    db.query('UPDATE users SET password = ? WHERE id = ?', [hashedNewPassword, req.userId], (err) => {
+    connection.query('UPDATE users SET password = ? WHERE id = ?', [hashedNewPassword, req.userId], (err) => {
       if (err) {
         return res.status(500).json({ error: 'Error updating password' });
       }
@@ -597,7 +611,7 @@ app.get('/searchpage', (req, res) => {
 // Endpoint to fetch categories
 app.get('/categories', (req, res) => {
   const query = 'SELECT id, name FROM species_categories';
-  db.query(query, (err, results) => {
+  connection.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching categories:', err);
       return res.status(500).json({ message: 'Database error', error: err });
@@ -639,7 +653,7 @@ app.post("/create", upload.single("file"), (req, res) => {
   const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  db.query(
+  connection.query(
     query,
     [
       specificname,
@@ -682,7 +696,7 @@ app.get('/species/:categoryId', (req, res) => {
   const categoryTable = categoryTableMapping[categoryId];
   if (categoryTable) {
     const query = `SELECT * FROM ${categoryTable}`;
-    db.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
       if (err) {
         console.error(`Error fetching data from ${categoryTable}:`, err);
         return res.status(500).json({ message: 'Database error', error: err });
@@ -697,7 +711,7 @@ app.get('/species/:categoryId', (req, res) => {
 //end point to get the species table
 app.get('/listspecies', (req, res) => {
   const sql = "SELECT * FROM species";
-  db.query(sql, (err, data) => {
+  connection.query(sql, (err, data) => {
     if (err) return res.json({ Message: "Error retrieving data" });
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
@@ -712,7 +726,7 @@ app.get('/listspecies', (req, res) => {
 app.get("/getMammals", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'mammals'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching mammals data:", err);
       return res.status(500).send("Server error. Failed to fetch mammals.");
@@ -726,7 +740,7 @@ app.get("/getMammals", (req, res) => {
 app.get("/getBirds", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'birds'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching birds data:", err);
       return res.status(500).send("Server error. Failed to fetch birds.");
@@ -740,7 +754,7 @@ app.get("/getBirds", (req, res) => {
 app.get("/getReptiles", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'reptiles'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching reptiles data:", err);
       return res.status(500).send("Server error. Failed to fetch reptiles.");
@@ -754,7 +768,7 @@ app.get("/getReptiles", (req, res) => {
 app.get("/getAmphibians", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'amphibians'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching amphibians data:", err);
       return res.status(500).send("Server error. Failed to fetch amphibians.");
@@ -769,7 +783,7 @@ app.get("/getAmphibians", (req, res) => {
 app.get("/getInvertebrates", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'invertebrates'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching invertebrates data:", err);
       return res.status(500).send("Server error. Failed to fetch invertebrates.");
@@ -783,7 +797,7 @@ app.get("/getInvertebrates", (req, res) => {
 app.get("/getvertebrates", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'vertebrates'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching vertebrates data:", err);
       return res.status(500).send("Server error. Failed to fetch vertebrates.");
@@ -797,7 +811,7 @@ app.get("/getvertebrates", (req, res) => {
 app.get("/getFish", (req, res) => {
   const query = "SELECT * FROM species WHERE speciescategory = 'fish'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching fish data:", err);
       return res.status(500).send("Server error. Failed to fetch fish.");
@@ -811,7 +825,7 @@ app.get("/getFish", (req, res) => {
 app.get("/getCritically-endangered", (req, res) => {
   const query = "SELECT * FROM species WHERE conservationstatus = 'critically-endangered'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching critically endangered data:", err);
       return res.status(500).send("Server error. Failed to fetch critically endangered species.");
@@ -826,7 +840,7 @@ app.get("/getCritically-endangered", (req, res) => {
 app.get("/getEndangered", (req, res) => {
   const query = "SELECT * FROM species WHERE conservationstatus = 'endangered'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching endangered species data:", err);
       return res.status(500).send("Server error. Failed to fetch endangered species.");
@@ -840,7 +854,7 @@ app.get("/getEndangered", (req, res) => {
 app.get("/getVulnerable", (req, res) => {
   const query = "SELECT * FROM species WHERE conservationstatus = 'vulnerable'";
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching vulnerable species data:", err);  // Updated error message
       return res.status(500).send("Server error. Failed to fetch vulnerable species.");  // Updated error message
@@ -855,7 +869,7 @@ app.get("/getVulnerable", (req, res) => {
 app.get("/getNear-threatened", (req, res) => {
   const query = "SELECT * FROM species WHERE conservationstatus = 'near-threatened'";  // Correct status
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching near-threatened species data:", err);  // Updated error message
       return res.status(500).send("Server error. Failed to fetch near-threatened species.");  // Updated error message
@@ -869,7 +883,7 @@ app.get("/getNear-threatened", (req, res) => {
 app.get("/getLeast-concerned", (req, res) => {
   const query = "SELECT * FROM species WHERE conservationstatus = 'least-concern'";  // Correct status
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching least-concerned species data:", err);  // Updated error message
       return res.status(500).send("Server error. Failed to fetch least-concerned species.");  // Updated error message
@@ -883,7 +897,7 @@ app.get("/getLeast-concerned", (req, res) => {
 app.get("/countSpecies", (req, res) => {
   const query = "SELECT COUNT(*) AS totalSpecies FROM species";  // SQL query to count all species
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching total species count:", err);
       return res.status(500).send("Server error. Failed to fetch total species count.");
@@ -897,7 +911,7 @@ app.get("/countSpecies", (req, res) => {
 app.get("/countmammals", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'"; // Adjust the field name if necessary
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching mammals count:", err);
       return res.status(500).send("Server error. Failed to fetch mammals count.");
@@ -911,7 +925,7 @@ app.get("/countmammals", (req, res) => {
 app.get("/countbirds", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'"; // Adjust the field name if necessary
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching birds count:", err);
       return res.status(500).send("Server error. Failed to fetch birds count.");
@@ -925,7 +939,7 @@ app.get("/countbirds", (req, res) => {
 app.get("/countReptiles", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'"; // Adjust the field name if necessary
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching reptiles count:", err);
       return res.status(500).send("Server error. Failed to fetch reptiles count.");
@@ -939,7 +953,7 @@ app.get("/countReptiles", (req, res) => {
 app.get("/countAmphibians", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'"; // Adjust the field name if necessary
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching reptiles count:", err);
       return res.status(500).send("Server error. Failed to fetch reptiles count.");
@@ -953,7 +967,7 @@ app.get("/countAmphibians", (req, res) => {
 app.get("/countInvertebrates", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching invertebrates count:", err); // Updated error message
       return res.status(500).send("Server error. Failed to fetch invertebrates count."); // Updated error message
@@ -967,7 +981,7 @@ app.get("/countInvertebrates", (req, res) => {
 app.get("/countvertebrates", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'"; // Ensure the field name is correct
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching vertebrates count:", err); // Updated error message
       return res.status(500).send("Server error. Failed to fetch vertebrates count."); // Updated error message
@@ -982,7 +996,7 @@ app.get("/countvertebrates", (req, res) => {
 app.get("/countFish", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'"; // Ensure the field name is correct
 
-  db.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching fish count:", err); // Updated error message
       return res.status(500).send("Server error. Failed to fetch fish count."); // Updated error message
@@ -1006,7 +1020,7 @@ app.get('/speciesCounts', (req, res) => {
   ];
 
   Promise.all(queries.map(query => new Promise((resolve, reject) => {
-    db.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
       if (err) reject(err);
       resolve(results[0].count);
     });
@@ -1046,7 +1060,7 @@ app.get('/api/conservation-status-count', (req, res) => {
   const combinedQuery = queries.join(' UNION ALL ');
 
   // Execute the combined query
-  db.query(combinedQuery, (err, results) => {
+  connection.query(combinedQuery, (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
       return res.status(500).json({ message: 'Database error', error: err });
@@ -1112,7 +1126,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), (req, res) => {
     req.params.id
   ];
 
-  db.query(updateListsSpeciesQuery, updateListsSpeciesValues, (err, result) => {
+  connection.query(updateListsSpeciesQuery, updateListsSpeciesValues, (err, result) => {
     if (err) {
       console.error('Error updating species:', err);
       return res.status(500).json({ error: 'Error updating species' });
@@ -1127,7 +1141,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), (req, res) => {
 app.delete('/delete-species/:id', (req, res) => {
   const deleteSpeciesQuery = 'DELETE FROM species WHERE id = ?';
 
-  db.query(deleteSpeciesQuery, [req.params.id], (err) => {
+  connection.query(deleteSpeciesQuery, [req.params.id], (err) => {
     if (err) {
       console.error('Error deleting species:', err);
       return res.status(500).json({ error: 'Error deleting species' });
@@ -1142,7 +1156,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api/images', (req, res) => {
   const sql = 'SELECT id, commonname, uploadimage FROM species';
-  db.query(sql, (err, result) => {
+  connection.query(sql, (err, result) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to fetch images' });
     }
@@ -1180,7 +1194,7 @@ app.post('/species/pending', upload.single("file"), (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(sql, [specificname, scientificname, commonname, habitat, population, threats, location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, contributor_firstname, contributor_lastname,contributor_email],
+  connection.query(sql, [specificname, scientificname, commonname, habitat, population, threats, location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, contributor_firstname, contributor_lastname,contributor_email],
     (err, result) => {
       if (err) {
         console.error('Error adding species to pending_request:', err);
@@ -1199,7 +1213,7 @@ app.post('/species/pending', upload.single("file"), (req, res) => {
 //Endpoint of contributor Request table
 app.get('/request-table', (req, res) => {
   const sql = "SELECT * FROM pending_request";
-  db.query(sql, (err, data) => {
+  connection.query(sql, (err, data) => {
     if (err) return res.json({ Message: "Error retrieving data" });
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
@@ -1263,7 +1277,7 @@ app.put("/species/approve/:id", (req, res) => {
 
   // Fetch the pending request
   const fetchSql = "SELECT * FROM pending_request WHERE id = ?";
-  db.query(fetchSql, [speciesId], (err, result) => {
+  connection.query(fetchSql, [speciesId], (err, result) => {
     if (err || result.length === 0) {
       return res.status(404).json({ message: "Species request not found" });
     }
@@ -1277,7 +1291,7 @@ app.put("/species/approve/:id", (req, res) => {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    db.query(
+    connection.query(
       insertSql,
       [
         species.specificname,
@@ -1301,7 +1315,7 @@ app.put("/species/approve/:id", (req, res) => {
 
         // Delete from pending_request after approval
         const deleteSql = "DELETE FROM pending_request WHERE id = ?";
-        db.query(deleteSql, [speciesId], (deleteErr) => {
+        connection.query(deleteSql, [speciesId], (deleteErr) => {
           if (deleteErr) {
             console.error("Error deleting pending request with ID " + speciesId + ":", deleteErr);
             return res.status(500).json({ message: "Failed to remove from pending_request" });
@@ -1332,7 +1346,7 @@ app.put("/species/approve/:id", (req, res) => {
 app.get('/pending-request-count', (req, res) => {
   const sql = 'SELECT COUNT(*) AS count FROM pending_request';
   
-  db.query(sql, (err, result) => {
+  connection.query(sql, (err, result) => {
     if (err) {
       console.error('Error fetching pending request count:', err);
       return res.status(500).json({ message: 'Failed to fetch request count' });
@@ -1350,7 +1364,7 @@ app.delete('/species/reject/:id', (req, res) => {
   const sqlSelect = 'SELECT contributor_email, commonname FROM pending_request WHERE id = ?';
   
   // Fetch the email and common name of the contributor
-  db.query(sqlSelect, [speciesId], (err, results) => {
+  connection.query(sqlSelect, [speciesId], (err, results) => {
     if (err) {
       console.error('Error fetching contributor email and common name:', err);
       return res.status(500).json({ message: 'Failed to fetch contributor information' });
@@ -1367,7 +1381,7 @@ app.delete('/species/reject/:id', (req, res) => {
     const sqlDelete = 'DELETE FROM pending_request WHERE id = ?';
 
     // Execute the SQL query to delete the request
-    db.query(sqlDelete, [speciesId], (err, result) => {
+    connection.query(sqlDelete, [speciesId], (err, result) => {
       if (err) {
         console.error('Error rejecting species:', err);
         return res.status(500).json({ message: 'Failed to reject species' });
@@ -1480,7 +1494,7 @@ app.post('/verify-otp', (req, res) => {
 app.post('/reset-password', (req, res) => {
   const { email, password } = req.body;
 
-  db.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
+  connection.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
     if (err) {
       return res.status(500).send('Server error');
     }
@@ -1492,7 +1506,7 @@ app.post('/reset-password', (req, res) => {
           return res.status(500).send('Error hashing password');
         }
 
-        db.query('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email], (updateErr) => {
+        connection.query('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email], (updateErr) => {
           if (updateErr) {
             return res.status(500).send('Error updating password');
           }
@@ -1515,7 +1529,7 @@ app.post("/api/questions", (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(
+  connection.query(
     query,
     [question, optionA, optionB, optionC, optionD, correctAnswer],
     (err, result) => {
