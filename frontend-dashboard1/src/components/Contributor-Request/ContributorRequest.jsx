@@ -5,7 +5,8 @@ import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
 import { io } from "socket.io-client"; // Use named import
 
-const socket = io("http://localhost:3000");
+const socket = io("https://capstone-dashboard-d30v.onrender.com
+");
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests
