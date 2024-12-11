@@ -75,7 +75,7 @@ function ViewAndEditSpecies() {
 
   useEffect(() => {
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/listspecies")
+      .get("https://bioexplorer-backend.onrender.com/listspecies")
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -154,7 +154,7 @@ function ViewAndEditSpecies() {
 
     try {
       await axios.put(
-        `https://capstone-dashboard-d30v.onrender.com/listspecies/${selectedSpecies.id}`,
+        `https://bioexplorer-backend.onrender.com/listspecies/${selectedSpecies.id}`,
         formData,
         {
           headers: {
@@ -204,7 +204,7 @@ function ViewAndEditSpecies() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://capstone-dashboard-d30v.onrender.com/delete-species/${id}`);
+          await axios.delete(`https://bioexplorer-backend.onrender.com/delete-species/${id}`);
           setListspecies(listspecies.filter((item) => item.id !== id));
           Swal.fire("Species data successfully deleted! 😊"); // Success message with emoji
         } catch (error) {
