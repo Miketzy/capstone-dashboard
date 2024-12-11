@@ -30,12 +30,12 @@ function ContributorEditProfile({ onUpdateProfile }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/myprofile", {
+        const res = await axios.get("https://capstone-dashboard-d30v.onrender.com/myprofile", {
           withCredentials: true,
         });
         const user = res.data.user;
         const imageUrl = user.image
-          ? `http://localhost:8080/uploads/avatar/${user.image}`
+          ? `https://capstone-dashboard-d30v.onrender.com/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
         setUserData({
           ...userData,
@@ -81,7 +81,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
     }
 
     try {
-      const res = await axios.put("http://localhost:8080/profile", formData, {
+      const res = await axios.put("https://capstone-dashboard-d30v.onrender.com/profile", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
