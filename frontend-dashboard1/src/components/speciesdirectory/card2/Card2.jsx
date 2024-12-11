@@ -11,13 +11,13 @@ function Card2() {
   useEffect(() => {
     // Fetch amphibians count
     axios
-      .get("http://localhost:8080/countAmphibians")
+      .get("https://bioexplorer-backend.onrender.com/countAmphibians")
       .then((res) => setAmphibiansCount(res.data.count))
       .catch((err) => console.error("Error fetching amphibians count:", err));
 
     // Fetch invertebrates count
     axios
-      .get("http://localhost:8080/countInvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/countInvertebrates")
       .then((res) => setInvertebratesCount(res.data.count))
       .catch((err) =>
         console.error("Error fetching invertebrates count:", err)
@@ -25,7 +25,7 @@ function Card2() {
 
     // Fetch invertebrates count
     axios
-      .get("http://localhost:8080/countvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/countvertebrates")
       .then((res) => setVertebratesCount(res.data.count))
       .catch((err) =>
         console.error("Error fetching invertebrates count:", err)
@@ -33,7 +33,7 @@ function Card2() {
 
     // Fetch fish count
     axios
-      .get("http://localhost:8080/countFish")
+      .get("https://bioexplorer-backend.onrender.com/countFish")
       .then((res) => setFishCount(res.data.count))
       .catch((err) => console.error("Error fetching fish count:", err));
   }, []);

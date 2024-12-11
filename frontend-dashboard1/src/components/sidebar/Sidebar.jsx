@@ -32,7 +32,7 @@ function Sidebar() {
     const fetchRequestCount = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/pending-request-count"
+          "https://bioexplorer-backend.onrender.com/pending-request-count"
         );
         setRequestCount(response.data.count);
       } catch (error) {

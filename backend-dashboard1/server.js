@@ -28,7 +28,7 @@ const port = 8080;  // Directly set the port to 4000
 
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Payagan ang iyong React frontend
+  origin: 'https://bio-explorer-admin.onrender.com', // Payagan ang iyong React frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
   credentials: true, // Kung gumagamit ka ng cookies o authorization headers
 }));

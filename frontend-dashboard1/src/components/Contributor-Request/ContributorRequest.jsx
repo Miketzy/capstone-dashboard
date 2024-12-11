@@ -5,7 +5,7 @@ import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
 import { io } from "socket.io-client"; // Use named import
 
-const socket = io("http://localhost:3000");
+const socket = io("https://bio-explorer-admin.onrender.com");
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests
@@ -18,7 +18,9 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/request-table");
+        const res = await axios.get(
+          "https://bioexplorer-backend.onrender.com/request-table"
+        );
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);

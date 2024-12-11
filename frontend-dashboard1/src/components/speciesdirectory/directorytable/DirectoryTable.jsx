@@ -10,7 +10,7 @@ function DirectoryTable() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/listspecies")
+      .get("https://bioexplorer-backend.onrender.com/listspecies")
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);

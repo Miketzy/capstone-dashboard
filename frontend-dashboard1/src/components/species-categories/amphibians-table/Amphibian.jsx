@@ -13,7 +13,7 @@ function Amphibian() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getAmphibians") // Updated endpoint URL
+      .get("https://bioexplorer-backend.onrender.com/getAmphibians") // Updated endpoint URL
       .then((res) => setAmphibians(res.data))
       .catch((err) => console.log(err));
   }, []);
