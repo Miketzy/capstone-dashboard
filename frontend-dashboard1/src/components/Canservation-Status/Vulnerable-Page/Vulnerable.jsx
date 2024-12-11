@@ -13,7 +13,7 @@ function Vulnerable() {
 
   useEffect(() => {
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/getVulnerable")
+      .get("https://bioexplorer-backend.onrender.com/getVulnerable")
       .then((res) => setVulnerable(res.data))
       .catch((err) => console.log(err));
   }, []);
