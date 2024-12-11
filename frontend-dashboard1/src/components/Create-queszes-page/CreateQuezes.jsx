@@ -28,7 +28,7 @@ function CreateQuezes() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/questions", {
+      const response = await axios.post("https://capstone-dashboard-d30v.onrender.com/api/questions", {
         question,
         optionA,
         optionB,
