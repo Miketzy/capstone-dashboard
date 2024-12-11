@@ -21,7 +21,7 @@ function MyProfile() {
     // Fetch user data from backend
     const fetchUserData = async () => {
       try {
-        const res = await axios.get("https://capstone-dashboard-d30v.onrender.com/myprofile", {
+        const res = await axios.get("https://bioexplorer-backend.onrender.com/myprofile", {
           withCredentials: true,
         });
         console.log("Fetched profile data:", res.data); // Log response
@@ -30,7 +30,7 @@ function MyProfile() {
         const user = res.data.user; // Get user object from response
 
         const imageUrl = user.image
-          ? `https://capstone-dashboard-d30v.onrender.com/uploads/avatar/${user.image}`
+          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png"; // Default image
 
         setUserData({
