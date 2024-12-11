@@ -28,7 +28,7 @@ function ContributorSideBar() {
 
   const handleGallery = () => {
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/gallery")
+      .get("https://bioexplorer-backend.onrender.com/gallery")
       .then((res) => {
         if (res.data.Message === "Success") {
           navigate("/contributor-Gallery");
