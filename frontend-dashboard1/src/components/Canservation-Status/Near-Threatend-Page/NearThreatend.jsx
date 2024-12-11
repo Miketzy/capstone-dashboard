@@ -13,7 +13,7 @@ function NearThreatend() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getNear-threatened") // Ensure this URL matches the backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getNear-threatened") // Ensure this URL matches the backend endpoint
       .then((res) => setNearthreatend(res.data))
       .catch((err) => console.log(err));
   }, []);

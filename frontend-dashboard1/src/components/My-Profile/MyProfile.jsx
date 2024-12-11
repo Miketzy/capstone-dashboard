@@ -21,12 +21,18 @@ function MyProfile() {
     // Fetch user data from backend
     const fetchUserData = async () => {
       try {
+<<<<<<< HEAD
         const res = await axios.get(
           "https://bioexplorer-backend.onrender.com/myprofile",
           {
             withCredentials: true,
           }
         );
+=======
+        const res = await axios.get("https://bioexplorer-backend.onrender.com/myprofile", {
+          withCredentials: true,
+        });
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         console.log("Fetched profile data:", res.data); // Log response
 
         // Access the user data from the response

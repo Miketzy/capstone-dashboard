@@ -30,12 +30,18 @@ function ContributorEditProfile({ onUpdateProfile }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+<<<<<<< HEAD
         const res = await axios.get(
           "https://bioexplorer-backend.onrender.com/myprofile",
           {
             withCredentials: true,
           }
         );
+=======
+        const res = await axios.get("https://bioexplorer-backend.onrender.com/myprofile", {
+          withCredentials: true,
+        });
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         const user = res.data.user;
         const imageUrl = user.image
           ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
@@ -84,6 +90,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
     }
 
     try {
+<<<<<<< HEAD
       const res = await axios.put(
         "https://bioexplorer-backend.onrender.com/profile",
         formData,
@@ -94,6 +101,14 @@ function ContributorEditProfile({ onUpdateProfile }) {
           },
         }
       );
+=======
+      const res = await axios.put("https://bioexplorer-backend.onrender.com/profile", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
 
       if (res.status === 200) {
         alert("Profile updated successfully");

@@ -13,7 +13,7 @@ function Reptile() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getReptiles") // Updated endpoint
+      .get("https://bioexplorer-backend.onrender.com/getReptiles") // Updated endpoint
       .then((res) => setReptiles(res.data))
       .catch((err) => console.log(err));
   }, []);

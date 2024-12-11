@@ -61,10 +61,14 @@ function Otphome() {
     const otpCode = otp.join("");
 
     axios
+<<<<<<< HEAD
       .post("https://bioexplorer-backend.onrender.com/verify-otp", {
         email,
         otp: otpCode,
       })
+=======
+      .post("https://bioexplorer-backend.onrender.com/verify-otp", { email, otp: otpCode })
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
       .then((response) => {
         if (response.data.success) {
           setVerificationMessage("OTP verified successfully!");

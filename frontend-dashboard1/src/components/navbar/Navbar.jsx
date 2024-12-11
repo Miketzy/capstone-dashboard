@@ -23,9 +23,13 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
+<<<<<<< HEAD
       .get("https://bioexplorer-backend.onrender.com/", {
         withCredentials: true,
       })
+=======
+      .get("https://bioexplorer-backend.onrender.com/", { withCredentials: true })
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
       .then((response) => {
         if (response.data.message === "Profile retrieved successfully") {
           setUser({
@@ -54,9 +58,13 @@ function Navbar() {
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       axios
+<<<<<<< HEAD
         .get("https://bioexplorer-backend.onrender.com/logout", {
           withCredentials: true,
         })
+=======
+        .get("https://bioexplorer-backend.onrender.com/logout", { withCredentials: true })
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
         .then((res) => {
           if (res.data.Message === "Success") {
             setUser({

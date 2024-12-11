@@ -204,9 +204,13 @@ function ViewAndEditSpecies() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+<<<<<<< HEAD
           await axios.delete(
             `https://bioexplorer-backend.onrender.com/delete-species/${id}`
           );
+=======
+          await axios.delete(`https://bioexplorer-backend.onrender.com/delete-species/${id}`);
+>>>>>>> ced5b177871c90ee37b0c0234dcd0ea69b00c8a5
           setListspecies(listspecies.filter((item) => item.id !== id));
           Swal.fire("Species data successfully deleted! 😊"); // Success message with emoji
         } catch (error) {
