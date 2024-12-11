@@ -23,7 +23,7 @@ function ContributorChangepass() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/password-changes",
+        "https://capstone-dashboard-d30v.onrender.com/password-changes",
         {
           currentPassword,
           newPassword,
