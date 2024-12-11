@@ -20,7 +20,7 @@ function Directorypie() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/conservation-status-count"
+          "https://capstone-dashboard-d30v.onrender.com/api/conservation-status-count"
         );
         const formattedData = response.data.map((item) => ({
           name: item.conservationstatus,
