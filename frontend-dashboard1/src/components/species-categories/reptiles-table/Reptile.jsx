@@ -13,7 +13,7 @@ function Reptile() {
 
   useEffect(() => {
     axios
-      .get("https://capstone-dashboard-d30v.onrender.com/getReptiles") // Updated endpoint
+      .get("https://bioexplorer-backend.onrender.com/getReptiles") // Updated endpoint
       .then((res) => setReptiles(res.data))
       .catch((err) => console.log(err));
   }, []);
