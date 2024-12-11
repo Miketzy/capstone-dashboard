@@ -5,10 +5,9 @@ import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken'
 import path from 'path';
 import multer from 'multer';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import twilio from "twilio";
 import nodemailer from "nodemailer";
 import crypto from 'crypto'; // For OTP generation
 import http from 'http';
