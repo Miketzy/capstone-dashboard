@@ -7,7 +7,7 @@ function ImageGallery() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/images")
+      .get("https://capstone-dashboard-d30v.onrender.com/api/images")
       .then((response) => {
         const sortedImages = response.data.sort((a, b) =>
           a.commonname.localeCompare(b.commonname)
