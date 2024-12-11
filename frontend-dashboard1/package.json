@@ -53,7 +53,12 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
+<<<<<<< HEAD
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.4.16"
+=======
+    "tailwindcss": "^3.4.16",
+     "react-scripts": "^5.0.0"
+>>>>>>> f3377b32ac01dd72105c488204cbc84be8a6b4d6
   }
 }
