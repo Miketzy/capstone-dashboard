@@ -5,7 +5,7 @@ import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
 import { io } from "socket.io-client"; // Use named import
 
-const socket = io("https://bioexplorer-backend.onrender.com");
+const socket = io("https://bio-explorer-admin.onrender.com");
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests
@@ -18,7 +18,7 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("https://capstone-dashboard-d30v.onrender.com/request-table");
+        const res = await axios.get("https://bioexplorer-backend.onrender.com/request-table");
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);
@@ -78,7 +78,7 @@ function ContributorRequest() {
   // Handle approval action
   const handleApprove = (id) => {
     axios
-      .put(`https://capstone-dashboard-d30v.onrender.com/species/approve/${id}`)
+      .put(`https://bioexplorer-backend.onrender.com/species/approve/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the approved entry from the state
@@ -93,7 +93,7 @@ function ContributorRequest() {
   // Handle disapproval action (reject)
   const handleDisapprove = (id) => {
     axios
-      .delete(`https://capstone-dashboard-d30v.onrender.com/species/reject/${id}`)
+      .delete(`https://bioexplorer-backend.onrender.com/species/reject/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the rejected entry from the state
