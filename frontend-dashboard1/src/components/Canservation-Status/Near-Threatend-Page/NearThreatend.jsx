@@ -13,7 +13,7 @@ function NearThreatend() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/getNear-threatened") // Ensure this URL matches the backend endpoint
+      .get("https://capstone-dashboard-d30v.onrender.com/getNear-threatened") // Ensure this URL matches the backend endpoint
       .then((res) => setNearthreatend(res.data))
       .catch((err) => console.log(err));
   }, []);
