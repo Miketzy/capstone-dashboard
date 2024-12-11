@@ -718,7 +718,7 @@ app.get('/listspecies', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });
@@ -1220,7 +1220,7 @@ app.get('/request-table', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });
