@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/login", values);
+      const response = await axios.post("https://capstone-dashboard-d30v.onrender.com/login", values);
       if (response.data) {
         alert("Login successful!");
         localStorage.setItem("token", response.data.token);
