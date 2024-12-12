@@ -34,7 +34,7 @@ app.use(cors({
 
 
 const connection = mysql2.createConnection({
-  host: ' sql5.freemysqlhosting.net',    // The server address
+  host: ' sql5.freesqldatabase.com',    // The server address
   user: 'sql5751289',                   // Your username
   password: 'QpWkamYpQC',               // Your password
   database: 'sql5751289',               // Your database name
