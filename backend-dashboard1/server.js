@@ -38,7 +38,7 @@ app.get('*', (req, res) => {
 
 // Enable CORS to allow requests from specific origins
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://bio-explorer-client.onrender.com'], // Adjust origins as needed
+  origin: "*", // Adjust origins as needed
   methods: ['GET', 'POST'],
   credentials: true
 }));
