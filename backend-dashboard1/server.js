@@ -28,7 +28,7 @@ app.use(express.json());
 // Enable CORS to allow requests from specific origins
 app.use(cors({
   origin: "https://bio-explorer-admin.onrender.com", // Adjust origins as needed
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow additional methods if necessary
+   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow additional methods if necessary
   credentials: true
 }));
 
