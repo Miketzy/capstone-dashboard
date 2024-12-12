@@ -1241,7 +1241,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with additional CORS settings
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:3000', 'https://bio-explorer-client.onrender.com'], // Same allowed origins
+    origin: "*", // Same allowed origins
     methods: ['GET', 'POST'],
     credentials: true
   }
