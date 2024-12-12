@@ -14,7 +14,7 @@ function Birds() {
   // Fetch birds data from the backend
   useEffect(() => {
     axios
-      .get("/getBirds") // Ensure this URL matches the backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getBirds") // Ensure this URL matches the backend endpoint
       .then((response) => setBirds(response.data))
       .catch((error) => console.error("Error fetching birds:", error));
   }, []);
@@ -44,11 +44,6 @@ function Birds() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredBirds.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="birds">
       <div className="search-container">

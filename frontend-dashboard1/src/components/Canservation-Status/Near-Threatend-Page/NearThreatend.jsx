@@ -13,7 +13,7 @@ function NearThreatend() {
 
   useEffect(() => {
     axios
-      .get("/getNear-threatened") // Ensure this URL matches the backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getNear-threatened") // Ensure this URL matches the backend endpoint
       .then((res) => setNearthreatend(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -46,11 +46,6 @@ function NearThreatend() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredNearthreatend.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="nearthreatend-page">
       <div className="search-container">

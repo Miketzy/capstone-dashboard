@@ -13,7 +13,7 @@ function Fish() {
 
   useEffect(() => {
     axios
-      .get("/getFish") // Make sure this matches your backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getFish") // Make sure this matches your backend endpoint
       .then((res) => setFish(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -43,11 +43,6 @@ function Fish() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredFish.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="fish">
       <div className="search-container">

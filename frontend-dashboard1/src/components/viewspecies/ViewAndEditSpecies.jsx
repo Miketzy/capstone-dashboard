@@ -75,7 +75,7 @@ function ViewAndEditSpecies() {
 
   useEffect(() => {
     axios
-      .get("/listspecies")
+      .get("https://bioexplorer-backend.onrender.com/listspecies")
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -153,11 +153,15 @@ function ViewAndEditSpecies() {
     }
 
     try {
-      await axios.put(`/listspecies/${selectedSpecies.id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://bioexplorer-backend.onrender.com/listspecies/${selectedSpecies.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       toast.success("🦄 Species updated successfully!", {
         position: "top-center",
         autoClose: 5000,
@@ -200,7 +204,9 @@ function ViewAndEditSpecies() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`/delete-species/${id}`);
+          await axios.delete(
+            `https://bioexplorer-backend.onrender.com/delete-species/${id}`
+          );
           setListspecies(listspecies.filter((item) => item.id !== id));
           Swal.fire("Species data successfully deleted! 😊"); // Success message with emoji
         } catch (error) {

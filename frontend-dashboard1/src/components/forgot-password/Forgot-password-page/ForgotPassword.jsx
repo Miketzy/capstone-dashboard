@@ -30,7 +30,7 @@ function ForgotPassword() {
     }
 
     axios
-      .post("/reset-password", {
+      .post("https://bioexplorer-backend.onrender.com/reset-password", {
         email,
         password: newPassword,
       })

@@ -13,7 +13,7 @@ function Mammal() {
 
   useEffect(() => {
     axios
-      .get("/getMammals") // Make sure backend is running on port 8080
+      .get("https://bioexplorer-backend.onrender.com/getMammals") // Make sure backend is running on port 8080
       .then((response) => {
         setMammals(response.data); // Populate mammals data
       })
@@ -47,11 +47,6 @@ function Mammal() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredMammals.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="mammals">
       <div className="search-container">

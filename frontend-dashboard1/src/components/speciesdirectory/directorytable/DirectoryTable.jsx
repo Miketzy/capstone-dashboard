@@ -10,7 +10,7 @@ function DirectoryTable() {
 
   useEffect(() => {
     axios
-      .get("/listspecies")
+      .get("https://bioexplorer-backend.onrender.com/listspecies")
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -27,12 +27,6 @@ function DirectoryTable() {
 
   // Calculate total pages
   const totalPages = Math.ceil(listspecies.length / itemsPerPage);
-
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
 
   return (
     <>

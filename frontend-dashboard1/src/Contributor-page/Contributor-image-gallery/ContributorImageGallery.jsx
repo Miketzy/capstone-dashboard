@@ -8,7 +8,7 @@ function ContributorImageGallery() {
 
   useEffect(() => {
     axios
-      .get("/api/images")
+      .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
         console.log("Fetched images:", response.data);
 

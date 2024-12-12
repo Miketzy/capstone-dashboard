@@ -14,7 +14,7 @@ function Vertebrates() {
   useEffect(() => {
     // Make sure the endpoint matches your backend route
     axios
-      .get("/getvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/getvertebrates")
       .then((res) => setVertibrates(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -47,11 +47,6 @@ function Vertebrates() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredVertebrates.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="vertebrates">
       <div className="search-container">

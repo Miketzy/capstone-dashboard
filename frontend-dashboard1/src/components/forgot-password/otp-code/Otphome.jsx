@@ -61,7 +61,7 @@ function Otphome() {
     const otpCode = otp.join("");
 
     axios
-      .post("/verify-otp", {
+      .post("https://bioexplorer-backend.onrender.com/verify-otp", {
         email,
         otp: otpCode,
       })

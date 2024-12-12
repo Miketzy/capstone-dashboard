@@ -13,7 +13,7 @@ function Endengered() {
 
   useEffect(() => {
     axios
-      .get("/getEndangered") // Ensure the URL matches your backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getEndangered") // Ensure the URL matches your backend endpoint
       .then((res) => setEndengered(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -45,11 +45,7 @@ function Endengered() {
 
   // Calculate total pages
   const totalPages = Math.ceil(filteredEndengered.length / itemsPerPage);
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
+
   return (
     <div className="endengered-page">
       <div className="search-container">

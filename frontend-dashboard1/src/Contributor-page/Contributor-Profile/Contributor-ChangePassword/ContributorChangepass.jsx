@@ -23,7 +23,7 @@ function ContributorChangepass() {
 
     try {
       const response = await axios.post(
-        "/password-changes",
+        "https://bioexplorer-backend.onrender.com/password-changes",
         {
           currentPassword,
           newPassword,

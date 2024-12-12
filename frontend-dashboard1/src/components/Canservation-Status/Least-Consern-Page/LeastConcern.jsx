@@ -13,7 +13,7 @@ function LeastConcern() {
 
   useEffect(() => {
     axios
-      .get("/getLeast-concerned") // Updated URL to match backend endpoint
+      .get("https://bioexplorer-backend.onrender.com/getLeast-concerned") // Updated URL to match backend endpoint
       .then((res) => setLeastConcern(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -46,11 +46,6 @@ function LeastConcern() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredLeastConcern.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="leastconcern-page">
       <div className="search-container">

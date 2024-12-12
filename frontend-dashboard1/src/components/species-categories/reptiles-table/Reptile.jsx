@@ -13,7 +13,7 @@ function Reptile() {
 
   useEffect(() => {
     axios
-      .get("/getReptiles") // Updated endpoint
+      .get("https://bioexplorer-backend.onrender.com/getReptiles") // Updated endpoint
       .then((res) => setReptiles(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -46,11 +46,6 @@ function Reptile() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredReptiles.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="reptile">
       <div className="search-container">

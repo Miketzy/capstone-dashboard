@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import { MdMenuOpen } from "react-icons/md";
-import { MdOutlineMenu } from "react-icons/md";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,9 +9,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
 import "./ContributorNavbar.css";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { Divider } from "@mui/material";
 import { MyContext } from "../../pages/Contributor-Home/Contributor-Dashboard/ContributorDashboard";
 import { CarContext } from "../../pages/Contributor-Home/Contributor-Image-Gallery-Dashboard/ContributorImageGalleryDashboard";
 import { ProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
@@ -35,26 +31,14 @@ function ContributorNavbar() {
   const changeContex = useContext(ChangeContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const navigate = useNavigate();
 
   const handleImageClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleNotificationClick = (event) => {
-    setNotificationAnchorEl(event.currentTarget);
-    setIsNotificationOpen(true);
-  };
-
-  const handleNotificationClose = () => {
-    setIsNotificationOpen(false);
-    setNotificationAnchorEl(null);
-  };
-
   const fetchUserData = () => {
     axios
-      .get("/contrbutornavbar", {
+      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", {
         withCredentials: true,
       })
       .then((response) => {
@@ -65,7 +49,7 @@ function ContributorNavbar() {
             lastname: response.data.user.lastname || "",
             email: response.data.user.email || "",
             image: response.data.user.image
-              ? `/uploads/avatar/${response.data.user.image}`
+              ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${response.data.user.image}`
               : "/images/unknown-person-icon-Image-from_20220304.png",
           });
         } else {
@@ -86,7 +70,7 @@ function ContributorNavbar() {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       axios
-        .get("/logout", {
+        .get("https://bioexplorer-backend.onrender.com/logout", {
           withCredentials: true,
         })
         .then((res) => {

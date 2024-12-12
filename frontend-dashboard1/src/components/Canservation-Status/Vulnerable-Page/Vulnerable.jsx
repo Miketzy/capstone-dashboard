@@ -13,7 +13,7 @@ function Vulnerable() {
 
   useEffect(() => {
     axios
-      .get("/getVulnerable")
+      .get("https://bioexplorer-backend.onrender.com/getVulnerable")
       .then((res) => setVulnerable(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -46,11 +46,6 @@ function Vulnerable() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredVulnerable.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="vulnerable-page">
       <div className="search-container">

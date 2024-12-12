@@ -16,7 +16,10 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/login", values);
+      const response = await axios.post(
+        "https://bioexplorer-backend.onrender.com/login",
+        values
+      );
       if (response.data) {
         alert("Login successful!");
         localStorage.setItem("token", response.data.token);

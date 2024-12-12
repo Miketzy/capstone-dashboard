@@ -13,7 +13,7 @@ function CriticalEndengeredPage() {
 
   useEffect(() => {
     axios
-      .get("/getCritically-endangered")
+      .get("https://bioexplorer-backend.onrender.com/getCritically-endangered")
       .then((res) => setCritically(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -45,11 +45,7 @@ function CriticalEndengeredPage() {
 
   // Calculate total pages
   const totalPages = Math.ceil(filteredCritically.length / itemsPerPage);
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
+
   return (
     <div className="critical-endengered-page">
       <div className="search-container">

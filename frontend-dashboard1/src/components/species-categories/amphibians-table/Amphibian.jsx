@@ -13,7 +13,7 @@ function Amphibian() {
 
   useEffect(() => {
     axios
-      .get("/getAmphibians") // Updated endpoint URL
+      .get("https://bioexplorer-backend.onrender.com/getAmphibians") // Updated endpoint URL
       .then((res) => setAmphibians(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -44,11 +44,6 @@ function Amphibian() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredAmphibians.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0];
-  };
   return (
     <div className="amphibians">
       <div className="search-container">

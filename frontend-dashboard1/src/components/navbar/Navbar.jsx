@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Menu, MenuItem, Avatar, ListItemIcon } from "@mui/material";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { Menu, MenuItem, Avatar, ListItemIcon } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import SearchBox from "../searchbar/Searchbox";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("/", {
+      .get("https://bioexplorer-backend.onrender.com/", {
         withCredentials: true,
       })
       .then((response) => {
@@ -34,7 +33,7 @@ function Navbar() {
             lastname: response.data.user.lastname || "",
             email: response.data.user.email || "",
             image: response.data.user.image
-              ? `/uploads/avatar/${response.data.user.image}`
+              ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${response.data.user.image}`
               : "/images/unknown-person-icon-Image-from_20220304.png",
           });
         } else {
@@ -54,7 +53,7 @@ function Navbar() {
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       axios
-        .get("/logout", {
+        .get("https://bioexplorer-backend.onrender.com/logout", {
           withCredentials: true,
         })
         .then((res) => {

@@ -13,7 +13,7 @@ function Invertebrate() {
 
   useEffect(() => {
     axios
-      .get("/getInvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/getInvertebrates")
       .then((res) => setInvertebrates(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -46,11 +46,6 @@ function Invertebrate() {
   // Calculate total pages
   const totalPages = Math.ceil(filteredInvertebrates.length / itemsPerPage);
 
-  // Extract date part from ISO string
-  const getDateOnly = (isoDate) => {
-    if (!isoDate) return "";
-    return isoDate.split("T")[0]; // Split at 'T' and take the first part
-  };
   return (
     <div className="invertebrates">
       <div className="search-container">

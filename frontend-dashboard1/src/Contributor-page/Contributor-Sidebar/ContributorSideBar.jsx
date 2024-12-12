@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
 import { IoMdAddCircle } from "react-icons/io";
 import { GrGallery } from "react-icons/gr";
-import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./ContributorSideBar.css";
@@ -12,10 +11,6 @@ function ContributorSideBar() {
   const [activeTab, setActiveTab] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const isOpenSubmenu = (tab) => {
-    setActiveTab(activeTab === tab ? null : tab);
-  };
 
   useEffect(() => {
     setActiveTab(location.pathname); // Update activeTab on path change
@@ -28,7 +23,7 @@ function ContributorSideBar() {
 
   const handleGallery = () => {
     axios
-      .get("/gallery")
+      .get("https://bioexplorer-backend.onrender.com/gallery")
       .then((res) => {
         if (res.data.Message === "Success") {
           navigate("/contributor-Gallery");
