@@ -25,6 +25,24 @@ app.use(express.json());
 
 const port = 8080;  // Directly set the port to 4000
 
+// Assuming the backend and frontend folders are at the same level
+const buildPath = path.join(__dirname, '../frontend-dashboard1/build');
+
+// Serve static files from the 'build' directory
+app.use(express.static(buildPath));
+
+// Handle all other requests and send index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
+
+// Enable CORS to allow requests from specific origins
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://bio-explorer-client.onrender.com'], // Adjust origins as needed
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 
 const connection = mysql2.createConnection({
   host: 'sql5.freemysqlhosting.net',    // The server address
@@ -47,22 +65,6 @@ connection.on('error', (err) => {
   console.error('Database Error:', err);
 });
 
-// Assuming the backend and frontend folders are at the same level
-const buildPath = path.join(__dirname, '../frontend-dashboard1/build');
-
-// Serve static files from the 'build' directory
-app.use(express.static(buildPath));
-
-// Handle all other requests and send index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
-
-app.use(cors({
-  origin: 'https://bio-explorer-admin.onrender.com', // Payagan ang iyong React frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
-  credentials: true, // Kung gumagamit ka ng cookies o authorization headers
-}));
 
 
 // Make sure to use cookieParser before any route handling
@@ -1236,13 +1238,14 @@ app.get('/request-table', (req, res) => {
 //Create an HTTP server
 const server = http.createServer(app);
 
+// Initialize Socket.IO with additional CORS settings
 const io = new Server(server, {
   cors: {
-    origin: 'https://bio-explorer-admin.onrender.com', // Update as needed
+    origin: ['http://localhost:3000', 'https://bio-explorer-client.onrender.com'], // Same allowed origins
     methods: ['GET', 'POST'],
-  },
+    credentials: true
+  }
 });
-
 
 
 // Nodemailer configuration
