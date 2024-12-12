@@ -47,12 +47,15 @@ connection.on('error', (err) => {
   console.error('Database Error:', err);
 });
 
-// Serve static files (React app)
-app.use(express.static(path.join(__dirname, 'frontend-dashboard1', 'build')));
+// Assuming the backend and frontend folders are at the same level
+const buildPath = path.join(__dirname, '../frontend-dashboard1/build');
+
+// Serve static files from the 'build' directory
+app.use(express.static(buildPath));
 
 // Handle all other requests and send index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend-dashboard1', 'build', 'index.html'));
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
 app.use(cors({
