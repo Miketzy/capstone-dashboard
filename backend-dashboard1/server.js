@@ -41,12 +41,9 @@ const connection = mysql2.createConnection({
   port: 3306,                           // Default MySQL port
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Database Connection Error:', err);
-    return;
-  }
-  console.log('Connected to the database');
+connection.connect(err => {
+  if (err) console.error("Database connection error:", err);
+  else console.log("Connected to database");
 });
 
 // Mag-handle ng error event
