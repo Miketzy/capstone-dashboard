@@ -22,14 +22,17 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/user", {
+      .get("https://bioexplorer-backend.onrender.com/navUser", {
         withCredentials: true,
       })
       .then((response) => {
+        console.log("Response data:", response.data); // Log the response for debugging
+
         if (response.data.message === "Profile retrieved successfully") {
           const user = response.data.user;
 
           if (user) {
+            console.log("User data:", user); // Log user data
             setUser({
               firstname: user.firstname || "",
               middlename: user.middlename || "",
@@ -47,7 +50,10 @@ function Navbar() {
         }
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        console.error(
+          "Error fetching user data:",
+          error.response || error.message || error
+        );
         alert("An error occurred while fetching user data. Please try again.");
       });
   };
