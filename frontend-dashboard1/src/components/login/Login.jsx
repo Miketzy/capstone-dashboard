@@ -18,15 +18,19 @@ function Login() {
     try {
       const response = await axios.post(
         "https://bioexplorer-backend.onrender.com/login",
-        values
+        values,
+        { withCredentials: true }
       );
+
       if (response.data) {
         alert("Login successful!");
-        localStorage.setItem("token", response.data.token);
+
+        // Store user info for easy access
         localStorage.setItem("contributor_firstname", response.data.firstname);
         localStorage.setItem("contributor_lastname", response.data.lastname);
         localStorage.setItem("contributor_email", response.data.email);
 
+        // Navigate based on user status
         if (response.data.status === "admin") {
           navigate("/species-directory");
         } else if (response.data.status === "contributor") {
