@@ -64,7 +64,7 @@ function ContributorImageGallery() {
               className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
             >
               <img
-                src={`http://localhost:8080/uploads/images/${image.uploadimage}`}
+                src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
                 alt={image.commonname}
                 className="w-full h-40  rounded-lg"
                 onError={(e) => {
