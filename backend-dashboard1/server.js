@@ -25,25 +25,12 @@ app.use(express.json());
 
 
 
-const cors = require('cors');
-
-const allowedOrigins = [
-  "https://bio-explorer-admin.onrender.com"
-];
-
+// Enable CORS to allow requests from specific origins
 app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (e.g., mobile apps or Postman)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      return callback(null, true);
-    }
-    // Reject requests from unknown origins
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: "https://bio-explorer-admin.onrender.com", // Adjust origins as needed
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow additional methods if necessary
-  credentials: true // Enable cookies if needed
+  credentials: true
 }));
-
 
 
 const connection = mysql2.createConnection({
