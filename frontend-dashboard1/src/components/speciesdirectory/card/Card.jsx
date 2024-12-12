@@ -9,11 +9,10 @@ function Card() {
   const [reptilesCount, setReptilesCount] = useState(0);
 
   useEffect(() => {
-    // Fetch species counts from the backend API
+    // Fetch total species count
     axios
       .get("https://bioexplorer-backend.onrender.com/countSpecies")
       .then((res) => {
-        console.log("Total Species:", res.data.totalSpecies); // Log the total species count
         setTotalSpecies(res.data.totalSpecies);
       })
       .catch((err) => {

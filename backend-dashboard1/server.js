@@ -886,15 +886,14 @@ app.get("/getLeast-concerned", (req, res) => {
   });
 });
 
-// Endpoint to get the total count of all species
+// Endpoint to get the count of all species
 app.get("/countSpecies", (req, res) => {
-  const query = "SELECT COUNT(*) AS totalSpecies FROM species";  // SQL query to count all species
+  const query = "SELECT COUNT(*) AS totalSpecies FROM species";
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching total species count:", err);
       return res.status(500).send("Server error. Failed to fetch total species count.");
     }
-     // Send back the total count
     res.status(200).json(result[0]);
   });
 });
