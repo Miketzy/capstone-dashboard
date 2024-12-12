@@ -13,7 +13,7 @@ function CriticalEndengeredPage() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getCritically-endangered")
+      .get("/getCritically-endangered")
       .then((res) => setCritically(res.data))
       .catch((err) => console.log(err));
   }, []);

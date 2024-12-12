@@ -28,17 +28,14 @@ function CreateQuezes() {
     }
 
     try {
-      const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/api/questions",
-        {
-          question,
-          optionA,
-          optionB,
-          optionC,
-          optionD,
-          correctAnswer,
-        }
-      );
+      const response = await axios.post("/api/questions", {
+        question,
+        optionA,
+        optionB,
+        optionC,
+        optionD,
+        correctAnswer,
+      });
       alert(response.data.message);
       // I-clear ang lahat ng fields
       setQuestion("");

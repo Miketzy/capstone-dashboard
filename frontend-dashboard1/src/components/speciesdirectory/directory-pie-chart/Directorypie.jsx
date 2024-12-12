@@ -19,9 +19,7 @@ function Directorypie() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://bioexplorer-backend.onrender.com/api/conservation-status-count"
-        );
+        const response = await axios.get("/api/conservation-status-count");
         const formattedData = response.data.map((item) => ({
           name: item.conservationstatus,
           value: item.count,

@@ -13,7 +13,7 @@ function Endengered() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getEndangered") // Ensure the URL matches your backend endpoint
+      .get("/getEndangered") // Ensure the URL matches your backend endpoint
       .then((res) => setEndengered(res.data))
       .catch((err) => console.log(err));
   }, []);

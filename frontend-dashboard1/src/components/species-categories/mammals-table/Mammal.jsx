@@ -13,7 +13,7 @@ function Mammal() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getMammals") // Make sure backend is running on port 8080
+      .get("/getMammals") // Make sure backend is running on port 8080
       .then((response) => {
         setMammals(response.data); // Populate mammals data
       })

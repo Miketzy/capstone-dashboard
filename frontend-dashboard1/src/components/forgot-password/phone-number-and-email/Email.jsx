@@ -29,7 +29,7 @@ function Email() {
 
     setLoading(true);
     axios
-      .post("https://bioexplorer-backend.onrender.com/send-otp", { email })
+      .post("/send-otp", { email })
       .then((response) => {
         setMessage(response.data);
         navigate("/otp", { state: { email } });

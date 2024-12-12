@@ -24,7 +24,7 @@ function ChangePassword() {
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/password-changes",
+        "/password-changes",
         {
           currentPassword,
           newPassword,

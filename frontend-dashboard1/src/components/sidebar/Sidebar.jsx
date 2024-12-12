@@ -31,9 +31,7 @@ function Sidebar() {
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
-        const response = await axios.get(
-          "https://bioexplorer-backend.onrender.com/pending-request-count"
-        );
+        const response = await axios.get("/pending-request-count");
         setRequestCount(response.data.count);
       } catch (error) {
         console.error("Error fetching request count:", error);

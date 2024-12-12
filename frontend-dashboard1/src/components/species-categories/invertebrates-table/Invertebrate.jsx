@@ -13,7 +13,7 @@ function Invertebrate() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getInvertebrates")
+      .get("/getInvertebrates")
       .then((res) => setInvertebrates(res.data))
       .catch((err) => console.log(err));
   }, []);

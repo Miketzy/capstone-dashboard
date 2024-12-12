@@ -14,7 +14,7 @@ function Birds() {
   // Fetch birds data from the backend
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getBirds") // Ensure this URL matches the backend endpoint
+      .get("/getBirds") // Ensure this URL matches the backend endpoint
       .then((response) => setBirds(response.data))
       .catch((error) => console.error("Error fetching birds:", error));
   }, []);

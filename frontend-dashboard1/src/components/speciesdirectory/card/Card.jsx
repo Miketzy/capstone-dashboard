@@ -11,28 +11,28 @@ function Card() {
   useEffect(() => {
     // Fetch species counts from the backend API
     axios
-      .get("http://localhost:8080/countSpecies")
+      .get("/countSpecies")
       .then((res) => setTotalSpecies(res.data.totalSpecies)) // Set total species count
       .catch((err) => {
         console.error("Error fetching total species count:", err);
       });
 
     axios
-      .get("https://bioexplorer-backend.onrender.com/countmammals")
+      .get("/countmammals")
       .then((res) => setMammalsCount(res.data.count)) // Set mammals count
       .catch((err) => {
         console.error("Error fetching mammals count:", err);
       });
 
     axios
-      .get("https://bioexplorer-backend.onrender.com/countbirds")
+      .get("/countbirds")
       .then((res) => setBirdsCount(res.data.count)) // Set birds count
       .catch((err) => {
         console.error("Error fetching birds count:", err);
       });
 
     axios
-      .get("https://bioexplorer-backend.onrender.com/countReptiles")
+      .get("/countReptiles")
       .then((res) => setReptilesCount(res.data.count)) // Set reptiles count
       .catch((err) => {
         console.error("Error fetching reptiles count:", err);

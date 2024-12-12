@@ -27,7 +27,7 @@ function Bargraph() {
   useEffect(() => {
     // Fetch species counts from the backend API
     axios
-      .get("https://bioexplorer-backend.onrender.com/speciesCounts")
+      .get("/speciesCounts")
       .then((res) => {
         const counts = res.data;
         setData([

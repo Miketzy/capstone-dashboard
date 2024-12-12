@@ -54,7 +54,7 @@ function ContributorNavbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", {
+      .get("/contrbutornavbar", {
         withCredentials: true,
       })
       .then((response) => {
@@ -65,7 +65,7 @@ function ContributorNavbar() {
             lastname: response.data.user.lastname || "",
             email: response.data.user.email || "",
             image: response.data.user.image
-              ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${response.data.user.image}`
+              ? `/uploads/avatar/${response.data.user.image}`
               : "/images/unknown-person-icon-Image-from_20220304.png",
           });
         } else {
@@ -86,7 +86,7 @@ function ContributorNavbar() {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       axios
-        .get("https://bioexplorer-backend.onrender.com/logout", {
+        .get("/logout", {
           withCredentials: true,
         })
         .then((res) => {

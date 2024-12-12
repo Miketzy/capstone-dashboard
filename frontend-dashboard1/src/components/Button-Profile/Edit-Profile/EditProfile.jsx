@@ -34,16 +34,13 @@ function EditProfile({ onUpdateProfile }) {
     // Fetch user data from backend
     const fetchUserData = async () => {
       try {
-        const res = await axios.get(
-          "https://bioexplorer-backend.onrender.com/myprofile",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get("/myprofile", {
+          withCredentials: true,
+        });
 
         const user = res.data.user;
         const imageUrl = user.image
-          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+          ? `/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
 
         // Set user data including the image URL
@@ -93,16 +90,12 @@ function EditProfile({ onUpdateProfile }) {
     }
 
     try {
-      const res = await axios.put(
-        "https://bioexplorer-backend.onrender.com/profile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put("/profile", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       // Check for successful response
       if (res.status === 200) {
@@ -110,7 +103,7 @@ function EditProfile({ onUpdateProfile }) {
         setUserData(res.data);
         setSelectedImage(
           res.data.image
-            ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${res.data.image}`
+            ? `/uploads/avatar/${res.data.image}`
             : "/images/unknown-person-icon-Image-from_20220304.png"
         );
 

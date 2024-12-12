@@ -13,7 +13,7 @@ function Vulnerable() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/getVulnerable")
+      .get("/getVulnerable")
       .then((res) => setVulnerable(res.data))
       .catch((err) => console.log(err));
   }, []);

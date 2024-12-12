@@ -28,7 +28,7 @@ function ContributorSideBar() {
 
   const handleGallery = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/gallery")
+      .get("/gallery")
       .then((res) => {
         if (res.data.Message === "Success") {
           navigate("/contributor-Gallery");

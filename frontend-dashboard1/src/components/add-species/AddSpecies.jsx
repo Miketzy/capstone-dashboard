@@ -53,7 +53,7 @@ function AddSpecies() {
     formData.append("file", file);
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/create", formData)
+      .post("/create", formData)
       .then((response) => {
         setUploadStatus("Species added successfully!");
         toast.success("🦄 Species added successfully!", {
