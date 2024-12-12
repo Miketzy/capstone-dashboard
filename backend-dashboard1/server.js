@@ -23,22 +23,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
-const port = 8080;  // Directly set the port to 4000
 
-// Assuming the backend and frontend folders are at the same level
-const buildPath = path.join(__dirname, '../frontend-dashboard1/build');
-
-// Serve static files from the 'build' directory
-app.use(express.static(buildPath));
-
-// Handle all other requests and send index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
 
 // Enable CORS to allow requests from specific origins
 app.use(cors({
-  origin: "*", // Adjust origins as needed
+  origin: "https://bio-explorer-admin.onrender.com", // Adjust origins as needed
   methods: ['GET', 'POST'],
   credentials: true
 }));
@@ -1241,7 +1230,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO with additional CORS settings
 const io = new Server(server, {
   cors: {
-    origin: "*", // Same allowed origins
+    origin: "https://bio-explorer-admin.onrender.com", // Same allowed origins
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -1558,10 +1547,10 @@ app.post("/api/questions", (req, res) => {
     }
   );
 });
-
-app.listen(8080, () => {
-  console.log('Server is running on port 8080');
-})
+const port = 8080;  // Directly set the port to 4000
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
 
 
