@@ -34,7 +34,7 @@ app.use(cors({
 
 
 const connection = mysql2.createConnection({
-  host: 'sql5.freemysqlhosting.net',    // The server address
+  host: 'sql5.freesqldatabase.com',    // The server address
   user: 'sql5751289',                   // Your username
   password: 'QpWkamYpQC',               // Your password
   database: 'sql5751289',               // Your database name
@@ -894,7 +894,6 @@ app.get("/getLeast-concerned", (req, res) => {
 // Endpoint to get the total count of all species
 app.get("/countSpecies", (req, res) => {
   const query = "SELECT COUNT(*) AS totalSpecies FROM species";  // SQL query to count all species
-
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching total species count:", err);
