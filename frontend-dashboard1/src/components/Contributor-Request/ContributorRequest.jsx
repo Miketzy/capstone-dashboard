@@ -5,7 +5,7 @@ import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
 import { io } from "socket.io-client"; // Use named import
 
-const socket = io("https://bio-explorer-admin.onrender.com");
+const socket = io("http://localhost:3000");
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests

@@ -26,18 +26,6 @@ app.use(express.json());
 const port = 8080;  // Directly set the port to 4000
 
 
-
-app.use(cors({
-  origin: 'https://bio-explorer-admin.onrender.com', // Payagan ang iyong React frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
-  credentials: true, // Kung gumagamit ka ng cookies o authorization headers
-}));
-
-
-
-
-
-
 const connection = mysql2.createConnection({
   host: 'sql5.freemysqlhosting.net',    // The server address
   user: 'sql5751289',                   // Your username
@@ -58,6 +46,21 @@ connection.connect((err) => {
 connection.on('error', (err) => {
   console.error('Database Error:', err);
 });
+
+// Serve static files (React app)
+app.use(express.static(path.join(__dirname, 'frontend-dashboard1', 'build')));
+
+// Handle all other requests and send index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend-dashboard1', 'build', 'index.html'));
+});
+
+app.use(cors({
+  origin: 'https://bio-explorer-admin.onrender.com', // Payagan ang iyong React frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
+  credentials: true, // Kung gumagamit ka ng cookies o authorization headers
+}));
+
 
 
 // Make sure to use cookieParser before any route handling

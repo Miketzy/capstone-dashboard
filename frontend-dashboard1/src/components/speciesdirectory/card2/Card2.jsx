@@ -17,7 +17,7 @@ function Card2() {
 
     // Fetch invertebrates count
     axios
-      .get("https://bioexplorer-backend.onrender.com/countInvertebrates")
+      .get("hhttps://bioexplorer-backend.onrender.com/countInvertebrates")
       .then((res) => setInvertebratesCount(res.data.count))
       .catch((err) =>
         console.error("Error fetching invertebrates count:", err)

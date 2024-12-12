@@ -11,7 +11,7 @@ function Card() {
   useEffect(() => {
     // Fetch species counts from the backend API
     axios
-      .get("https://bioexplorer-backend.onrender.com/countSpecies")
+      .get("http://localhost:8080/countSpecies")
       .then((res) => setTotalSpecies(res.data.totalSpecies)) // Set total species count
       .catch((err) => {
         console.error("Error fetching total species count:", err);

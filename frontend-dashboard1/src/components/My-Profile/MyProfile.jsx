@@ -33,7 +33,7 @@ function MyProfile() {
         const user = res.data.user; // Get user object from response
 
         const imageUrl = user.image
-          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+          ? `http://localhost:8080/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png"; // Default image
 
         setUserData({

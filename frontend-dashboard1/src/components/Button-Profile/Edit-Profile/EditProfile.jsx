@@ -35,7 +35,7 @@ function EditProfile({ onUpdateProfile }) {
     const fetchUserData = async () => {
       try {
         const res = await axios.get(
-          "hhttps://bioexplorer-backend.onrender.com/myprofile",
+          "https://bioexplorer-backend.onrender.com/myprofile",
           {
             withCredentials: true,
           }

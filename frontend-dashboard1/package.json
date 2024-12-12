@@ -2,7 +2,7 @@
   "name": "frontend-dashboard1",
   "version": "0.1.0",
   "private": true,
-   "proxy": "https://bio-explorer-admin.onrender.com",
+   "proxy": "https://bioexplorer-backend.onrender.com/",
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
