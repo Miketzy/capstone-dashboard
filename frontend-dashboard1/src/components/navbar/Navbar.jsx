@@ -22,20 +22,27 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/", {
-        withCredentials: true,
+      .get("https://bioexplorer-backend.onrender.com/user", {
+        withCredentials: true, // Make sure cookies are sent
       })
       .then((response) => {
+        console.log(response); // Check the structure of the response
         if (response.data.message === "Profile retrieved successfully") {
-          setUser({
-            firstname: response.data.user.firstname || "",
-            middlename: response.data.user.middlename || "",
-            lastname: response.data.user.lastname || "",
-            email: response.data.user.email || "",
-            image: response.data.user.image
-              ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${response.data.user.image}`
-              : "/images/unknown-person-icon-Image-from_20220304.png",
-          });
+          const user = response.data.user;
+
+          if (user) {
+            setUser({
+              firstname: user.firstname || "",
+              middlename: user.middlename || "",
+              lastname: user.lastname || "",
+              email: user.email || "",
+              image: user.image
+                ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+                : "/images/unknown-person-icon-Image-from_20220304.png",
+            });
+          } else {
+            alert("User data is missing in the response.");
+          }
         } else {
           alert("Failed to fetch user data");
         }

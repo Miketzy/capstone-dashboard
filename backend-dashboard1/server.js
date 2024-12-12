@@ -252,7 +252,7 @@ app.post("/login", (req, res) => {
 
 
 // Protected route to get user profile
-app.get("/", verifyUser, (req, res) => {
+app.get("/user", verifyUser, (req, res) => {
   return res.json({
     message: "Profile retrieved successfully",
     user: {
