@@ -12,28 +12,40 @@ function Card() {
     // Fetch species counts from the backend API
     axios
       .get("https://bioexplorer-backend.onrender.com/countSpecies")
-      .then((res) => setTotalSpecies(res.data.totalSpecies)) // Set total species count
+      .then((res) => {
+        console.log("Total Species:", res.data.totalSpecies); // Log the total species count
+        setTotalSpecies(res.data.totalSpecies);
+      })
       .catch((err) => {
         console.error("Error fetching total species count:", err);
       });
 
     axios
       .get("https://bioexplorer-backend.onrender.com/countmammals")
-      .then((res) => setMammalsCount(res.data.count)) // Set mammals count
+      .then((res) => {
+        console.log("Mammals Count:", res.data.count); // Log the mammals count
+        setMammalsCount(res.data.count);
+      })
       .catch((err) => {
         console.error("Error fetching mammals count:", err);
       });
 
     axios
       .get("https://bioexplorer-backend.onrender.com/countbirds")
-      .then((res) => setBirdsCount(res.data.count)) // Set birds count
+      .then((res) => {
+        console.log("Birds Count:", res.data.count); // Log the birds count
+        setBirdsCount(res.data.count);
+      })
       .catch((err) => {
         console.error("Error fetching birds count:", err);
       });
 
     axios
       .get("https://bioexplorer-backend.onrender.com/countReptiles")
-      .then((res) => setReptilesCount(res.data.count)) // Set reptiles count
+      .then((res) => {
+        console.log("Reptiles Count:", res.data.count); // Log the reptiles count
+        setReptilesCount(res.data.count);
+      })
       .catch((err) => {
         console.error("Error fetching reptiles count:", err);
       });
