@@ -954,17 +954,15 @@ app.get("/countAmphibians", (req, res) => {
   });
 });
 
-// Endpoint to get the count of Invertebrates
-app.get("/countinvertebrates", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
-
-  connection.query(query, (err, result) => {
+// Get count of invertebrates
+app.get('/countInvertebrates', (req, res) => {
+  const query = 'SELECT COUNT(*) AS count FROM species WHERE speciescategory = "invertebrates"';
+  db.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching invertebrates count:", err); // Updated error message
-      return res.status(500).send("Server error. Failed to fetch invertebrates count."); // Updated error message
+      console.error('Error fetching invertebrates count:', err);
+      return res.status(500).send('Error fetching invertebrates count');
     }
-
-    res.status(200).json(result[0]); // Send back the count
+    res.json(result[0]);
   });
 });
 

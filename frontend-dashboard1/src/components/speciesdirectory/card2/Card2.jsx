@@ -15,14 +15,13 @@ function Card2() {
       .then((res) => setAmphibiansCount(res.data.count))
       .catch((err) => console.error("Error fetching amphibians count:", err));
 
-    // Fetch invertebrates count
+    // Fetch invertebrates count (fixed the typo in the URL)
     axios
-      .get("hhttps://bioexplorer-backend.onrender.com/countinvertebrates")
+      .get("https://bioexplorer-backend.onrender.com/countInvertebrates") // Corrected URL
       .then((res) => setInvertebratesCount(res.data.count))
       .catch((err) =>
         console.error("Error fetching invertebrates count:", err)
       );
-
     // Fetch invertebrates count
     axios
       .get("https://bioexplorer-backend.onrender.com/countvertebrates")
