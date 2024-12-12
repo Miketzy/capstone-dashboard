@@ -956,7 +956,7 @@ app.get("/countAmphibians", (req, res) => {
 });
 
 // Endpoint to get the count of Invertebrates
-app.get("/countInvertebrates", (req, res) => {
+app.get("/countinvertebrates", (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
 
   connection.query(query, (err, result) => {
