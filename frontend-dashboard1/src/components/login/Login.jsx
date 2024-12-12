@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie"; // For cookie handling
 
 function Login() {
   const [values, setValues] = useState({
@@ -12,6 +13,21 @@ function Login() {
 
   axios.defaults.withCredentials = true;
 
+  // Check if token exists in cookies or localStorage
+  const checkToken = () => {
+    const tokenFromCookies = Cookies.get("token"); // Check in cookies
+    const tokenFromLocalStorage = localStorage.getItem("authToken"); // Check in localStorage
+
+    if (tokenFromCookies || tokenFromLocalStorage) {
+      console.log("Token found:", tokenFromCookies || tokenFromLocalStorage);
+      return true;
+    } else {
+      console.log("No token found.");
+      return false;
+    }
+  };
+
+  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -24,6 +40,15 @@ function Login() {
 
       if (response.data) {
         alert("Login successful!");
+
+        // Store token in cookies and localStorage
+        const token = response.data.token; // Assuming the backend returns the token
+        Cookies.set("token", token, {
+          expires: 30,
+          secure: false,
+          sameSite: "lax",
+        });
+        localStorage.setItem("authToken", token);
 
         // Store user info for easy access
         localStorage.setItem("contributor_firstname", response.data.firstname);
