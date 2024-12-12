@@ -23,10 +23,9 @@ function Navbar() {
   const fetchUserData = () => {
     axios
       .get("https://bioexplorer-backend.onrender.com/user", {
-        withCredentials: true, // Make sure cookies are sent
+        withCredentials: true,
       })
       .then((response) => {
-        console.log(response); // Check the structure of the response
         if (response.data.message === "Profile retrieved successfully") {
           const user = response.data.user;
 
