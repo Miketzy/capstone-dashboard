@@ -11,7 +11,7 @@ import fs from 'fs';
 import nodemailer from "nodemailer";
 import crypto from 'crypto'; // For OTP generation
 import http from 'http';
-import { Server as socketIo } from 'socket.io'; // Correct way to import socket.io
+import { Server } from 'socket.io';
 
 
 // Determine the directory name of the current module
@@ -63,7 +63,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Payagan ang HTTP methods
   credentials: true, // Kung gumagamit ka ng cookies o authorization headers
 }));
-
 
 
 // Make sure to use cookieParser before any route handling
@@ -1237,8 +1236,14 @@ app.get('/request-table', (req, res) => {
 //Create an HTTP server
 const server = http.createServer(app);
 
-// Initialize Socket.IO
-const io = new socketIo(server);
+const io = new Server(server, {
+  cors: {
+    origin: 'https://bio-explorer-admin.onrender.com', // Update as needed
+    methods: ['GET', 'POST'],
+  },
+});
+
+
 
 // Nodemailer configuration
 const transporter = nodemailer.createTransport({
