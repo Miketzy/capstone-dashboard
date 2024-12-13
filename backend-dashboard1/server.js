@@ -233,7 +233,7 @@ app.post("/login", (req, res) => {
 
           res.cookie('token', token, {
             httpOnly: true,  
-            secure: 'production', 
+            secure: true, 
             sameSite: 'Strict',  
           });
           
