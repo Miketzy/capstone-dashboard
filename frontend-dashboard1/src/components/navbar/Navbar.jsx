@@ -22,7 +22,7 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/navUser", {
+      .get("https://bioexplorer-backend.onrender.com/", {
         withCredentials: true,
       })
       .then((response) => {
