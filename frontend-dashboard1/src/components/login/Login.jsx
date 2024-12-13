@@ -27,7 +27,6 @@ function Login() {
     }
   };
 
-  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,23 +35,17 @@ function Login() {
         "https://bioexplorer-backend.onrender.com/login",
         values,
         {
-          withCredentials: true,
+          withCredentials: true, // Ensure cookies are sent
         }
       );
 
       if (response.data) {
         alert("Login successful!");
 
-        // Store token in cookies and localStorage
-        const token = response.data.token; // Assuming the backend returns the token
-        Cookies.set("token", token, {
-          expires: 30,
-          secure: true,
-          sameSite: "lax",
-        });
-        localStorage.setItem("authToken", token);
+        // The token is automatically stored in the cookie
+        const token = response.data.token; // Access the token if it's in the response
 
-        // Store user info for easy access
+        // Optionally store user info for easy access
         localStorage.setItem("contributor_firstname", response.data.firstname);
         localStorage.setItem("contributor_lastname", response.data.lastname);
         localStorage.setItem("contributor_email", response.data.email);
