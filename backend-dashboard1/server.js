@@ -231,11 +231,9 @@ app.post("/login", (req, res) => {
             { expiresIn: "30d" }
           );
 
-          res.cookie('token', token, {
-            httpOnly: true,  
-            secure: 'production', 
-            sameSite: 'Strict',  
-          });
+         // For production (HTTPS)
+          res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "lax" });
+
           return res.json({
             Status: "Success",
             status: user.status,
