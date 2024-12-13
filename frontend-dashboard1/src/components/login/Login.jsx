@@ -47,7 +47,7 @@ function Login() {
         const token = response.data.token; // Assuming the backend returns the token
         Cookies.set("token", token, {
           expires: 30,
-          secure: false,
+          secure: true,
           sameSite: "lax",
         });
         localStorage.setItem("authToken", token);
