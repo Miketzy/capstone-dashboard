@@ -35,7 +35,9 @@ function Login() {
       const response = await axios.post(
         "https://bioexplorer-backend.onrender.com/login",
         values,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
 
       if (response.data) {

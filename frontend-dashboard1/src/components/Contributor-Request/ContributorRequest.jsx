@@ -3,9 +3,6 @@ import "./ContributorRequest.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
-import { io } from "socket.io-client"; // Use named import
-
-const socket = io("https://bio-explorer-admin.onrender.com");
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests
@@ -14,7 +11,7 @@ function ContributorRequest() {
   const [searchTerm, setSearchTerm] = useState(""); // Search term for filtering
   const [message, setMessage] = useState(""); // Message for notifications
 
-  // Fetch contributor requests and set up Socket.IO connection
+  // Fetch contributor requests
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -28,29 +25,7 @@ function ContributorRequest() {
     };
 
     fetchRequests();
-
-    // WebSocket notification handling
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket");
-    });
-
-    // Listening for notifications specific to the contributor
-    const contributorIds = contributor.map((data) => data.contributor_id); // Get all contributor IDs
-    contributorIds.forEach((id) => {
-      socket.on(`notify-contributor-${id}`, (data) => {
-        // Listen for notifications specific to the contributor
-        setMessage(data.message);
-        alert(data.message); // Show an alert for now
-      });
-    });
-
-    // Cleanup function to remove the listener on component unmount
-    return () => {
-      contributorIds.forEach((id) => {
-        socket.off(`notify-contributor-${id}`); // Clean up the event listener for each contributor
-      });
-    };
-  }, [contributor]); // Add `contributor` as a dependency to listen for updates
+  }, []); // Empty dependency array to fetch once when component mounts
 
   // Filter the data based on the search term
   const filteredBirds = contributor.filter((data) =>

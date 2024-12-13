@@ -48,7 +48,7 @@ function Otphome() {
     setCanResend(false);
 
     axios
-      .post("http://localhost:8080/send-otp", { email })
+      .post("https://bioexplorer-backend.onrender.com/send-otp", { email })
       .then((response) => {
         setVerificationMessage("OTP has been resent to your email.");
       })

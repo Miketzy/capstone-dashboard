@@ -13,10 +13,11 @@ function Card() {
     axios
       .get("https://bioexplorer-backend.onrender.com/countSpecies")
       .then((res) => {
-        setTotalSpecies(res.data.totalSpecies);
+        console.log("Species Count:", res.data.count);
+        setTotalSpecies(res.data.count);
       })
       .catch((err) => {
-        console.error("Error fetching total species count:", err);
+        console.error("Error fetching species count:", err);
       });
 
     axios

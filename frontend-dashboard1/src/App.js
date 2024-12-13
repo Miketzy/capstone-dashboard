@@ -46,9 +46,7 @@ function App() {
     <BrowserRouter>
      <Routes>
         <Route path="/" element={<Login/>} />
-
         <Route path='/registration' element={<Signup />} />
-
         <Route path='/species-directory' element={<Dashboard/>} />
         <Route path='/search' element={<SearchbarDashboard/>} />
         <Route path='/add-species' element={<AddSpeciesDashboard/>} />
@@ -62,9 +60,7 @@ function App() {
         <Route path='/species-categories/invertebrates' element={<InvertebratestableDashboard/>} />
         <Route path='/species-categories/vertebrates' element={<VertebratesTableDashboard/>} />
          <Route path='/species-categories/fish' element={<FishtablesDashboard/>} />
-
         <Route path='/species-analytics' element={<SpeciesAnalyticsDasboard/>} />
-        
         <Route path='/conservation-status/critical-endengered' element={<CriticalEndengeredDashboard/>} />
         <Route path='/conservation-status/endengered' element={<EndengeredDashboard/>} />
         <Route path='/conservation-status/vulnerable' element={<VulnerableDashboard/>} />
@@ -73,27 +69,16 @@ function App() {
         <Route path='/my-profile' element={<MyProfileDashboard/>} />
         <Route path='/my-profile/edit-profile' element={<EditProfileDashboard/>} />
         <Route path='/my-profile/change-password' element={<ChangePasswordDashboard/>} />
-
         <Route path='/image-gallery' element={<ImageGallerDashboard/>} />
-        
         <Route path='/new-password' element={<ForgotPassword/>} />
         <Route path='/email-request' element={<Email/>} />
         <Route path='/otp' element={<Otphome/>} />
-
-      
-
         <Route path='/contributor-dashboard' element={<ContributorDashboard/>} />
         <Route path='/contributor-Gallery' element={<ContributorImageGalleryDashboard/>} />
         <Route path='/contributor-MyProfile' element={<ContributorMyprofileDashboard/>} />
         <Route path='/contributor-MyProfile/contributor-EditProfile' element={<ContributorEditProfileDashboard/>} />
         <Route path='/contributor-MyProfile/contributor-changepassword' element={<ContributorChangePasswordDashboard/>} />
-        
-
-
       </Routes>
-    
-   
-      
     </BrowserRouter>
   );
 }

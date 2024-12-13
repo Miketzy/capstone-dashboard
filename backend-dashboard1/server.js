@@ -23,6 +23,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
+// Serve the Socket.IO client library
+app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client-dist'));
+// Create the HTTP server
+const server = http.createServer(app);
+
 
 
 // Enable CORS to allow requests from specific origins
@@ -887,14 +892,16 @@ app.get("/getLeast-concerned", (req, res) => {
 });
 
 // Endpoint to get the count of all species
+
 app.get("/countSpecies", (req, res) => {
-  const query = "SELECT COUNT(*) AS totalSpecies FROM species";
+  const query = "SELECT COUNT(*) AS count FROM species";
   connection.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching total species count:", err);
-      return res.status(500).send("Server error. Failed to fetch total species count.");
+      console.error("Error fetching species count:", err); // Updated error message
+      return res.status(500).send("Server error. Failed to fetch species count."); // Updated error message
     }
-    res.status(200).json(result[0]);
+
+    res.status(200).json(result[0]); // Send back the count
   });
 });
 
@@ -954,17 +961,21 @@ app.get("/countAmphibians", (req, res) => {
   });
 });
 
-// Get count of invertebrates
-app.get('/countInvertebrates', (req, res) => {
-  const query = 'SELECT COUNT(*) AS count FROM species WHERE speciescategory = "invertebrates"';
-  db.query(query, (err, result) => {
+
+// Endpoint to get the count of Invertebrates
+app.get("/countInvertebrates", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
+
+  connection.query(query, (err, result) => {
     if (err) {
-      console.error('Error fetching invertebrates count:', err);
-      return res.status(500).send('Error fetching invertebrates count');
+      console.error("Error fetching vertebrates count:", err); // Updated error message
+      return res.status(500).send("Server error. Failed to fetch vertebrates count."); // Updated error message
     }
-    res.json(result[0]);
+
+    res.status(200).json(result[0]); // Send back the count
   });
 });
+
 
 // Endpoint to get the count of Invertebrates
 app.get("/countvertebrates", (req, res) => {
@@ -1215,8 +1226,7 @@ app.get('/request-table', (req, res) => {
 
 
 
-//Create an HTTP server
-const server = http.createServer(app);
+
 
 // Initialize Socket.IO with additional CORS settings
 const io = new Server(server, {
