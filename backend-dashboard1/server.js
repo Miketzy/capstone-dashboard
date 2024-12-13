@@ -59,9 +59,10 @@ connection.connect((err) => {
 // Make sure to use cookieParser before any route handling
 app.use(cookieParser());
 
-/// Middleware to verify user
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
+  console.log("token:", token); // Log token to check if it's being sent correctly.
+
   if (!token) {
     return res.status(401).json({ message: "We need a token, please provide it." });
   }
@@ -71,6 +72,7 @@ const verifyUser = (req, res, next) => {
       return res.status(401).json({ message: "Invalid or expired token." });
     }
 
+    console.log("Decoded Token:", decoded); // Log the decoded token
     req.userId = decoded.id;
     req.username = decoded.username;
     req.firstname = decoded.firstname;
@@ -84,10 +86,11 @@ const verifyUser = (req, res, next) => {
     req.currentPassword = decoded.currentPassword;
     req.newPassword = decoded.newPassword;
     req.confirmPassword = decoded.confirmPassword;
-  
+
     next();
   });
 };
+
 
 
 // Configure Multer for profile image storage
@@ -1229,13 +1232,7 @@ app.get('/request-table', (req, res) => {
 
 
 // Initialize Socket.IO with additional CORS settings
-const io = new Server(server, {
-  cors: {
-    origin: "https://bio-explorer-admin.onrender.com", // Same allowed origins
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
-});
+const io = new Server(server);
 
 
 // Nodemailer configuration
