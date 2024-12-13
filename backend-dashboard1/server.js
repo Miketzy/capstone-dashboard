@@ -231,8 +231,11 @@ app.post("/login", (req, res) => {
             { expiresIn: "30d" }
           );
 
-          // Set the JWT token in a cookie
-          res.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax" });
+          res.cookie('token', token, {
+            httpOnly: true,  
+            secure: 'production', 
+            sameSite: 'Strict',  
+          });
           return res.json({
             Status: "Success",
             status: user.status,
