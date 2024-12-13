@@ -223,22 +223,24 @@ app.post("/login", (req, res) => {
               gender: user.gender,
               image: user.image,
               status: user.status,
-              currentPassword:user.currentPassword, 
-              newPassword:user.newPassword, 
+              currentPassword: user.currentPassword, 
+              newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
             "jsonwebtoken-secret-key",
             { expiresIn: "30d" }
           );
 
+          // Set the token in the cookie (httpOnly)
           res.cookie('token', token, {
             httpOnly: true,  
-            secure: true, 
-            sameSite: 'Strict',  
+            secure: process.env.NODE_ENV === "production", 
+            sameSite: "Strict",
           });
-          
 
+          // Send the token in the response body too (so frontend can access it)
           return res.json({
+            token,  // Send the token here
             Status: "Success",
             status: user.status,
             firstname: user.firstname,
@@ -248,10 +250,9 @@ app.post("/login", (req, res) => {
             gender: user.gender,
             image: user.image,
             email: user.email,
-            currentPassword:user.currentPassword, 
-            newPassword:user.newPassword, 
+            currentPassword: user.currentPassword, 
+            newPassword: user.newPassword, 
             confirmPassword: user.confirmPassword,
-            
           });
         } else {
           return res.status(401).json({ Message: "Incorrect Password" });
@@ -262,6 +263,7 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
 
 
 // Protected route to get user profile
