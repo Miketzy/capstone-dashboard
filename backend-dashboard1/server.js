@@ -76,7 +76,7 @@ const verifyUser = (req, res, next) => {
     return res.status(401).json({ message: "We need a token, please provide it." });
   }
 
-  jwt.verify(token, "jsonwebtoken-secret-key", (err, decoded) => {
+  jwt.verify(token, "mySuperSecureSecretKey12345678", (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token." });
     }
@@ -236,7 +236,7 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            process.env.JWT_SECRET,  // Make sure you are using the environment variable here
+            "mySuperSecureSecretKey12345678",  // Make sure you are using the environment variable here
             { expiresIn: "30d" }
           );
           
@@ -245,7 +245,7 @@ app.post("/login", (req, res) => {
           // Set the token in the cookie (httpOnly)
           res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "Strict",
           });
 
