@@ -236,18 +236,18 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            "mySuperSecureSecretKey12345678",  // Make sure you are using the environment variable here
+            process.env.JWT_SECRET,  // Make sure you are using the environment variable here
             { expiresIn: "30d" }
           );
           
           console.log("Generated Token: ", token);  // Add this line to log the token
 
-          // Set the token in the cookie (httpOnly)
           res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production", // Only true in production
             sameSite: "Strict",
           });
+          
 
           // Send the token in the response body too (so frontend can access it)
           return res.json({
