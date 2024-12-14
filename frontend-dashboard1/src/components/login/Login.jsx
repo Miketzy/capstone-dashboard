@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie"; // For cookie handling
 
 function Login() {
   const [values, setValues] = useState({
@@ -28,9 +27,10 @@ function Login() {
 
       console.log("Login successful:", response.data);
 
-      // Store token in localStorage if you want (optional)
-      const token = response.data.token;
-      localStorage.setItem("authToken", token);
+      // Store user info for easy access
+      localStorage.setItem("firstname", response.data.firstname);
+      localStorage.setItem("lastname", response.data.lastname);
+      localStorage.setItem("email", response.data.email);
 
       // Navigate based on user status
       if (response.data.status_user === "admin") {
