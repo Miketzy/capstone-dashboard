@@ -236,14 +236,16 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET,  // Make sure you are using the environment variable here
             { expiresIn: "30d" }
           );
+          
+          console.log("Generated Token: ", token);  // Add this line to log the token
 
           // Set the token in the cookie (httpOnly)
-          res.cookie('token', token, {
-            httpOnly: true,  
-            secure: process.env.NODE_ENV  === "production", 
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "Strict",
           });
 
