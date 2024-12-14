@@ -27,7 +27,6 @@ function Login() {
     }
   };
 
-  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,19 +35,21 @@ function Login() {
         "http://localhost:5000/login", // Your backend URL
         values,
         {
-          withCredentials: true, // Ensures cookies are sent with the request
+          withCredentials: true, // Ensures cookies are sent and received
         }
       );
 
       console.log("Login successful:", response.data);
 
-      // Store token in cookies and localStorage
+      // Store token in cookies
       const token = response.data.token;
       Cookies.set("token", token, {
-        expires: 30,
-        secure: process.env.NODE_ENV === "production", // Secure cookies in production
-        sameSite: "lax",
+        expires: 30, // Expiration time in days
+        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+        sameSite: "Lax", // To prevent cross-site request issues
       });
+
+      // Store token in localStorage as well
       localStorage.setItem("authToken", token);
 
       // Store user info for easy access
