@@ -15,8 +15,8 @@ function Login() {
 
   // Check if token exists in cookies or localStorage
   const checkToken = () => {
-    const tokenFromCookies = Cookies.get("token"); // Check in cookies
-    const tokenFromLocalStorage = localStorage.getItem("authToken"); // Check in localStorage
+    const tokenFromCookies = Cookies.get("token");
+    const tokenFromLocalStorage = localStorage.getItem("authToken");
 
     if (tokenFromCookies || tokenFromLocalStorage) {
       console.log("Token found:", tokenFromCookies || tokenFromLocalStorage);
@@ -33,34 +33,34 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/login",
+        "https://bioexplorer-backend.onrender.com/login", // Change this URL to your deployed backend
         values,
         {
-          withCredentials: true,
+          withCredentials: true, // Ensures cookies are sent with the request
         }
       );
 
       if (response.data) {
-        alert("Login successful!");
+        console.log("Login successful:", response.data);
 
         // Store token in cookies and localStorage
-        const token = response.data.token; // Assuming the backend returns the token
+        const token = response.data.token;
         Cookies.set("token", token, {
           expires: 30,
-          secure: false,
+          secure: process.env.NODE_ENV === "production", // Secure cookies in production
           sameSite: "lax",
         });
         localStorage.setItem("authToken", token);
 
         // Store user info for easy access
-        localStorage.setItem("contributor_firstname", response.data.firstname);
-        localStorage.setItem("contributor_lastname", response.data.lastname);
-        localStorage.setItem("contributor_email", response.data.email);
+        localStorage.setItem("firstname", response.data.firstname);
+        localStorage.setItem("lastname", response.data.lastname);
+        localStorage.setItem("email", response.data.email);
 
         // Navigate based on user status
-        if (response.data.status === "admin") {
+        if (response.data.status_user === "admin") {
           navigate("/species-directory");
-        } else if (response.data.status === "contributor") {
+        } else if (response.data.status_user === "contributor") {
           navigate("/contributor-dashboard");
         } else {
           navigate("/");

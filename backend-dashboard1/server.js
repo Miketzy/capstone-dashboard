@@ -251,7 +251,7 @@ app.post("/login", (req, res) => {
 
           // Send the token in the response body too (so frontend can access it)
           return res.json({
-            token,  // Send the token here
+            token: token,
             Status: "Success",
             status: user.status,
             firstname: user.firstname,

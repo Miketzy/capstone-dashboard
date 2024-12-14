@@ -34,6 +34,7 @@ import ContributorRequestDashboards from "./pages/home/Contributor-Request-Dashb
 import CreateQuizesDashboard from "./pages/home/Create-Quizes-Dashboard/CreateQuizesDashboard";
 import VertebratesTableDashboard from "./pages/home/species--categories-dashboard/vertebrates-dashboard/VertebratesTableDashboard";
 import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
+import CheckAuth from "./checkAuth/CheckAuth";
 
 
 
@@ -47,7 +48,13 @@ function App() {
      <Routes>
         <Route path="/" element={<Login/>} />
         <Route path='/registration' element={<Signup />} />
-        <Route path='/species-directory' element={<Dashboard/>} />
+        <Route path='/species-directory' element={
+          <>
+            <CheckAuth />
+            <Dashboard />
+          </>
+      } />
+
         <Route path='/search' element={<SearchbarDashboard/>} />
         <Route path='/add-species' element={<AddSpeciesDashboard/>} />
         <Route path='/contributor-request' element={<ContributorRequestDashboards/>} />
