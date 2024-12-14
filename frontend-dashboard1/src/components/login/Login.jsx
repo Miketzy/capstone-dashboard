@@ -33,38 +33,36 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/login", // Change this URL to your deployed backend
+        "http://localhost:5000/login", // Your backend URL
         values,
         {
           withCredentials: true, // Ensures cookies are sent with the request
         }
       );
 
-      if (response.data) {
-        console.log("Login successful:", response.data);
+      console.log("Login successful:", response.data);
 
-        // Store token in cookies and localStorage
-        const token = response.data.token;
-        Cookies.set("token", token, {
-          expires: 30,
-          secure: process.env.NODE_ENV === "production", // Secure cookies in production
-          sameSite: "lax",
-        });
-        localStorage.setItem("authToken", token);
+      // Store token in cookies and localStorage
+      const token = response.data.token;
+      Cookies.set("token", token, {
+        expires: 30,
+        secure: process.env.NODE_ENV === "production", // Secure cookies in production
+        sameSite: "lax",
+      });
+      localStorage.setItem("authToken", token);
 
-        // Store user info for easy access
-        localStorage.setItem("firstname", response.data.firstname);
-        localStorage.setItem("lastname", response.data.lastname);
-        localStorage.setItem("email", response.data.email);
+      // Store user info for easy access
+      localStorage.setItem("firstname", response.data.firstname);
+      localStorage.setItem("lastname", response.data.lastname);
+      localStorage.setItem("email", response.data.email);
 
-        // Navigate based on user status
-        if (response.data.status_user === "admin") {
-          navigate("/species-directory");
-        } else if (response.data.status_user === "contributor") {
-          navigate("/contributor-dashboard");
-        } else {
-          navigate("/");
-        }
+      // Navigate based on user status
+      if (response.data.status_user === "admin") {
+        navigate("/species-directory");
+      } else if (response.data.status_user === "contributor") {
+        navigate("/contributor-dashboard");
+      } else {
+        navigate("/");
       }
     } catch (error) {
       const errorMessage =
