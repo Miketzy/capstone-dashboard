@@ -28,21 +28,9 @@ function Login() {
 
       console.log("Login successful:", response.data);
 
-      // Store token in cookies
+      // Store token in localStorage if you want (optional)
       const token = response.data.token;
-      Cookies.set("token", token, {
-        expires: 30, // Expiration time in days
-        secure: window.location.protocol === "https:", // Use secure cookies only if using https
-        sameSite: "Lax", // Prevent cross-site request issues
-      });
-
-      // Store token in localStorage as well
       localStorage.setItem("authToken", token);
-
-      // Store user info for easy access
-      localStorage.setItem("firstname", response.data.firstname);
-      localStorage.setItem("lastname", response.data.lastname);
-      localStorage.setItem("email", response.data.email);
 
       // Navigate based on user status
       if (response.data.status_user === "admin") {

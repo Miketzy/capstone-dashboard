@@ -199,7 +199,6 @@ app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
 
 
 
-// Login endpoint
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -243,12 +242,12 @@ app.post("/login", (req, res) => {
           
           console.log("Generated Token: ", token);  // Add this line to log the token
 
+          // Set the token in the cookie
           res.cookie("token", token, {
             httpOnly: true,  // Ensures the cookie is accessible only by the server
-            secure: true,  // True in production for HTTPS, false in development
+            secure: process.env.NODE_ENV === "production",  // True in production for HTTPS, false in development
             sameSite: "Strict",  // To prevent cross-origin issues
           });
-          
 
           // Send the token in the response body too (so frontend can access it)
           return res.json({
@@ -275,6 +274,7 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
 
 
 
