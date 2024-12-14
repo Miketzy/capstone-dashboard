@@ -19,6 +19,8 @@ dotenv.config(); // Load environment variables from .env
 
 const jwtSecret = process.env.JWT_SECRET; // Load JWT secret from .env
 const environment = process.env.NODE_ENV; // Get the current environment
+// Log the JWT_SECRET to verify if it's being loaded correctly
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 
 // Determine the directory name of the current module
@@ -234,7 +236,7 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            jwtSecret,
+            process.env.JWT_SECRET,
             { expiresIn: "30d" }
           );
 
