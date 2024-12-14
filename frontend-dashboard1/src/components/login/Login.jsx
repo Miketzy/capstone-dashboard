@@ -11,21 +11,8 @@ function Login() {
 
   const navigate = useNavigate();
 
-  axios.defaults.withCredentials = true;
-
-  // Check if token exists in cookies or localStorage
-  const checkToken = () => {
-    const tokenFromCookies = Cookies.get("token");
-    const tokenFromLocalStorage = localStorage.getItem("authToken");
-
-    if (tokenFromCookies || tokenFromLocalStorage) {
-      console.log("Token found:", tokenFromCookies || tokenFromLocalStorage);
-      return true;
-    } else {
-      console.log("No token found.");
-      return false;
-    }
-  };
+  // Set Axios default configuration for cross-origin requests
+  axios.defaults.withCredentials = true; // Important: sends cookies with requests
 
   const handleSubmit = async (e) => {
     e.preventDefault();
