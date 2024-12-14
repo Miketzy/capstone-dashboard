@@ -12,6 +12,13 @@ import nodemailer from "nodemailer";
 import crypto from 'crypto'; // For OTP generation
 import http from 'http';
 import { Server } from 'socket.io';
+import dotenv from "dotenv"; // ES module syntax
+
+dotenv.config(); // Load environment variables from .env
+
+
+const jwtSecret = process.env.JWT_SECRET; // Load JWT secret from .env
+const environment = process.env.NODE_ENV; // Get the current environment
 
 
 // Determine the directory name of the current module
@@ -227,14 +234,14 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            "jsonwebtoken-secret-key",
+            jwtSecret,
             { expiresIn: "30d" }
           );
 
           // Set the token in the cookie (httpOnly)
           res.cookie('token', token, {
             httpOnly: true,  
-            secure: process.env.NODE_ENV === "production", 
+            secure: process.env.NODE_ENV  === "production", 
             sameSite: "Strict",
           });
 
