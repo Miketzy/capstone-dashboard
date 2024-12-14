@@ -32,7 +32,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/login", // Your backend URL
+        "https://bioexplorer-backend.onrender.com/login", // Your backend URL
         values,
         {
           withCredentials: true, // Ensures cookies are sent and received
@@ -45,8 +45,8 @@ function Login() {
       const token = response.data.token;
       Cookies.set("token", token, {
         expires: 30, // Expiration time in days
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-        sameSite: "Lax", // To prevent cross-site request issues
+        secure: window.location.protocol === "https:", // Use secure cookies only if using https
+        sameSite: "Lax", // Prevent cross-site request issues
       });
 
       // Store token in localStorage as well
