@@ -220,6 +220,7 @@ app.post("/login", (req, res) => {
           return res.status(500).json({ Message: "Error comparing passwords" });
         }
         if (isMatch) {
+          console.log("JWT_SECRET:", process.env.JWT_SECRET);
           const token = jwt.sign(
             {
               id: user.id,
