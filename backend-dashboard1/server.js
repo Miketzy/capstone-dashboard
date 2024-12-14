@@ -17,11 +17,11 @@ import dotenv from "dotenv"; // ES module syntax
 dotenv.config(); // Load environment variables from .env
 
 
-const jwtSecret = process.env.JWT_SECRET; // Load JWT secret from .env
-const environment = process.env.NODE_ENV; // Get the current environment
-// Log the JWT_SECRET to verify if it's being loaded correctly
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
+const jwtSecret = process.env.JWT_SECRET;  // Access the JWT secret
+const nodeEnv = process.env.NODE_ENV; 
 
+console.log('JWT Secret:', jwtSecret);  // Logs the JWT secret
+console.log('Environment:', nodeEnv);  // Logs the environment (development/production)
 
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
