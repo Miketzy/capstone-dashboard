@@ -76,7 +76,7 @@ const verifyUser = (req, res, next) => {
     return res.status(401).json({ message: "We need a token, please provide it." });
   }
 
-  jwt.verify(token, "mySuperSecureSecretKey12345678", (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token." });
     }
