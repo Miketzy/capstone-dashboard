@@ -244,9 +244,9 @@ app.post("/login", (req, res) => {
           console.log("Generated Token: ", token);  // Add this line to log the token
 
           res.cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // Only true in production
-            sameSite: "Strict",
+            httpOnly: true,  // Ensures the cookie is accessible only by the server
+            secure: true,  // True in production for HTTPS, false in development
+            sameSite: "Strict",  // To prevent cross-origin issues
           });
           
 
