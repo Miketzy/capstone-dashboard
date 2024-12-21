@@ -17,7 +17,7 @@ import dotenv from "dotenv"; // ES module syntax
 dotenv.config(); // Load environment variables from .env
 
 
-const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecureSecretKey12345678";
+
 
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -67,7 +67,7 @@ const verifyUser = (req, res, next) => {
     return res.status(401).json({ message: "We need a token, please provide it." });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, "mySuperSecureSecretKey12345678", (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token." });
     }
@@ -210,7 +210,7 @@ app.post("/login", (req, res) => {
           return res.status(500).json({ Message: "Error comparing passwords" });
         }
         if (isMatch) {
-          console.log("JWT_SECRET before signing:", JWT_SECRET);
+          console.log("JWT_SECRET before signing:", "mySuperSecureSecretKey12345678");
           const token = jwt.sign(
             {
               id: user.id,
@@ -227,7 +227,7 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            JWT_SECRET,  
+            "mySuperSecureSecretKey12345678",  
             { expiresIn: "30d" }
           );
           
