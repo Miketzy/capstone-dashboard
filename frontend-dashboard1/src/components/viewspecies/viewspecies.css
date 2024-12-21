@@ -222,56 +222,172 @@
 .eye-view{
   margin-top: -60px;
   font-family: sans-serif;
+  
 }
-.eye-view .images img{
-  width: 100px;
-  height: 100px;
+.eye-view .images {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center;    /* Vertical centering */
+  height: 100%;
+ 
+}
+.eye-view .images img {
+  width: 50%;
+  height: 250px;
+  border-radius: 10px;
+  
 }
 .eye-view h4{
   font-weight: 500;
   font-size: 18px;
   margin-left: 10px;
 }
+.specific-name1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.specific-name1 h4{
+  margin-top: 2.5px;
+}
+
+.scientifi-name1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.scientifi-name1 h4{
+  margin-top: 2.5px;
+}
+
+.common-name1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.common-name1 h4{
+  margin-top: 2.5px;
+}
+
+.habitat1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.habitat1 h4{
+  margin-top: 31px;
+  line-height: 1.5;
+  margin-left: -75px;
+  text-align: justify;
+  text-indent: 3em;
+}
+
+.species-category1 h3{
+  font-size: 20px;
+  font-weight: bold;
+  
+}
+.species-category1 h4{
+  margin-top: 2.5px;
+}
+
+.population1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.population1 h4{
+  margin-top: 2.5px;
+}
+
+.location1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.location1 h4{
+  margin-top: 2.5px;
+}
+
+.location1{
+  display: flex;
+  gap:10px;
+  
+}
+
+.conservationstatus1{
+  display: flex;
+  gap: 10px;
+  
+}
+
+.conservationstatus1 h3{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.conservationstatus1 .conservationstatus123{
+  margin-top: 5px;
+}
+
+
 .specific-name1,.scientifi-name1,.common-name1,.habitat1,
 .population1,.date1{
   display: flex;
   margin: 10px;
   margin-left: 1px;
+  font-size: 20px;
 }
 .conservationstatus1 p{
   color: black;
   font-size: 18px;
   margin-left: 1px;
   margin-top: 5px;
- 
 }
-.threats1{
-  margin-top: 5px;
+.adthreats1{
+  margin-top: -2px;
 }
-.threats1 p{
+
+.adthreats1 h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.adthreats1 p{
   margin-top: 5px;
   color: black;
   font-size: 18px;
   margin-left: 1px;
- 
+  line-height: 1.5;
+  text-align: justify;
+  text-indent: 3em;
 }
 .conservation-effort1{
   margin-top: 5px;
+}
+
+.conservation-effort1 h3{
+  font-size: 20px;
+  font-weight: bold;
 }
 .conservation-effort1 p{
   margin-top: 5px;
   color: black;
   font-size: 18px;
   margin-left: 1px;
+  line-height: 1.5;
+  text-align: justify;
+  text-indent: 3em;
 }
 .description1 {
   margin-top: 5px;
+}
+
+.description1  h3{
+  font-size: 20px;
+  font-weight: bold;
 }
 .description1 p{
   margin-top: 5px;
   color: black;
   font-size: 18px;
   margin-left: 1px;
+  line-height: 1.5;
+  text-align: justify;
+  text-indent: 3em;
  
 }
 .location1 h4{
@@ -326,11 +442,12 @@
 }
 
 .edit-pencil-specific input{
-  width: 55vh;
+  width: 57vh;
   height: 40px;
   font-size: 15px;
   margin: 10px;
   padding: 10px;
+  border: 2px solid gray;
 }
 
 .edit-location{
@@ -343,6 +460,7 @@
   font-size: 15px;
   margin: 10px;
   padding: 10px;
+  border: 2px solid gray;
 }
 
 .edit-pencil-specific label{
@@ -358,29 +476,43 @@
   
 }
 
+.edit-pencil-location{
+  margin-top: -1px;
+}
+
 .edit-pencil-location label{
-  margin-left: 28vh;
+  margin-left: 20px;
   font-size: 18px;
   font-weight: bold;
   color: black;
  
+ 
 }
 .edit-pencil-location input{
-  width: 122.5vh;
+  width: 57vh;
   height: 40px;
-  font-size: 18px;
+  font-size: 15px;
   margin: 10px;
   padding: 10px;
-  margin-left: 26vh;
+  border: 2px solid gray;
   
 }
+
+.edit-pencil-status{
+  margin-top: -25px;
+  
+}
+
 .edit-pencil-status textarea{
-  width: 123vh;
+  width: 120vh;
   height: 130px;
   font-size: 18px;
   margin: 10px;
   padding: 10px;
-  margin-left: 4vh;
+  margin-left: 5vh;
+  text-align: justify;
+  border: 2px solid gray;
+  margin-top: -23px;
 } 
 
 .edit-pencil-status label{
@@ -388,7 +520,7 @@
   font-size: 18px;
   font-weight: bold;
   color: black;
-  margin-left: 1px;
+  margin-left: 10px;
 }
 .message p{
   text-align: center;

@@ -54,9 +54,9 @@ function Card() {
   return (
     <div className="card1">
       <div className="col-div-3">
-        <div className="boxex">
+        <div className="boxes">
           <span className="boxes2">All Species</span>
-          <p className="boxes1">{mammalsCount}</p>
+          <p className="boxes1">{totalSpecies}</p>
         </div>
       </div>
 

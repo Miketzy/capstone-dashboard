@@ -28,9 +28,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
-// Serve the Socket.IO client library
-app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client-dist'));
-// Create the HTTP server
+
 const server = http.createServer(app);
 
 
@@ -38,7 +36,6 @@ const server = http.createServer(app);
 // Enable CORS to allow requests from specific origins
 app.use(cors({
   origin: "https://bio-explorer-admin.onrender.com", // Adjust origins as needed
-   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow additional methods if necessary
   credentials: true
 }));
 
@@ -232,7 +229,7 @@ app.post("/login", (req, res) => {
               newPassword: user.newPassword, 
               confirmPassword: user.confirmPassword,
             },
-            JWT_SECRET,  // Make sure you are using the environment variable here
+            JWT_SECRET,  
             { expiresIn: "30d" }
           );
           
@@ -241,8 +238,8 @@ app.post("/login", (req, res) => {
           // Set the token in the cookie
           res.cookie("token", token, {
             httpOnly: true,  // Ensures the cookie is accessible only by the server
-            secure: process.env.NODE_ENV === "production",  // True in production for HTTPS, false in development
-            sameSite: "Strict",  // To prevent cross-origin issues
+            secure: true,  // True in production for HTTPS, false in development
+            sameSite: "None",  // To prevent cross-origin issues
           });
 
           // Send the token in the response body too (so frontend can access it)
@@ -1236,7 +1233,7 @@ app.get('/request-table', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
+      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });

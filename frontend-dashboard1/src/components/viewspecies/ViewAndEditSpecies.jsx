@@ -338,12 +338,10 @@ function ViewAndEditSpecies() {
               <Typography id="parent-modal-title" variant="h6" component="h2">
                 {selectedSpecies.specificname} Details
               </Typography>
-              <Typography id="parent-modal-description" sx={{ mt: 2 }}>
-                Scientific Name: {selectedSpecies.scientificname}
-              </Typography>
-              <Typography sx={{ mt: 2 }}>
-                Common Name: {selectedSpecies.commonname}
-              </Typography>
+              <br />
+              <br />
+              <br />
+              <br />
               <div className="eye-view">
                 <div className="images">
                   <img
@@ -382,9 +380,11 @@ function ViewAndEditSpecies() {
                 </div>
                 <div className="conservationstatus1">
                   <h3>Conservation Status:</h3>
-                  <p>{selectedSpecies.conservationstatus}</p>
+                  <p className="conservationstatus123">
+                    {selectedSpecies.conservationstatus}
+                  </p>
                 </div>
-                <div className="threats1">
+                <div className="adthreats1">
                   <h3>Threats:</h3>
                   <p>{selectedSpecies.threats}</p>
                 </div>
@@ -505,24 +505,8 @@ function ViewAndEditSpecies() {
                         </div>
 
                         <div className="edit-pencil-specific">
-                          <label htmlFor="edit-population">Population</label>
-                          <input
-                            type="text"
-                            placeholder="Enter  species population"
-                            className="edit-population"
-                            value={selectedSpecies.population || ""}
-                            onChange={(e) =>
-                              setSelectedSpecies({
-                                ...selectedSpecies,
-                                population: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-
-                        <div className="edit-pencil-specific">
                           <label htmlFor="pencil-species-categories">
-                            Species Categories
+                            Classification
                           </label>
                           <select
                             id="species-categories"
@@ -566,33 +550,19 @@ function ViewAndEditSpecies() {
                           />
                         </div>
 
-                        <div className="edit-pencil-specific">
-                          <label htmlFor="edit-Habitat">Habitat</label>
+                        <div className="edit-pencil-location">
+                          <label htmlFor="edit-location" className="location">
+                            Map
+                          </label>
                           <input
-                            type="text"
-                            placeholder="Enter species Habitat"
-                            className="edit-Habitat"
-                            value={selectedSpecies.habitat || ""}
+                            className="edit-location"
+                            placeholder="Mapping"
+                            rows="4"
+                            value={selectedSpecies.location || ""}
                             onChange={(e) =>
                               setSelectedSpecies({
                                 ...selectedSpecies,
-                                habitat: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-
-                        <div className="edit-pencil-specific">
-                          <label htmlFor="edit-threats">Threats</label>
-                          <input
-                            type="text"
-                            placeholder="Enter species threats"
-                            className="edit-threats"
-                            value={selectedSpecies.threats || ""}
-                            onChange={(e) =>
-                              setSelectedSpecies({
-                                ...selectedSpecies,
-                                threats: e.target.value,
+                                location: e.target.value,
                               })
                             }
                           />
@@ -630,19 +600,49 @@ function ViewAndEditSpecies() {
                       </div>
                     </div>
 
-                    <div className="edit-pencil-location">
-                      <label htmlFor="edit-location" className="location">
-                        Map
-                      </label>
-                      <input
-                        className="edit-location"
-                        placeholder="Mapping"
-                        rows="4"
-                        value={selectedSpecies.location || ""}
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-population">Population</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter  species population"
+                        className="edit-population"
+                        value={selectedSpecies.population || ""}
                         onChange={(e) =>
                           setSelectedSpecies({
                             ...selectedSpecies,
-                            location: e.target.value,
+                            population: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-Habitat">Habitat</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter species Habitat"
+                        className="edit-Habitat"
+                        value={selectedSpecies.habitat || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            habitat: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-threats">Threats</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter species threats"
+                        className="edit-threats"
+                        value={selectedSpecies.threats || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            threats: e.target.value,
                           })
                         }
                       />

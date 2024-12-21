@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie"; // For cookie handling
 
 function Login() {
   const [values, setValues] = useState({
@@ -10,35 +11,61 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // Set Axios default configuration for cross-origin requests
-  axios.defaults.withCredentials = true; // Important: sends cookies with requests
+  axios.defaults.withCredentials = true;
 
+  // Check if token exists in cookies or localStorage
+  const checkToken = () => {
+    const tokenFromCookies = Cookies.get("token"); // Check in cookies
+    const tokenFromLocalStorage = localStorage.getItem("authToken"); // Check in localStorage
+
+    if (tokenFromCookies || tokenFromLocalStorage) {
+      console.log("Token found:", tokenFromCookies || tokenFromLocalStorage);
+      return true;
+    } else {
+      console.log("No token found.");
+      return false;
+    }
+  };
+
+  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/login", // Your backend URL
+        "https://bioexplorer-backend.onrender.com/login",
         values,
         {
-          withCredentials: true, // Ensures cookies are sent and received
+          withCredentials: true,
         }
       );
 
-      console.log("Login successful:", response.data);
+      if (response.data) {
+        alert("Login successful!");
 
-      // Store user info for easy access
-      localStorage.setItem("firstname", response.data.firstname);
-      localStorage.setItem("lastname", response.data.lastname);
-      localStorage.setItem("email", response.data.email);
+        // Store token in cookies and localStorage
+        const token = response.data.token; // Assuming the backend returns the token
+        Cookies.set("token", token, {
+          expires: 30,
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+        });
+        localStorage.setItem("authToken", token);
 
-      // Navigate based on user status
-      if (response.data.status_user === "admin") {
-        navigate("/species-directory");
-      } else if (response.data.status_user === "contributor") {
-        navigate("/contributor-dashboard");
-      } else {
-        navigate("/");
+        // Store user info for easy access
+        localStorage.setItem("contributor_firstname", response.data.firstname);
+        localStorage.setItem("contributor_lastname", response.data.lastname);
+        localStorage.setItem("contributor_email", response.data.email);
+
+        // Navigate based on user status
+        if (response.data.status === "admin") {
+          navigate("/species-directory");
+        } else if (response.data.status === "contributor") {
+          navigate("/contributor-dashboard");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       const errorMessage =
