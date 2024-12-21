@@ -17,8 +17,8 @@ import dotenv from "dotenv"; // ES module syntax
 dotenv.config(); // Load environment variables from .env
 
 
+const JWT_SECRET = process.env.JWT_SECRET || "mySuperSecureSecretKey12345678";
 
-const JWT_SECRET = "mySuperSecureSecretKey12345678";
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,12 +33,10 @@ const server = http.createServer(app);
 
 
 
-// Enable CORS to allow requests from specific origins
 app.use(cors({
-  origin: "https://bio-explorer-admin.onrender.com", // Adjust origins as needed
-  credentials: true
+  origin: "https://bio-explorer-admin.onrender.com",
+  credentials: true // Para payagan ang cookies
 }));
-
 
 const connection = mysql2.createConnection({
   host: 'sql12.freesqldatabase.com',    // The server address
@@ -212,7 +210,7 @@ app.post("/login", (req, res) => {
           return res.status(500).json({ Message: "Error comparing passwords" });
         }
         if (isMatch) {
-          console.log("JWT_SECRET:", process.env.JWT_SECRET);
+          console.log("JWT_SECRET before signing:", JWT_SECRET);
           const token = jwt.sign(
             {
               id: user.id,
@@ -233,13 +231,12 @@ app.post("/login", (req, res) => {
             { expiresIn: "30d" }
           );
           
-          console.log("Generated Token: ", token);  // Add this line to log the token
+          console.log("Generated Token:", token);
 
-          // Set the token in the cookie
           res.cookie("token", token, {
-            httpOnly: true,  // Ensures the cookie is accessible only by the server
-            secure: true,  // True in production for HTTPS, false in development
-            sameSite: "None",  // To prevent cross-origin issues
+            httpOnly: true,
+            secure: true, // Tanging sa production ito gagamitin
+            sameSite: "None"
           });
 
           // Send the token in the response body too (so frontend can access it)

@@ -35,9 +35,7 @@ function Login() {
       const response = await axios.post(
         "https://bioexplorer-backend.onrender.com/login",
         values,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       if (response.data) {
@@ -47,11 +45,18 @@ function Login() {
         const token = response.data.token; // Assuming the backend returns the token
         Cookies.set("token", token, {
           expires: 30,
-          httpOnly: true,
-          secure: true,
-          sameSite: "None",
+          secure: true, // Required for HTTPS
+          sameSite: "None", // Required for cross-origin requests
         });
+
         localStorage.setItem("authToken", token);
+
+        // Log token to debug
+        console.log("Saved Token in Cookies:", Cookies.get("token"));
+        console.log(
+          "Saved Token in LocalStorage:",
+          localStorage.getItem("authToken")
+        );
 
         // Store user info for easy access
         localStorage.setItem("contributor_firstname", response.data.firstname);
