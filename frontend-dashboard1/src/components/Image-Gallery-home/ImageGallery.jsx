@@ -55,10 +55,6 @@ function ImageGallery() {
                 src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
                 alt={image.commonname}
                 className="w-full h-40 object-cover rounded-lg"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/path/to/default-image.png";
-                }}
               />
               {/* Centered Text */}
               <p className="text-center mt-2 font-medium text-gray-700 ml-2">
