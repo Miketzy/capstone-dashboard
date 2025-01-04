@@ -7,7 +7,7 @@ function ImageGallery() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/image")
+      .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
         const sortedImages = response.data.sort((a, b) =>
           a.commonname.localeCompare(b.commonname)
