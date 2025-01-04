@@ -57,8 +57,7 @@ function ImageGallery() {
                 className="w-full h-40 object-cover rounded-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src =
-                    "https://bioexplorer-backend.onrender.com/uploads/images/default-image.png";
+                  e.target.src = "/path/to/default-image.png";
                 }}
               />
               {/* Centered Text */}
