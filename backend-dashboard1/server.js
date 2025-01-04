@@ -39,10 +39,10 @@ app.use(cors({
 }));
 
 const connection = mysql2.createConnection({
-  host: 'sql12.freesqldatabase.com',    // The server address
-  user: 'sql12753374',                   // Your username
-  password: 'f4LpENH41Q',               // Your password
-  database: 'sql12753374',               // Your database name
+  host: 'sql12.freemysqlhosting.net',    // The server address
+  user: 'sql12755763',                   // Your username
+  password: 'Pmfi2itF78',               // Your password
+  database: 'sql12755763',               // Your database name
   port: 3306,                           // Default MySQL port
 });
 
