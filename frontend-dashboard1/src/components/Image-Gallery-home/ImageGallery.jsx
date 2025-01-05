@@ -29,7 +29,12 @@ function ImageGallery() {
     axios
       .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
       .then((response) => {
-        setImages(response.data); // Store images in state
+        // Add the full backend URL to each image
+        const updatedImages = response.data.map((item) => ({
+          ...item,
+          imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
+        }));
+        setImages(updatedImages); // Store images in state
         setLoading(false); // Update loading state after data is fetched
       })
       .catch((error) => {
@@ -74,9 +79,9 @@ function ImageGallery() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
           {/* Display Filtered Images */}
           {filteredImages.length > 0 ? (
-            filteredImages.map((image, index) => (
+            filteredImages.map((image) => (
               <div
-                key={index}
+                key={image.id} // Use unique ID as key instead of index
                 className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
               >
                 {image.uploadimage ? (

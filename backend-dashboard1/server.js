@@ -1168,7 +1168,7 @@ app.delete('/delete-species/:id', (req, res) => {
 // Serve static files (uploads/images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Route to fetch images
+// Update the API route to include the full URL
 app.get("/api/images", (req, res) => {
   const sql = "SELECT id, commonname, uploadimage FROM species";
   connection.query(sql, (err, result) => {
@@ -1176,9 +1176,15 @@ app.get("/api/images", (req, res) => {
       console.error("Error fetching images:", err);
       return res.status(500).json({ error: "Failed to fetch images" });
     }
-    res.json(result);
+    // Add the full backend URL to the image path
+    const updatedResult = result.map(item => ({
+      ...item,
+      imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}` // Add the full URL
+    }));
+    res.json(updatedResult);
   });
 });
+
 
 
 
