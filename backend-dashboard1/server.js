@@ -34,9 +34,12 @@ const server = http.createServer(app);
 
 
 app.use(cors({
-  origin: "https://bio-explorer-admin.onrender.com",
-  credentials: true // Para payagan ang cookies
+  origin: "https://bio-explorer-admin.onrender.com", // Only allow requests from this domain
+  methods: ['GET', 'POST'], // Allow only specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Only allow specific headers
+  credentials: true
 }));
+
 
 const connection = mysql2.createConnection({
   host: 'sql12.freemysqlhosting.net',    // The server address
@@ -1165,6 +1168,7 @@ app.delete('/delete-species/:id', (req, res) => {
 
 // Middleware to serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Route to fetch images
 app.get('/api/images', (req, res) => {

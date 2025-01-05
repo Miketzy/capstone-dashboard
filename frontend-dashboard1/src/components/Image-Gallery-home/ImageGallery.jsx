@@ -1,9 +1,25 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
     axios
@@ -23,7 +39,7 @@ function ImageGallery() {
   const filteredImages = images.filter((image) => {
     if (!image) return false;
 
-    const searchTermLower = searchTerm.toLowerCase().trim();
+    const searchTermLower = debouncedSearchTerm.toLowerCase().trim();
 
     return (
       image?.specificname?.toLowerCase().includes(searchTermLower) ||
@@ -35,7 +51,7 @@ function ImageGallery() {
   });
 
   return (
-    <div className="min-h-screen  flex flex-col items-center px-4 py-6">
+    <div className="min-h-screen flex flex-col items-center px-4 py-6">
       <div className="w-full max-w-2xl mb-6">
         <input
           type="text"
@@ -53,11 +69,15 @@ function ImageGallery() {
               className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
             >
               <img
-                src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
-                alt={image.commonname}
+                src={
+                  image.uploadimage
+                    ? `https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`
+                    : "/images/unknown-person-icon-Image-from_20220304.png" // Use relative path for frontend public folder
+                }
+                alt={image.commonname || "Default species"}
                 className="w-full h-40 object-cover rounded-lg"
               />
-              {/* Centered Text */}
+
               <p className="text-center mt-2 font-medium text-gray-700 ml-2">
                 {image.commonname}
               </p>
