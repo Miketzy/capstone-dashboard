@@ -39,7 +39,7 @@ app.use(cors({
 }));
 
 // Serve static images from the "uploads" directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
 
 const connection = mysql2.createConnection({
   host: 'sql12.freemysqlhosting.net',    // The server address
