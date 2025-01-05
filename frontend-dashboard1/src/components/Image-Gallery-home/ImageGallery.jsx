@@ -21,22 +21,28 @@ const useDebounce = (value, delay) => {
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
-    // Fetch images from backend API
-    axios
-      .get("https://bioexplorer-backend.onrender.com/api/images")
-      .then((response) => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(
+          "https://bioexplorer-backend.onrender.com/api/images"
+        );
         const sortedImages = response.data.sort((a, b) =>
           a.commonname.localeCompare(b.commonname)
         );
         setImages(sortedImages);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
   }, []);
 
   // Filter images based on the search term
@@ -56,6 +62,7 @@ function ImageGallery() {
 
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-6">
+      {/* Search Input */}
       <div className="w-full max-w-2xl mb-6">
         <input
           type="text"
@@ -65,33 +72,42 @@ function ImageGallery() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
-        {filteredImages.length > 0 ? (
-          filteredImages.map((image, index) => (
-            <div
-              key={index}
-              className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
-            >
-              <img
-                src={
-                  image.uploadimage
-                    ? `https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`
-                    : "/images/unknown-person-icon-Image-from_20220304.png" // Correct relative path for frontend public folder
-                }
-                alt={image.commonname || "Default species"}
-                className="w-full h-40 object-cover rounded-lg"
-              />
-              <p className="text-center mt-2 font-medium text-gray-700 ml-2">
-                {image.commonname}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No species found.
-          </p>
-        )}
-      </div>
+
+      {/* Loading State */}
+      {loading ? (
+        <p className="text-center text-gray-500">Loading images...</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
+          {/* Display Filtered Images */}
+          {filteredImages.length > 0 ? (
+            filteredImages.map((image, index) => (
+              <div
+                key={index}
+                className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
+              >
+                {image.uploadimage ? (
+                  <img
+                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    alt={image.commonname || "No image available"}
+                    className="w-full h-40 object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+                    No Image
+                  </div>
+                )}
+                <p className="text-center mt-2 font-medium text-gray-700 ml-2">
+                  {image.commonname}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="col-span-full text-center text-gray-500">
+              No species found.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
