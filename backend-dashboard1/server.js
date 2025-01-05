@@ -1169,16 +1169,15 @@ app.delete('/delete-species/:id', (req, res) => {
 const uploadDir = path.join(__dirname, "uploads", "images");
 app.use("/uploads/images", express.static(uploadDir));
 
-// Fetch images from the database
+// Route to fetch images
 app.get("/api/images", (req, res) => {
-  const query = "SELECT id, specificname, commonname, scientificname, speciescategory, classification, uploadimage FROM species";
-
-  db.query(query, (err, results) => {
+  const sql = "SELECT id, commonname, uploadimage FROM species";
+  connection.query(sql, (err, result) => {
     if (err) {
-      console.error("Error fetching images from the database:", err.message);
-      return res.status(500).json({ error: "Database query error" });
+      console.error("Error fetching images:", err);
+      return res.status(500).json({ error: "Failed to fetch images" });
     }
-    res.json(results);
+    res.json(result);
   });
 });
 
