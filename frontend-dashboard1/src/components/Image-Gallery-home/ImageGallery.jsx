@@ -27,20 +27,19 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
+      .get("https://bioexplorer-backend.onrender.com/api/images") // Backend API endpoint
       .then((response) => {
-        // Add the full backend URL to each image
         const updatedImages = response.data.map((item) => ({
           ...item,
           imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
         }));
         setImages(updatedImages); // Store images in state
-        setLoading(false); // Update loading state after data is fetched
+        setLoading(false); // Stop loading spinner
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-        setLoading(false); // Ensure loading state is also set to false on error
+        setLoading(false); // Stop loading spinner even on error
       });
   }, []);
 
@@ -86,9 +85,14 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    src={image.imageUrl}
                     alt={image.commonname || "No image available"}
                     className="w-full h-40 object-cover rounded-lg"
+                    onError={(e) => {
+                      e.target.onerror = null; // Prevent infinite loop
+                      e.target.src =
+                        "/unknown-person-icon-Image-from_20220304.png"; // Fallback image
+                    }}
                   />
                 ) : (
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
