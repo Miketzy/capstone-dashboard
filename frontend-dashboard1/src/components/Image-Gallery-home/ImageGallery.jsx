@@ -27,15 +27,13 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images") // Ensure the URL is correct for your backend
+      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
       .then((response) => {
         setImages(response.data); // Store images in state
-        setLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-        setLoading(false); // Set loading to false even if there's an error
       });
   }, []);
 
@@ -46,8 +44,11 @@ function ImageGallery() {
     const searchTermLower = debouncedSearchTerm.toLowerCase().trim();
 
     return (
+      image?.specificname?.toLowerCase().includes(searchTermLower) ||
       image?.commonname?.toLowerCase().includes(searchTermLower) ||
-      image?.scientificname?.toLowerCase().includes(searchTermLower)
+      image?.scientificname?.toLowerCase().includes(searchTermLower) ||
+      image?.speciescategory?.toLowerCase().includes(searchTermLower) ||
+      image?.classification?.toLowerCase().includes(searchTermLower)
     );
   });
 
