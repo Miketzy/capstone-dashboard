@@ -1165,7 +1165,8 @@ app.delete('/delete-species/:id', (req, res) => {
 });
 
 // Middleware to serve static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));  
+
 // Route to fetch images
 app.get('/api/images', (req, res) => {
   const sql = 'SELECT id, commonname, uploadimage FROM species';
