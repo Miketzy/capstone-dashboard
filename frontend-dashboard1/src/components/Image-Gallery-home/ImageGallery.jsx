@@ -30,10 +30,12 @@ function ImageGallery() {
       .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
       .then((response) => {
         setImages(response.data); // Store images in state
+        setLoading(false); // Update loading state after data is fetched
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
+        setLoading(false); // Ensure loading state is also set to false on error
       });
   }, []);
 
