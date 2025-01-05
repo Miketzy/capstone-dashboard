@@ -1169,7 +1169,7 @@ app.use("/uploads/images", express.static(path.join(__dirname, "uploads/images")
 
 // API Endpoint to Get Images
 app.get("/api/images", (req, res) => {
-  const query = "SELECT id, commonname, image_url FROM images";
+  const query = "SELECT id, commonname, uploadimage FROM species";
   db.query(query, (err, results) => {
     if (err) {
       console.error("Error fetching images:", err);
