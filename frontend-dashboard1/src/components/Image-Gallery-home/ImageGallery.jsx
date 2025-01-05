@@ -81,7 +81,7 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={`/uploads/images/${image.uploadimage}`}
+                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
                     alt={image.commonname || "No image available"}
                     className="w-full h-40 object-cover rounded-lg"
                   />
