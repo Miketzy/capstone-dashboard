@@ -1180,7 +1180,7 @@ app.get("/api/images", (req, res) => {
     const images = result.map((item) => ({
       id: item.id,
       commonname: item.commonname,
-      imageUrl: `/uploads/images/${item.uploadimage}`, // Construct full image URL
+      imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
     }));
     res.json(images);
   });
