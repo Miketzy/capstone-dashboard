@@ -24,6 +24,7 @@ function ImageGallery() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
+    // Fetch images from backend API
     axios
       .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
@@ -38,6 +39,7 @@ function ImageGallery() {
       });
   }, []);
 
+  // Filter images based on the search term
   const filteredImages = images.filter((image) => {
     if (!image) return false;
 

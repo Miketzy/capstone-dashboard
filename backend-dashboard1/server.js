@@ -38,8 +38,7 @@ app.use(cors({
   credentials: true,  // Allow cookies, if needed
 }));
 
-// Serve static images from the "uploads" directory
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
+
 
 const connection = mysql2.createConnection({
   host: 'sql12.freemysqlhosting.net',    // The server address
@@ -1166,19 +1165,21 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
+// Serve static files from "uploads/images" directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-// API route to fetch images
-app.get('/api/images', (req, res) => {
-  const sql = 'SELECT id, commonname, uploadimage FROM species';
+// Route to fetch images
+app.get("/api/images", (req, res) => {
+  const sql = "SELECT id, commonname, uploadimage FROM species";
   connection.query(sql, (err, result) => {
     if (err) {
-      console.error('Error fetching images:', err);
-      return res.status(500).json({ error: 'Failed to fetch images' });
+      console.error("Error fetching images:", err);
+      return res.status(500).json({ error: "Failed to fetch images" });
     }
-    res.json(result);
+    res.json(result); // Return the image data to the frontend
   });
 });
+
 
 
 
