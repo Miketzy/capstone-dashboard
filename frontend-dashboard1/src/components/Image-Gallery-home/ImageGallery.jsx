@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
+// Custom hook for debouncing input
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -72,12 +74,11 @@ function ImageGallery() {
                 src={
                   image.uploadimage
                     ? `https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`
-                    : "/images/unknown-person-icon-Image-from_20220304.png" // Use relative path for frontend public folder
+                    : "/images/unknown-person-icon-Image-from_20220304.png" // Correct relative path for frontend public folder
                 }
                 alt={image.commonname || "Default species"}
                 className="w-full h-40 object-cover rounded-lg"
               />
-
               <p className="text-center mt-2 font-medium text-gray-700 ml-2">
                 {image.commonname}
               </p>
