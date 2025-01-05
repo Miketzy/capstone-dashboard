@@ -27,15 +27,13 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images")
+      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
       .then((response) => {
         setImages(response.data); // Store images in state
-        setLoading(false); // Set loading to false when images are fetched
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-        setLoading(false); // Set loading to false on error
       });
   }, []);
 

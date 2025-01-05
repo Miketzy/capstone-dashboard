@@ -1176,16 +1176,9 @@ app.get("/api/images", (req, res) => {
       console.error("Error fetching images:", err);
       return res.status(500).json({ error: "Failed to fetch images" });
     }
-    // Assuming 'uploadimage' contains the image file name
-    const images = result.map((item) => ({
-      id: item.id,
-      commonname: item.commonname,
-      imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
-    }));
-    res.json(images);
+    res.json(result);
   });
 });
-
 
 
 
