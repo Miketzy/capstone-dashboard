@@ -34,10 +34,8 @@ const server = http.createServer(app);
 
 
 app.use(cors({
-  origin: "https://bio-explorer-admin.onrender.com", // Only allow requests from this domain
-  methods: ['GET', 'POST'], // Allow only specific HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Only allow specific headers
-  credentials: true
+  origin: "https://bio-explorer-admin.onrender.com",
+  credentials: true,  // Allow cookies, if needed
 }));
 
 
