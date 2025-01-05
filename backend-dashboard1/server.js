@@ -38,6 +38,8 @@ app.use(cors({
   credentials: true,  // Allow cookies, if needed
 }));
 
+// Serve static images from the "uploads" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const connection = mysql2.createConnection({
   host: 'sql12.freemysqlhosting.net',    // The server address
@@ -1164,10 +1166,9 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
-// Middleware to serve static files
-app.use('/uploads', express.static('uploads'));  
 
-// Route to fetch images
+
+// API route to fetch images
 app.get('/api/images', (req, res) => {
   const sql = 'SELECT id, commonname, uploadimage FROM species';
   connection.query(sql, (err, result) => {
