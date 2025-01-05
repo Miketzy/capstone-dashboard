@@ -27,13 +27,15 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
+      .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
         setImages(response.data); // Store images in state
+        setLoading(false); // Set loading to false when images are fetched
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
+        setLoading(false); // Set loading to false on error
       });
   }, []);
 
@@ -79,7 +81,7 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    src={`/uploads/images/${image.uploadimage}`}
                     alt={image.commonname || "No image available"}
                     className="w-full h-40 object-cover rounded-lg"
                   />
