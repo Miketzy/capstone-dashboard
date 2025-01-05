@@ -1173,7 +1173,7 @@ app.use("/uploads/images", express.static(uploadDir));
 app.get("/api/images", (req, res) => {
   const query = "SELECT id, specificname, commonname, scientificname, speciescategory, classification, uploadimage FROM species";
 
-  connection.query(query, (err, results) => {
+  db.query(query, (err, results) => {
     if (err) {
       console.error("Error fetching images from the database:", err.message);
       return res.status(500).json({ error: "Database query error" });
