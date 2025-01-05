@@ -33,7 +33,7 @@ function ImageGallery() {
         setImages(sortedImages);
       })
       .catch((error) => {
-        console.error("Error fetching images:", error.message);
+        console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
       });
   }, []);
