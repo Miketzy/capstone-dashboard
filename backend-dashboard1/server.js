@@ -1177,8 +1177,9 @@ app.get("/api/images", (req, res) => {
     }
     const baseURL = "https://bioexplorer-backend.onrender.com/uploads/images/";
     const updatedResults = results.map((image) => ({
-      ...image,
-      image_url: image.image_url ? `${baseURL}${image.image_url}` : null,
+      id: image.id,
+      commonname: image.commonname,
+      image_url: image.uploadimage ? `${baseURL}${image.uploadimage}` : null, // Correctly map uploadimage to image_url
     }));
     res.json(updatedResults);
   });
