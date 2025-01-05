@@ -1165,10 +1165,9 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
-// Serve static files from "uploads/images" directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads/images", express.static(path.join(__dirname, "uploads/images")));
 
-// API to fetch images
+// API Endpoint to Get Images
 app.get("/api/images", (req, res) => {
   const query = "SELECT id, commonname, image_url FROM images";
   db.query(query, (err, results) => {
@@ -1176,7 +1175,6 @@ app.get("/api/images", (req, res) => {
       console.error("Error fetching images:", err);
       return res.status(500).json({ error: "Failed to fetch images" });
     }
-    // Transform the results to include full URL
     const baseURL = "https://bioexplorer-backend.onrender.com/uploads/images/";
     const updatedResults = results.map((image) => ({
       ...image,
