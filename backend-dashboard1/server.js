@@ -1163,18 +1163,21 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
-// Middleware to serve static files from the 'uploads' folder
-app.use('/uploads', express.static(path.join(__dirname, 'uploads/images')));
+// Middleware to serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Route to fetch images
 app.get('/api/images', (req, res) => {
   const sql = 'SELECT id, commonname, uploadimage FROM species';
   connection.query(sql, (err, result) => {
     if (err) {
+      console.error('Error fetching images:', err);
       return res.status(500).json({ error: 'Failed to fetch images' });
     }
     res.json(result);
   });
 });
+
 
 
 // Route to add species to pending request
