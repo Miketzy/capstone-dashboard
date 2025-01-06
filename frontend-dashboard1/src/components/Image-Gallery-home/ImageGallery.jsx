@@ -25,20 +25,22 @@ function ImageGallery() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
+    // Fetch images from the deployed backend
     axios
       .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
+        // Add the full backend URL to each image
         const updatedImages = response.data.map((item) => ({
           ...item,
-          imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`,
+          imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
         }));
-        setImages(updatedImages); // Store the images in state
-        setLoading(false);
+        setImages(updatedImages); // Store images in state
+        setLoading(false); // Update loading state after data is fetched
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-        setLoading(false);
+        setLoading(false); // Ensure loading state is also set to false on error
       });
   }, []);
 
@@ -79,12 +81,12 @@ function ImageGallery() {
           {filteredImages.length > 0 ? (
             filteredImages.map((image) => (
               <div
-                key={image.id} // Use unique ID as key instead of index
+                key={image.id} // Use unique ID as key
                 className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
               >
                 {image.uploadimage ? (
                   <img
-                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    src={image.imageUrl}
                     alt={image.commonname || "No image available"}
                     className="w-full h-40 rounded-lg"
                   />
