@@ -100,7 +100,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
         if (onUpdateProfile) {
           onUpdateProfile(res.data);
         }
-        navigate("/my-profile");
+        navigate("/contributor-MyProfile");
       } else {
         alert("Failed to update profile. Please try again.");
       }

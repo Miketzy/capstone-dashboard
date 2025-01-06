@@ -15,9 +15,7 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get(
-          "https://bioexplorer-backend.onrender.com/request-table"
-        );
+        const res = await axios.get("http://localhost:8080/request-table");
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);
@@ -70,7 +68,7 @@ function ContributorRequest() {
   // Handle disapproval action (reject)
   const handleDisapprove = (id) => {
     axios
-      .delete(`https://bioexplorer-backend.onrender.com/species/reject/${id}`)
+      .delete(`http://localhost:8080/species/reject/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the rejected entry from the state

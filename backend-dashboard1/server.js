@@ -1165,9 +1165,8 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
-// Static Files for serving images
-const uploadDir = path.join(__dirname, "uploads", "images");
-app.use("/uploads/images", express.static(uploadDir));
+// Static folder for images
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
 
 // Route to fetch images
 app.get("/api/images", (req, res) => {
@@ -1236,7 +1235,7 @@ app.get('/request-table', (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.map(item => ({
       ...item,
-      uploadimage: `http://localhost:8080/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
     }));
     return res.json(result);
   });

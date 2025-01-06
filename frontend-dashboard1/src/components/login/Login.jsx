@@ -35,7 +35,9 @@ function Login() {
       const response = await axios.post(
         "https://bioexplorer-backend.onrender.com/login",
         values,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
 
       if (response.data) {
@@ -45,7 +47,7 @@ function Login() {
         const token = response.data.token; // Assuming the backend returns the token
         Cookies.set("token", token, {
           expires: 30,
-          secure: true, // Required for HTTPS
+          secure: false, // Required for HTTPS
           sameSite: "None", // Required for cross-origin requests
         });
 
