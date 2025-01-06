@@ -1165,8 +1165,7 @@ app.delete('/delete-species/:id', (req, res) => {
   });
 });
 
-// Static folder for images
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
 // Route to fetch images
 app.get("/api/images", (req, res) => {

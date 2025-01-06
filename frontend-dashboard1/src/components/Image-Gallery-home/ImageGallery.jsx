@@ -22,28 +22,21 @@ function ImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false); // Added error state
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debounce with 500ms delay
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
     // Fetch images from the backend
-    const fetchImages = async () => {
-      setLoading(true); // Set loading to true during fetch
-      setError(false); // Reset error state before fetching
-      try {
-        const response = await axios.get(
-          "https://bioexplorer-backend.onrender.com/api/images" // Ensure correct URL
-        );
+    axios
+      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
+      .then((response) => {
         setImages(response.data); // Store images in state
-      } catch (error) {
+        setLoading(false); // Update loading state after data is fetched
+      })
+      .catch((error) => {
         console.error("Error fetching images:", error);
-        setError(true); // Set error state if fetch fails
-      } finally {
-        setLoading(false); // Always stop loading after fetch
-      }
-    };
-
-    fetchImages();
+        alert("Unable to fetch images. Please check the server status.");
+        setLoading(false); // Ensure loading state is also set to false on error
+      });
   }, []);
 
   // Filter images based on the search term
@@ -62,7 +55,7 @@ function ImageGallery() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-6 bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center px-4 py-6">
       {/* Search Input */}
       <div className="w-full max-w-2xl mb-6">
         <input
@@ -73,13 +66,6 @@ function ImageGallery() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
-      {/* Error State */}
-      {error && (
-        <p className="text-center text-red-500">
-          Unable to fetch images. Please check the server status.
-        </p>
-      )}
 
       {/* Loading State */}
       {loading ? (
@@ -95,10 +81,8 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${
-                      image.uploadimage
-                    }?t=${Date.now()}`}
-                    alt={`Image of ${image.commonname || "unknown species"}`}
+                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    alt={image.commonname || "No image available"}
                     className="w-full h-40  rounded-lg"
                   />
                 ) : (
@@ -107,15 +91,13 @@ function ImageGallery() {
                   </div>
                 )}
                 <p className="text-center mt-2 font-medium text-gray-700 ml-2">
-                  {image.commonname || "Unknown Species"}
+                  {image.commonname}
                 </p>
               </div>
             ))
           ) : (
             <p className="col-span-full text-center text-gray-500">
-              {searchTerm
-                ? "No species match your search criteria."
-                : "No species found."}
+              No species found.
             </p>
           )}
         </div>
