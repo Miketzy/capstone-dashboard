@@ -22,26 +22,28 @@ function ImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
+  const [error, setError] = useState(false); // Added error state
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debounce with 500ms delay
 
   useEffect(() => {
-    // Fetch images from the deployed backend
-    axios
-      .get("https://bioexplorer-backend.onrender.com/api/images")
-      .then((response) => {
-        // Add the full backend URL to each image
-        const updatedImages = response.data.map((item) => ({
-          ...item,
-          imageUrl: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`, // Construct full image URL
-        }));
-        setImages(updatedImages); // Store images in state
-        setLoading(false); // Update loading state after data is fetched
-      })
-      .catch((error) => {
+    // Fetch images from the backend
+    const fetchImages = async () => {
+      setLoading(true); // Set loading to true during fetch
+      setError(false); // Reset error state before fetching
+      try {
+        const response = await axios.get(
+          "https://bioexplorer-backend.onrender.com/api/images" // Ensure correct URL
+        );
+        setImages(response.data); // Store images in state
+      } catch (error) {
         console.error("Error fetching images:", error);
-        alert("Unable to fetch images. Please check the server status.");
-        setLoading(false); // Ensure loading state is also set to false on error
-      });
+        setError(true); // Set error state if fetch fails
+      } finally {
+        setLoading(false); // Always stop loading after fetch
+      }
+    };
+
+    fetchImages();
   }, []);
 
   // Filter images based on the search term
@@ -60,7 +62,7 @@ function ImageGallery() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-6">
+    <div className="min-h-screen flex flex-col items-center px-4 py-6 bg-gray-100">
       {/* Search Input */}
       <div className="w-full max-w-2xl mb-6">
         <input
@@ -72,6 +74,13 @@ function ImageGallery() {
         />
       </div>
 
+      {/* Error State */}
+      {error && (
+        <p className="text-center text-red-500">
+          Unable to fetch images. Please check the server status.
+        </p>
+      )}
+
       {/* Loading State */}
       {loading ? (
         <p className="text-center text-gray-500">Loading images...</p>
@@ -79,16 +88,18 @@ function ImageGallery() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
           {/* Display Filtered Images */}
           {filteredImages.length > 0 ? (
-            filteredImages.map((image) => (
+            filteredImages.map((image, index) => (
               <div
-                key={image.id} // Use unique ID as key
+                key={index}
                 className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
               >
                 {image.uploadimage ? (
                   <img
-                    src={image.imageUrl}
-                    alt={image.commonname || "No image available"}
-                    className="w-full h-40 rounded-lg"
+                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${
+                      image.uploadimage
+                    }?t=${Date.now()}`}
+                    alt={`Image of ${image.commonname || "unknown species"}`}
+                    className="w-full h-40  rounded-lg"
                   />
                 ) : (
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
@@ -96,13 +107,15 @@ function ImageGallery() {
                   </div>
                 )}
                 <p className="text-center mt-2 font-medium text-gray-700 ml-2">
-                  {image.commonname}
+                  {image.commonname || "Unknown Species"}
                 </p>
               </div>
             ))
           ) : (
             <p className="col-span-full text-center text-gray-500">
-              No species found.
+              {searchTerm
+                ? "No species match your search criteria."
+                : "No species found."}
             </p>
           )}
         </div>
