@@ -1468,23 +1468,30 @@ const generateOTP = () => {
   return crypto.randomInt(100000, 999999).toString(); // Generates a number between 100000 and 999999
 };
 
-// Endpoint to handle OTP email sending
 app.post('/send-otp', (req, res) => {
   const { email } = req.body;
 
-  // Generate an OTP and store it in memory
+  if (!email) {
+    console.error('Error: No email provided');
+    return res.status(400).send('Email is required');
+  }
+
   const otp = generateOTP();
-  otpStore[email] = otp; // Store OTP for the email
+  otpStore[email] = otp;
+
+  console.log(`Generated OTP: ${otp} for email: ${email}`);
 
   sendOTPEmail(email, otp)
     .then(() => {
+      console.log(`OTP successfully sent to ${email}`);
       res.status(200).send('OTP sent to your email');
     })
     .catch((error) => {
-      console.error('Error sending email:', error); // Log the error
+      console.error('Error in sendOTPEmail:', error.message);
       res.status(500).send('Error sending email');
     });
 });
+
 
 // Endpoint to verify OTP
 app.post('/verify-otp', (req, res) => {
