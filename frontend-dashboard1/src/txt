@@ -5,3 +5,4 @@ const connection = mysql2.createConnection({
   database: 'sql5751289',               // Your database name
   port: 3306,                           // Default MySQL port
 });
+
