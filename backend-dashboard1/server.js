@@ -35,6 +35,7 @@ const server = http.createServer(app);
 
 app.use(cors({
   origin: "https://admin-bioexplorer.vercel.app",
+  methods: ['GET', 'POST'], // Allow GET and POST methods
   credentials: true,  // Allow cookies, if needed
 }));
 
