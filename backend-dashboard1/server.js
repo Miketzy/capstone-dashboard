@@ -1440,6 +1440,7 @@ app.delete('/species/reject/:id', (req, res) => {
 });
 
 
+
 // In-memory storage for OTPs
 const otpStore = {};
 
@@ -1448,8 +1449,8 @@ const sendOTPEmail = (email, otp) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'michaeljohnmargate11@gmail.com', // Your Gmail address
-      pass: 'ghcp yguc opnc kgwg', // Your Gmail password or app password
+      user: 'michaeljohnmargate11@gmail.com', // Hardcoded email
+      pass: 'ghcp yguc opnc kgwg', // Hardcoded app password
     },
   });
 
@@ -1465,9 +1466,10 @@ const sendOTPEmail = (email, otp) => {
 
 // Generate a 6-digit OTP code
 const generateOTP = () => {
-  return crypto.randomInt(100000, 999999).toString(); // Generates a number between 100000 and 999999
+  return crypto.randomInt(100000, 999999).toString();
 };
 
+// Endpoint to send OTP
 app.post('/send-otp', (req, res) => {
   const { email } = req.body;
 
@@ -1491,7 +1493,6 @@ app.post('/send-otp', (req, res) => {
       res.status(500).send('Error sending email');
     });
 });
-
 
 // Endpoint to verify OTP
 app.post('/verify-otp', (req, res) => {
