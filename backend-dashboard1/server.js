@@ -34,7 +34,7 @@ const server = http.createServer(app);
 
 
 app.use(cors({
-  origin: "https://davao-oreintal-bioexplorer-admin-lsxrdhin8.vercel.app",
+  origin: "https://admin-bioexplorer.vercel.app",
   credentials: true,  // Allow cookies, if needed
 }));
 
