@@ -1484,14 +1484,15 @@ app.post('/send-otp', (req, res) => {
   console.log(`Generated OTP: ${otp} for email: ${email}`);
 
   sendOTPEmail(email, otp)
-    .then(() => {
-      console.log(`OTP successfully sent to ${email}`);
-      res.status(200).send('OTP sent to your email');
-    })
-    .catch((error) => {
-      console.error('Error in sendOTPEmail:', error.message);
-      res.status(500).send('Error sending email');
-    });
+  .then(() => {
+    console.log(`OTP successfully sent to ${email}`);
+    res.status(200).send('OTP sent to your email');
+  })
+  .catch((error) => {
+    console.error('Error in sendOTPEmail:', error);
+    res.status(500).send('Error sending email');
+  });
+
 });
 
 // Endpoint to verify OTP
