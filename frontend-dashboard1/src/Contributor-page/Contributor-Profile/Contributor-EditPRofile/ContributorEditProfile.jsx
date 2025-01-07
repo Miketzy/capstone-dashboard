@@ -92,6 +92,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true, // Include credentials in the request
         }
       );
 
