@@ -1615,7 +1615,7 @@ app.post("/send-otp", (req, res) => {
     })
     .catch((error) => {
       console.error("Error in sendOTPEmail:", error);
-      res.status(500).send("Error sending email");
+      res.status(500).send("Error in sendOTPEmail:", error);
     });
 });
 
