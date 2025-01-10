@@ -32,7 +32,7 @@ function Navbar() {
           const user = response.data.user;
 
           if (user) {
-            console.log("User data:", user); // Log user data
+            console.log("User data:s", user); // Log user data
             setUser({
               firstname: user.firstname || "",
               middlename: user.middlename || "",
