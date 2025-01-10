@@ -39,6 +39,8 @@ function EditProfile({ onUpdateProfile }) {
         });
 
         const user = res.data.user;
+        console.log("Edit profile: ", user);
+
         const imageUrl = user.image
           ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
