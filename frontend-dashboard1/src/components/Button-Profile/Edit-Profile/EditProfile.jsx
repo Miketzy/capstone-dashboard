@@ -89,7 +89,7 @@ function EditProfile({ onUpdateProfile }) {
       formData.append("image", imageFile);
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
       alert("No token found. Please log in.");
