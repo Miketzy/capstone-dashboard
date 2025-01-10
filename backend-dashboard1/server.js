@@ -27,7 +27,7 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-    origin: "https://davao-oreintal-bioexplorer-admin.vercel.app", // Allow requests from this origin
+    origin: "https://davor-bioexplorer-admin.vercel.app/", // Allow requests from this origin
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH"], // Allow these methods
     credentials: true, // Allow cookies, if needed
   })
