@@ -1,63 +1,53 @@
-import express from 'express'
-import mysql2 from 'mysql2'
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import jwt from 'jsonwebtoken'
-import path from 'path';
-import multer from 'multer';
-import bcrypt from 'bcryptjs';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import express from "express";
+import mysql2 from "mysql2";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import path from "path";
+import multer from "multer";
+import bcrypt from "bcryptjs";
+import { fileURLToPath } from "url";
+import fs from "fs";
 import nodemailer from "nodemailer";
-import crypto from 'crypto'; // For OTP generation
-import http from 'http';
-import { Server } from 'socket.io';
+import crypto from "crypto"; // For OTP generation
+import http from "http";
+import { Server } from "socket.io";
 import dotenv from "dotenv"; // ES module syntax
 
 dotenv.config(); // Load environment variables from .env
-
-
-
 
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-
 const app = express();
 app.use(express.json());
 
-
 const server = http.createServer(app);
 
-
-
-app.use(cors({
-  origin: "https://admin-bioexplorer.vercel.app",
-  methods: ['GET', 'POST'], // Allow GET and POST methods
-  credentials: true,  // Allow cookies, if needed
-}));
-
-
+app.use(
+  cors({
+    origin: "*", // Allow requests from this origin
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH"], // Allow GET and POST methods
+    credentials: true, // Allow cookies, if needed
+  })
+);
 
 const connection = mysql2.createConnection({
-  host: 'sql12.freemysqlhosting.net',    // The server address
-  user: 'sql12755763',                   // Your username
-  password: 'Pmfi2itF78',               // Your password
-  database: 'sql12755763',               // Your database name
-  port: 3306,                           // Default MySQL port
+  host: "sql12.freemysqlhosting.net", // The server address
+  user: "sql12755763", // Your username
+  password: "Pmfi2itF78", // Your password
+  database: "sql12755763", // Your database name
+  port: 3306, // Default MySQL port
 });
 
 connection.connect((err) => {
   if (err) {
-    console.error('Database Connection Failed:', err);
+    console.error("Database Connection Failed:", err);
   } else {
-    console.log('Connected to the MySQL Database');
+    console.log("Connected to the MySQL Database");
   }
 });
-
-
 
 // Make sure to use cookieParser before any route handling
 app.use(cookieParser());
@@ -67,7 +57,9 @@ const verifyUser = (req, res, next) => {
   console.log("token:", token); // Log token to check if it's being sent correctly.
 
   if (!token) {
-    return res.status(401).json({ message: "We need a token, please provide it." });
+    return res
+      .status(401)
+      .json({ message: "We need a token, please provide it." });
   }
 
   jwt.verify(token, "mySuperSecureSecretKey12345678", (err, decoded) => {
@@ -94,34 +86,32 @@ const verifyUser = (req, res, next) => {
   });
 };
 
-
-
 // Configure Multer for profile image storage
 const profileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads/avatar'); // Folder to store uploaded images
+    cb(null, "./uploads/avatar"); // Folder to store uploaded images
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + '-' + file.originalname); // Ensure the image has a unique name
-  }
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname); // Ensure the image has a unique name
+  },
 });
 
 const uploaded = multer({ storage: profileStorage });
 // Route to upload and update profile image
-app.post('/upload-profile', uploaded.single('profileImage'), (req, res) => {
+app.post("/upload-profile", uploaded.single("profileImage"), (req, res) => {
   const userId = req.body.userId || 1; // Using userId = 1 for this example
 
   // Check if user exists
   if (!users[userId]) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
 
   // Optionally delete the old profile image (if user already has one)
   const existingImage = users[userId].image;
   if (existingImage) {
     fs.unlink(`./uploads/avatar/${existingImage}`, (err) => {
-      if (err) console.error('Error deleting old image:', err);
+      if (err) console.error("Error deleting old image:", err);
     });
   }
 
@@ -133,22 +123,33 @@ app.post('/upload-profile', uploaded.single('profileImage'), (req, res) => {
   res.json({ success: true, newImage });
 });
 
-app.use('/uploads/avatar', express.static(path.join(__dirname, 'uploads/avatar')));
+app.use(
+  "/uploads/avatar",
+  express.static(path.join(__dirname, "uploads/avatar"))
+);
 const profileStorages = multer.diskStorage({
   destination: (req, file, cb) => {
-    return cb(null, "./uploads/avatar")
+    return cb(null, "./uploads/avatar");
   },
-  filename: function (req, file, cb){
+  filename: function (req, file, cb) {
     return cb(null, Date.now() + path.extname(file.originalname));
-  }
-})
+  },
+});
 
 const profileUpload = multer({ storage: profileStorages });
 
 // Profile update route
-app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
+app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
   const userId = req.userId; // User ID from the verified token
-  const { firstname, middlename, lastname, email, gender, phone_number, username } = req.body;
+  const {
+    firstname,
+    middlename,
+    lastname,
+    email,
+    gender,
+    phone_number,
+    username,
+  } = req.body;
 
   // Check if a new image has been uploaded
   const newImage = req.file ? req.file.filename : null;
@@ -158,8 +159,8 @@ app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
 
   connection.query(selectSql, [userId], (selectErr, selectResults) => {
     if (selectErr) {
-      console.error('Error fetching current image:', selectErr);
-      return res.status(500).json({ message: 'Server error' });
+      console.error("Error fetching current image:", selectErr);
+      return res.status(500).json({ message: "Server error" });
     }
 
     const currentImage = selectResults[0]?.image;
@@ -180,18 +181,30 @@ app.put('/profile', verifyUser, profileUpload.single('image'), (req, res) => {
     `;
 
     // Execute the update query
-    connection.query(updateSql, [firstname, middlename, lastname, email, gender, phone_number, username, imageToUpdate, userId], (err, results) => {
-      if (err) {
-        console.error('Database update error:', err);
-        return res.status(500).json({ message: 'Server error' });
-      }
+    connection.query(
+      updateSql,
+      [
+        firstname,
+        middlename,
+        lastname,
+        email,
+        gender,
+        phone_number,
+        username,
+        imageToUpdate,
+        userId,
+      ],
+      (err, results) => {
+        if (err) {
+          console.error("Database update error:", err);
+          return res.status(500).json({ message: "Server error" });
+        }
 
-      res.json({ message: 'Profile updated successfully' });
-    });
+        res.json({ message: "Profile updated successfully" });
+      }
+    );
   });
 });
-
-
 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
@@ -213,7 +226,10 @@ app.post("/login", (req, res) => {
           return res.status(500).json({ Message: "Error comparing passwords" });
         }
         if (isMatch) {
-          console.log("JWT_SECRET before signing:", "mySuperSecureSecretKey12345678");
+          console.log(
+            "JWT_SECRET before signing:",
+            "mySuperSecureSecretKey12345678"
+          );
           const token = jwt.sign(
             {
               id: user.id,
@@ -226,20 +242,20 @@ app.post("/login", (req, res) => {
               gender: user.gender,
               image: user.image,
               status: user.status,
-              currentPassword: user.currentPassword, 
-              newPassword: user.newPassword, 
+              currentPassword: user.currentPassword,
+              newPassword: user.newPassword,
               confirmPassword: user.confirmPassword,
             },
-            "mySuperSecureSecretKey12345678",  
+            "mySuperSecureSecretKey12345678",
             { expiresIn: "30d" }
           );
-          
+
           console.log("Generated Token:", token);
 
           res.cookie("token", token, {
             httpOnly: true,
             secure: true, // Tanging sa production ito gagamitin
-            sameSite: "None"
+            sameSite: "None",
           });
 
           // Send the token in the response body too (so frontend can access it)
@@ -254,8 +270,8 @@ app.post("/login", (req, res) => {
             gender: user.gender,
             image: user.image,
             email: user.email,
-            currentPassword: user.currentPassword, 
-            newPassword: user.newPassword, 
+            currentPassword: user.currentPassword,
+            newPassword: user.newPassword,
             confirmPassword: user.confirmPassword,
           });
         } else {
@@ -267,9 +283,6 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
-
-
 
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {
@@ -285,9 +298,9 @@ app.get("/", verifyUser, (req, res) => {
       email: req.email,
       image: req.image,
       status: req.status,
-      currentPassword:req.currentPassword, 
-      newPassword:req.newPassword, 
-      confirmPassword: req.confirmPassword
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
     },
   });
 });
@@ -306,9 +319,9 @@ app.get("/contrbutornavbar", verifyUser, (req, res) => {
       email: req.email,
       image: req.image,
       status: req.status,
-      currentPassword:req.currentPassword, 
-      newPassword:req.newPassword, 
-      confirmPassword: req.confirmPassword
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
     },
   });
 });
@@ -321,16 +334,16 @@ app.get("/myprofile", verifyUser, (req, res) => {
       id: req.userId,
       username: req.username,
       firstname: req.firstname,
-      gender:req.gender,
+      gender: req.gender,
       middlename: req.middlename,
       lastname: req.lastname,
       phone_number: req.phone_number,
       email: req.email,
       image: req.image,
       status: req.status,
-      currentPassword:req.currentPassword, 
-      newPassword:req.newPassword, 
-      confirmPassword: req.confirmPassword
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
     },
   });
 });
@@ -343,25 +356,33 @@ app.get("/cmyprofile", verifyUser, (req, res) => {
       id: req.userId,
       username: req.username,
       firstname: req.firstname,
-      gender:req.gender,
+      gender: req.gender,
       middlename: req.middlename,
       lastname: req.lastname,
       phone_number: req.phone_number,
       email: req.email,
       image: req.image,
       status: req.status,
-      currentPassword:req.currentPassword, 
-      newPassword:req.newPassword, 
-      confirmPassword: req.confirmPassword
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
     },
   });
 });
 
 // Register endpoint
-app.post('/register', (req, res) => {
+app.post("/register", (req, res) => {
   const {
-    username, firstname, middlename, lastname,
-    phone_number, email, gender, status, password, confirmPassword
+    username,
+    firstname,
+    middlename,
+    lastname,
+    phone_number,
+    email,
+    gender,
+    status,
+    password,
+    confirmPassword,
   } = req.body;
 
   if (password !== confirmPassword) {
@@ -375,7 +396,9 @@ app.post('/register', (req, res) => {
       return res.status(500).json({ error: "Server error." });
     }
     if (results.length > 0) {
-      return res.status(409).json({ error: "Username or email already exists." });
+      return res
+        .status(409)
+        .json({ error: "Username or email already exists." });
     }
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
@@ -388,246 +411,266 @@ app.post('/register', (req, res) => {
         INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, status, password)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
-      connection.query(insertUserSql, [
-        username, firstname, middlename, lastname,
-        phone_number, email, gender, status, hashedPassword
-      ], (err, result) => {
-        if (err) {
-          console.error("Database insertion error:", err);
-          return res.status(500).json({ error: "Server error." });
-        }
-
-        const token = jwt.sign(
-          {
-            id: result.insertId,
-            username,
-            firstname,
-            middlename,
-            lastname,
-            phone_number,
-            email,
-            gender,
-            status,
-          },
-          "jsonwebtoken-secret-key",
-          { expiresIn: "30d" }
-        );
-
-        res.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax" });
-        
-        return res.json({
-          status: "Success",
-          user: {
-            id: result.insertId,
-            username,
-            firstname,
-            middlename,
-            lastname,
-            phone_number,
-            gender,
-            status, // Return the status to the frontend
-            email,
+      connection.query(
+        insertUserSql,
+        [
+          username,
+          firstname,
+          middlename,
+          lastname,
+          phone_number,
+          email,
+          gender,
+          status,
+          hashedPassword,
+        ],
+        (err, result) => {
+          if (err) {
+            console.error("Database insertion error:", err);
+            return res.status(500).json({ error: "Server error." });
           }
-        });
-      });
+
+          const token = jwt.sign(
+            {
+              id: result.insertId,
+              username,
+              firstname,
+              middlename,
+              lastname,
+              phone_number,
+              email,
+              gender,
+              status,
+            },
+            "jsonwebtoken-secret-key",
+            { expiresIn: "30d" }
+          );
+
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+          });
+
+          return res.json({
+            status: "Success",
+            user: {
+              id: result.insertId,
+              username,
+              firstname,
+              middlename,
+              lastname,
+              phone_number,
+              gender,
+              status, // Return the status to the frontend
+              email,
+            },
+          });
+        }
+      );
     });
   });
 });
 
 // Password change endpoint (Protected by JWT middleware)
-app.post('/password-changes', verifyUser, async (req, res) => {
+app.post("/password-changes", verifyUser, async (req, res) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
 
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ error: 'New passwords do not match' });
+    return res.status(400).json({ error: "New passwords do not match" });
   }
 
   // Retrieve the user's current password from the database using the user ID from JWT
-  connection.query('SELECT password FROM users WHERE id = ?', [req.userId], async (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Database error' });
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const hashedPassword = results[0].password;
-
-    // Verify the current password
-    const isMatch = await bcrypt.compare(currentPassword, hashedPassword);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Current password is incorrect' });
-    }
-
-    // Hash the new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-
-    // Update the password in the database
-    connection.query('UPDATE users SET password = ? WHERE id = ?', [hashedNewPassword, req.userId], (err) => {
+  connection.query(
+    "SELECT password FROM users WHERE id = ?",
+    [req.userId],
+    async (err, results) => {
       if (err) {
-        return res.status(500).json({ error: 'Error updating password' });
+        return res.status(500).json({ error: "Database error" });
       }
-      res.status(200).json({ message: 'Password changed successfully' });
-    });
-  });
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const hashedPassword = results[0].password;
+
+      // Verify the current password
+      const isMatch = await bcrypt.compare(currentPassword, hashedPassword);
+      if (!isMatch) {
+        return res.status(401).json({ error: "Current password is incorrect" });
+      }
+
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+      // Update the password in the database
+      connection.query(
+        "UPDATE users SET password = ? WHERE id = ?",
+        [hashedNewPassword, req.userId],
+        (err) => {
+          if (err) {
+            return res.status(500).json({ error: "Error updating password" });
+          }
+          res.status(200).json({ message: "Password changed successfully" });
+        }
+      );
+    }
+  );
 });
-
-
 
 // logout route
-app.get('/logout', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/logout", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // logout route
-app.get('/contributor-request', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/contributor-request", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // logout route
-app.get('/registerpage', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/registerpage", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
-// myprofile  route   
-app.get('/profile', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+// myprofile  route
+app.get("/profile", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // edit-profile  route
-app.get('/edit-profile', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/edit-profile", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // change-password  route
-app.get('/change-password', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/change-password", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // change-password  route
-app.get('/email', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/email", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // species directory route
-app.get('/speciesDirectory', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/speciesDirectory", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // add species  route
-app.get('/addSpecies', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/addSpecies", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // list species  route
-app.get('/list', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/list", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // mammals  route
-app.get('/mammalsTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/mammalsTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // birds  route
-app.get('/birdsTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/birdsTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // reptiles  route
-app.get('/reptilesTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/reptilesTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // invertebrates  route
-app.get('/invertebratesTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/invertebratesTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // fish  route
-app.get('/fishTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/fishTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // analytics  route
-app.get('/analytics', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/analytics", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // amphibians route
-app.get('/amphibiansTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/amphibiansTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // critically endangered  route
-app.get('/criticallyTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/criticallyTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // endangered  route
-app.get('/endangeredTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/endangeredTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // vulnerable  route
-app.get('/vulnerableTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/vulnerableTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // Near Threatend  route
-app.get('/near-threatendTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/near-threatendTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // least concern route
-app.get('/least-concernTable', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/least-concernTable", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // gallery  route
-app.get('/gallery', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/gallery", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
 // Search  route
-app.get('/searchpage', (req, res) => {
-  res.clearCookie('authToken');  
-  res.json({ Message: 'Success' });
+app.get("/searchpage", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
 });
 
-
 // Endpoint to fetch categories
-app.get('/categories', (req, res) => {
-  const query = 'SELECT id, name FROM species_categories';
+app.get("/categories", (req, res) => {
+  const query = "SELECT id, name FROM species_categories";
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Error fetching categories:', err);
-      return res.status(500).json({ message: 'Database error', error: err });
+      console.error("Error fetching categories:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
     res.json(results);
   });
@@ -635,12 +678,12 @@ app.get('/categories', (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    return cb(null, "./uploads/images")
+    return cb(null, "./uploads/images");
   },
-  filename: function (req, file, cb){
+  filename: function (req, file, cb) {
     return cb(null, Date.now() + path.extname(file.originalname));
-  }
-})
+  },
+});
 const upload = multer({ storage: storage });
 
 // POST route to handle species creation
@@ -692,18 +735,17 @@ app.post("/create", upload.single("file"), (req, res) => {
   );
 });
 
-
 // Endpoint to get species from a specific category
-app.get('/species/:categoryId', (req, res) => {
+app.get("/species/:categoryId", (req, res) => {
   const { categoryId } = req.params;
 
   const categoryTableMapping = {
-    '1': 'mammals',
-    '2': 'birds',
-    '3': 'reptiles',
-    '4': 'amphibians',
-    '5': 'invertebrates',
-    '6': 'fish'
+    1: "mammals",
+    2: "birds",
+    3: "reptiles",
+    4: "amphibians",
+    5: "invertebrates",
+    6: "fish",
   };
 
   const categoryTable = categoryTableMapping[categoryId];
@@ -712,24 +754,24 @@ app.get('/species/:categoryId', (req, res) => {
     connection.query(query, (err, results) => {
       if (err) {
         console.error(`Error fetching data from ${categoryTable}:`, err);
-        return res.status(500).json({ message: 'Database error', error: err });
+        return res.status(500).json({ message: "Database error", error: err });
       }
       res.json(results);
     });
   } else {
-    res.status(400).json({ message: 'Invalid category ID' });
+    res.status(400).json({ message: "Invalid category ID" });
   }
 });
 
 //end point to get the species table
-app.get('/listspecies', (req, res) => {
+app.get("/listspecies", (req, res) => {
   const sql = "SELECT * FROM species";
   connection.query(sql, (err, data) => {
     if (err) return res.json({ Message: "Error retrieving data" });
     // Adjust path for images in 'uploads/images' directory
-    const result = data.map(item => ({
+    const result = data.map((item) => ({
       ...item,
-      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`,
     }));
     return res.json(result);
   });
@@ -745,7 +787,7 @@ app.get("/getMammals", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch mammals.");
     }
 
-    res.status(200).json(result);  // Send back the list of mammals
+    res.status(200).json(result); // Send back the list of mammals
   });
 });
 
@@ -759,7 +801,7 @@ app.get("/getBirds", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch birds.");
     }
 
-    res.status(200).json(result);  // Send back the list of birds
+    res.status(200).json(result); // Send back the list of birds
   });
 });
 
@@ -773,7 +815,7 @@ app.get("/getReptiles", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch reptiles.");
     }
 
-    res.status(200).json(result);  // Send back the list of reptiles
+    res.status(200).json(result); // Send back the list of reptiles
   });
 });
 
@@ -787,10 +829,9 @@ app.get("/getAmphibians", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch amphibians.");
     }
 
-    res.status(200).json(result);  // Send back the list of amphibians
+    res.status(200).json(result); // Send back the list of amphibians
   });
 });
-
 
 // Endpoint to get invertebrates species
 app.get("/getInvertebrates", (req, res) => {
@@ -799,10 +840,12 @@ app.get("/getInvertebrates", (req, res) => {
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching invertebrates data:", err);
-      return res.status(500).send("Server error. Failed to fetch invertebrates.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch invertebrates.");
     }
 
-    res.status(200).json(result);  // Send back the list of invertebrates
+    res.status(200).json(result); // Send back the list of invertebrates
   });
 });
 
@@ -816,7 +859,7 @@ app.get("/getvertebrates", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch vertebrates.");
     }
 
-    res.status(200).json(result);  // Send back the list of vertebrates
+    res.status(200).json(result); // Send back the list of vertebrates
   });
 });
 
@@ -830,24 +873,26 @@ app.get("/getFish", (req, res) => {
       return res.status(500).send("Server error. Failed to fetch fish.");
     }
 
-    res.status(200).json(result);  // Send back the list of fish
+    res.status(200).json(result); // Send back the list of fish
   });
 });
 
 // Endpoint to get Critically-endangered species
 app.get("/getCritically-endangered", (req, res) => {
-  const query = "SELECT * FROM species WHERE conservationstatus = 'critically-endangered'";
+  const query =
+    "SELECT * FROM species WHERE conservationstatus = 'critically-endangered'";
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching critically endangered data:", err);
-      return res.status(500).send("Server error. Failed to fetch critically endangered species.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch critically endangered species.");
     }
 
-    res.status(200).json(result);  // Send back the list of critically endangered species
+    res.status(200).json(result); // Send back the list of critically endangered species
   });
 });
-
 
 // Endpoint to get endangered species
 app.get("/getEndangered", (req, res) => {
@@ -856,10 +901,12 @@ app.get("/getEndangered", (req, res) => {
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching endangered species data:", err);
-      return res.status(500).send("Server error. Failed to fetch endangered species.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch endangered species.");
     }
 
-    res.status(200).json(result);  // Send back the list of endangered species
+    res.status(200).json(result); // Send back the list of endangered species
   });
 });
 
@@ -869,40 +916,47 @@ app.get("/getVulnerable", (req, res) => {
 
   connection.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching vulnerable species data:", err);  // Updated error message
-      return res.status(500).send("Server error. Failed to fetch vulnerable species.");  // Updated error message
+      console.error("Error fetching vulnerable species data:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch vulnerable species."); // Updated error message
     }
 
-    res.status(200).json(result);  // Send back the list of vulnerable species
+    res.status(200).json(result); // Send back the list of vulnerable species
   });
 });
 
-
 // Endpoint to get Near-threatened species
 app.get("/getNear-threatened", (req, res) => {
-  const query = "SELECT * FROM species WHERE conservationstatus = 'near-threatened'";  // Correct status
+  const query =
+    "SELECT * FROM species WHERE conservationstatus = 'near-threatened'"; // Correct status
 
   connection.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching near-threatened species data:", err);  // Updated error message
-      return res.status(500).send("Server error. Failed to fetch near-threatened species.");  // Updated error message
+      console.error("Error fetching near-threatened species data:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch near-threatened species."); // Updated error message
     }
 
-    res.status(200).json(result);  // Send back the list of near-threatened species
+    res.status(200).json(result); // Send back the list of near-threatened species
   });
 });
 
 // Endpoint to get Least-concerned species
 app.get("/getLeast-concerned", (req, res) => {
-  const query = "SELECT * FROM species WHERE conservationstatus = 'least-concern'";  // Correct status
+  const query =
+    "SELECT * FROM species WHERE conservationstatus = 'least-concern'"; // Correct status
 
   connection.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching least-concerned species data:", err);  // Updated error message
-      return res.status(500).send("Server error. Failed to fetch least-concerned species.");  // Updated error message
+      console.error("Error fetching least-concerned species data:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch least-concerned species."); // Updated error message
     }
 
-    res.status(200).json(result);  // Send back the list of least-concerned species
+    res.status(200).json(result); // Send back the list of least-concerned species
   });
 });
 
@@ -913,7 +967,9 @@ app.get("/countSpecies", (req, res) => {
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching species count:", err); // Updated error message
-      return res.status(500).send("Server error. Failed to fetch species count."); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch species count."); // Updated error message
     }
 
     res.status(200).json(result[0]); // Send back the count
@@ -922,12 +978,15 @@ app.get("/countSpecies", (req, res) => {
 
 // Endpoint to get the count of mammals
 app.get("/countmammals", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'"; // Adjust the field name if necessary
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'"; // Adjust the field name if necessary
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching mammals count:", err);
-      return res.status(500).send("Server error. Failed to fetch mammals count.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch mammals count.");
     }
 
     res.status(200).json(result[0]); // Send back the count
@@ -936,7 +995,8 @@ app.get("/countmammals", (req, res) => {
 
 // Endpoint to get the count of birds
 app.get("/countbirds", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'"; // Adjust the field name if necessary
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'"; // Adjust the field name if necessary
 
   connection.query(query, (err, result) => {
     if (err) {
@@ -950,12 +1010,15 @@ app.get("/countbirds", (req, res) => {
 
 // Endpoint to get the count of reptiles
 app.get("/countReptiles", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'"; // Adjust the field name if necessary
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'"; // Adjust the field name if necessary
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching reptiles count:", err);
-      return res.status(500).send("Server error. Failed to fetch reptiles count.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch reptiles count.");
     }
 
     res.status(200).json(result[0]); // Send back the count
@@ -964,52 +1027,59 @@ app.get("/countReptiles", (req, res) => {
 
 // Endpoint to get the count of amphibians
 app.get("/countAmphibians", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'"; // Adjust the field name if necessary
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'"; // Adjust the field name if necessary
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching reptiles count:", err);
-      return res.status(500).send("Server error. Failed to fetch reptiles count.");
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch reptiles count.");
     }
 
     res.status(200).json(result[0]); // Send back the count
   });
 });
-
 
 // Endpoint to get the count of Invertebrates
 app.get("/countInvertebrates", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'"; // Ensure the field name is correct
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching vertebrates count:", err); // Updated error message
-      return res.status(500).send("Server error. Failed to fetch vertebrates count."); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch vertebrates count."); // Updated error message
     }
 
     res.status(200).json(result[0]); // Send back the count
   });
 });
-
 
 // Endpoint to get the count of Invertebrates
 app.get("/countvertebrates", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'"; // Ensure the field name is correct
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'"; // Ensure the field name is correct
 
   connection.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching vertebrates count:", err); // Updated error message
-      return res.status(500).send("Server error. Failed to fetch vertebrates count."); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch vertebrates count."); // Updated error message
     }
 
     res.status(200).json(result[0]); // Send back the count
   });
 });
 
-
 // Endpoint to get the count of Fish
 app.get("/countFish", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'"; // Ensure the field name is correct
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'"; // Ensure the field name is correct
 
   connection.query(query, (err, result) => {
     if (err) {
@@ -1021,26 +1091,30 @@ app.get("/countFish", (req, res) => {
   });
 });
 
-
 // Define the endpoint to get species counts for each category in bar graph
-app.get('/speciesCounts', (req, res) => {
+app.get("/speciesCounts", (req, res) => {
   const queries = [
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'",
-   "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'",
-   "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'",
-   "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'",
   ];
 
-  Promise.all(queries.map(query => new Promise((resolve, reject) => {
-    connection.query(query, (err, results) => {
-      if (err) reject(err);
-      resolve(results[0].count);
-    });
-  })))
-    .then(counts => {
+  Promise.all(
+    queries.map(
+      (query) =>
+        new Promise((resolve, reject) => {
+          connection.query(query, (err, results) => {
+            if (err) reject(err);
+            resolve(results[0].count);
+          });
+        })
+    )
+  )
+    .then((counts) => {
       res.json({
         mammals: counts[0],
         birds: counts[1],
@@ -1051,34 +1125,35 @@ app.get('/speciesCounts', (req, res) => {
         fish: counts[6],
       });
     })
-    .catch(err => {
-      console.error('Error fetching species counts:', err);
-      res.status(500).json({ error: 'Failed to fetch species counts' });
+    .catch((err) => {
+      console.error("Error fetching species counts:", err);
+      res.status(500).json({ error: "Failed to fetch species counts" });
     });
-  });
+});
 
-   // Route to get the count of each conservation status
-app.get('/api/conservation-status-count', (req, res) => {
+// Route to get the count of each conservation status
+app.get("/api/conservation-status-count", (req, res) => {
   const conservationStatuses = [
-    'critically-endangered',
-    'endangered',
-    'vulnerable',
-    'near-threatened',
-    'least-concern'
+    "critically-endangered",
+    "endangered",
+    "vulnerable",
+    "near-threatened",
+    "least-concern",
   ];
 
   // Construct the query to count each conservation status from the 'species' table
-  const queries = conservationStatuses.map(status => 
-    `SELECT '${status}' AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = '${status}'`
+  const queries = conservationStatuses.map(
+    (status) =>
+      `SELECT '${status}' AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = '${status}'`
   );
 
-  const combinedQuery = queries.join(' UNION ALL ');
+  const combinedQuery = queries.join(" UNION ALL ");
 
   // Execute the combined query
   connection.query(combinedQuery, (err, results) => {
     if (err) {
-      console.error('Error fetching data:', err);
-      return res.status(500).json({ message: 'Database error', error: err });
+      console.error("Error fetching data:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
 
     // Return the result as JSON
@@ -1086,10 +1161,9 @@ app.get('/api/conservation-status-count', (req, res) => {
   });
 });
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.put('/listspecies/:id', upload.single('uploadimage'), (req, res) => {
+app.put("/listspecies/:id", upload.single("uploadimage"), (req, res) => {
   const {
     specificname,
     scientificname,
@@ -1102,7 +1176,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), (req, res) => {
     conservationeffort,
     speciescategory,
     description,
-    existingimage // Include the existing image file name from the request body
+    existingimage, // Include the existing image file name from the request body
   } = req.body;
 
   // Use the uploaded image if a new one is provided; otherwise, use the existing image
@@ -1138,35 +1212,40 @@ app.put('/listspecies/:id', upload.single('uploadimage'), (req, res) => {
     speciescategory,
     description,
     uploadimage, // Store only the file name
-    req.params.id
+    req.params.id,
   ];
 
-  connection.query(updateListsSpeciesQuery, updateListsSpeciesValues, (err, result) => {
-    if (err) {
-      console.error('Error updating species:', err);
-      return res.status(500).json({ error: 'Error updating species' });
-    }
+  connection.query(
+    updateListsSpeciesQuery,
+    updateListsSpeciesValues,
+    (err, result) => {
+      if (err) {
+        console.error("Error updating species:", err);
+        return res.status(500).json({ error: "Error updating species" });
+      }
 
-    res.status(200).json({ message: 'Species updated successfully' });
-  });
+      res.status(200).json({ message: "Species updated successfully" });
+    }
+  );
 });
 
-
-
-app.delete('/delete-species/:id', (req, res) => {
-  const deleteSpeciesQuery = 'DELETE FROM species WHERE id = ?';
+app.delete("/delete-species/:id", (req, res) => {
+  const deleteSpeciesQuery = "DELETE FROM species WHERE id = ?";
 
   connection.query(deleteSpeciesQuery, [req.params.id], (err) => {
     if (err) {
-      console.error('Error deleting species:', err);
-      return res.status(500).json({ error: 'Error deleting species' });
+      console.error("Error deleting species:", err);
+      return res.status(500).json({ error: "Error deleting species" });
     }
 
-    res.status(200).json({ message: 'Species deleted successfully' });
+    res.status(200).json({ message: "Species deleted successfully" });
   });
 });
 
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
+app.use(
+  "/uploads/images",
+  express.static(path.join(__dirname, "uploads", "images"))
+);
 
 // Route to fetch images
 app.get("/api/images", (req, res) => {
@@ -1180,19 +1259,38 @@ app.get("/api/images", (req, res) => {
   });
 });
 
-
-
 // Route to add species to pending request
-app.post('/species/pending', upload.single("file"), (req, res) => {
+app.post("/species/pending", upload.single("file"), (req, res) => {
   const {
-    specificname, scientificname, commonname, habitat, population, threats,
-    location, conservationstatus, speciescategory, conservationeffort, description,
-    contributor_firstname, contributor_lastname, contributor_email
+    specificname,
+    scientificname,
+    commonname,
+    habitat,
+    population,
+    threats,
+    location,
+    conservationstatus,
+    speciescategory,
+    conservationeffort,
+    description,
+    contributor_firstname,
+    contributor_lastname,
+    contributor_email,
   } = req.body;
 
   // Check for required fields
-  if (!specificname || !scientificname || !commonname || !contributor_firstname || !contributor_lastname || !contributor_email)  {
-    return res.status(400).json({ message: 'Specific name, scientific name, common name, contributor first name, and contributor last name are required.' });
+  if (
+    !specificname ||
+    !scientificname ||
+    !commonname ||
+    !contributor_firstname ||
+    !contributor_lastname ||
+    !contributor_email
+  ) {
+    return res.status(400).json({
+      message:
+        "Specific name, scientific name, common name, contributor first name, and contributor last name are required.",
+    });
   }
 
   // Get the uploaded file's path
@@ -1200,7 +1298,9 @@ app.post('/species/pending', upload.single("file"), (req, res) => {
 
   // Check if file upload was successful
   if (!uploadimage) {
-    return res.status(400).json({ message: 'File upload failed or no file provided.' });
+    return res
+      .status(400)
+      .json({ message: "File upload failed or no file provided." });
   }
 
   const sql = `
@@ -1211,43 +1311,56 @@ app.post('/species/pending', upload.single("file"), (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  connection.query(sql, [specificname, scientificname, commonname, habitat, population, threats, location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, contributor_firstname, contributor_lastname,contributor_email],
+  connection.query(
+    sql,
+    [
+      specificname,
+      scientificname,
+      commonname,
+      habitat,
+      population,
+      threats,
+      location,
+      speciescategory,
+      conservationstatus,
+      conservationeffort,
+      description,
+      uploadimage,
+      contributor_firstname,
+      contributor_lastname,
+      contributor_email,
+    ],
     (err, result) => {
       if (err) {
-        console.error('Error adding species to pending_request:', err);
-        return res.status(500).json({ message: 'Failed to submit species request' });
+        console.error("Error adding species to pending_request:", err);
+        return res
+          .status(500)
+          .json({ message: "Failed to submit species request" });
       } else {
-        res.status(200).json({ message: 'Species request submitted successfully' });
+        res
+          .status(200)
+          .json({ message: "Species request submitted successfully" });
       }
     }
   );
 });
 
-
-
-
-
 //Endpoint of contributor Request table
-app.get('/request-table', (req, res) => {
+app.get("/request-table", (req, res) => {
   const sql = "SELECT * FROM pending_request";
   connection.query(sql, (err, data) => {
     if (err) return res.json({ Message: "Error retrieving data" });
     // Adjust path for images in 'uploads/images' directory
-    const result = data.map(item => ({
+    const result = data.map((item) => ({
       ...item,
-      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`,
     }));
     return res.json(result);
   });
 });
 
-
-
-
-
 // Initialize Socket.IO with additional CORS settings
 const io = new Server(server);
-
 
 // Nodemailer configuration
 const transporter = nodemailer.createTransport({
@@ -1326,7 +1439,10 @@ app.put("/species/approve/:id", (req, res) => {
       ],
       (insertErr) => {
         if (insertErr) {
-          console.error("Error approving species with ID " + speciesId + ":", insertErr);
+          console.error(
+            "Error approving species with ID " + speciesId + ":",
+            insertErr
+          );
           return res.status(500).json({ message: "Failed to approve species" });
         }
 
@@ -1334,13 +1450,21 @@ app.put("/species/approve/:id", (req, res) => {
         const deleteSql = "DELETE FROM pending_request WHERE id = ?";
         connection.query(deleteSql, [speciesId], (deleteErr) => {
           if (deleteErr) {
-            console.error("Error deleting pending request with ID " + speciesId + ":", deleteErr);
-            return res.status(500).json({ message: "Failed to remove from pending_request" });
+            console.error(
+              "Error deleting pending request with ID " + speciesId + ":",
+              deleteErr
+            );
+            return res
+              .status(500)
+              .json({ message: "Failed to remove from pending_request" });
           }
 
           // Send email notification to the contributor
           if (species.contributor_email) {
-            sendEmailNotification(species.contributor_email, species.specificname); // Use the email from the request
+            sendEmailNotification(
+              species.contributor_email,
+              species.specificname
+            ); // Use the email from the request
           }
 
           // Emit a WebSocket notification to the contributor
@@ -1358,89 +1482,89 @@ app.put("/species/approve/:id", (req, res) => {
   });
 });
 
-
 // Endpoint to get the count of pending requests
-app.get('/pending-request-count', (req, res) => {
-  const sql = 'SELECT COUNT(*) AS count FROM pending_request';
-  
+app.get("/pending-request-count", (req, res) => {
+  const sql = "SELECT COUNT(*) AS count FROM pending_request";
+
   connection.query(sql, (err, result) => {
     if (err) {
-      console.error('Error fetching pending request count:', err);
-      return res.status(500).json({ message: 'Failed to fetch request count' });
+      console.error("Error fetching pending request count:", err);
+      return res.status(500).json({ message: "Failed to fetch request count" });
     }
     res.status(200).json({ count: result[0].count });
   });
 });
 
-
-
-app.delete('/species/reject/:id', (req, res) => {
+app.delete("/species/reject/:id", (req, res) => {
   const speciesId = req.params.id;
 
   // SQL query to get the contributor email and the common name
-  const sqlSelect = 'SELECT contributor_email, commonname FROM pending_request WHERE id = ?';
-  
+  const sqlSelect =
+    "SELECT contributor_email, commonname FROM pending_request WHERE id = ?";
+
   // Fetch the email and common name of the contributor
   connection.query(sqlSelect, [speciesId], (err, results) => {
     if (err) {
-      console.error('Error fetching contributor email and common name:', err);
-      return res.status(500).json({ message: 'Failed to fetch contributor information' });
+      console.error("Error fetching contributor email and common name:", err);
+      return res
+        .status(500)
+        .json({ message: "Failed to fetch contributor information" });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ message: 'Species request not found' });
+      return res.status(404).json({ message: "Species request not found" });
     }
 
     const contributorEmail = results[0].contributor_email; // Get the contributor's email
     const commonName = results[0].commonname; // Get the common name
 
     // SQL query to delete the species request from the pending_request table
-    const sqlDelete = 'DELETE FROM pending_request WHERE id = ?';
+    const sqlDelete = "DELETE FROM pending_request WHERE id = ?";
 
     // Execute the SQL query to delete the request
     connection.query(sqlDelete, [speciesId], (err, result) => {
       if (err) {
-        console.error('Error rejecting species:', err);
-        return res.status(500).json({ message: 'Failed to reject species' });
+        console.error("Error rejecting species:", err);
+        return res.status(500).json({ message: "Failed to reject species" });
       }
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Species request not found' });
+        return res.status(404).json({ message: "Species request not found" });
       }
 
       // Send email notification to the contributor
       const transporter = nodemailer.createTransport({
-        service: 'gmail', // Use your email service provider
+        service: "gmail", // Use your email service provider
         auth: {
-          user: 'michaeljohnmargate11@gmail.com', // Your email address
-          pass: 'ghcp yguc opnc kgwg' // Your email password or app-specific password
-        }
+          user: "michaeljohnmargate11@gmail.com", // Your email address
+          pass: "ghcp yguc opnc kgwg", // Your email password or app-specific password
+        },
       });
 
       const mailOptions = {
-        from: 'michaeljohnmargate11@gmail.comm', // Sender address
+        from: "michaeljohnmargate11@gmail.comm", // Sender address
         to: contributorEmail, // Recipient email
-        subject: 'Species Request Rejected',
-        text: `Your species request with the common name "${commonName}" has been rejected.` // Include the common name in the message
+        subject: "Species Request Rejected",
+        text: `Your species request with the common name "${commonName}" has been rejected.`, // Include the common name in the message
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          console.error('Error sending email:', error);
-          return res.status(500).json({ message: 'Failed to send email notification' });
+          console.error("Error sending email:", error);
+          return res
+            .status(500)
+            .json({ message: "Failed to send email notification" });
         }
-        
+
         // Respond with success message
         res.status(200).json({
-          message: 'No Request.',
-          speciesId: speciesId // Optional: Return the deleted species ID
+          message: "No Request.",
+          speciesId: speciesId, // Optional: Return the deleted species ID
         });
       });
     });
   });
 });
-
-
 
 // In-memory storage for OTPs
 const otpStore = {};
@@ -1448,17 +1572,17 @@ const otpStore = {};
 // Function to send email using Nodemailer
 const sendOTPEmail = (email, otp) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-      user: 'michaeljohnmargate11@gmail.com', // Hardcoded email
-      pass: 'ghcp yguc opnc kgwg', // Hardcoded app password
+      user: "michaeljohnmargate11@gmail.com", // Hardcoded email
+      pass: "ghcp yguc opnc kgwg", // Hardcoded app password
     },
   });
 
   const mailOptions = {
-    from: 'michaeljohnmargate11@gmail.com',
+    from: "michaeljohnmargate11@gmail.com",
     to: email,
-    subject: 'Your OTP Code',
+    subject: "Your OTP Code",
     text: `Your OTP code is: ${otp}`,
   };
 
@@ -1471,12 +1595,12 @@ const generateOTP = () => {
 };
 
 // Endpoint to send OTP
-app.post('/send-otp', (req, res) => {
+app.post("/send-otp", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    console.error('Error: No email provided');
-    return res.status(400).send('Email is required');
+    console.error("Error: No email provided");
+    return res.status(400).send("Email is required");
   }
 
   const otp = generateOTP();
@@ -1485,70 +1609,86 @@ app.post('/send-otp', (req, res) => {
   console.log(`Generated OTP: ${otp} for email: ${email}`);
 
   sendOTPEmail(email, otp)
-  .then(() => {
-    console.log(`OTP successfully sent to ${email}`);
-    res.status(200).send('OTP sent to your email');
-  })
-  .catch((error) => {
-    console.error('Error in sendOTPEmail:', error);
-    res.status(500).send('Error sending email');
-  });
-
+    .then(() => {
+      console.log(`OTP successfully sent to ${email}`);
+      res.status(200).send("OTP sent to your email");
+    })
+    .catch((error) => {
+      console.error("Error in sendOTPEmail:", error);
+      res.status(500).send("Error sending email");
+    });
 });
 
 // Endpoint to verify OTP
-app.post('/verify-otp', (req, res) => {
+app.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
 
   // Check if the email exists in the OTP store
   if (!otpStore[email]) {
-    return res.status(400).json({ success: false, message: 'No OTP found for this email.' });
+    return res
+      .status(400)
+      .json({ success: false, message: "No OTP found for this email." });
   }
 
   // Check if the OTP matches
   if (otpStore[email] === otp) {
     // OTP verified successfully
     delete otpStore[email]; // Remove OTP from store after successful verification
-    return res.json({ success: true, message: 'OTP verified successfully!' });
+    return res.json({ success: true, message: "OTP verified successfully!" });
   } else {
     // Invalid OTP
-    return res.status(400).json({ success: false, message: 'Invalid OTP. Please try again.' });
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid OTP. Please try again." });
   }
 });
 
-
-app.post('/reset-password', (req, res) => {
+app.post("/reset-password", (req, res) => {
   const { email, password } = req.body;
 
-  connection.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
-    if (err) {
-      return res.status(500).send('Server error');
-    }
+  connection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, result) => {
+      if (err) {
+        return res.status(500).send("Server error");
+      }
 
-    if (result.length > 0) {
-      // User found, proceed to hash and update the password
-      bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
-        if (hashErr) {
-          return res.status(500).send('Error hashing password');
-        }
-
-        connection.query('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email], (updateErr) => {
-          if (updateErr) {
-            return res.status(500).send('Error updating password');
+      if (result.length > 0) {
+        // User found, proceed to hash and update the password
+        bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+          if (hashErr) {
+            return res.status(500).send("Error hashing password");
           }
 
-          res.json({ success: true, message: 'Password reset successfully!' });
+          connection.query(
+            "UPDATE users SET password = ? WHERE email = ?",
+            [hashedPassword, email],
+            (updateErr) => {
+              if (updateErr) {
+                return res.status(500).send("Error updating password");
+              }
+
+              res.json({
+                success: true,
+                message: "Password reset successfully!",
+              });
+            }
+          );
         });
-      });
-    } else {
-      res.status(404).json({ success: false, message: 'Email not registered' });
+      } else {
+        res
+          .status(404)
+          .json({ success: false, message: "Email not registered" });
+      }
     }
-  });
+  );
 });
 
 // Endpoint to add a multiple-choice question
 app.post("/api/questions", (req, res) => {
-  const { question, optionA, optionB, optionC, optionD, correctAnswer } = req.body;
+  const { question, optionA, optionB, optionC, optionD, correctAnswer } =
+    req.body;
 
   const query = `
     INSERT INTO questions (question, optionA, optionB, optionC, optionD, correctAnswer)
@@ -1568,10 +1708,7 @@ app.post("/api/questions", (req, res) => {
     }
   );
 });
-const port = 8080;  // Directly set the port to 4000
+const port = 8080; // Directly set the port to 4000
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-
-
