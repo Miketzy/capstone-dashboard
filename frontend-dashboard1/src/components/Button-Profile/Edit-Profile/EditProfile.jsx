@@ -45,6 +45,8 @@ function EditProfile({ onUpdateProfile }) {
           ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
 
+        console.log(imageUrl);
+
         // Set user data including the image URL
         setUserData({
           firstname: user.firstname || "",
