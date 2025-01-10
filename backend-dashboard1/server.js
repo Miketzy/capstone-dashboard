@@ -28,7 +28,7 @@ const server = http.createServer(app);
 app.use(
   cors({
     origin: "https://davor-bioexplorer-admin.vercel.app", // Allow requests from this origin
-    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH"], // Allow these methods
+    methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"], // Allow these methods
     credentials: true, // Allow cookies, if needed
   })
 );
