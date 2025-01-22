@@ -34,10 +34,10 @@ app.use(
 );
 
 const connection = mysql2.createConnection({
-  host: "sql12.freemysqlhosting.net", // The server address
-  user: "sql12755763", // Your username
-  password: "Pmfi2itF78", // Your password
-  database: "sql12755763", // Your database name
+  host: "sql12.freesqldatabase.com", // The server address
+  user: "sql12758599", // Your username
+  password: "rj85EkwRck", // Your password
+  database: "sql12758599", // Your database name
   port: 3306, // Default MySQL port
 });
 
@@ -1367,7 +1367,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "michaeljohnmargate11@gmail.com", // Your dedicated email
-    pass: "ghcp yguc opnc kgwg", // Your email password or app password
+    pass: "hdfz sazb vhna xwyn", // Your email password or app password
   },
 });
 
@@ -1387,7 +1387,7 @@ io.on("connection", (socket) => {
 // Function to send email notification
 const sendEmailNotification = (contributor_email, specificName) => {
   const mailOptions = {
-    from: "michaeljohnmargate11@gmail.com", // Sender's email (your dedicated email)
+    from: "Admin", // Sender's email (your dedicated email)
     to: contributor_email, // Contributor's email
     subject: "Approval Notification",
     text: `Your species request for ${specificName} has been approved!`,
@@ -1537,12 +1537,12 @@ app.delete("/species/reject/:id", (req, res) => {
         service: "gmail", // Use your email service provider
         auth: {
           user: "michaeljohnmargate11@gmail.com", // Your email address
-          pass: "ghcp yguc opnc kgwg", // Your email password or app-specific password
+          pass: "hdfz sazb vhna xwyn", // Your email password or app-specific password
         },
       });
 
       const mailOptions = {
-        from: "michaeljohnmargate11@gmail.comm", // Sender address
+        from: "Admin", // Sender address
         to: contributorEmail, // Recipient email
         subject: "Species Request Rejected",
         text: `Your species request with the common name "${commonName}" has been rejected.`, // Include the common name in the message
@@ -1575,7 +1575,7 @@ const sendOTPEmail = (email, otp) => {
     service: "gmail",
     auth: {
       user: "michaeljohnmargate11@gmail.com", // Hardcoded email
-      pass: "ghcp yguc opnc kgwg", // Hardcoded app password
+      pass: "hdfz sazb vhna xwyn", // Hardcoded app password
     },
   });
 
