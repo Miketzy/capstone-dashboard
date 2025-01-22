@@ -1574,8 +1574,8 @@ const sendOTPEmail = (email, otp) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "michaeljohnmargate11@gmail.com", // Hardcoded email
-      pass: "hdfz sazb vhna xwyn", // Hardcoded app password
+      user: "michaeljohnmargate11@gmail.com", // Your Gmail address
+      pass: "hdfz sazb vhna xwyn", // Your Gmail password or app password
     },
   });
 
@@ -1591,33 +1591,27 @@ const sendOTPEmail = (email, otp) => {
 
 // Generate a 6-digit OTP code
 const generateOTP = () => {
-  return crypto.randomInt(100000, 999999).toString();
+  return crypto.randomInt(100000, 999999).toString(); // Generates a number between 100000 and 999999
 };
 
-// Endpoint to send OTP
+// Endpoint to handle OTP email sending
 app.post("/send-otp", (req, res) => {
   const { email } = req.body;
 
-  if (!email) {
-    console.error("Error: No email provided");
-    return res.status(400).send("Email is required");
-  }
-
+  // Generate an OTP and store it in memory
   const otp = generateOTP();
-  otpStore[email] = otp;
-
-  console.log(`Generated OTP: ${otp} for email: ${email}`);
+  otpStore[email] = otp; // Store OTP for the email
 
   sendOTPEmail(email, otp)
     .then(() => {
-      console.log(`OTP successfully sent to ${email}`);
       res.status(200).send("OTP sent to your email");
     })
     .catch((error) => {
-      console.error("Error in sendOTPEmail:", error);
-      res.status(500).send("Error in sendOTPEmail:", error);
+      console.error("Error sending email:", error); // Log the error
+      res.status(500).send("Error sending email");
     });
 });
+
 
 // Endpoint to verify OTP
 app.post("/verify-otp", (req, res) => {
