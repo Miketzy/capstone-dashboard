@@ -1574,13 +1574,13 @@ const sendOTPEmail = (email, otp) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "michaeljohnmargate11@gmail.com", // Your Gmail address
-      pass: "hdfz sazb vhna xwyn", // Your Gmail password or app password
+      user: "davorbioexplorer@gmail.com", // Your Gmail address
+      pass: "axln xjew aeoc rfbt", // Your Gmail password or app password
     },
   });
 
   const mailOptions = {
-    from: "michaeljohnmargate11@gmail.com",
+   from: 'Dav-OR BioExplorer" <davorbioexplorer@gmail.com>',
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is: ${otp}`,
