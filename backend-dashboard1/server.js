@@ -1580,7 +1580,7 @@ const sendOTPEmail = (email, otp) => {
   });
 
   const mailOptions = {
-   from: 'Dav-OR BioExplorer" <davorbioexplorer@gmail.com>',
+   from: '"Dav-OR BioExplorer" <davorbioexplorer@gmail.com>',
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is: ${otp}`,
