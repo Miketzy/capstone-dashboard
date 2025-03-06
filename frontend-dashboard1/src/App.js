@@ -35,6 +35,7 @@ import CreateQuizesDashboard from "./pages/home/Create-Quizes-Dashboard/CreateQu
 import VertebratesTableDashboard from "./pages/home/species--categories-dashboard/vertebrates-dashboard/VertebratesTableDashboard";
 import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
 import CheckAuth from "./checkAuth/CheckAuth";
+import { useEffect } from 'react';
 
 
 
@@ -43,6 +44,17 @@ import CheckAuth from "./checkAuth/CheckAuth";
 
 
 function App() {
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch("https://capstone2-client.onrender.com/keep-alive")
+      .then(res => console.log("keeping backend awake..."))
+      .catch(err => console.error("Failed to ping backend:", err));
+    }, 5 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <BrowserRouter>
      <Routes>
