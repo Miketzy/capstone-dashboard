@@ -41,6 +41,13 @@ const connection = mysql2.createConnection({
   port: 3306, // Default MySQL port
 });
 
+setInterval(() => {
+  connection.query("SELECT 1",(err, results) => {
+    if (err) console.error("Database Keep-Alve error:", err);
+    else console.log("Database is alive");
+});
+}, 5 * 60 * 1000); 
+
 connection.connect((err) => {
   if (err) {
     console.error("Database Connection Failed:", err);
@@ -1702,6 +1709,17 @@ app.post("/api/questions", (req, res) => {
     }
   );
 });
+
+app.get("/keep-alive", (req, res) =>{
+  connection.query("Select 1", (err) => {
+    if(err) {
+      console.error("Database keep-alive error:", err);
+      return res.status(500).send("Database connection error");
+    }
+    res.send("Backend and database are alive");
+  })
+})
+
 const port = 8080; // Directly set the port to 4000
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
