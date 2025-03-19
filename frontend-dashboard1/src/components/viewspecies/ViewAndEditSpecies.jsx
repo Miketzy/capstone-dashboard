@@ -259,9 +259,6 @@ function ViewAndEditSpecies() {
                   <td>{data.conservationstatus}</td>
                   <td>{data.speciescategory}</td>
                   <td>
-                    <div className="description-scroll">{data.description}</div>
-                  </td>
-                  <td>
                     <div className="actions d-flex align-items-center">
                       <Button
                         className="secondary"
