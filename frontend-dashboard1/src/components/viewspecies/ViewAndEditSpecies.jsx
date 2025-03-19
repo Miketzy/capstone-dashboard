@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./viewspecies.css";
 import Button from "@mui/material/Button";
 import { FaEye, FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -224,59 +223,56 @@ function ViewAndEditSpecies() {
   };
 
   return (
-    <div className="ViewAndEditSpecies">
-      <div className="search-container">
-        <CiSearch className="search-icon" />
+    <div className="p-4">
+      <div className="flex items-center space-x-2 mb-4 bg-gray-100 p-2 rounded-md shadow-md">
+        <CiSearch className="text-xl text-gray-500" />
         <input
           type="text"
-          className="search-bar"
+          className="flex-grow p-2 border-none focus:outline-none bg-transparent"
           placeholder="Search...."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="table-responsive1">
-        <table className="table1 table-bordered">
-          <thead className="thead-dark1">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white shadow-md rounded-lg">
+          <thead className="bg-gray-800 text-white">
             <tr>
-              <th>No.</th>
-              <th>Specific Name</th>
-              <th>Scientific Name</th>
-              <th>Common Name</th>
-              <th>Conservation Status</th>
-              <th>Classification</th>
-              <th>Action</th>
+              <th className="p-3 text-left">No.</th>
+              <th className="p-3 text-left">Specific Name</th>
+              <th className="p-3 text-left">Scientific Name</th>
+              <th className="p-3 text-left">Common Name</th>
+              <th className="p-3 text-left">Conservation Status</th>
+              <th className="p-3 text-left">Classification</th>
+              <th className="p-3 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.length > 0 ? (
               currentItems.map((data, i) => (
                 <tr key={data.id}>
-                  <td>{indexOfFirstItem + i + 1}</td>
-                  <td>{data.specificname}</td>
-                  <td>{data.scientificname}</td>
-                  <td>{data.commonname}</td>
-                  <td>{data.conservationstatus}</td>
-                  <td>{data.speciescategory}</td>
+                  <td className="p-3">{indexOfFirstItem + i + 1}</td>
+                  <td className="p-3">{data.specificname}</td>
+                  <td className="p-3">{data.scientificname}</td>
+                  <td className="p-3">{data.commonname}</td>
+                  <td className="p-3">{data.conservationstatus}</td>
+                  <td className="p-3">{data.speciescategory}</td>
                   <td>
-                    <div className="actions d-flex align-items-center">
+                    <div className="p-3 flex justify-center space-x-2">
                       <Button
-                        className="secondary"
-                        color="secondary"
+                        className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                         onClick={() => handleOpen(data)}
                       >
                         <FaEye />
                       </Button>
                       <Button
-                        className="success"
-                        color="success"
+                        className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600"
                         onClick={() => handlePencilOpen(data)}
                       >
                         <FaPencilAlt />
                       </Button>
                       <Button
-                        className="error"
-                        color="error"
+                        className="p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                         onClick={() => handleDelete(data.id)}
                       >
                         <MdDelete />
@@ -287,7 +283,7 @@ function ViewAndEditSpecies() {
               ))
             ) : (
               <tr>
-                <td colSpan="14" className="message">
+                <td colSpan="14" className="p-3 text-center text-gray-500">
                   <div>
                     <p>{message || "No species data"}</p>
                   </div>
@@ -297,7 +293,7 @@ function ViewAndEditSpecies() {
           </tbody>
         </table>
       </div>
-      <div className="tablefooter">
+      <div className="flex justify-center mt-4">
         <Pagination
           count={totalPages}
           page={currentPage}
