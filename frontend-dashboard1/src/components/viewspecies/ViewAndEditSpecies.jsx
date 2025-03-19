@@ -243,14 +243,8 @@ function ViewAndEditSpecies() {
               <th>Specific Name</th>
               <th>Scientific Name</th>
               <th>Common Name</th>
-              <th>Habitat</th>
-              <th>Population</th>
-              <th>Map</th>
               <th>Conservation Status</th>
-              <th>Threats</th>
-              <th>Conservation Effort</th>
               <th>Classification</th>
-              <th>Description</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -262,16 +256,7 @@ function ViewAndEditSpecies() {
                   <td>{data.specificname}</td>
                   <td>{data.scientificname}</td>
                   <td>{data.commonname}</td>
-                  <td>{data.habitat}</td>
-                  <td>{data.population}</td>
-                  <td>{data.location}</td>
                   <td>{data.conservationstatus}</td>
-                  <td>{data.threats}</td>
-                  <td>
-                    <div className="conservation-scroll">
-                      {data.conservationeffort}
-                    </div>
-                  </td>
                   <td>{data.speciescategory}</td>
                   <td>
                     <div className="description-scroll">{data.description}</div>
