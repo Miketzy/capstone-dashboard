@@ -230,7 +230,7 @@ function Register() {
               <select
                 id="status"
                 className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                value={formData.status}
+                value={formData.role}
                 onChange={handleChange}
                 required
               >
