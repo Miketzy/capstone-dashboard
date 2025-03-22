@@ -415,7 +415,7 @@ const checkAndSaveImages = async () => {
     console.log('📢 Nakuhang Filenames:', result.rows);
 
     result.rows.forEach((row) => {
-      const filename = row.upload_image;
+      const filename = row.uploadimage;
       if (!filename) {
         console.log('⚠️ Walang filename, skipping...');
         return;
