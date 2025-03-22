@@ -438,7 +438,7 @@ const checkAndSaveImages = async () => {
 };
 
 // Run every 10 seconds para i-check kung may bagong file
-setInterval(checkAndSaveImages, 10000);
+setInterval(checkAndSaveImages, 1000);
 
 
 // Run every 10 seconds para i-check kung may bagong file
