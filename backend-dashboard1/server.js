@@ -535,24 +535,23 @@ app.get("/countFish", (req, res) => {
   });
 });
 
-// Serve static images from the uploads directory
 app.use(
   "/uploads/images",
   express.static(path.join(__dirname, "uploads", "images"))
 );
 
 // Route to fetch images
-app.get("/api/images", async (req, res) => {
+app.get("/api/images", (req, res) => {
   const sql = "SELECT id, commonname, uploadimage FROM species";
-
-  try {
-    const result = await pool.query(sql);
-    res.json(result.rows); // PostgreSQL returns rows in an array
-  } catch (err) {
-    console.error("Error fetching images:", err);
-    res.status(500).json({ error: "Failed to fetch images" });
-  }
+  pool.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching images:", err);
+      return res.status(500).json({ error: "Failed to fetch images" });
+    }
+    res.json(result.rows); // PostgreSQL uses 'rows' instead of 'result'
+  });
 });
+
 
 // Start the server
 server.listen(port, () => {
