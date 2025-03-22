@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import pool from "./src/config/db.js";  // ✅ May "src/"
 import corsConfig from "./src/config/corsConfig.js"; // ✅ Import CORS config
 import loginRoutes from "./src/routes/LoginRoutes.js";  // ✅ May "src/"
+import { registerUser } from "./src/controller/RegisterController.js";
 
 
 
@@ -27,8 +28,11 @@ setInterval(() => {
   });
 }, 5 * 60 * 1000);
 
-// Register Protected Routes
+// Login Protected Routes
 app.use("/api-login", loginRoutes); // ✅ Adjust path if necessary
+
+// Register Protected Routes
+app.use("/api-register", registerUser); // ✅ Adjust path if necessary
 
 // Start Server
 app.listen(port, () => {
