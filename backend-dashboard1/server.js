@@ -127,7 +127,7 @@ const verifyUser = (req, res, next) => {
     req.phone_number = decoded.phone_number;
     req.email = decoded.email;
     req.gender = decoded.gender;
-    req.status = decoded.status;
+    req.role = decoded.role;
     req.image = decoded.image;
     req.currentPassword = decoded.currentPassword;
     req.newPassword = decoded.newPassword;
@@ -193,7 +193,7 @@ app.post("/login", async (req, res) => {
           // Send the token in the response body
           return res.json({
             token: token,
-            Status: "Success",
+            role: "Success",
             role: user.role,
             firstname: user.firstname,
             middlename: user.middlename,

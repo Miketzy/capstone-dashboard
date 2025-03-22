@@ -27,7 +27,6 @@ function Login() {
     }
   };
 
-  // Handle login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,35 +40,30 @@ function Login() {
       );
 
       if (response.data) {
+        // Log response data for debugging
+        console.log("Login response data:", response.data);
+
         // Store token in cookies and localStorage
-        const token = response.data.token; // Assuming the backend returns the token
+        const token = response.data.token;
         Cookies.set("token", token, {
           expires: 30,
-          secure: false, // Required for HTTPS
-          sameSite: "None", // Required for cross-origin requests
+          secure: false,
+          sameSite: "None",
         });
-
         localStorage.setItem("authToken", token);
 
-        // Log token to debug
-        console.log("Saved Token in Cookies:", Cookies.get("token"));
-        console.log(
-          "Saved Token in LocalStorage:",
-          localStorage.getItem("authToken")
-        );
-
-        // Store user info for easy access
+        // Store user info
         localStorage.setItem("contributor_firstname", response.data.firstname);
         localStorage.setItem("contributor_lastname", response.data.lastname);
         localStorage.setItem("contributor_email", response.data.email);
 
-        // Navigate based on user status
-        if (response.data.status === "admin") {
+        // Check and navigate based on user role
+        if (response.data.role === "admin") {
           navigate("/species-directory");
-        } else if (response.data.status === "contributor") {
+        } else if (response.data.role === "contributor") {
           navigate("/contributor-dashboard");
         } else {
-          navigate("/");
+          navigate("/"); // Default redirect if role is not recognized
         }
       }
     } catch (error) {
