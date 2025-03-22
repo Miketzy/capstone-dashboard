@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import pool from "../config/db.js"; // ✅ Make sure db.js exists
+import pool from "./config/db.js"; 
 import loginRoutes from "../routes/login-routes/LoginRoutes.js"; // ✅ Adjust path if necessary
 
 dotenv.config(); // Load environment variables
