@@ -184,6 +184,102 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Register endpoint
+app.post("/register", async (req, res) => {
+  const {
+    username,
+    firstname,
+    middlename,
+    lastname,
+    phone_number,
+    email,
+    gender,
+    status,
+    password,
+    confirmPassword,
+  } = req.body;
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match." });
+  }
+
+  try {
+    // Check if the username or email already exists
+    const checkUserSql = "SELECT * FROM users WHERE username = $1 OR email = $2";
+    const result = await pool.query(checkUserSql, [username, email]);
+
+    if (result.rows.length > 0) {
+      return res.status(409).json({ error: "Username or email already exists." });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user into the database
+    const insertUserSql = `
+      INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, status, password)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id
+    `;
+    const insertResult = await pool.query(insertUserSql, [
+      username,
+      firstname,
+      middlename,
+      lastname,
+      phone_number,
+      email,
+      gender,
+      status,
+      hashedPassword,
+    ]);
+
+    // Get the inserted user ID
+    const userId = insertResult.rows[0].id;
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: userId,
+        username,
+        firstname,
+        middlename,
+        lastname,
+        phone_number,
+        email,
+        gender,
+        status,
+      },
+      process.env.JWT_SECRET || "jsonwebtoken-secret-key", // Use environment variable for JWT secret
+      { expiresIn: "30d" }
+    );
+
+    // Set the token in a cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // Set to true in production (when using HTTPS)
+      sameSite: "lax",
+    });
+
+    return res.json({
+      status: "Success",
+      user: {
+        id: userId,
+        username,
+        firstname,
+        middlename,
+        lastname,
+        phone_number,
+        gender,
+        status,
+        email,
+      },
+    });
+  } catch (err) {
+    console.error("Database error:", err);
+    return res.status(500).json({ error: "Server error." });
+  }
+});
+
+
 // Start the server
 server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
