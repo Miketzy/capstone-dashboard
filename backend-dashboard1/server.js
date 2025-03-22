@@ -314,16 +314,15 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Ensure the 'uploads/images' folder exists
-const uploadPath = path.join(__dirname, "uploads", "images");
+const uploadPath = path.join(__dirname, 'uploads', 'images');
+
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
-  console.log("Created uploads/images folder.");
 }
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'uploads', 'images'))
+    const uploadPath = path.join(__dirname, 'uploads', 'images');
+    cb(null, filename);
   },
 
   filename: function (req, file, cb) {
