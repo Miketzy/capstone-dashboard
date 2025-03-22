@@ -335,6 +335,12 @@ app.get("/", verifyUser, (req, res) => {
   });
 });
 
+// logout route
+app.get("/logout", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
+});
+
 // Start the server
 server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
