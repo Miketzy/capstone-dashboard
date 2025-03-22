@@ -317,22 +317,28 @@ app.post("/register", async (req, res) => {
 const uploadPath = path.join(__dirname, "uploads", "images");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
+  console.log("Uploads folder created:", uploadPath);
 }
-
 
 // Multer Storage Configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log("Saving file to:", uploadPath);
     cb(null, uploadPath); // Save images to 'uploads/images' folder
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    const filename = Date.now() + path.extname(file.originalname);
+    console.log("Generated filename:", filename);
+    cb(null, filename);
   },
 });
 const upload = multer({ storage: storage });
 
 // Serve Uploaded Images
 app.use("/uploads/images", express.static(uploadPath));
+
+// Middleware
+app.use(express.json());
 
 // POST Route to Handle Species Creation
 app.post("/create", upload.single("file"), async (req, res) => {
