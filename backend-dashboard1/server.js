@@ -19,9 +19,11 @@ dotenv.config(); // Load environment variables from .env
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const server = http.createServer(app);
 
-const app = express();
+// Initialize the Express app
+const app = express(); // Move app initialization here
+const server = http.createServer(app); // Create HTTP server with app
+
 const port = process.env.PORT || 8080; // Default port if not defined in .env
 
 app.use(express.json()); // Middleware for parsing JSON requests
@@ -94,20 +96,11 @@ app.post("/upload-profile", uploaded.single("profileImage"), (req, res) => {
   res.json({ success: true, newImage });
 });
 
+// Serve static files for profile images
 app.use(
   "/uploads/avatar",
   express.static(path.join(__dirname, "uploads/avatar"))
 );
-const profileStorages = multer.diskStorage({
-  destination: (req, file, cb) => {
-    return cb(null, "./uploads/avatar");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const profileUpload = multer({ storage: profileStorages });
 
 // Login route
 app.post("/login", async (req, res) => {
@@ -132,7 +125,7 @@ app.post("/login", async (req, res) => {
         }
 
         if (isMatch) {
-          console.log("JWT_SECRET before signing:", "mySuperSecureSecretKey12345678");
+          console.log("JWT_SECRET before signing:", process.env.JWT_SECRET);
 
           const token = jwt.sign(
             {
@@ -150,7 +143,7 @@ app.post("/login", async (req, res) => {
               newPassword: user.newPassword,
               confirmPassword: user.confirmPassword,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET, // Use the secret key from the .env file
             { expiresIn: "30d" }
           );
 
@@ -191,10 +184,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-
-
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });
