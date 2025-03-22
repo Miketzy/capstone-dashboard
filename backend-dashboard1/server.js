@@ -32,7 +32,7 @@ setInterval(() => {
 app.use("/api-login", loginRoutes); // ✅ Adjust path if necessary
 
 // Register Protected Routes
-app.use("/api-register", registerUser); // ✅ Adjust path if necessary
+app.post("/api-register", registerUser); // ✅ Adjust path if necessary
 
 // Start Server
 app.listen(port, () => {

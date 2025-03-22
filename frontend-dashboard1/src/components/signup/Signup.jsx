@@ -14,7 +14,7 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
-
+  const apiUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch("https://bioexplorer-backend.onrender.com/register", {
+    fetch(`${apiUrl}/api-register`, {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
