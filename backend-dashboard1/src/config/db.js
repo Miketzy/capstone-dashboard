@@ -1,16 +1,18 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+import pkg from "pg";
+import dotenv from "dotenv";
 
-dotenv.config();  // Load environment variables
+dotenv.config();
+
+const { Pool } = pkg;
 
 const pool = new Pool({
-  connectionString: process.env.PG_HOST,  // Using the full connection string from the .env file
-  ssl: { rejectUnauthorized: false },  // Important for Render
+    connectionString: process.env.PG_HOST,  // Using the full connection string from the .env file
+  ssl: { rejectUnauthorized: false }, // Para sa Render
 });
 
-// Connect to the database
-pool.connect()
+// Test database connection
+pool.query("SELECT 1")
   .then(() => console.log("✅ Connected to PostgreSQL Database"))
   .catch((err) => console.error("❌ Database Connection Failed:", err));
 
-export default pool;
+  export default pool;  // ✅ Dapat "export default pool"
