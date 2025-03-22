@@ -312,32 +312,36 @@ app.post("/register", async (req, res) => {
     console.error("Database error:", err);
     return res.status(500).json({ error: "Server error." });
   }
-});
-
-const uploadPath = path.join(__dirname, 'uploads', 'images');
-
+});// Ensure the 'uploads/images' folder exists
+const uploadPath = path.join(__dirname, "uploads", "images");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
+  console.log("Created uploads/images folder.");
 }
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, 'uploads', 'images');
-    cb(null, filename);
-  },
 
-  filename: function (req, file, cb) {
+// Multer Storage Configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log("Saving image to:", uploadPath);
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
     const filename = Date.now() + path.extname(file.originalname);
     console.log("Generated Filename:", filename);
     cb(null, filename);
   },
 });
 
+const upload = multer({ storage });
 
-const upload = multer({ storage: storage });
+// Middleware to Parse JSON
+app.use(express.json());
 
+// Serve Uploaded Images
+app.use("/uploads/images", express.static(uploadPath));
 
-// POST Route to Handle Species Creation (WITHOUT async/await)
-app.post("/create", upload.single("image"), (req, res) => {
+// POST Route to Handle Species Creation
+app.post("/create", upload.single("file"), (req, res) => {
   const {
     specificname,
     scientificname,
@@ -352,9 +356,10 @@ app.post("/create", upload.single("image"), (req, res) => {
     description,
   } = req.body;
 
-  const uploadimage = req.file ? req.file.filename : null;
+  console.log("Received Data:", req.body);
+  console.log("Received File:", req.file);
 
-  console.log("Received file:", req.file);
+  const uploadimage = req.file ? req.file.filename : null;
 
   const query = `
     INSERT INTO species (
