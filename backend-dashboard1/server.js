@@ -194,7 +194,7 @@ app.post("/register", async (req, res) => {
     phone_number,
     email,
     gender,
-    status,
+    role,
     password,
     confirmPassword,
   } = req.body;
@@ -217,7 +217,7 @@ app.post("/register", async (req, res) => {
 
     // Insert new user into the database
     const insertUserSql = `
-      INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, status, password)
+      INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, role, password)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id
     `;
     const insertResult = await pool.query(insertUserSql, [
@@ -228,7 +228,7 @@ app.post("/register", async (req, res) => {
       phone_number,
       email,
       gender,
-      status,
+      role,
       hashedPassword,
     ]);
 
@@ -246,7 +246,7 @@ app.post("/register", async (req, res) => {
         phone_number,
         email,
         gender,
-        status,
+        role,
       },
       process.env.JWT_SECRET || "jsonwebtoken-secret-key", // Use environment variable for JWT secret
       { expiresIn: "30d" }
@@ -269,7 +269,7 @@ app.post("/register", async (req, res) => {
         lastname,
         phone_number,
         gender,
-        status,
+        role,
         email,
       },
     });

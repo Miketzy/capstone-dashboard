@@ -10,7 +10,7 @@ function Register() {
     phone_number: "+63",
     email: "",
     gender: "",
-    status: "",
+    role: "",
     password: "",
     confirmPassword: "",
   });
