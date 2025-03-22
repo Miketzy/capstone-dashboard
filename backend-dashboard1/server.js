@@ -325,42 +325,38 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// POST Route for Species Creation
+// POST route to handle species creation
 app.post("/create", upload.single("file"), async (req, res) => {
+  const {
+    specificname,
+    scientificname,
+    commonname,
+    habitat,
+    population,
+    threats,
+    speciescategory,
+    location,
+    conservationstatus,
+    conservationeffort,
+    description,
+  } = req.body;
+
+  const uploadimage = req.file ? req.file.filename : null;
+
+  const query = `
+    INSERT INTO species (
+      specificname, scientificname, commonname, habitat, population, threats, 
+      speciescategory, location, conservationstatus, conservationeffort, description, uploadimage
+    ) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+    RETURNING *;
+  `;
+
   try {
-    const {
+    const result = await pool.query(query, [
       specificname,
       scientificname,
       commonname,
-      speciesclassification, // New field
-      habitat,
-      population,
-      threats,
-      speciescategory,
-      location,
-      conservationstatus,
-      conservationeffort,
-      description,
-    } = req.body;
-
-    const uploadimage = req.file ? req.file.filename : null;
-
-    if (!specificname || !scientificname || !commonname || !speciesclassification) {
-      return res.status(400).json({ error: "Required fields are missing." });
-    }
-
-    const query = `
-      INSERT INTO species 
-      (specificname, scientificname, commonname, speciesclassification, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-      RETURNING id
-    `;
-
-    const values = [
-      specificname,
-      scientificname,
-      commonname,
-      speciesclassification, // New field
       habitat,
       population,
       threats,
@@ -370,16 +366,18 @@ app.post("/create", upload.single("file"), async (req, res) => {
       conservationeffort,
       description,
       uploadimage,
-    ];
+    ]);
 
-    const result = await pool.query(query, values);
-    res.status(201).json({ message: "Species added successfully!", id: result.rows[0].id });
-
+    res.status(201).json({
+      message: "Species added successfully!",
+      species: result.rows[0], // Returns inserted data
+    });
   } catch (err) {
-    console.error("Database Error:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error inserting species data:", err);
+    res.status(500).send("Server error. Failed to add species.");
   }
 });
+
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {
   return res.json({
