@@ -399,6 +399,42 @@ app.post("/create", upload.single("file"), (req, res) => {
     }
   );
 });
+
+// Tamang path para sa `uploads/images` sa loob ng `backend-dashboard`
+const uploadFolder = path.join(__dirname, '..', 'backend-dashboard', 'uploads', 'images');
+
+// Siguraduhin na may `uploads/images` folder
+if (!fs.existsSync(uploadFolder)) {
+  fs.mkdirSync(uploadFolder, { recursive: true });
+  console.log(`📁 Created folder: ${uploadFolder}`);
+}
+
+// Function para mag-check ng bagong filenames at ilagay sa folder
+const checkAndSaveImages = async () => {
+  try {
+    // ✅ Query para kunin ang filenames mula sa `species` table (upload_image column)
+    const result = await pool.query('SELECT uploadimage FROM species');
+
+    result.rows.forEach((row) => {
+      const filename = row.upload_image;
+      const filePath = path.join(uploadFolder, filename);
+
+      // Kung wala ang file sa folder, gumawa ng empty file
+      if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, ''); // Gumawa ng empty file
+        console.log(`✅ File created: ${filePath}`);
+      }
+    });
+  } catch (err) {
+    console.error('❌ Database Error:', err);
+  }
+};
+
+// Run every 10 seconds para i-check kung may bagong file
+setInterval(checkAndSaveImages, 10000);
+
+console.log('🔄 System is running... Checking database for new files...');
+
 // End point to get the species table
 app.get("/listspecies", (req, res) => {
   const sql = "SELECT * FROM species";
