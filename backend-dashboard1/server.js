@@ -138,7 +138,7 @@ app.post("/login", async (req, res) => {
               email: user.email,
               gender: user.gender,
               image: user.image,
-              status: user.status,
+              role: user.role,
               currentPassword: user.currentPassword,
               newPassword: user.newPassword,
               confirmPassword: user.confirmPassword,
@@ -159,7 +159,7 @@ app.post("/login", async (req, res) => {
           return res.json({
             token: token,
             Status: "Success",
-            status: user.status,
+            role: user.role,
             firstname: user.firstname,
             middlename: user.middlename,
             lastname: user.lastname,
