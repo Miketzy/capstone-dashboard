@@ -220,26 +220,28 @@ function Register() {
                 required
               />
             </div>
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-600"
-                htmlFor="status"
-              >
-                Account Type
-              </label>
-              <select
-                id="status"
-                className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                value={formData.role}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>
-                  Select your role
-                </option>
-                <option value="admin">Admin</option>
-                <option value="contributor">Contributor</option>
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-600"
+                  htmlFor="role" // Change this to 'role' instead of 'status'
+                >
+                  Account Type
+                </label>
+                <select
+                  id="role" // Change this to 'role' instead of 'status'
+                  className="mt-1 block h-[40px] p-[10px] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  value={formData.role} // Ensure this binds to 'formData.role'
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Select your role
+                  </option>
+                  <option value="admin">Admin</option>
+                  <option value="contributor">Contributor</option>
+                </select>
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
