@@ -313,63 +313,59 @@ app.post("/register", async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });
-// Ensure the 'uploads/images' folder exists
-const uploadPath = path.join(__dirname, "uploads", "images");
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-  console.log("Uploads folder created:", uploadPath);
+
+// Ensure 'uploads/images' directory exists
+const uploadDir = path.join(__dirname, "uploads", "images");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // Multer Storage Configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log("Saving file to:", uploadPath);
-    cb(null, uploadPath); // Save images to 'uploads/images' folder
+    return cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    const filename = Date.now() + path.extname(file.originalname);
-    console.log("Generated filename:", filename);
-    cb(null, filename);
+    return cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // Serve Uploaded Images
-app.use("/uploads/images", express.static(uploadPath));
-
-// Middleware
-app.use(express.json());
+app.use("./uploads/images", express.static(uploadDir));
 
 // POST Route to Handle Species Creation
 app.post("/create", upload.single("file"), async (req, res) => {
-  const {
-    specificname,
-    scientificname,
-    commonname,
-    habitat,
-    population,
-    threats,
-    speciescategory,
-    location,
-    conservationstatus,
-    conservationeffort,
-    description,
-  } = req.body;
-
-  const uploadimage = req.file ? req.file.filename : null;
-
-  console.log("Uploaded file:", req.file); // Debugging
-
-  const query = `
-    INSERT INTO species (
-      specificname, scientificname, commonname, habitat, population, threats, 
-      speciescategory, location, conservationstatus, conservationeffort, description, uploadimage
-    ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
-    RETURNING *;
-  `;
-
   try {
+    const {
+      specificname,
+      scientificname,
+      commonname,
+      habitat,
+      population,
+      threats,
+      speciescategory,
+      location,
+      conservationstatus,
+      conservationeffort,
+      description,
+    } = req.body;
+
+    const uploadimage = req.file ? req.file.filename : null;
+
+    console.log("Received Data:", req.body);
+    console.log("Uploaded File:", req.file);
+
+    // Insert into PostgreSQL
+    const query = `
+      INSERT INTO species (
+        specificname, scientificname, commonname, habitat, population, threats, 
+        speciescategory, location, conservationstatus, conservationeffort, description, uploadimage
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+      RETURNING *;
+    `;
+
     const result = await pool.query(query, [
       specificname,
       scientificname,
