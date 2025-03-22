@@ -34,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch("https://bioexplorer-backend.onrender.com/register/api-register", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api-register/register`, {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
