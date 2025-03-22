@@ -341,6 +341,21 @@ app.get("/logout", (req, res) => {
   res.json({ Message: "Success" });
 });
 
+app.post("/countSpecies", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species";
+  
+  pool.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching species count:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch species count."); // Updated error message
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count (PostgreSQL result is in `rows`)
+  });
+});
+
 // Start the server
 server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
