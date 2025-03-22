@@ -1,4 +1,3 @@
-import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import pool from "../config/db.js";
@@ -6,10 +5,9 @@ import dotenv from "dotenv";
 
 dotenv.config(); // Load environment variables
 
-const router = express.Router();
 
-router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+export const loginUser = async (req, res) => {
+    const { username, password } = req.body;
 
   try {
     const sql = `SELECT * FROM users WHERE username = $1 LIMIT 1`;
@@ -73,6 +71,4 @@ router.post("/login", async (req, res) => {
     console.error("Database error:", err);
     return res.status(500).json({ Message: "Server Side Error" });
   }
-});
-
-export default loginRoutes;
+};

@@ -1,9 +1,11 @@
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import pool from "./config/db.js"; 
-import loginRoutes from "../../routes/login-routes/LoginRoutes.js";
+import pool from "./src/config/db.js";  // ✅ May "src/"
+import corsConfig from "./src/config/corsConfig.js"; // ✅ Import CORS config
+import loginRoutes from "./src/routes/LoginRoutes.js";  // ✅ May "src/"
+
+
 
 
 
@@ -14,7 +16,7 @@ const port = process.env.PORT || 8080; // ✅ Using PORT from .env
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(corsConfig); // ✅ Apply CORS config
 app.use(cookieParser());
 
 // Database Keep-Alive ✅ Fixed pool instead of client
@@ -26,7 +28,7 @@ setInterval(() => {
 }, 5 * 60 * 1000);
 
 // Register Protected Routes
-app.use("/login", loginRoutes); // ✅ Adjust path if necessary
+app.use("/api-login", loginRoutes); // ✅ Adjust path if necessary
 
 // Start Server
 app.listen(port, () => {
