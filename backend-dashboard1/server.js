@@ -314,18 +314,24 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Set up multer to handle file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    return cb(null, "./uploads/images");
+    cb(null, "./uploads/images"); // Path to save the uploaded files
   },
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + path.extname(file.originalname));
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Generate a unique filename
   },
 });
+
 const upload = multer({ storage: storage });
 
-// POST route to handle species creation
+// POST route to handle species creation with file upload
 app.post("/create", upload.single("file"), (req, res) => {
+  // Log request data for debugging
+  console.log("Request Body:", req.body);
+  console.log("Uploaded File:", req.file);
+
   // Destructure the necessary fields from the request body
   const {
     specificname,
@@ -374,7 +380,7 @@ app.post("/create", upload.single("file"), (req, res) => {
     conservationeffort,
     description,
     uploadimage,
-    speciesclassification,  // Ensure this is included
+    speciesclassification,
   ], (err, result) => {
     if (err) {
       console.error("Error inserting species data:", err);
