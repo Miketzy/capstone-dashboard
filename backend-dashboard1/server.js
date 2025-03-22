@@ -323,14 +323,9 @@ if (!fs.existsSync(uploadPath)) {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const dir = "./uploads/images";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-      console.log("Created uploads/images folder.");
-    }
-    console.log("Saving image to:", dir);
-    cb(null, dir);
+    cb(null, path.join(__dirname, 'uploads', 'images'))
   },
+
   filename: function (req, file, cb) {
     const filename = Date.now() + path.extname(file.originalname);
     console.log("Generated Filename:", filename);
@@ -339,14 +334,11 @@ const storage = multer.diskStorage({
 });
 
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
-
-// Serve Uploaded Images
-app.use("/uploads/images", express.static(uploadPath));
 
 // POST Route to Handle Species Creation (WITHOUT async/await)
-app.post("/create", upload.single("file"), (req, res) => {
+app.post("/create", upload.single("image"), (req, res) => {
   const {
     specificname,
     scientificname,
