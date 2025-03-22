@@ -574,18 +574,18 @@ app.use(
   express.static(path.join(__dirname, "uploads", "images"))
 );
 
-// Route to fetch images
-app.get("/api/images", (req, res) => {
-  const sql = "SELECT id, commonname, uploadimage FROM species";
-  pool.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error fetching images:", err);
-      return res.status(500).json({ error: "Failed to fetch images" });
-    }
-    res.json(result.rows); // PostgreSQL uses 'rows' instead of 'result'
-  });
-});
+// GET Route to Fetch Images
+app.get("/api/images", async (req, res) => {
+  try {
+    const sql = "SELECT id, commonname, uploadimage FROM species";
+    const result = await pool.query(sql);
 
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching images:", err);
+    res.status(500).json({ error: "Failed to fetch images" });
+  }
+});
 app.delete("/delete-species/:id", async (req, res) => {
   const deleteSpeciesQuery = "DELETE FROM species WHERE id = $1";
 
