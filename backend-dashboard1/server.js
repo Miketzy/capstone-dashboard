@@ -401,7 +401,7 @@ app.post("/create", upload.single("file"), (req, res) => {
 });
 
 // Tamang path para sa `uploads/images` sa loob ng `backend-dashboard1`
-const uploadFolder = path.join(__dirname, '..', 'backend-dashboard1', 'uploads', 'images');
+const uploadFolder = path.join(__dirname, '..', 'uploads', 'images');
 
 // Siguraduhin na may `uploads/images` folder
 if (!fs.existsSync(uploadFolder)) {
