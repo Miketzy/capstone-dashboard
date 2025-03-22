@@ -39,7 +39,7 @@ function Register() {
       body: JSON.stringify(updatedFormData),
       headers: {
         "Content-Type": "application/json",
-      },
+      }
       .then((response) => {
         if (
           response.headers.get("content-type")?.includes("application/json")
