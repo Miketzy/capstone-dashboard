@@ -313,6 +313,12 @@ app.post("/register", async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });
+// Ensure the 'uploads/images' folder exists
+const uploadPath = path.join(__dirname, "uploads", "images");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
 
 // Multer Storage Configuration
 const storage = multer.diskStorage({
