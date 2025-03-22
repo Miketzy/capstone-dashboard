@@ -314,25 +314,19 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Set up multer to handle file uploads
+// Storage configuration for multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads/images"); // Path to save the uploaded files
+    return cb(null, './uploads/images');
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Generate a unique filename
+  filename: function (req, file, cb) {
+    return cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
 const upload = multer({ storage: storage });
 
-// POST route to handle species creation with file upload
-app.post("/create", upload.single("file"), (req, res) => {
-  // Log request data for debugging
-  console.log("Request Body:", req.body);
-  console.log("Uploaded File:", req.file);
-
-  // Destructure the necessary fields from the request body
+// POST route to handle species creation
+app.post('/create', upload.single('file'), (req, res) => {
   const {
     specificname,
     scientificname,
@@ -341,53 +335,48 @@ app.post("/create", upload.single("file"), (req, res) => {
     population,
     threats,
     speciescategory,
+    speciesclassification,
     location,
     conservationstatus,
     conservationeffort,
     description,
-    speciesclassification,  // Make sure this field is included in the request body
   } = req.body;
 
-  // Handle the uploaded file (if any)
   const uploadimage = req.file ? req.file.filename : null;
 
-  // Check if speciesclassification is missing
-  if (!speciesclassification) {
-    return res.status(400).send("Species classification is required.");
-  }
-
-  // SQL query to insert species data
+  // PostgreSQL query to insert species data
   const query = `
-    INSERT INTO species (
-      specificname, scientificname, commonname, habitat, population, threats, 
-      speciescategory, location, conservationstatus, conservationeffort, 
-      description, uploadimage, speciesclassification
-    )
+    INSERT INTO species 
+    (specificname, scientificname, commonname, habitat, population, threats, speciescategory, speciesclassification, location, conservationstatus, conservationeffort, description, uploadimage)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
   `;
 
-  // Execute the query using pool.query and provide the values to insert
-  pool.query(query, [
-    specificname,
-    scientificname,
-    commonname,
-    habitat,
-    population,
-    threats,
-    speciescategory,
-    location,
-    conservationstatus,
-    conservationeffort,
-    description,
-    uploadimage,
-    speciesclassification,
-  ], (err, result) => {
-    if (err) {
-      console.error("Error inserting species data:", err);
-      return res.status(500).send("Server error. Failed to add species.");
+  // Using the pool to execute the query
+  pool.query(
+    query,
+    [
+      specificname,
+      scientificname,
+      commonname,
+      habitat,
+      population,
+      threats,
+      speciescategory,
+      speciesclassification,
+      location,
+      conservationstatus,
+      conservationeffort,
+      description,
+      uploadimage,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error('Error inserting species data:', err);
+        return res.status(500).send('Server error. Failed to add species.');
+      }
+      res.status(201).send('Species added successfully!');
     }
-    res.status(201).send("Species added successfully!");
-  });
+  );
 });
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {

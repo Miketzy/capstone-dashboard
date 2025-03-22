@@ -53,11 +53,7 @@ function AddSpecies() {
     formData.append("file", file);
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // This tells the server it's receiving form data including files
-        },
-      })
+      .post("https://bioexplorer-backend.onrender.com/create", formData)
       .then((response) => {
         setUploadStatus("Species added successfully!");
         toast.success("🦄 Species added successfully!", {
@@ -86,8 +82,7 @@ function AddSpecies() {
           theme: "colored",
           transition: Bounce,
         });
-        console.error("Error:", error);
-        console.error("Response:", error.response); // Log the response to check for validation errors
+        console.log(error);
       });
   };
 
