@@ -34,13 +34,12 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/register`, {
+    fetch("https://bioexplorer-backend.onrender.com/register", {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
         "Content-Type": "application/json",
       },
-    })
       .then((response) => {
         if (
           response.headers.get("content-type")?.includes("application/json")
