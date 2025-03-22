@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { Pool } from "pg"; // Importing Pool from pg library
+import pkg from "pg";  // Import pg using default import
 import { fileURLToPath } from 'url'; // Import fileURLToPath for ES module
 import path from 'path'; // Import path for dirname functionality
 
@@ -25,7 +25,9 @@ app.use(
   })
 );
 
-// PostgreSQL connection setup
+// PostgreSQL connection setup using pg default import
+const { Pool } = pkg; // Destructure Pool from the imported pg module
+
 const pool = new Pool({
   connectionString: "postgresql://reposatory:71YyyVsRMV2544ho7UjtQcGw3UcHXUSg@dpg-cvemttd2ng1s73ci1oag-a.oregon-postgres.render.com/reposatory",
   ssl: { rejectUnauthorized: false }, // Required for cloud databases like Render
