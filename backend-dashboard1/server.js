@@ -409,28 +409,36 @@ if (!fs.existsSync(uploadFolder)) {
   console.log(`📁 Created folder: ${uploadFolder}`);
 }
 
-// Function para mag-check ng bagong filenames at ilagay sa folder
 const checkAndSaveImages = async () => {
   try {
-    // ✅ Query para kunin ang filenames mula sa `species` table (upload_image column)
     const result = await pool.query('SELECT uploadimage FROM species');
+    console.log('📢 Nakuhang Filenames:', result.rows);
 
     result.rows.forEach((row) => {
       const filename = row.upload_image;
-      if (!filename) return; // Skip kung walang filename sa database
+      if (!filename) {
+        console.log('⚠️ Walang filename, skipping...');
+        return;
+      }
 
       const filePath = path.join(uploadFolder, filename);
+      console.log(`📝 File Path: ${filePath}`);
 
-      // Kung wala ang file sa folder, gumawa ng empty file
+      // Check kung hindi pa nag-eexist ang file
       if (!fs.existsSync(filePath)) {
         fs.writeFileSync(filePath, ''); // Gumawa ng empty file
         console.log(`✅ File created: ${filePath}`);
+      } else {
+        console.log(`🔹 File already exists: ${filePath}`);
       }
     });
   } catch (err) {
     console.error('❌ Database Error:', err);
   }
 };
+
+// Run every 10 seconds para i-check kung may bagong file
+setInterval(checkAndSaveImages, 10000);
 
 
 // Run every 10 seconds para i-check kung may bagong file
