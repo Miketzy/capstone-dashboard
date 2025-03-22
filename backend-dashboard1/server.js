@@ -2,30 +2,29 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import client from "./src/config/db.js"; // ✅ Updated path
-import loginroutes from "./src/routes/login-routes/LoginRoutes.js";
-
+import pool from "../config/db.js"; // ✅ Make sure db.js exists
+import loginRoutes from "../routes/login-routes/LoginRoutes.js"; // ✅ Adjust path if necessary
 
 dotenv.config(); // Load environment variables
 
 const app = express();
-const port = process.env.PORT || 8080; // ✅ Now using PORT from .env
+const port = process.env.PORT || 8080; // ✅ Using PORT from .env
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-// Database Keep-Alive
+// Database Keep-Alive ✅ Fixed pool instead of client
 setInterval(() => {
-  client.query("SELECT 1", (err, results) => {
+  pool.query("SELECT 1", (err, results) => {
     if (err) console.error("Database Keep-Alive error:", err);
     else console.log("✅ Database is alive");
   });
 }, 5 * 60 * 1000);
 
 // Register Protected Routes
-app.use("/login", loginroutes); // ✅ Now `/protected` will use routes from protectedRoutes.js
+app.use("/login", loginRoutes); // ✅ Adjust path if necessary
 
 // Start Server
 app.listen(port, () => {

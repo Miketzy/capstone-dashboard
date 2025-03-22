@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import client from "../config/db.js";
+import pool from "../config/db.js";
 import dotenv from "dotenv";
 
 dotenv.config(); // Load environment variables
@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const sql = `SELECT * FROM users WHERE username = $1 LIMIT 1`;
-    const result = await client.query(sql, [username]);
+    const result = await pool.query(sql, [username]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ Message: "No Records Existed" });
@@ -75,4 +75,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export default loginroutes;
+export default loginRoutes;
