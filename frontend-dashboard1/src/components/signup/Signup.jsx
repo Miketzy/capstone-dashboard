@@ -14,7 +14,7 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
-  const apiUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
