@@ -326,6 +326,7 @@ const upload = multer({ storage: storage });
 
 // POST route to handle species creation
 app.post("/create", upload.single("file"), (req, res) => {
+  // Destructure the necessary fields from the request body
   const {
     specificname,
     scientificname,
@@ -338,17 +339,28 @@ app.post("/create", upload.single("file"), (req, res) => {
     conservationstatus,
     conservationeffort,
     description,
+    speciesclassification,  // Make sure this field is included in the request body
   } = req.body;
 
+  // Handle the uploaded file (if any)
   const uploadimage = req.file ? req.file.filename : null;
 
-  // Perform your database logic to save species data
+  // Check if speciesclassification is missing
+  if (!speciesclassification) {
+    return res.status(400).send("Species classification is required.");
+  }
+
+  // SQL query to insert species data
   const query = `
-    INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    INSERT INTO species (
+      specificname, scientificname, commonname, habitat, population, threats, 
+      speciescategory, location, conservationstatus, conservationeffort, 
+      description, uploadimage, speciesclassification
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
   `;
 
-  // Use the pool.query method to insert the data into the PostgreSQL database
+  // Execute the query using pool.query and provide the values to insert
   pool.query(query, [
     specificname,
     scientificname,
@@ -362,6 +374,7 @@ app.post("/create", upload.single("file"), (req, res) => {
     conservationeffort,
     description,
     uploadimage,
+    speciesclassification,  // Ensure this is included
   ], (err, result) => {
     if (err) {
       console.error("Error inserting species data:", err);
@@ -370,7 +383,6 @@ app.post("/create", upload.single("file"), (req, res) => {
     res.status(201).send("Species added successfully!");
   });
 });
-
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {
   return res.json({
