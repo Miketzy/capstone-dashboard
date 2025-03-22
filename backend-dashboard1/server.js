@@ -378,6 +378,23 @@ app.post("/create", upload.single("file"), async (req, res) => {
   }
 });
 
+// End point to get the species table
+app.get("/listspecies", (req, res) => {
+  const sql = "SELECT * FROM species";
+  pool.query(sql, (err, data) => {
+    if (err) return res.json({ Message: "Error retrieving data" });
+
+    // Adjust path for images in 'uploads/images' directory
+    const result = data.rows.map((item) => ({
+      ...item,
+      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`,
+    }));
+    
+    return res.json(result);
+  });
+});
+
+
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {
   return res.json({
