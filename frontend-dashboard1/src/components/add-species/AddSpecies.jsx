@@ -82,7 +82,8 @@ function AddSpecies() {
           theme: "colored",
           transition: Bounce,
         });
-        console.log(error);
+        console.log("Error:", error);
+        console.log("Response:", error.response); // Log the response for more insight
       });
   };
 
