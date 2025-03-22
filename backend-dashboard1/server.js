@@ -321,22 +321,26 @@ if (!fs.existsSync(uploadPath)) {
   console.log("Created uploads/images folder.");
 }
 
-// Multer Storage Configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    console.log("Saving image to:", uploadPath);
-    cb(null, uploadPath);
+  destination: function (req, file, cb) {
+    const dir = "./uploads/images";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+      console.log("Created uploads/images folder.");
+    }
+    console.log("Saving image to:", dir);
+    cb(null, dir);
   },
-  filename: (req, file, cb) => {
+  filename: function (req, file, cb) {
     const filename = Date.now() + path.extname(file.originalname);
-    console.log("Generated filename:", filename);
+    console.log("Generated Filename:", filename);
     cb(null, filename);
   },
 });
+
+
 const upload = multer({ storage });
 
-// Middleware to Parse JSON
-app.use(express.json());
 
 // Serve Uploaded Images
 app.use("/uploads/images", express.static(uploadPath));
