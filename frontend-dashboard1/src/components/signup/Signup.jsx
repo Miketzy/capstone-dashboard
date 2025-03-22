@@ -14,7 +14,6 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
-  const apiUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -39,30 +38,34 @@ function Register() {
       body: JSON.stringify(updatedFormData),
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+    })
       .then((response) => {
-        if (
-          response.headers.get("content-type")?.includes("application/json")
-        ) {
-          return response.json();
-        } else {
+        if (!response.ok) {
           return response.text().then((text) => {
-            throw new Error(`Unexpected response: ${text}`);
+            throw new Error(`Error: ${text}`);
           });
         }
+
+        return response.json();
       })
       .then((data) => {
         if (data.error) {
           alert(data.error);
         } else {
-          alert("Registration successful!");
-          navigate("/");
+          navigate("/"); // Navigate to the home page or another page
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
-        alert("An error occurred during registration.");
+        console.error("Error:", error.message);
+        alert("An error occurred. Please try again.");
       });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
   };
 
   return (
@@ -77,7 +80,11 @@ function Register() {
         <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">
           Registration Form
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+          onKeyDown={handleKeyDown}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
