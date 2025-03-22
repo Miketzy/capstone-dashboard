@@ -11,8 +11,6 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const apiUrl = process.env.REACT_APP_BACKEND_URL;
-
   axios.defaults.withCredentials = true;
 
   // Check if token exists in cookies or localStorage
@@ -34,9 +32,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${apiUrl}/api-login`, values, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "https://bioexplorer-backend.onrender.com/login",
+        values,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data) {
         alert("Login successful!");
