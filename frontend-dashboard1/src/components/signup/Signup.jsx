@@ -34,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api-register/register`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/register`, {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
