@@ -41,8 +41,6 @@ function Login() {
       );
 
       if (response.data) {
-        alert("Login successful!");
-
         // Store token in cookies and localStorage
         const token = response.data.token; // Assuming the backend returns the token
         Cookies.set("token", token, {
