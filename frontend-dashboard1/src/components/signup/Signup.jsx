@@ -34,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch(`${apiUrl}/api-register`, {
+    fetch(`${apiUrl}/api-register/register`, {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {
