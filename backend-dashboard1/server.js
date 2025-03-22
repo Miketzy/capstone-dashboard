@@ -102,6 +102,41 @@ app.use(
   express.static(path.join(__dirname, "uploads/avatar"))
 );
 
+// The verifyUser middleware
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  console.log("token:", token); // Log token to check if it's being sent correctly.
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "We need a token, please provide it." });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid or expired token." });
+    }
+
+    console.log("Decoded Token:", decoded); // Log the decoded token
+    req.userId = decoded.id;
+    req.username = decoded.username;
+    req.firstname = decoded.firstname;
+    req.middlename = decoded.middlename;
+    req.lastname = decoded.lastname;
+    req.phone_number = decoded.phone_number;
+    req.email = decoded.email;
+    req.gender = decoded.gender;
+    req.status = decoded.status;
+    req.image = decoded.image;
+    req.currentPassword = decoded.currentPassword;
+    req.newPassword = decoded.newPassword;
+    req.confirmPassword = decoded.confirmPassword;
+
+    next();
+  });
+};
+
 // Login route
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -279,6 +314,26 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Protected route to get user profile
+app.get("/", verifyUser, (req, res) => {
+  return res.json({
+    message: "Profile retrieved successfully",
+    user: {
+      id: req.userId,
+      username: req.username,
+      firstname: req.firstname,
+      middlename: req.middlename,
+      lastname: req.lastname,
+      phone_number: req.phone_number,
+      email: req.email,
+      image: req.image,
+      role: req.role,
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
+    },
+  });
+});
 
 // Start the server
 server.listen(port, () => {
