@@ -3,7 +3,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import pool from "./config/db.js"; 
-import loginRoutes from "../routes/login-routes/LoginRoutes.js"; // ✅ Adjust path if necessary
+import loginRoutes from "./routes/login-routes/loginRoutes.js"; 
+
 
 dotenv.config(); // Load environment variables
 
