@@ -314,18 +314,21 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Storage configuration for multer
+// Multer Storage Configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    return cb(null, './uploads/images');
+    cb(null, uploadPath); // Save images to 'uploads/images' folder
   },
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + path.extname(file.originalname));
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
   },
 });
 const upload = multer({ storage: storage });
 
-// POST route to handle species creation
+// Serve Uploaded Images
+app.use("/uploads/images", express.static(uploadPath));
+
+// POST Route to Handle Species Creation
 app.post("/create", upload.single("file"), async (req, res) => {
   const {
     specificname,
@@ -342,6 +345,8 @@ app.post("/create", upload.single("file"), async (req, res) => {
   } = req.body;
 
   const uploadimage = req.file ? req.file.filename : null;
+
+  console.log("Uploaded file:", req.file); // Debugging
 
   const query = `
     INSERT INTO species (
