@@ -417,6 +417,8 @@ const checkAndSaveImages = async () => {
 
     result.rows.forEach((row) => {
       const filename = row.upload_image;
+      if (!filename) return; // Skip kung walang filename sa database
+
       const filePath = path.join(uploadFolder, filename);
 
       // Kung wala ang file sa folder, gumawa ng empty file
@@ -429,6 +431,7 @@ const checkAndSaveImages = async () => {
     console.error('❌ Database Error:', err);
   }
 };
+
 
 // Run every 10 seconds para i-check kung may bagong file
 setInterval(checkAndSaveImages, 10000);
