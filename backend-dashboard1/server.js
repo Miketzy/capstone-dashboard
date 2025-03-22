@@ -580,6 +580,19 @@ app.get("/api/images", (req, res) => {
   });
 });
 
+app.delete("/delete-species/:id", async (req, res) => {
+  const deleteSpeciesQuery = "DELETE FROM species WHERE id = $1";
+
+  try {
+    await pool.query(deleteSpeciesQuery, [req.params.id]);
+    res.status(200).json({ message: "Species deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting species:", err);
+    res.status(500).json({ error: "Error deleting species" });
+  }
+});
+
+
 
 // Start the server
 server.listen(port, () => {
