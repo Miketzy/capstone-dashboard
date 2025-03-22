@@ -356,6 +356,121 @@ app.post("/countSpecies", (req, res) => {
   });
 });
 
+// Endpoint to get the count of mammals
+app.get("/countmammals", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['mammals'], (err, result) => {
+    if (err) {
+      console.error("Error fetching mammals count:", err);
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch mammals count.");
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of birds
+app.get("/countbirds", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['birds'], (err, result) => {
+    if (err) {
+      console.error("Error fetching birds count:", err);
+      return res.status(500).send("Server error. Failed to fetch birds count.");
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of reptiles
+app.get("/countReptiles", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['reptiles'], (err, result) => {
+    if (err) {
+      console.error("Error fetching reptiles count:", err);
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch reptiles count.");
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of amphibians
+app.get("/countAmphibians", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['amphibians'], (err, result) => {
+    if (err) {
+      console.error("Error fetching amphibians count:", err);
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch amphibians count.");
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of invertebrates
+app.get("/countInvertebrates", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['invertebrates'], (err, result) => {
+    if (err) {
+      console.error("Error fetching invertebrates count:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch invertebrates count."); // Updated error message
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of vertebrates
+app.get("/countvertebrates", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['vertebrates'], (err, result) => {
+    if (err) {
+      console.error("Error fetching vertebrates count:", err); // Updated error message
+      return res
+        .status(500)
+        .send("Server error. Failed to fetch vertebrates count."); // Updated error message
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
+// Endpoint to get the count of fish
+app.get("/countFish", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = $1"; // Parameterized query for PostgreSQL
+
+  pool.query(query, ['fish'], (err, result) => {
+    if (err) {
+      console.error("Error fetching fish count:", err); // Updated error message
+      return res.status(500).send("Server error. Failed to fetch fish count."); // Updated error message
+    }
+
+    res.status(200).json(result.rows[0]); // Send back the count
+  });
+});
+
 // Start the server
 server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
