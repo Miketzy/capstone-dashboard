@@ -63,11 +63,24 @@ function ContributorEditProfile({ onUpdateProfile }) {
     fetchUserData();
   }, [navigate]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    Object.keys(userData).forEach((key) => formData.append(key, userData[key]));
+
+    // Check if username exists before appending to FormData
+    if (!userData.username || userData.username.trim() === "") {
+      alert("Username is required.");
+      return;
+    }
+
+    // Append all userData fields to FormData
+    Object.keys(userData).forEach((key) => {
+      if (userData[key]) {
+        formData.append(key, userData[key]);
+      }
+    });
+
+    // Append image if selected
     if (imageFile) {
       formData.append("image", imageFile);
     }
@@ -103,6 +116,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
       alert("Failed to update profile. Please check your input.");
     }
   };
+
   return (
     <div className=" flex justify-center items-center py-10 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="bg-white shadow-md rounded-lg w-full max-w-4xl p-6">
