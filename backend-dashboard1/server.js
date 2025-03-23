@@ -691,7 +691,6 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
-
 app.put("/profile", verifyUser, (req, res) => {
   const userId = req.userId;
   const {
@@ -737,10 +736,12 @@ app.put("/profile", verifyUser, (req, res) => {
         return res.status(500).json({ message: "Server error" });
       }
 
+      console.log("Profile updated successfully:", results);
       res.json({ message: "Profile updated successfully" });
     }
   );
 });
+
 
 
 // Start the server
