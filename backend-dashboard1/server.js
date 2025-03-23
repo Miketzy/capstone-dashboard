@@ -143,7 +143,6 @@ const verifyUser = (req, res, next) => {
     req.currentPassword = decoded.currentPassword;
     req.newPassword = decoded.newPassword;
     req.confirmPassword = decoded.confirmPassword;
-
     next();
   });
 };
