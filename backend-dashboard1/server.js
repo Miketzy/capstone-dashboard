@@ -692,6 +692,18 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
+app.use(
+  "/uploads/avatar",
+  express.static(path.join(__dirname, "uploads/avatar"))
+);
+const profileStorages = multer.diskStorage({
+  destination: (req, file, cb) => {
+    return cb(null, "./uploads/avatar");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 
 const profileUpload = multer({ storage: profileStorages });
 // Profile update route
