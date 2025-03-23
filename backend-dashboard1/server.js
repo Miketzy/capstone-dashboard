@@ -692,6 +692,7 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
+
 // Profile update route (No Image Update) for PostgreSQL
 app.put("/profile", verifyUser, (req, res) => {
   const userId = req.userId; // User ID from the verified token
