@@ -602,10 +602,6 @@ app.get("/countFish", (req, res) => {
   });
 });
 
-app.use(
-  "/uploads/images",
-  express.static(path.join(__dirname, "uploads", "images"))
-);
 
 // GET Route to Fetch Images from Database
 app.get("/api/images", async (req, res) => {
@@ -618,6 +614,7 @@ app.get("/api/images", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch images" });
   }
 });
+
 
 
 app.delete("/delete-species/:id", async (req, res) => {
