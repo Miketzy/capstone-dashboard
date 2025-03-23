@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import bcrypt from "bcryptjs";
 import fs from "fs";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinaryModule from "cloudinary";
 import nodemailer from "nodemailer";
 import crypto from "crypto"; // For OTP generation
 import http from "http";
@@ -19,6 +21,15 @@ dotenv.config(); // Load environment variables from .env
 // Determine the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const cloudinary = cloudinaryModule.v2;
+
+// Cloudinary Config
+cloudinary.config({
+  cloud_name: "dvj4mroel",
+  api_key: "574978959734848",
+  api_secret: "C_jILnTXsUPdPj8pKQdROd8uQys",
+});
 
 // Initialize the Express app
 const app = express(); // Move app initialization here
@@ -341,7 +352,7 @@ app.use(express.json());
 app.use("/uploads/images", express.static(uploadPath));
 
 // POST Route to Handle Species Creation
-app.post("/create", upload.single("file"), (req, res) => {
+app.post("/create", upload.single("image"), (req, res) => {
   const {
     specificname,
     scientificname,
@@ -626,18 +637,19 @@ app.use(
   express.static(path.join(__dirname, "uploads", "images"))
 );
 
-// GET Route to Fetch Images
+// GET Route to Fetch Images from Database
 app.get("/api/images", async (req, res) => {
   try {
     const sql = "SELECT id, commonname, uploadimage FROM species";
     const result = await pool.query(sql);
-
     res.json(result.rows);
   } catch (err) {
     console.error("Error fetching images:", err);
     res.status(500).json({ error: "Failed to fetch images" });
   }
 });
+
+
 app.delete("/delete-species/:id", async (req, res) => {
   const deleteSpeciesQuery = "DELETE FROM species WHERE id = $1";
 
