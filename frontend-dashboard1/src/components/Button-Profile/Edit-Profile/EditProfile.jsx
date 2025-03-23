@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./EditProfile.css";
-import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function EditProfile({ onUpdateProfile }) {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
     firstname: "",
@@ -16,19 +13,9 @@ function EditProfile({ onUpdateProfile }) {
     gender: "",
     phone_number: "",
     username: "",
-    image: "/images/unknown-person-icon-Image-from_20220304.png",
+    image: "/images/unknown-person-icon-Image-from_20220304.png", // Default image
   });
   const navigate = useNavigate();
-
-  // Handle image input and set the preview
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Create a local URL for the selected image
-      setSelectedImage(URL.createObjectURL(file));
-      setImageFile(file);
-    }
-  };
 
   useEffect(() => {
     // Fetch user data from backend
@@ -85,9 +72,6 @@ function EditProfile({ onUpdateProfile }) {
     formData.append("gender", userData.gender);
     formData.append("phone_number", userData.phone_number);
     formData.append("username", userData.username);
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
 
     const token = localStorage.getItem("authToken");
 
@@ -112,11 +96,6 @@ function EditProfile({ onUpdateProfile }) {
       if (res.status === 200) {
         console.log("Profile updated:", res.data);
         setUserData(res.data);
-        setSelectedImage(
-          res.data.image
-            ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${res.data.image}`
-            : "/images/unknown-person-icon-Image-from_20220304.png"
-        );
 
         if (onUpdateProfile) {
           onUpdateProfile(res.data);
@@ -137,25 +116,12 @@ function EditProfile({ onUpdateProfile }) {
       alert("Failed to update profile. Please check your input.");
     }
   };
+
   return (
     <div className="edit-profile-container">
       <div className="edit-profile">
         <div className="edit-profile-cards edit-profile-imgholder">
-          <label htmlFor="profile-imgInput" className="profile-upload">
-            <input
-              type="file"
-              id="profile-imgInput"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            <BsPlusCircleDotted className="profile-icon" />
-          </label>
-          <img
-            src={selectedImage ? selectedImage : userData.image}
-            alt="Profile"
-            width="150"
-            height="150"
-          />
+          <img src={userData.image} alt="Profile" width="150" height="150" />
         </div>
       </div>
 
