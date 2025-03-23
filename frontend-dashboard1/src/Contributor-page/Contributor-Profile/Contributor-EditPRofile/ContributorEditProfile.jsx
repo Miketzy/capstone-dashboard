@@ -63,16 +63,11 @@ function ContributorEditProfile({ onUpdateProfile }) {
     fetchUserData();
   }, [navigate]);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("firstname", userData.firstname);
-    formData.append("middlename", userData.middlename);
-    formData.append("lastname", userData.lastname);
-    formData.append("email", userData.email);
-    formData.append("gender", userData.gender);
-    formData.append("phone_number", userData.phone_number);
-    formData.append("username", userData.username);
+    Object.keys(userData).forEach((key) => formData.append(key, userData[key]));
     if (imageFile) {
       formData.append("image", imageFile);
     }
@@ -85,22 +80,20 @@ function ContributorEditProfile({ onUpdateProfile }) {
 
     try {
       const res = await axios.put(
-        "https://bioexplorer-backend.onrender.com/profile",
+        "http://localhost:5000/api/profile",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
-          withCredentials: true, // Include credentials in the request
+          withCredentials: true,
         }
       );
 
       if (res.status === 200) {
         alert("Profile updated successfully");
-        if (onUpdateProfile) {
-          onUpdateProfile(res.data);
-        }
+        if (onUpdateProfile) onUpdateProfile(res.data);
         navigate("/contributor-MyProfile");
       } else {
         alert("Failed to update profile. Please try again.");
@@ -110,7 +103,6 @@ function ContributorEditProfile({ onUpdateProfile }) {
       alert("Failed to update profile. Please check your input.");
     }
   };
-
   return (
     <div className=" flex justify-center items-center py-10 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="bg-white shadow-md rounded-lg w-full max-w-4xl p-6">
