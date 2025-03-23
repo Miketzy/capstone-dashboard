@@ -24,7 +24,7 @@ function EditProfile({ onUpdateProfile }) {
         const res = await axios.get(
           "https://bioexplorer-backend.onrender.com/myprofile",
           {
-            withCredentials: true,
+            withCredentials: true, // Send cookies if any
           }
         );
 
@@ -51,7 +51,7 @@ function EditProfile({ onUpdateProfile }) {
       } catch (err) {
         console.error("Error fetching profile:", err);
         if (err.response && err.response.status === 401) {
-          navigate("/");
+          navigate("/"); // Redirect to login if unauthorized
         }
       } finally {
         setLoading(false);
@@ -64,6 +64,7 @@ function EditProfile({ onUpdateProfile }) {
   // Handle form submission to update the profile
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+
     const formData = new FormData();
     formData.append("firstname", userData.firstname);
     formData.append("middlename", userData.middlename);
@@ -81,6 +82,8 @@ function EditProfile({ onUpdateProfile }) {
     }
 
     try {
+      console.log("Token:", token); // Debug token
+
       const res = await axios.put(
         "https://bioexplorer-backend.onrender.com/profile",
         formData,
@@ -109,13 +112,24 @@ function EditProfile({ onUpdateProfile }) {
       }
     } catch (err) {
       console.error("Error updating profile:", err);
+
+      // Log response details
       if (err.response) {
         console.error("Status code:", err.response.status);
         console.error("Response data:", err.response.data);
+        if (err.response.status === 401) {
+          alert("Unauthorized: Please login again.");
+          navigate("/"); // Redirect to login if unauthorized
+        }
       }
+
       alert("Failed to update profile. Please check your input.");
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="edit-profile-container">
