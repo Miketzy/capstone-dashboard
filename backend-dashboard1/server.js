@@ -323,19 +323,20 @@ app.post("/register", async (req, res) => {
     console.error("Database error:", err);
     return res.status(500).json({ error: "Server error." });
   }
-});// Multer Storage for Cloudinary
+});
+// Cloudinary Storage Setup
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "species-images", // Folder name in Cloudinary
-    format: async (req, file) => "jpg", // Convert all to JPG
-    public_id: (req, file) => Date.now(), // Unique filename
+    folder: "species-images",
+    format: async (req, file) => "jpg", // or "png"
+    public_id: (req, file) => Date.now(),
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
-// POST route to handle species creation
+// POST Route for Uploading Species
 app.post("/create", upload.single("file"), async (req, res) => {
   const {
     specificname,
@@ -351,9 +352,10 @@ app.post("/create", upload.single("file"), async (req, res) => {
     description,
   } = req.body;
 
-  const uploadimage = req.file ? req.file.path : null; // Get Cloudinary URL
+  // Get Cloudinary URL
+  const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
 
-  // PostgreSQL Query
+  // Save to Database
   const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
                  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`;
 
@@ -370,7 +372,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
       conservationstatus,
       conservationeffort,
       description,
-      uploadimage,
+      uploadimage, // Cloudinary URL na ito
     ]);
 
     res.status(201).json({
