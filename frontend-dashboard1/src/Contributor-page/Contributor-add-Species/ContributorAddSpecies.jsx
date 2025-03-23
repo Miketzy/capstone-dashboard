@@ -94,11 +94,15 @@ function ContributorAddSpecies() {
     setLoading(true); // Set loading to true
 
     axios
-      .post("http://localhost:5000/species/pending", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        "https://bioexplorer-backend.onrender.com/species/pending",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((response) => {
         setUploadStatus("Species added successfully! Awaiting admin approval.");
         toast.success(
