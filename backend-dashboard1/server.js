@@ -324,32 +324,16 @@ app.post("/register", async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });// Ensure the 'uploads/images' folder exists
-const uploadPath = path.join(__dirname, "uploads", "images");
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-  console.log("Created uploads/images folder.");
-}
-
-// Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    console.log("Saving image to:", uploadPath);
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const filename = Date.now() + path.extname(file.originalname);
-    console.log("Generated Filename:", filename);
-    cb(null, filename);
+// Multer Storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "species-images", // Folder name in Cloudinary
+    allowed_formats: ["jpg", "png", "jpeg"],
   },
 });
 
 const upload = multer({ storage });
-
-// Middleware to Parse JSON
-app.use(express.json());
-
-// Serve Uploaded Images
-app.use("/uploads/images", express.static(uploadPath));
 
 // POST Route to Handle Species Creation
 app.post("/create", upload.single("image"), (req, res) => {
@@ -370,7 +354,7 @@ app.post("/create", upload.single("image"), (req, res) => {
   console.log("Received Data:", req.body);
   console.log("Received File:", req.file);
 
-  const uploadimage = req.file ? req.file.filename : null;
+  const uploadimage = req.file ? req.file.path : null; // Get Cloudinary URL
 
   const query = `
     INSERT INTO species (
@@ -395,7 +379,7 @@ app.post("/create", upload.single("image"), (req, res) => {
       conservationstatus,
       conservationeffort,
       description,
-      uploadimage,
+      uploadimage, // Save Cloudinary URL
     ],
     (err, result) => {
       if (err) {
@@ -410,6 +394,7 @@ app.post("/create", upload.single("image"), (req, res) => {
     }
   );
 });
+
 
 const uploadFolder = path.join(__dirname, 'uploads', 'images');
 console.log('📂 Upload folder path:', uploadFolder);
@@ -451,10 +436,6 @@ const checkAndSaveImages = async () => {
 
 // Run every 10 seconds para i-check kung may bagong file
 setInterval(checkAndSaveImages, 1000);
-
-
-// Run every 10 seconds para i-check kung may bagong file
-setInterval(checkAndSaveImages, 10000);
 
 console.log('🔄 System is running... Checking database for new files...');
 
