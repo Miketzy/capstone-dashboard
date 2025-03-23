@@ -651,19 +651,26 @@ app.get("/api/conservation-status-count", async (req, res) => {
 app.post("/api/questions", async (req, res) => {
   const { question, optiona, optionb, optionc, optiond, correctanswer } = req.body;
 
-  const query = `
-    INSERT INTO questions (question, optiona, optionb, optionc, optiond, correctanswer)
-    VALUES ($1, $2, $3, $4, $5, $6)
-  `;
+  if (!question || !optiona || !optionb || !optionc || !optiond || !correctanswer) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
 
   try {
-    await pool.query(query, [question, optiona, optionb, optionc, optiond, correctanswer]);
-    res.status(201).json({ message: "Question saved successfully." });
+    const query = `
+      INSERT INTO questions (question, optiona, optionb, optionc, optiond, correctanswer)
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+    `;
+
+    const values = [question, optiona, optionb, optionc, optiond, correctanswer];
+
+    const result = await pool.query(query, values);
+    res.status(201).json({ message: "Question saved successfully.", data: result.rows[0] });
   } catch (err) {
     console.error("Error saving question:", err);
     res.status(500).json({ error: "Failed to save question." });
   }
 });
+
 
 
 // Start the server

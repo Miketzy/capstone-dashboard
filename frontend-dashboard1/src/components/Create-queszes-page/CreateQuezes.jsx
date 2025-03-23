@@ -1,46 +1,45 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./CreateQuezes.css";
+import "./CreateQuizzes.css";
 
-function CreateQuezes() {
+function CreateQuizzes() {
   const [question, setQuestion] = useState("");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
   const [optionC, setOptionC] = useState("");
   const [optionD, setOptionD] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const [message] = useState("");
+  const [message, setMessage] = useState("");
 
-  // Function para mag-handle ng form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      !question.trim() ||
-      !optionA.trim() ||
-      !optionB.trim() ||
-      !optionC.trim() ||
-      !optionD.trim() ||
-      !correctAnswer.trim()
+      !question ||
+      !optionA ||
+      !optionB ||
+      !optionC ||
+      !optionD ||
+      !correctAnswer
     ) {
       alert("Please fill out all fields.");
       return;
     }
 
     try {
-      const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/api/questions",
-        {
-          question,
-          optionA,
-          optionB,
-          optionC,
-          optionD,
-          correctAnswer,
-        }
-      );
+      const response = await axios.post("http://localhost:5000/api/questions", {
+        question,
+        optiona: optionA,
+        optionb: optionB,
+        optionc: optionC,
+        optiond: optionD,
+        correctanswer: correctAnswer,
+      });
+
       alert(response.data.message);
-      // I-clear ang lahat ng fields
+      setMessage(response.data.message);
+
+      // Clear form fields
       setQuestion("");
       setOptionA("");
       setOptionB("");
@@ -72,7 +71,6 @@ function CreateQuezes() {
           onChange={(e) => setOptionA(e.target.value)}
           className="option-input"
         />
-
         <input
           type="text"
           placeholder="Option B"
@@ -80,7 +78,6 @@ function CreateQuezes() {
           onChange={(e) => setOptionB(e.target.value)}
           className="option-input"
         />
-
         <input
           type="text"
           placeholder="Option C"
@@ -88,7 +85,6 @@ function CreateQuezes() {
           onChange={(e) => setOptionC(e.target.value)}
           className="option-input"
         />
-
         <input
           type="text"
           placeholder="Option D"
@@ -113,9 +109,10 @@ function CreateQuezes() {
           Add Question
         </button>
       </form>
+
       {message && <p className="message">{message}</p>}
     </div>
   );
 }
 
-export default CreateQuezes;
+export default CreateQuizzes;
