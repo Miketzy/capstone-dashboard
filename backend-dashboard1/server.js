@@ -323,16 +323,16 @@ app.post("/register", async (req, res) => {
     console.error("Database error:", err);
     return res.status(500).json({ error: "Server error." });
   }
-});// Ensure the 'uploads/images' folder exists
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    return cb(null, "./uploads/images");
-  },
-  
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + path.extname(file.originalname));
+});// Multer Storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "species-images", // Folder name in Cloudinary
+    format: async (req, file) => "jpg", // Convert all to JPG
+    public_id: (req, file) => Date.now(), // Unique filename
   },
 });
+
 const upload = multer({ storage: storage });
 
 // POST route to handle species creation
@@ -351,7 +351,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
     description,
   } = req.body;
 
-  const uploadimage = req.file ? req.file.filename : null;
+  const uploadimage = req.file ? req.file.path : null; // Get Cloudinary URL
 
   // PostgreSQL Query
   const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
