@@ -587,6 +587,35 @@ app.delete("/delete-species/:id", async (req, res) => {
   }
 });
 
+app.get("/speciesCounts", async (req, res) => {
+  const queries = [
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'",
+  ];
+
+  try {
+    const results = await Promise.all(queries.map((query) => pool.query(query)));
+    
+    res.json({
+      mammals: results[0].rows[0].count,
+      birds: results[1].rows[0].count,
+      reptiles: results[2].rows[0].count,
+      amphibians: results[3].rows[0].count,
+      invertebrates: results[4].rows[0].count,
+      vertebrates: results[5].rows[0].count,
+      fish: results[6].rows[0].count,
+    });
+  } catch (err) {
+    console.error("Error fetching species counts:", err);
+    res.status(500).json({ error: "Failed to fetch species counts" });
+  }
+});
+
 
 
 // Start the server
