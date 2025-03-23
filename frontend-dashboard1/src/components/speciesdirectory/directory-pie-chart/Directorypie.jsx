@@ -22,11 +22,17 @@ function Directorypie() {
         const response = await axios.get(
           "https://bioexplorer-backend.onrender.com/api/conservation-status-count"
         );
-        const formattedData = response.data.map((item) => ({
-          name: item.conservationstatus,
-          value: item.count,
-        }));
-        setData(formattedData);
+
+        // Check if response.data is an array
+        if (Array.isArray(response.data)) {
+          const formattedData = response.data.map((item) => ({
+            name: item.conservationstatus,
+            value: Number(item.count), // Ensure value is a number
+          }));
+          setData(formattedData);
+        } else {
+          console.error("Invalid API response format:", response.data);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
