@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// Custom hook for debouncing input
+// Custom hook para sa debouncing input
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -25,12 +25,12 @@ function ImageGallery() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
 
   useEffect(() => {
-    // Fetch images from the backend
+    // Fetch images mula sa backend
     axios
       .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
         console.log("Fetched Images:", response.data); // Debugging
-        setImages(response.data); // Store images in state
+        setImages(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -82,9 +82,13 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={image.uploadimage} // Diretso na ang Cloudinary URL
+                    src={image.uploadimage} // Cloudinary URL directly
                     alt={image.commonname || "No image available"}
                     className="w-full h-40 rounded-lg object-cover"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://via.placeholder.com/150?text=No+Image"; // Default image if broken
+                    }}
                   />
                 ) : (
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
