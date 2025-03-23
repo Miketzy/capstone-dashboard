@@ -693,6 +693,42 @@ app.get("/myprofile", verifyUser, (req, res) => {
   });
 });
 
+// Profile update route
+app.put("/profile", verifyUser, profileUpload.single("image"), async (req, res) => {
+  const userId = req.userId; // Extracted from JWT token
+  const { firstname, middlename, lastname, email, gender, phone_number, username } = req.body;
+
+  try {
+    // Fetch current image if no new image is uploaded
+    const { rows } = await pool.query("SELECT image FROM users WHERE id = $1", [userId]);
+    const currentImage = rows[0]?.image;
+    const newImage = req.file ? req.file.filename : currentImage; // Use new image or keep existing
+
+    // Update user profile in database
+    const updateQuery = `
+      UPDATE users SET 
+        firstname = $1, 
+        middlename = $2, 
+        lastname = $3, 
+        email = $4, 
+        gender = $5, 
+        phone_number = $6, 
+        username = $7, 
+        image = $8 
+      WHERE id = $9
+    `;
+
+    await pool.query(updateQuery, [
+      firstname, middlename, lastname, email, gender, phone_number, username, newImage, userId
+    ]);
+
+    res.json({ message: "Profile updated successfully" });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 
 // Start the server

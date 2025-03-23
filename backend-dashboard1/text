@@ -183,83 +183,7 @@ app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
 
-  const sql = "SELECT * FROM users WHERE username = ?";
-  connection.query(sql, [username], (err, data) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ Message: "Server Side Error" });
-    }
-    if (data.length > 0) {
-      const user = data[0];
-      const hashedPassword = user.password;
-
-      // Compare passwords
-      bcrypt.compare(password, hashedPassword, (err, isMatch) => {
-        if (err) {
-          console.error("Password comparison error:", err);
-          return res.status(500).json({ Message: "Error comparing passwords" });
-        }
-        if (isMatch) {
-          console.log(
-            "JWT_SECRET before signing:",
-            "mySuperSecureSecretKey12345678"
-          );
-          const token = jwt.sign(
-            {
-              id: user.id,
-              username: user.username,
-              firstname: user.firstname,
-              middlename: user.middlename,
-              phone_number: user.phone_number,
-              lastname: user.lastname,
-              email: user.email,
-              gender: user.gender,
-              image: user.image,
-              status: user.status,
-              currentPassword: user.currentPassword,
-              newPassword: user.newPassword,
-              confirmPassword: user.confirmPassword,
-            },
-            "mySuperSecureSecretKey12345678",
-            { expiresIn: "30d" }
-          );
-
-          console.log("Generated Token:", token);
-
-          res.cookie("token", token, {
-            httpOnly: true,
-            secure: true, // Tanging sa production ito gagamitin
-            sameSite: "None",
-          });
-
-          // Send the token in the response body too (so frontend can access it)
-          return res.json({
-            token: token,
-            Status: "Success",
-            status: user.status,
-            firstname: user.firstname,
-            middlename: user.middlename,
-            lastname: user.lastname,
-            phone_number: user.phone_number,
-            gender: user.gender,
-            image: user.image,
-            email: user.email,
-            currentPassword: user.currentPassword,
-            newPassword: user.newPassword,
-            confirmPassword: user.confirmPassword,
-          });
-        } else {
-          return res.status(401).json({ Message: "Incorrect Password" });
-        }
-      });
-    } else {
-      return res.status(404).json({ Message: "No Records Existed" });
-    }
-  });
-});
 
 // Protected route to get user profile
 app.get("/", verifyUser, (req, res) => {
@@ -1588,29 +1512,7 @@ app.post("/reset-password", (req, res) => {
   );
 });
 
-// Endpoint to add a multiple-choice question
-app.post("/api/questions", (req, res) => {
-  const { question, optionA, optionB, optionC, optionD, correctAnswer } =
-    req.body;
 
-  const query = `
-    INSERT INTO questions (question, optionA, optionB, optionC, optionD, correctAnswer)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `;
-
-  connection.query(
-    query,
-    [question, optionA, optionB, optionC, optionD, correctAnswer],
-    (err, result) => {
-      if (err) {
-        console.error("Error saving question:", err);
-        return res.status(500).json({ error: "Failed to save question." });
-      }
-      // Successful response
-      res.status(201).json({ message: "Question saved successfully." });
-    }
-  );
-});
 
 app.get("/keep-alive", (req, res) => {
   connection.query("Select 1", (err) => {
