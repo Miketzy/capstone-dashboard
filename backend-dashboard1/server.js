@@ -742,6 +742,29 @@ app.put("/profile", verifyUser, (req, res) => {
   );
 });
 
+// Endpoint of contributor Request table
+app.get("/request-table", async (req, res) => {
+  const sql = "SELECT * FROM pending_request";
+  
+  try {
+    const result = await pool.query(sql);
+
+    // Adjust path for images in Cloudinary (If Cloudinary URL is stored in the database)
+    const data = result.rows.map((item) => ({
+      ...item,
+      uploadimage: item.uploadimage
+        ? `https://res.cloudinary.com/dvj4mroel/image/upload/v1742696123/species-images/${item.uploadimage}` // Replace with correct Cloudinary URL pattern
+        : null,
+    }));
+
+    return res.json(data);
+  } catch (err) {
+    console.error("Error retrieving data:", err);
+    return res.json({ Message: "Error retrieving data" });
+  }
+});
+
+
 // Password change endpoint (Protected by JWT middleware)
 app.post("/password-changes", verifyUser, async (req, res) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
@@ -779,6 +802,8 @@ app.post("/password-changes", verifyUser, async (req, res) => {
     return res.status(500).json({ error: "Error updating password" });
   }
 });
+
+
 
 
 
