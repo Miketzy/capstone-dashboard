@@ -335,39 +335,12 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// POST Route to Handle Species Creation
-app.post("/create", upload.single("image"), (req, res) => {
-  const {
-    specificname,
-    scientificname,
-    commonname,
-    habitat,
-    population,
-    threats,
-    speciescategory,
-    location,
-    conservationstatus,
-    conservationeffort,
-    description,
-  } = req.body;
+app.post("/create", upload.single("image"), async (req, res) => {
+  try {
+    console.log("🟢 Received Data:", req.body); // Check body data
+    console.log("🟢 Received File:", req.file); // Check file upload
 
-  console.log("Received Data:", req.body);
-  console.log("Received File:", req.file);
-
-  const uploadimage = req.file ? req.file.path : null; // Get Cloudinary URL
-
-  const query = `
-    INSERT INTO species (
-      specificname, scientificname, commonname, habitat, population, threats, 
-      speciescategory, location, conservationstatus, conservationeffort, description, uploadimage
-    ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
-    RETURNING *;
-  `;
-
-  pool.query(
-    query,
-    [
+    const {
       specificname,
       scientificname,
       commonname,
@@ -379,20 +352,48 @@ app.post("/create", upload.single("image"), (req, res) => {
       conservationstatus,
       conservationeffort,
       description,
-      uploadimage, // Save Cloudinary URL
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("Error inserting species data:", err);
-        return res.status(500).send("Server error. Failed to add species.");
-      }
+    } = req.body;
 
-      res.status(201).json({
-        message: "Species added successfully!",
-        species: result.rows[0],
-      });
-    }
-  );
+    const imageUrl = req.file ? req.file.path : null;
+    console.log("🟢 Image URL:", imageUrl); // Check Cloudinary URL
+
+    const query = `
+      INSERT INTO species (
+        specificname, scientificname, commonname, habitat, population, threats, 
+        speciescategory, location, conservationstatus, conservationeffort, description, imageUrl
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+      RETURNING *;
+    `;
+
+    console.log("🟢 Executing Query...");
+
+    const result = await pool.query(query, [
+      specificname,
+      scientificname,
+      commonname,
+      habitat,
+      population,
+      threats,
+      speciescategory,
+      location,
+      conservationstatus,
+      conservationeffort,
+      description,
+      imageUrl,
+    ]);
+
+    console.log("✅ Species Added:", result.rows[0]); // Check DB response
+
+    res.status(201).json({
+      message: "Species added successfully!",
+      species: result.rows[0],
+    });
+
+  } catch (err) {
+    console.error("❌ Error inserting species data:", err);
+    res.status(500).json({ error: "Server error. Failed to add species." });
+  }
 });
 
 
