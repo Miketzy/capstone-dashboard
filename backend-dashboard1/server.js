@@ -384,50 +384,6 @@ app.post("/create", upload.single("file"), async (req, res) => {
   }
 });
 
-
-const uploadFolder = path.join(__dirname, 'uploads', 'images');
-console.log('📂 Upload folder path:', uploadFolder);
-
-
-// Siguraduhin na may `uploads/images` folder
-if (!fs.existsSync(uploadFolder)) {
-  fs.mkdirSync(uploadFolder, { recursive: true });
-  console.log(`📁 Created folder: ${uploadFolder}`);
-}
-
-const checkAndSaveImages = async () => {
-  try {
-    const result = await pool.query('SELECT uploadimage FROM species');
-    console.log('📢 Nakuhang Filenames:', result.rows);
-
-    result.rows.forEach((row) => {
-      const filename = row.uploadimage;
-      if (!filename) {
-        console.log('⚠️ Walang filename, skipping...');
-        return;
-      }
-
-      const filePath = path.join(uploadFolder, filename);
-      console.log(`📝 File Path: ${filePath}`);
-
-      // Check kung hindi pa nag-eexist ang file
-      if (!fs.existsSync(filePath)) {
-        fs.writeFileSync(filePath, ''); // Gumawa ng empty file
-        console.log(`✅ File created: ${filePath}`);
-      } else {
-        console.log(`🔹 File already exists: ${filePath}`);
-      }
-    });
-  } catch (err) {
-    console.error('❌ Database Error:', err);
-  }
-};
-
-// Run every 10 seconds para i-check kung may bagong file
-setInterval(checkAndSaveImages, 1000);
-
-console.log('🔄 System is running... Checking database for new files...');
-
 // End point to get the species table
 app.get("/listspecies", (req, res) => {
   const sql = "SELECT * FROM species";
