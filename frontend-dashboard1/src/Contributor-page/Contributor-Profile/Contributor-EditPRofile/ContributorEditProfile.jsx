@@ -80,7 +80,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
 
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/profile",
+        "https://bioexplorer-backend.onrender.com/profile",
         formData,
         {
           headers: {
