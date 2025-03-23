@@ -616,6 +616,39 @@ app.get("/speciesCounts", async (req, res) => {
   }
 });
 
+app.get("/api/conservation-status-count", async (req, res) => {
+  const conservationStatuses = [
+    "critically-endangered",
+    "endangered",
+    "vulnerable",
+    "near-threatened",
+    "least-concern",
+  ];
+
+  // Gumawa ng query na nagbibilang ng bawat conservation status gamit ang UNION ALL
+  const queries = conservationStatuses
+    .map(
+      (status) =>
+        `SELECT '${status}' AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = $1`
+    )
+    .join(" UNION ALL ");
+
+  try {
+    const results = await Promise.all(
+      conservationStatuses.map((status) => pool.query(
+        `SELECT $1 AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = $1`, 
+        [status]
+      ))
+    );
+
+    // Format ang result bilang JSON
+    res.json(results.map((result) => result.rows[0]));
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    res.status(500).json({ message: "Database error", error: err });
+  }
+});
+
 
 
 // Start the server
