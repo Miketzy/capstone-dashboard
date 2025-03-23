@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./CreateQuizzes.css";
+import "./CreateQuezes.css";
 
 function CreateQuizzes() {
   const [question, setQuestion] = useState("");
