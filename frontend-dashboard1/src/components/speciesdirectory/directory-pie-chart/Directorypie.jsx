@@ -23,16 +23,15 @@ function Directorypie() {
           "https://bioexplorer-backend.onrender.com/api/conservation-status-count"
         );
 
-        // Check if response.data is an array
-        if (Array.isArray(response.data)) {
-          const formattedData = response.data.map((item) => ({
-            name: item.conservationstatus,
-            value: Number(item.count), // Ensure value is a number
-          }));
-          setData(formattedData);
-        } else {
-          console.error("Invalid API response format:", response.data);
-        }
+        const rawData = response.data;
+
+        // Convert object into array format
+        const formattedData = Object.entries(rawData).map(([key, value]) => ({
+          name: key, // Conservation status
+          value: Number(value), // Count converted to number
+        }));
+
+        setData(formattedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
