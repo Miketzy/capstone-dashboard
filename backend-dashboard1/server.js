@@ -1080,6 +1080,13 @@ app.delete("/species/reject/:id", async (req, res) => {
   }
 });
 
+// gallery  route
+app.get("/gallery", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ Message: "Success" });
+});
+
+
 
 
 // Start the server
