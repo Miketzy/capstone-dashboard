@@ -1016,6 +1016,70 @@ app.put("/species/approve/:id", async (req, res) => {
   }
 });
 
+app.delete("/species/reject/:id", async (req, res) => {
+  const speciesId = req.params.id;
+
+  try {
+    // SQL query to get the contributor email and the common name
+    const sqlSelect =
+      "SELECT contributor_email, commonname FROM pending_request WHERE id = $1";
+
+    // Fetch the email and common name of the contributor
+    const { rows } = await pool.query(sqlSelect, [speciesId]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Species request not found" });
+    }
+
+    const contributorEmail = rows[0].contributor_email; // Get the contributor's email
+    const commonName = rows[0].commonname; // Get the common name
+
+    // SQL query to delete the species request from the pending_request table
+    const sqlDelete = "DELETE FROM pending_request WHERE id = $1";
+
+    // Execute the SQL query to delete the request
+    const deleteResult = await pool.query(sqlDelete, [speciesId]);
+
+    if (deleteResult.rowCount === 0) {
+      return res.status(404).json({ message: "Species request not found" });
+    }
+
+    // Send email notification to the contributor
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // Use your email service provider
+      auth: {
+        user: "michaeljohnmargate11@gmail.com", // Your email address
+        pass: "hdfz sazb vhna xwyn", // Your email password or app-specific password
+      },
+    });
+
+    const mailOptions = {
+      from: "Admin", // Sender address
+      to: contributorEmail, // Recipient email
+      subject: "Species Request Rejected",
+      text: `Your species request with the common name "${commonName}" has been rejected.`, // Include the common name in the message
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return res
+          .status(500)
+          .json({ message: "Failed to send email notification" });
+      }
+
+      // Respond with success message
+      res.status(200).json({
+        message: "No Request.",
+        speciesId: speciesId, // Optional: Return the deleted species ID
+      });
+    });
+  } catch (error) {
+    console.error("Error rejecting species:", error);
+    res.status(500).json({ message: "Failed to reject species" });
+  }
+});
+
 
 
 // Start the server
