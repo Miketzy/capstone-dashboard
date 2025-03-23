@@ -692,9 +692,8 @@ app.get("/myprofile", verifyUser, (req, res) => {
   });
 });
 
-// Profile update route (No Image Update) for PostgreSQL
 app.put("/profile", verifyUser, (req, res) => {
-  const userId = req.userId; // User ID from the verified token
+  const userId = req.userId;
   const {
     firstname,
     middlename,
@@ -705,7 +704,9 @@ app.put("/profile", verifyUser, (req, res) => {
     username,
   } = req.body;
 
-  // Prepare the update query for PostgreSQL
+  console.log("Request Data: ", req.body);
+  console.log("User ID: ", userId);
+
   const updateSql = `
     UPDATE users SET 
       firstname = $1, 
@@ -718,7 +719,6 @@ app.put("/profile", verifyUser, (req, res) => {
     WHERE id = $8
   `;
 
-  // Execute the update query with parameters
   pool.query(
     updateSql,
     [
@@ -741,6 +741,7 @@ app.put("/profile", verifyUser, (req, res) => {
     }
   );
 });
+
 
 // Start the server
 server.listen(port, () => {
