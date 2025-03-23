@@ -742,6 +742,44 @@ app.put("/profile", verifyUser, (req, res) => {
   );
 });
 
+// Password change endpoint (Protected by JWT middleware)
+app.post("/password-changes", verifyUser, async (req, res) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ error: "New passwords do not match" });
+  }
+
+  try {
+    // Retrieve the user's current password from the database using the user ID from JWT
+    const result = await pool.query("SELECT password FROM users WHERE id = $1", [req.userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const hashedPassword = result.rows[0].password;
+
+    // Verify the current password
+    const isMatch = await bcrypt.compare(currentPassword, hashedPassword);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Current password is incorrect" });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update the password in the database
+    await pool.query("UPDATE users SET password = $1 WHERE id = $2", [hashedNewPassword, req.userId]);
+
+    return res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ error: "Error updating password" });
+  }
+});
+
 
 
 // Start the server
