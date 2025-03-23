@@ -647,11 +647,11 @@ app.get("/api/conservation-status-count", async (req, res) => {
   }
 });
 
-// Endpoint to add a multiple-choice question
 app.post("/api/questions", async (req, res) => {
   const { question, optiona, optionb, optionc, optiond, correctanswer } = req.body;
 
   if (!question || !optiona || !optionb || !optionc || !optiond || !correctanswer) {
+    console.error("Missing fields:", req.body); // ✅ Log missing fields
     return res.status(400).json({ error: "All fields are required." });
   }
 
@@ -666,10 +666,11 @@ app.post("/api/questions", async (req, res) => {
     const result = await pool.query(query, values);
     res.status(201).json({ message: "Question saved successfully.", data: result.rows[0] });
   } catch (err) {
-    console.error("Error saving question:", err);
+    console.error("Error saving question:", err.message);
     res.status(500).json({ error: "Failed to save question." });
   }
 });
+
 
 
 

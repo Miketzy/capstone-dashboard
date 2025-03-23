@@ -14,6 +14,15 @@ function CreateQuizzes() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Sending data:", {
+      question,
+      optiona: optionA.toLowerCase(),
+      optionb: optionB.toLowerCase(),
+      optionc: optionC.toLowerCase(),
+      optiond: optionD.toLowerCase(),
+      correctanswer: correctAnswer.toLowerCase(),
+    });
+
     if (
       !question ||
       !optionA ||
@@ -27,17 +36,20 @@ function CreateQuizzes() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/questions", {
-        question,
-        optiona: optionA,
-        optionb: optionB,
-        optionc: optionC,
-        optiond: optionD,
-        correctanswer: correctAnswer,
-      });
+      const response = await axios.post(
+        "https://bioexplorer-backend.onrender.com/api/questions",
+        {
+          question,
+          optiona: optionA.toLowerCase(), // ✅ Convert to lowercase
+          optionb: optionB.toLowerCase(),
+          optionc: optionC.toLowerCase(),
+          optiond: optionD.toLowerCase(),
+          correctanswer: correctAnswer.toLowerCase(),
+        }
+      );
 
+      console.log("Response from server:", response.data);
       alert(response.data.message);
-      setMessage(response.data.message);
 
       // Clear form fields
       setQuestion("");
@@ -47,7 +59,10 @@ function CreateQuizzes() {
       setOptionD("");
       setCorrectAnswer("");
     } catch (error) {
-      console.error("Error adding question:", error);
+      console.error(
+        "Error adding question:",
+        error.response ? error.response.data : error.message
+      );
       alert("Failed to add question. Please try again.");
     }
   };
