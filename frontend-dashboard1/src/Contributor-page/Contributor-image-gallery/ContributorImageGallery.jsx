@@ -2,14 +2,31 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ContributorImage.css";
 
+// Debounce function to optimize search input
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 function ContributorImageGallery() {
   const [images, setImages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // debounce with 500ms delay
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debounce with 500ms delay
 
   useEffect(() => {
-    // Fetch images mula sa backend
+    // Fetch images from the backend
     axios
       .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
