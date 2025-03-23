@@ -93,7 +93,7 @@ function ContributorEditProfile({ onUpdateProfile }) {
 
     try {
       const res = await axios.put(
-        "https://bioexplorer-backend.onrender.com/profile",
+        "https://bioexplorer-backend.onrender.com/contributor-profile",
         formData,
         {
           headers: {
