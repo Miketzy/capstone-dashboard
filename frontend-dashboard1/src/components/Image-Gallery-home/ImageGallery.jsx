@@ -27,15 +27,16 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images") // Make sure to use the correct URL for your backend
+      .get("https://bioexplorer-backend.onrender.com/api/images")
       .then((response) => {
+        console.log("Fetched Images:", response.data); // Debugging
         setImages(response.data); // Store images in state
-        setLoading(false); // Update loading state after data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching images:", error);
         alert("Unable to fetch images. Please check the server status.");
-        setLoading(false); // Ensure loading state is also set to false on error
+        setLoading(false);
       });
   }, []);
 
@@ -81,9 +82,9 @@ function ImageGallery() {
               >
                 {image.uploadimage ? (
                   <img
-                    src={`https://bioexplorer-backend.onrender.com/uploads/images/${image.uploadimage}`}
+                    src={image.uploadimage} // Diretso na ang Cloudinary URL
                     alt={image.commonname || "No image available"}
-                    className="w-full h-40  rounded-lg"
+                    className="w-full h-40 rounded-lg object-cover"
                   />
                 ) : (
                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
