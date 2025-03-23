@@ -913,6 +913,109 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
 });
 
 
+// Initialize Socket.IO with additional CORS settings
+const io = new Server(server);
+
+// Nodemailer configuration
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "michaeljohnmargate11@gmail.com", // Your dedicated email
+    pass: "hdfz sazb vhna xwyn", // Your email password or app password
+  },
+});
+
+// Handle WebSocket connections
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  // Listen for disconnection
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+
+  // Emit a welcome message to the newly connected user
+  socket.emit("welcome", "Welcome to the WebSocket server!");
+});
+
+// Function to send email notification
+const sendEmailNotification = (contributor_email, specificName) => {
+  const mailOptions = {
+    from: "Admin", // Sender's email (your dedicated email)
+    to: contributor_email, // Contributor's email
+    subject: "Approval Notification",
+    text: `Your species request for ${specificName} has been approved!`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log("Error sending email: ", error);
+    }
+    console.log("Email sent: " + info.response);
+  });
+};
+
+// Approve species endpoint with WebSocket notification and email
+app.put("/species/approve/:id", async (req, res) => {
+  const speciesId = req.params.id;
+
+  try {
+    // Fetch the pending request
+    const fetchSql = "SELECT * FROM pending_request WHERE id = $1";
+    const result = await pool.query(fetchSql, [speciesId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Species request not found" });
+    }
+
+    const species = result.rows[0];
+
+    // Insert into species table
+    const insertSql = `
+      INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, 
+      location, conservationstatus, speciescategory, conservationeffort, description, uploadimage)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    `;
+
+    await pool.query(insertSql, [
+      species.specificname,
+      species.scientificname,
+      species.commonname,
+      species.habitat,
+      species.population,
+      species.threats,
+      species.location,
+      species.conservationstatus,
+      species.speciescategory,
+      species.conservationeffort,
+      species.description,
+      species.uploadimage,
+    ]);
+
+    // Delete from pending_request after approval
+    const deleteSql = "DELETE FROM pending_request WHERE id = $1";
+    await pool.query(deleteSql, [speciesId]);
+
+    // Send email notification to the contributor
+    if (species.contributor_email) {
+      sendEmailNotification(species.contributor_email, species.specificname);
+    }
+
+    // Emit a WebSocket notification to the contributor
+    if (species.contributor_id) {
+      console.log(`Notifying contributor ${species.contributor_id}`);
+      io.emit(`notify-contributor-${species.contributor_id}`, {
+        message: "Your species has been approved!",
+      });
+    }
+
+    res.status(200).json({ message: "No Request" });
+  } catch (error) {
+    console.error("Error processing species approval:", error);
+    res.status(500).json({ message: "Failed to approve species" });
+  }
+});
+
 
 
 // Start the server
