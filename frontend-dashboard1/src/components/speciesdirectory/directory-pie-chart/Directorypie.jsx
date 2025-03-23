@@ -25,10 +25,16 @@ function Directorypie() {
 
         const rawData = response.data;
 
-        // Convert object into array format
+        // Compute total count
+        const total = Object.values(rawData).reduce(
+          (sum, value) => sum + value,
+          0
+        );
+
+        // Convert to percentage
         const formattedData = Object.entries(rawData).map(([key, value]) => ({
           name: key, // Conservation status
-          value: Number(value), // Count converted to number
+          value: total > 0 ? ((value / total) * 100).toFixed(2) : 0, // Percentage with 2 decimal places
         }));
 
         setData(formattedData);
@@ -52,7 +58,7 @@ function Directorypie() {
             cx="50%"
             cy="50%"
             outerRadius={200}
-            label
+            label={(entry) => `${entry.name}: ${entry.value}%`}
           >
             {data.map((entry, index) => (
               <Cell
@@ -61,6 +67,7 @@ function Directorypie() {
               />
             ))}
           </Pie>
+
           <Tooltip />
           <Legend />
         </PieChart>
