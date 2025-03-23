@@ -692,6 +692,8 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
+
+const profileUpload = multer({ storage: profileStorages });
 // Profile update route
 app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
   const userId = req.userId; // User ID from the verified token
