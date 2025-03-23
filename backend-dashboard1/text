@@ -657,6 +657,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     return cb(null, "./uploads/images");
   },
+  
   filename: function (req, file, cb) {
     return cb(null, Date.now() + path.extname(file.originalname));
   },
@@ -1109,34 +1110,39 @@ app.get("/speciesCounts", (req, res) => {
 });
 
 // Route to get the count of each conservation status
-app.get("/api/conservation-status-count", (req, res) => {
-  const conservationStatuses = [
-    "critically-endangered",
-    "endangered",
-    "vulnerable",
-    "near-threatened",
-    "least-concern",
-  ];
 
-  // Construct the query to count each conservation status from the 'species' table
-  const queries = conservationStatuses.map(
-    (status) =>
-      `SELECT '${status}' AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = '${status}'`
-  );
-
-  const combinedQuery = queries.join(" UNION ALL ");
-
-  // Execute the combined query
-  connection.query(combinedQuery, (err, results) => {
-    if (err) {
+app.get("/api/conservation-status-count", async (req, res) => {
+    const conservationStatuses = [
+      "critically-endangered",
+      "endangered",
+      "vulnerable",
+      "near-threatened",
+      "least-concern",
+    ];
+  
+    // Gumawa ng query na nagbibilang ng bawat conservation status gamit ang UNION ALL
+    const queries = conservationStatuses
+      .map(
+        (status) =>
+          `SELECT '${status}' AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = $1`
+      )
+      .join(" UNION ALL ");
+  
+    try {
+      const results = await Promise.all(
+        conservationStatuses.map((status) => pool.query(
+          `SELECT $1 AS conservationstatus, COUNT(*) AS count FROM species WHERE conservationstatus = $1`, 
+          [status]
+        ))
+      );
+  
+      // Format ang result bilang JSON
+      res.json(results.map((result) => result.rows[0]));
+    } catch (err) {
       console.error("Error fetching data:", err);
-      return res.status(500).json({ message: "Database error", error: err });
+      res.status(500).json({ message: "Database error", error: err });
     }
-
-    // Return the result as JSON
-    res.json(results);
   });
-});
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
