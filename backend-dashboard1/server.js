@@ -692,22 +692,8 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
-app.use(
-  "/uploads/avatar",
-  express.static(path.join(__dirname, "uploads/avatar"))
-);
-const profileStorages = multer.diskStorage({
-  destination: (req, file, cb) => {
-    return cb(null, "./uploads/avatar");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const profileUpload = multer({ storage: profileStorages });
-// Profile update route
-app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
+// Profile update route (No Image Update) for PostgreSQL
+app.put("/profile", verifyUser, (req, res) => {
   const userId = req.userId; // User ID from the verified token
   const {
     firstname,
@@ -719,64 +705,42 @@ app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
     username,
   } = req.body;
 
-  // Check if a new image has been uploaded
-  const newImage = req.file ? req.file.filename : null;
+  // Prepare the update query for PostgreSQL
+  const updateSql = `
+    UPDATE users SET 
+      firstname = $1, 
+      middlename = $2, 
+      lastname = $3, 
+      email = $4, 
+      gender = $5, 
+      phone_number = $6, 
+      username = $7 
+    WHERE id = $8
+  `;
 
-  // Fetch the current image from the database if no new image is uploaded
-  const selectSql = `SELECT image FROM users WHERE id = $1`;
-
-  pool.query(selectSql, [userId], (selectErr, selectResults) => {
-    if (selectErr) {
-      console.error("Error fetching current image:", selectErr);
-      return res.status(500).json({ message: "Server error" });
-    }
-
-    const currentImage = selectResults.rows[0]?.image;
-    const imageToUpdate = newImage || currentImage; // Use new image or keep current
-
-    // Prepare the update query
-    const updateSql = `
-      UPDATE users SET 
-        firstname = $1, 
-        middlename = $2, 
-        lastname = $3, 
-        email = $4, 
-        gender = $5, 
-        phone_number = $6, 
-        username = $7, 
-        image = $8 
-      WHERE id = $9
-    `;
-
-    // Execute the update query
-    pool.query(
-      updateSql,
-      [
-        firstname,
-        middlename,
-        lastname,
-        email,
-        gender,
-        phone_number,
-        username,
-        imageToUpdate,
-        userId,
-      ],
-      (err, results) => {
-        if (err) {
-          console.error("Database update error:", err);
-          return res.status(500).json({ message: "Server error" });
-        }
-
-        res.json({ message: "Profile updated successfully" });
+  // Execute the update query with parameters
+  pool.query(
+    updateSql,
+    [
+      firstname,
+      middlename,
+      lastname,
+      email,
+      gender,
+      phone_number,
+      username,
+      userId,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Database update error:", err);
+        return res.status(500).json({ message: "Server error" });
       }
-    );
-  });
+
+      res.json({ message: "Profile updated successfully" });
+    }
+  );
 });
-
-
-
-
 
 // Start the server
 server.listen(port, () => {
