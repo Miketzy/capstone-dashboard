@@ -80,7 +80,7 @@ const EditProfile = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const res = await axios.put(
         "https://bioexplorer-backend.onrender.com/contributor-profile",
         formData,

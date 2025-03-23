@@ -742,55 +742,44 @@ app.put("/profile", verifyUser, (req, res) => {
   );
 });
 
-app.put("/contributor-profile", verifyUser, async (req, res) => {
+app.put("/contributor-profile", verifyUser, upload.single("image"), async (req, res) => {
+  console.log("Received update request:", req.body); // Debugging
+  console.log("Uploaded File:", req.file); // Check if image is received
+
+  const { firstname, middlename, lastname, email, gender, phone_number, username } = req.body;
+
+  if (!username) {
+    return res.status(400).json({ error: "Username is required" });
+  }
+
   try {
-    // Extract user ID from middleware
-    const userId = req.user?.id; 
+    let updateQuery = `
+      UPDATE users 
+      SET firstname = $1, middlename = $2, lastname = $3, email = $4, 
+          gender = $5, phone_number = $6
+      WHERE username = $7
+    `;
+    let values = [firstname, middlename, lastname, email, gender, phone_number, username];
 
-    // Extract data from request body
-    const { firstname, middlename, lastname, email, gender, phone_number, username } = req.body;
-
-    console.log("Request Data:", req.body);
-    console.log("User ID:", userId);
-
-    // Check if username is missing
-    if (!username) {
-      return res.status(400).json({ message: "Username is required" });
+    if (req.file) {
+      updateQuery = `
+        UPDATE users 
+        SET firstname = $1, middlename = $2, lastname = $3, email = $4, 
+            gender = $5, phone_number = $6, image = $7
+        WHERE username = $8
+      `;
+      values.push(req.file.filename);
+      values.push(username);
     }
 
-    // SQL Update Query
-    const updateSql = `
-      UPDATE users SET 
-        firstname = $1, 
-        middlename = $2, 
-        lastname = $3, 
-        email = $4, 
-        gender = $5, 
-        phone_number = $6, 
-        username = $7 
-      WHERE id = $8
-    `;
-
-    // Execute query
-    const result = await pool.query(updateSql, [
-      firstname,
-      middlename,
-      lastname,
-      email,
-      gender,
-      phone_number,
-      username,
-      userId,
-    ]);
-
-    console.log("Profile updated successfully:", result.rowCount);
-
+    await pool.query(updateQuery, values);
     res.json({ message: "Profile updated successfully" });
-  } catch (err) {
-    console.error("Database update error:", err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error("Database update error:", error);
+    res.status(500).json({ error: "Database update error" });
   }
 });
+
 
 
 // Endpoint of contributor Request table
