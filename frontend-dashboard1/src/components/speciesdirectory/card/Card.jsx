@@ -13,8 +13,12 @@ function Card() {
     axios
       .get("https://bioexplorer-backend.onrender.com/countSpecies")
       .then((res) => {
-        console.log("Species Count:", res.data.count);
-        setTotalSpecies(res.data.count);
+        console.log("API Response:", res.data); // Debugging log
+        if (res.data && typeof res.data.count !== "undefined") {
+          setTotalSpecies(res.data.count);
+        } else {
+          console.error("Invalid response format:", res.data);
+        }
       })
       .catch((err) => {
         console.error("Error fetching species count:", err);
