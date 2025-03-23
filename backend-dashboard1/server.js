@@ -1086,6 +1086,28 @@ app.get("/gallery", (req, res) => {
   res.json({ Message: "Success" });
 });
 
+// Protected route to get user profile
+app.get("/cmyprofile", verifyUser, (req, res) => {
+  return res.json({
+    message: "Profile retrieved successfully",
+    user: {
+      id: req.userId,
+      username: req.username,
+      firstname: req.firstname,
+      gender: req.gender,
+      middlename: req.middlename,
+      lastname: req.lastname,
+      phone_number: req.phone_number,
+      email: req.email,
+      image: req.image,
+      status: req.status,
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
+    },
+  });
+});
+
 
 
 
