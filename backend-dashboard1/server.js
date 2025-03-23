@@ -692,20 +692,36 @@ app.get("/myprofile", verifyUser, (req, res) => {
     },
   });
 });
-
 // Profile update route
-app.put("/profile", verifyUser, profileUpload.single("image"), async (req, res) => {
-  const userId = req.userId; // Extracted from JWT token
-  const { firstname, middlename, lastname, email, gender, phone_number, username } = req.body;
+app.put("/profile", verifyUser, profileUpload.single("image"), (req, res) => {
+  const userId = req.userId; // User ID from the verified token
+  const {
+    firstname,
+    middlename,
+    lastname,
+    email,
+    gender,
+    phone_number,
+    username,
+  } = req.body;
 
-  try {
-    // Fetch current image if no new image is uploaded
-    const { rows } = await pool.query("SELECT image FROM users WHERE id = $1", [userId]);
-    const currentImage = rows[0]?.image;
-    const newImage = req.file ? req.file.filename : currentImage; // Use new image or keep existing
+  // Check if a new image has been uploaded
+  const newImage = req.file ? req.file.filename : null;
 
-    // Update user profile in database
-    const updateQuery = `
+  // Fetch the current image from the database if no new image is uploaded
+  const selectSql = `SELECT image FROM users WHERE id = $1`;
+
+  pool.query(selectSql, [userId], (selectErr, selectResults) => {
+    if (selectErr) {
+      console.error("Error fetching current image:", selectErr);
+      return res.status(500).json({ message: "Server error" });
+    }
+
+    const currentImage = selectResults.rows[0]?.image;
+    const imageToUpdate = newImage || currentImage; // Use new image or keep current
+
+    // Prepare the update query
+    const updateSql = `
       UPDATE users SET 
         firstname = $1, 
         middlename = $2, 
@@ -718,16 +734,33 @@ app.put("/profile", verifyUser, profileUpload.single("image"), async (req, res) 
       WHERE id = $9
     `;
 
-    await pool.query(updateQuery, [
-      firstname, middlename, lastname, email, gender, phone_number, username, newImage, userId
-    ]);
+    // Execute the update query
+    pool.query(
+      updateSql,
+      [
+        firstname,
+        middlename,
+        lastname,
+        email,
+        gender,
+        phone_number,
+        username,
+        imageToUpdate,
+        userId,
+      ],
+      (err, results) => {
+        if (err) {
+          console.error("Database update error:", err);
+          return res.status(500).json({ message: "Server error" });
+        }
 
-    res.json({ message: "Profile updated successfully" });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    res.status(500).json({ message: "Server error" });
-  }
+        res.json({ message: "Profile updated successfully" });
+      }
+    );
+  });
 });
+
+
 
 
 
