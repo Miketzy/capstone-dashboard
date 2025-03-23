@@ -803,8 +803,26 @@ app.post("/password-changes", verifyUser, async (req, res) => {
   }
 });
 
-
-
+// Protected route to get user profile
+app.get("/contrbutornavbar", verifyUser, (req, res) => {
+  return res.json({
+    message: "Profile retrieved successfully",
+    user: {
+      id: req.userId,
+      username: req.username,
+      firstname: req.firstname,
+      middlename: req.middlename,
+      lastname: req.lastname,
+      phone_number: req.phone_number,
+      email: req.email,
+      image: req.image,
+      status: req.status,
+      currentPassword: req.currentPassword,
+      newPassword: req.newPassword,
+      confirmPassword: req.confirmPassword,
+    },
+  });
+});
 
 
 // Start the server
