@@ -858,13 +858,19 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
       });
     }
 
-    // Upload to Cloudinary
+    // Generate timestamp-based filename
+    const timestamp = Date.now();
     let uploadimage = null;
+
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "species-images", // Cloudinary folder
+        public_id: timestamp.toString(), // Filename format
+        format: "jpg", // Ensure jpg format
       });
-      uploadimage = result.secure_url; // Cloudinary URL
+
+      // Format the Cloudinary URL
+      uploadimage = `https://res.cloudinary.com/dvj4mroel/image/upload/v${timestamp}/species-images/${timestamp}.jpg`;
     }
 
     // Save to Database
@@ -889,7 +895,7 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
       conservationstatus,
       conservationeffort,
       description,
-      uploadimage, // Cloudinary URL
+      uploadimage, // Cloudinary URL with correct format
       contributor_firstname,
       contributor_lastname,
       contributor_email,
@@ -905,6 +911,7 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
     res.status(500).json({ message: "Failed to submit species request." });
   }
 });
+
 
 
 
