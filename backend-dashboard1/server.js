@@ -649,15 +649,15 @@ app.get("/api/conservation-status-count", async (req, res) => {
 
 // Endpoint to add a multiple-choice question
 app.post("/api/questions", async (req, res) => {
-  const { question, optionA, optionB, optionC, optionD, correctAnswer } = req.body;
+  const { question, optiona, optionb, optionc, optiond, correctanswer } = req.body;
 
   const query = `
-    INSERT INTO questions (question, "optionA", "optionB", "optionC", "optionD", "correctAnswer")
+    INSERT INTO questions (question, optiona, optionb, optionc, optiond, correctanswer)
     VALUES ($1, $2, $3, $4, $5, $6)
   `;
 
   try {
-    await pool.query(query, [question, optionA, optionB, optionC, optionD, correctAnswer]);
+    await pool.query(query, [question, optiona, optionb, optionc, optiond, correctanswer]);
     res.status(201).json({ message: "Question saved successfully." });
   } catch (err) {
     console.error("Error saving question:", err);
