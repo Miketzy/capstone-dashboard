@@ -824,6 +824,87 @@ app.get("/contrbutornavbar", verifyUser, (req, res) => {
   });
 });
 
+// Route to add species to pending request
+app.post("/species/pending", upload.single("file"), async (req, res) => {
+  const {
+    specificname,
+    scientificname,
+    commonname,
+    habitat,
+    population,
+    threats,
+    location,
+    conservationstatus,
+    speciescategory,
+    conservationeffort,
+    description,
+    contributor_firstname,
+    contributor_lastname,
+    contributor_email,
+  } = req.body;
+
+  // Check for required fields
+  if (
+    !specificname ||
+    !scientificname ||
+    !commonname ||
+    !contributor_firstname ||
+    !contributor_lastname ||
+    !contributor_email
+  ) {
+    return res.status(400).json({
+      message:
+        "Specific name, scientific name, common name, contributor first name, and contributor last name are required.",
+    });
+  }
+
+  // Get the uploaded file's path
+  const uploadimage = req.file ? req.file.filename : null;
+
+  // Check if file upload was successful
+  if (!uploadimage) {
+    return res
+      .status(400)
+      .json({ message: "File upload failed or no file provided." });
+  }
+
+  // Construct the Cloudinary URL (Replace with your Cloudinary URL pattern)
+  const cloudinaryURL = `https://res.cloudinary.com/dvj4mroel/image/upload/v1742696123/species-images/${uploadimage}`;
+
+  const sql = `
+    INSERT INTO pending_request
+    (specificname, scientificname, commonname, habitat, population, threats, 
+     location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, 
+     contributor_firstname, contributor_lastname, contributor_email)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+  `;
+
+  try {
+    await pool.query(sql, [
+      specificname,
+      scientificname,
+      commonname,
+      habitat,
+      population,
+      threats,
+      location,
+      speciescategory,
+      conservationstatus,
+      conservationeffort,
+      description,
+      cloudinaryURL,  // Store Cloudinary URL in the database
+      contributor_firstname,
+      contributor_lastname,
+      contributor_email,
+    ]);
+    res.status(200).json({ message: "Species request submitted successfully" });
+  } catch (err) {
+    console.error("Error adding species to pending_request:", err);
+    return res.status(500).json({ message: "Failed to submit species request" });
+  }
+});
+
+
 
 // Start the server
 server.listen(port, () => {
