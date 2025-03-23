@@ -61,18 +61,19 @@ function EditProfile({ onUpdateProfile }) {
     fetchUserData();
   }, [navigate]);
 
-  // Handle form submission to update the profile
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    const formData = new FormData();
-    formData.append("firstname", userData.firstname);
-    formData.append("middlename", userData.middlename);
-    formData.append("lastname", userData.lastname);
-    formData.append("email", userData.email);
-    formData.append("gender", userData.gender);
-    formData.append("phone_number", userData.phone_number);
-    formData.append("username", userData.username);
+    // Create a request body (not using FormData because no image update is involved)
+    const updatedProfile = {
+      firstname: userData.firstname,
+      middlename: userData.middlename,
+      lastname: userData.lastname,
+      email: userData.email,
+      gender: userData.gender,
+      phone_number: userData.phone_number,
+      username: userData.username,
+    };
 
     const token = localStorage.getItem("authToken");
 
@@ -84,13 +85,14 @@ function EditProfile({ onUpdateProfile }) {
     try {
       console.log("Token:", token); // Debug token
 
+      // Send the PUT request with the updated profile
       const res = await axios.put(
         "https://bioexplorer-backend.onrender.com/profile",
-        formData,
+        updatedProfile, // Sending updated profile data as JSON
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json", // Change to application/json since no file upload is involved
           },
         }
       );
@@ -113,7 +115,6 @@ function EditProfile({ onUpdateProfile }) {
     } catch (err) {
       console.error("Error updating profile:", err);
 
-      // Log response details
       if (err.response) {
         console.error("Status code:", err.response.status);
         console.error("Response data:", err.response.data);
