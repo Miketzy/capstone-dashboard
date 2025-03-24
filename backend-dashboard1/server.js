@@ -1259,6 +1259,40 @@ app.post("/verify-otp", (req, res) => {
   }
 });
 
+app.post("/reset-password", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if the user exists
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (result.rows.length > 0) {
+      // User found, proceed to hash and update the password
+      bcrypt.hash(password, 10, async (hashErr, hashedPassword) => {
+        if (hashErr) {
+          return res.status(500).send("Error hashing password");
+        }
+
+        try {
+          await pool.query("UPDATE users SET password = $1 WHERE email = $2", [
+            hashedPassword,
+            email,
+          ]);
+          res.json({ success: true, message: "Password reset successfully!" });
+        } catch (updateErr) {
+          res.status(500).send("Error updating password");
+        }
+      });
+    } else {
+      res.status(404).json({ success: false, message: "Email not registered" });
+    }
+  } catch (err) {
+    res.status(500).send("Server error");
+  }
+});
+
 
 
 
