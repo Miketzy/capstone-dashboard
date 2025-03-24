@@ -313,75 +313,74 @@ function ViewAndEditSpecies() {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
+        aria-labelledby="species-modal-title"
       >
-        <Box sx={style} className="modal-content">
+        <Box className="bg-white rounded-lg shadow-xl p-6 max-w-3xl mx-auto mt-10 overflow-y-auto max-h-[90vh]">
           {selectedSpecies && (
-            <>
-              <Typography id="parent-modal-title" variant="h6" component="h2">
+            <div className="space-y-4 text-gray-700">
+              <Typography
+                id="species-modal-title"
+                variant="h5"
+                className="text-green-700 font-bold"
+              >
                 {selectedSpecies.specificname} Details
               </Typography>
-              <br />
-              <br />
-              <br />
-              <br />
-              <div className="eye-view">
-                <div className="images">
-                  <img
-                    src={selectedSpecies.uploadimage} // Image URL from the backend
-                    className="modal-image"
-                    alt="species"
-                  />
-                </div>
-                <div className="specific-name1">
-                  <h3>Specific Name:</h3>
-                  <h4>{selectedSpecies.specificname}</h4>
-                </div>
-                <div className="scientifi-name1">
-                  <h3>Scientific Name:</h3>
-                  <h4>{selectedSpecies.scientificname}</h4>
-                </div>
-                <div className="common-name1">
-                  <h3>Common Name:</h3>
-                  <h4>{selectedSpecies.commonname}</h4>
-                </div>
-                <div className="habitat1">
-                  <h3>Habitat:</h3>
-                  <h4>{selectedSpecies.habitat}</h4>
-                </div>
-                <div className="species-category1">
-                  <h3>Species Categories:</h3>
-                  <h4>{selectedSpecies.speciescategory}</h4>
-                </div>
-                <div className="population1">
-                  <h3>Population:</h3>
-                  <h4>{selectedSpecies.population}</h4>
-                </div>
-                <div className="location1">
-                  <h3>Map:</h3>
-                  <h4>{selectedSpecies.location}</h4>
-                </div>
-                <div className="conservationstatus1">
-                  <h3>Conservation Status:</h3>
-                  <p className="conservationstatus123">
-                    {selectedSpecies.conservationstatus}
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <img
+                  src={selectedSpecies.uploadimage}
+                  className="w-full md:w-1/3 rounded-lg shadow-lg"
+                  alt="species"
+                />
+                <div className="flex-1 space-y-3">
+                  <p>
+                    <strong className="text-green-800">Scientific Name:</strong>{" "}
+                    {selectedSpecies.scientificname}
+                  </p>
+                  <p>
+                    <strong className="text-green-800">Common Name:</strong>{" "}
+                    {selectedSpecies.commonname}
+                  </p>
+                  <p>
+                    <strong className="text-green-800">Habitat:</strong>{" "}
+                    {selectedSpecies.habitat}
+                  </p>
+                  <p>
+                    <strong className="text-green-800">Category:</strong>{" "}
+                    {selectedSpecies.speciescategory}
+                  </p>
+                  <p>
+                    <strong className="text-green-800">Population:</strong>{" "}
+                    {selectedSpecies.population}
+                  </p>
+                  <p>
+                    <strong className="text-green-800">Location:</strong>{" "}
+                    {selectedSpecies.location}
                   </p>
                 </div>
-                <div className="adthreats1">
-                  <h3>Threats:</h3>
-                  <p>{selectedSpecies.threats}</p>
-                </div>
-                <div className="conservation-effort1">
-                  <h3>Conservation Effort:</h3>
-                  <p>{selectedSpecies.conservationeffort}</p>
-                </div>
-                <div className="description1">
-                  <h3>Description:</h3>
-                  <p>{selectedSpecies.description}</p>
-                </div>
               </div>
-            </>
+              <div className="space-y-2">
+                <p>
+                  <strong className="text-green-800">
+                    Conservation Status:
+                  </strong>{" "}
+                  {selectedSpecies.conservationstatus}
+                </p>
+                <p>
+                  <strong className="text-green-800">Threats:</strong>{" "}
+                  {selectedSpecies.threats}
+                </p>
+                <p>
+                  <strong className="text-green-800">
+                    Conservation Efforts:
+                  </strong>{" "}
+                  {selectedSpecies.conservationeffort}
+                </p>
+                <p className="text-justify">
+                  <strong className="text-green-800">Description:</strong>{" "}
+                  {selectedSpecies.description}
+                </p>
+              </div>
+            </div>
           )}
         </Box>
       </Modal>
