@@ -224,78 +224,49 @@ function ViewAndEditSpecies() {
   };
 
   return (
-    <div className="ViewAndEditSpecies">
-      <div className="search-container">
-        <CiSearch className="search-icon" />
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          View & Edit Species
+        </h2>
         <input
           type="text"
-          className="search-bar"
-          placeholder="Search...."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search species..."
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-      </div>
-      <div className="table-responsive1">
-        <table className="table1 table-bordered">
-          <thead className="thead-dark1">
-            <tr>
-              <th>No.</th>
-              <th>Specific Name</th>
-              <th>Scientific Name</th>
-              <th>Common Name</th>
-              <th>Conservation Status</th>
-              <th>Classification</th>
-              <th>Action</th>
+        <table className="w-full bg-white border rounded-md">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Scientific Name</th>
+              <th className="p-2 text-left">Category</th>
+              <th className="p-2 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.length > 0 ? (
-              currentItems.map((data, i) => (
-                <tr key={data.id}>
-                  <td>{indexOfFirstItem + i + 1}</td>
-                  <td>{data.specificname}</td>
-                  <td>{data.scientificname}</td>
-                  <td>{data.commonname}</td>
-                  <td>{data.conservationstatus}</td>
-
-                  <td>{data.speciescategory}</td>
-
-                  <td>
-                    <div className="actions d-flex align-items-center">
-                      <Button
-                        className="secondary"
-                        color="secondary"
-                        onClick={() => handleOpen(data)}
-                      >
-                        <FaEye />
-                      </Button>
-                      <Button
-                        className="success"
-                        color="success"
-                        onClick={() => handlePencilOpen(data)}
-                      >
-                        <FaPencilAlt />
-                      </Button>
-                      <Button
-                        className="error"
-                        color="error"
-                        onClick={() => handleDelete(data.id)}
-                      >
-                        <MdDelete />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="14" className="message">
-                  <div>
-                    <p>{message || "No species data"}</p>
-                  </div>
+            {speciesList.map((species) => (
+              <tr key={species.id} className="border-t">
+                <td className="p-2">{species.name}</td>
+                <td className="p-2">{species.scientificName}</td>
+                <td className="p-2">{species.category}</td>
+                <td className="p-2">
+                  <button
+                    className="text-blue-500 hover:underline mr-2"
+                    onClick={() => handleView(species)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="text-green-500 hover:underline"
+                    onClick={() => handleEdit(species)}
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
