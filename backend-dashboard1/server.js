@@ -1217,24 +1217,23 @@ const generateOTP = () => {
 };
 
 // Endpoint to handle OTP email sending
-app.post("/send-otp", async (req, res) => {
+app.post("/send-otp", (req, res) => {
   const { email } = req.body;
+
+  // Generate an OTP and store it in memory
   const otp = generateOTP();
+  otpStore[email] = otp; // Store OTP for the email
 
-  try {
-    // Store OTP in PostgreSQL
-    await pool.query(
-      "INSERT INTO otp_store (email, otp, created_at) VALUES ($1, $2, NOW()) ON CONFLICT (email) DO UPDATE SET otp = $2, created_at = NOW()",
-      [email, otp]
-    );
-
-    await sendOTPEmail(email, otp);
-    res.status(200).send("OTP sent to your email");
-  } catch (error) {
-    console.error("Error sending OTP:", error);
-    res.status(500).send("Error sending OTP");
-  }
+  sendOTPEmail(email, otp)
+    .then(() => {
+      res.status(200).send("OTP sent to your email");
+    })
+    .catch((error) => {
+      console.error("Error sending email:", error); // Log the error
+      res.status(500).send("Error sending email");
+    });
 });
+
 
 
 
