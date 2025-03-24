@@ -224,49 +224,78 @@ function ViewAndEditSpecies() {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          View & Edit Species
-        </h2>
+    <div className="ViewAndEditSpecies">
+      <div className="search-container">
+        <CiSearch className="search-icon" />
         <input
           type="text"
-          placeholder="Search species..."
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          className="search-bar"
+          placeholder="Search...."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <table className="w-full bg-white border rounded-md">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="p-2 text-left">Name</th>
-              <th className="p-2 text-left">Scientific Name</th>
-              <th className="p-2 text-left">Category</th>
-              <th className="p-2 text-left">Actions</th>
+      </div>
+      <div className="table-responsive1">
+        <table className="table1 table-bordered">
+          <thead className="thead-dark1">
+            <tr>
+              <th>No.</th>
+              <th>Specific Name</th>
+              <th>Scientific Name</th>
+              <th>Common Name</th>
+              <th>Conservation Status</th>
+              <th>Classification</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {speciesList.map((species) => (
-              <tr key={species.id} className="border-t">
-                <td className="p-2">{species.name}</td>
-                <td className="p-2">{species.scientificName}</td>
-                <td className="p-2">{species.category}</td>
-                <td className="p-2">
-                  <button
-                    className="text-blue-500 hover:underline mr-2"
-                    onClick={() => handleView(species)}
-                  >
-                    View
-                  </button>
-                  <button
-                    className="text-green-500 hover:underline"
-                    onClick={() => handleEdit(species)}
-                  >
-                    Edit
-                  </button>
+            {currentItems.length > 0 ? (
+              currentItems.map((data, i) => (
+                <tr key={data.id}>
+                  <td>{indexOfFirstItem + i + 1}</td>
+                  <td>{data.specificname}</td>
+                  <td>{data.scientificname}</td>
+                  <td>{data.commonname}</td>
+                  <td>{data.conservationstatus}</td>
+
+                  <td>{data.speciescategory}</td>
+
+                  <td>
+                    <div className="actions d-flex align-items-center">
+                      <Button
+                        className="secondary"
+                        color="secondary"
+                        onClick={() => handleOpen(data)}
+                      >
+                        <FaEye />
+                      </Button>
+                      <Button
+                        className="success"
+                        color="success"
+                        onClick={() => handlePencilOpen(data)}
+                      >
+                        <FaPencilAlt />
+                      </Button>
+                      <Button
+                        className="error"
+                        color="error"
+                        onClick={() => handleDelete(data.id)}
+                      >
+                        <MdDelete />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="14" className="message">
+                  <div>
+                    <p>{message || "No species data"}</p>
+                  </div>
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
@@ -287,74 +316,123 @@ function ViewAndEditSpecies() {
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={style} className="modal-content">
-          {selectedSpecies && (
-            <>
-              <Typography id="parent-modal-title" variant="h6" component="h2">
-                {selectedSpecies.specificname} Details
-              </Typography>
-              <br />
-              <br />
-              <br />
-              <br />
-              <div className="eye-view">
-                <div className="images">
-                  <img
-                    src={selectedSpecies.uploadimage} // Image URL from the backend
-                    className="modal-image"
-                    alt="species"
-                  />
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-3xl w-full overflow-y-auto max-h-[90vh]">
+            {selectedSpecies && (
+              <>
+                <h2
+                  id="parent-modal-title"
+                  className="text-2xl font-semibold text-gray-800 border-b pb-3 mb-4"
+                >
+                  {selectedSpecies.specificname} Details
+                </h2>
+
+                <div className="flex flex-col lg:flex-row gap-6">
+                  {/* Image Section */}
+                  <div className="flex-shrink-0">
+                    <img
+                      src={selectedSpecies.uploadimage}
+                      className="w-64 h-64 object-cover rounded-lg shadow-md"
+                      alt="species"
+                    />
+                  </div>
+
+                  {/* Details Section */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-gray-600 font-medium">
+                        Specific Name:
+                      </h3>
+                      <p className="text-gray-800 font-semibold">
+                        {selectedSpecies.specificname}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">
+                        Scientific Name:
+                      </h3>
+                      <p className="text-gray-800 font-semibold">
+                        {selectedSpecies.scientificname}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">
+                        Common Name:
+                      </h3>
+                      <p className="text-gray-800 font-semibold">
+                        {selectedSpecies.commonname}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">Habitat:</h3>
+                      <p className="text-gray-800">{selectedSpecies.habitat}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">
+                        Species Category:
+                      </h3>
+                      <p className="text-gray-800">
+                        {selectedSpecies.speciescategory}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">Population:</h3>
+                      <p className="text-gray-800">
+                        {selectedSpecies.population}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">Location:</h3>
+                      <p className="text-gray-800">
+                        {selectedSpecies.location}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-600 font-medium">
+                        Conservation Status:
+                      </h3>
+                      <p className="text-red-600 font-semibold">
+                        {selectedSpecies.conservationstatus}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="specific-name1">
-                  <h3>Specific Name:</h3>
-                  <h4>{selectedSpecies.specificname}</h4>
+
+                {/* Additional Info */}
+                <div className="mt-6 space-y-4">
+                  <div>
+                    <h3 className="text-gray-600 font-medium">Threats:</h3>
+                    <p className="text-gray-800">{selectedSpecies.threats}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-gray-600 font-medium">
+                      Conservation Effort:
+                    </h3>
+                    <p className="text-gray-800">
+                      {selectedSpecies.conservationeffort}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="text-gray-600 font-medium">Description:</h3>
+                    <p className="text-gray-800">
+                      {selectedSpecies.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="scientifi-name1">
-                  <h3>Scientific Name:</h3>
-                  <h4>{selectedSpecies.scientificname}</h4>
+
+                {/* Close Button */}
+                <div className="flex justify-end mt-6">
+                  <button
+                    className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-900 transition"
+                    onClick={handleClose}
+                  >
+                    Close
+                  </button>
                 </div>
-                <div className="common-name1">
-                  <h3>Common Name:</h3>
-                  <h4>{selectedSpecies.commonname}</h4>
-                </div>
-                <div className="habitat1">
-                  <h3>Habitat:</h3>
-                  <h4>{selectedSpecies.habitat}</h4>
-                </div>
-                <div className="species-category1">
-                  <h3>Species Categories:</h3>
-                  <h4>{selectedSpecies.speciescategory}</h4>
-                </div>
-                <div className="population1">
-                  <h3>Population:</h3>
-                  <h4>{selectedSpecies.population}</h4>
-                </div>
-                <div className="location1">
-                  <h3>Map:</h3>
-                  <h4>{selectedSpecies.location}</h4>
-                </div>
-                <div className="conservationstatus1">
-                  <h3>Conservation Status:</h3>
-                  <p className="conservationstatus123">
-                    {selectedSpecies.conservationstatus}
-                  </p>
-                </div>
-                <div className="adthreats1">
-                  <h3>Threats:</h3>
-                  <p>{selectedSpecies.threats}</p>
-                </div>
-                <div className="conservation-effort1">
-                  <h3>Conservation Effort:</h3>
-                  <p>{selectedSpecies.conservationeffort}</p>
-                </div>
-                <div className="description1">
-                  <h3>Description:</h3>
-                  <p>{selectedSpecies.description}</p>
-                </div>
-              </div>
-            </>
-          )}
-        </Box>
+              </>
+            )}
+          </div>
+        </div>
       </Modal>
 
       <Modal
