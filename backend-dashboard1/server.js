@@ -1188,6 +1188,55 @@ app.post("/password-changes", verifyUser, async (req, res) => {
 });
 
 
+// In-memory storage for OTPs
+const otpStore = {};
+
+// Function to send email using Nodemailer
+const sendOTPEmail = (email, otp) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "davorbioexplorer@gmail.com", // Your Gmail address
+      pass: "axln xjew aeoc rfbt", // Your Gmail password or app password
+    },
+  });
+
+  const mailOptions = {
+    from: '"Dav-OR BioExplorer"<davorbioexplorer@gmail.com>',
+    to: email,
+    subject: "Your OTP Code",
+    text: `Your OTP code is: ${otp}`,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+// Generate a 6-digit OTP code
+const generateOTP = () => {
+  return crypto.randomInt(100000, 999999).toString(); // Generates a number between 100000 and 999999
+};
+
+// Endpoint to handle OTP email sending
+app.post("/send-otp", async (req, res) => {
+  const { email } = req.body;
+  const otp = generateOTP();
+
+  try {
+    // Store OTP in PostgreSQL
+    await pool.query(
+      "INSERT INTO otp_store (email, otp, created_at) VALUES ($1, $2, NOW()) ON CONFLICT (email) DO UPDATE SET otp = $2, created_at = NOW()",
+      [email, otp]
+    );
+
+    await sendOTPEmail(email, otp);
+    res.status(200).send("OTP sent to your email");
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    res.status(500).send("Error sending OTP");
+  }
+});
+
+
 
 
 // Start the server
