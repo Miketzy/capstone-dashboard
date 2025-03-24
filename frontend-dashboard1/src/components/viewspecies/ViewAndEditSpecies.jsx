@@ -386,104 +386,308 @@ function ViewAndEditSpecies() {
       </Modal>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={pencilOpen}
+        onClose={handlePencilClose}
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         closeAfterTransition
         BackdropComponent={Backdrop}
-        BackdropProps={{ timeout: 500 }}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        <Fade in={open}>
-          <Box sx={editstyle}>
-            <h2>Edit Species</h2>
-            <TextField
-              label="Scientific Name"
-              fullWidth
-              margin="normal"
-              value={selectedSpecies.scientificname || ""}
-              onChange={(e) =>
-                setSelectedSpecies({
-                  ...selectedSpecies,
-                  scientificname: e.target.value,
-                })
-              }
-            />
-            <TextField
-              label="Common Name"
-              fullWidth
-              margin="normal"
-              value={selectedSpecies.commonname || ""}
-              onChange={(e) =>
-                setSelectedSpecies({
-                  ...selectedSpecies,
-                  commonname: e.target.value,
-                })
-              }
-            />
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Classification</InputLabel>
-              <Select
-                value={selectedSpecies.speciescategory || ""}
-                onChange={(e) =>
-                  setSelectedSpecies({
-                    ...selectedSpecies,
-                    speciescategory: e.target.value,
-                  })
-                }
-              >
-                {speciesCategories.map((category) => (
-                  <MenuItem key={category.id} value={category.name}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              label="Description"
-              fullWidth
-              multiline
-              rows={3}
-              margin="normal"
-              value={selectedSpecies.description || ""}
-              onChange={(e) =>
-                setSelectedSpecies({
-                  ...selectedSpecies,
-                  description: e.target.value,
-                })
-              }
-            />
-            <div className="mt-4">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-            </div>
-            <div className="mt-2">
-              {image ? (
-                <img
-                  src={URL.createObjectURL(image)}
-                  alt="Species Preview"
-                  width="200"
-                  height="200"
-                />
-              ) : (
-                <img
-                  src={`/uploads/images/${selectedSpecies.uploadimage}`}
-                  alt="Species"
-                  width="200"
-                  height="200"
-                />
-              )}
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleUpdateSpecies}
-              >
-                Save Changes
-              </Button>
-            </div>
+        <Fade in={pencilOpen}>
+          <Box sx={editstyle} className="modal-content">
+            {selectedSpecies && (
+              <>
+                <Typography
+                  id="transition-modal-title"
+                  variant="h6"
+                  component="h2"
+                >
+                  Edit Species
+                </Typography>
+                <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                  <di className="pencile-edit-species">
+                    <div className="edit-species">
+                      <div className="edit-image">
+                        <label htmlFor="img-edit-input" className="edit-upload">
+                          <input
+                            type="file"
+                            id="imginput"
+                            name="uploadimage"
+                            className="file"
+                            style={{ display: "none" }}
+                            onChange={handleImageUpload} // Handle file upload
+                          />
+
+                          <BsPlusCircleDotted
+                            className="edit-icon"
+                            onClick={handleIconClick}
+                            style={{
+                              cursor: "pointer",
+                              position: "absolute",
+                              bottom: "20px",
+                              right: "48px",
+                            }}
+                          />
+                        </label>
+
+                        {image ? (
+                          <img
+                            src={
+                              image
+                                ? URL.createObjectURL(image)
+                                : `/uploads/images/${selectedSpecies.uploadimage}`
+                            }
+                            alt="Species"
+                            width="200"
+                            height="200"
+                          />
+                        ) : (
+                          <img
+                            src={selectedSpecies.uploadimage}
+                            alt="Default Species"
+                            width="200"
+                            height="200"
+                          />
+                        )}
+                      </div>
+
+                      <div className="edit-pencil">
+                        <div className="edit-pencil-specific">
+                          <label htmlFor="edit-specific">Specific Name</label>
+                          <input
+                            type="text"
+                            placeholder="Enter Specific name"
+                            className="edit-specific"
+                            value={selectedSpecies.specificname || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                specificname: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="edit-pencil-specific">
+                          <label htmlFor="edit-common">Common Name</label>
+                          <input
+                            type="text"
+                            placeholder="Enter common name"
+                            className="edit-common"
+                            value={selectedSpecies.commonname || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                commonname: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="edit-pencil-specific">
+                          <label htmlFor="pencil-species-categories">
+                            Classification
+                          </label>
+                          <select
+                            id="species-categories"
+                            className="edit-species-categories"
+                            placeholder="Select species category"
+                            value={selectedSpecies.speciescategory || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                speciescategories: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Select a category</option>
+                            <option value="mammals">Mammals</option>
+                            <option value="birds">Birds</option>
+                            <option value="reptiles">Reptiles</option>
+                            <option value="amphibians">Amphibians</option>
+                            <option value="invertebrates">Invertebrates</option>
+                            <option value="fish">Fish</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="edit-pencil">
+                        <div className="edit-pencil-specific">
+                          <label htmlFor="edit-Scientific">
+                            Scientific Name
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Enter Scientific name"
+                            className="edit-Scientific"
+                            value={selectedSpecies.scientificname || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                scientificname: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="edit-pencil-location">
+                          <label htmlFor="edit-location" className="location">
+                            Map
+                          </label>
+                          <input
+                            className="edit-location"
+                            placeholder="Mapping"
+                            rows="4"
+                            value={selectedSpecies.location || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                location: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+
+                        <div className="edit-pencil-specific">
+                          <label htmlFor="edit-status">
+                            Conservation Status
+                          </label>
+                          <select
+                            id="edit-conservation-status"
+                            className="edit-conservation-status"
+                            value={selectedSpecies.conservationstatus || ""}
+                            onChange={(e) =>
+                              setSelectedSpecies({
+                                ...selectedSpecies,
+                                conservationstatus: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="">
+                              Select a Conservation Status
+                            </option>
+                            <option value="critically-endangered">
+                              Critically-endangered
+                            </option>
+                            <option value="endangered">Endangered</option>
+                            <option value="vulnerable">Vulnerable</option>
+                            <option value="near-threatened">
+                              Near-threatened
+                            </option>
+                            <option value="least-concern">Least-concern</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-population">Population</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter  species population"
+                        className="edit-population"
+                        value={selectedSpecies.population || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            population: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-Habitat">Habitat</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter species Habitat"
+                        className="edit-Habitat"
+                        value={selectedSpecies.habitat || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            habitat: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-threats">Threats</label>
+                      <textarea
+                        type="text"
+                        placeholder="Enter species threats"
+                        className="edit-threats"
+                        value={selectedSpecies.threats || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            threats: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-status" className="status">
+                        Conservation Effort
+                      </label>
+                      <textarea
+                        className="edit-conservation-status"
+                        placeholder="Enter species conservation effort"
+                        rows="4"
+                        value={selectedSpecies.conservationeffort || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            conservationeffort: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="edit-pencil-status">
+                      <label htmlFor="edit-description" className="status">
+                        Description
+                      </label>
+                      <textarea
+                        className="edit-description"
+                        placeholder="Enter species Description"
+                        rows="4"
+                        value={selectedSpecies.description || ""}
+                        onChange={(e) =>
+                          setSelectedSpecies({
+                            ...selectedSpecies,
+                            description: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <Button id="edit-button" onClick={handleUpdateSpecies}>
+                      Save Changes
+                    </Button>
+
+                    <ToastContainer
+                      position="top-center"
+                      autoClose={5000}
+                      hideProgressBar
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme="colored"
+                      transition={Bounce} // Optional transition effect
+                    />
+                  </di>
+                </Typography>
+              </>
+            )}
           </Box>
         </Fade>
       </Modal>
