@@ -14,7 +14,7 @@ function ContributorChangepass() {
       return;
     }
 
-    const token = localStorage.getItem("token"); // Get the JWT token from localStorage
+    const token = localStorage.getItem("authToken"); // Get the JWT token from localStorage
 
     if (!token) {
       setError("No authentication token found. Please log in.");
