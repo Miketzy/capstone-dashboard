@@ -224,65 +224,60 @@ function ViewAndEditSpecies() {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-      <div className="max-w-4xl w-full bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
           View & Edit Species
         </h2>
-
         <input
           type="text"
           placeholder="Search species..."
-          className="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-2 border border-gray-300 rounded mb-4"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white border border-gray-300 rounded-md shadow-sm">
-            <thead>
-              <tr className="bg-gray-200 text-gray-700 uppercase text-sm tracking-wider">
-                <th className="p-3 text-left border-b">Name</th>
-                <th className="p-3 text-left border-b">Scientific Name</th>
-                <th className="p-3 text-left border-b">Category</th>
-                <th className="p-3 text-left border-b">Actions</th>
+        <table className="w-full bg-white border rounded-md">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Scientific Name</th>
+              <th className="p-2 text-left">Category</th>
+              <th className="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {speciesList.map((species) => (
+              <tr key={species.id} className="border-t">
+                <td className="p-2">{species.name}</td>
+                <td className="p-2">{species.scientificName}</td>
+                <td className="p-2">{species.category}</td>
+                <td className="p-2">
+                  <button
+                    className="text-blue-500 hover:underline mr-2"
+                    onClick={() => handleView(species)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="text-green-500 hover:underline"
+                    onClick={() => handleEdit(species)}
+                  >
+                    Edit
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {speciesList.map((species) => (
-                <tr key={species.id} className="border-t hover:bg-gray-100">
-                  <td className="p-3">{species.name}</td>
-                  <td className="p-3">{species.scientificName}</td>
-                  <td className="p-3">{species.category}</td>
-                  <td className="p-3 flex space-x-2">
-                    <button
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
-                      onClick={() => handleView(species)}
-                    >
-                      View
-                    </button>
-                    <button
-                      className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition"
-                      onClick={() => handleEdit(species)}
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <div className="mt-6">
+      <div className="tablefooter">
         <Pagination
           count={totalPages}
           page={currentPage}
           onChange={handlePageChange}
           variant="outlined"
           color="primary"
-          className="flex justify-center"
+          className="pagination"
         />
       </div>
 
