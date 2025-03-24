@@ -1235,6 +1235,30 @@ app.post("/send-otp", (req, res) => {
 });
 
 
+// Endpoint to verify OTP
+app.post("/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+
+  // Check if the email exists in the OTP store
+  if (!otpStore[email]) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No OTP found for this email." });
+  }
+
+  // Check if the OTP matches
+  if (otpStore[email] === otp) {
+    // OTP verified successfully
+    delete otpStore[email]; // Remove OTP from store after successful verification
+    return res.json({ success: true, message: "OTP verified successfully!" });
+  } else {
+    // Invalid OTP
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid OTP. Please try again." });
+  }
+});
+
 
 
 
