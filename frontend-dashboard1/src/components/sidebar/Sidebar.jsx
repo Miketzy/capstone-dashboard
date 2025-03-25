@@ -46,18 +46,77 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-gray-800 fixed h-full ">
-      <div>
-        <ul>
-          <li>
-            <span>
-              <RxDashboard className="inline-block w-6 h-6 mr-2 -mt2" />
-            </span>
-            Species Directory
-          </li>
-        </ul>
+    (
+      <div className="w-64 bg-gray-800 fixed h-full mt-16 text-white">
+        <div className="p-4">
+          <ul className="space-y-2">
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/species-directory" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/species-directory")}
+            >
+              <RxDashboard className="w-6 h-6 mr-2" />
+              Species Directory
+            </li>
+  
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/add-species" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/add-species")}
+            >
+              <IoMdAddCircle className="w-6 h-6 mr-2" />
+              Add Species
+            </li>
+  
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/analytics" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/analytics")}
+            >
+              <MdAnalytics className="w-6 h-6 mr-2" />
+              Analytics
+            </li>
+  
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/gallery" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/gallery")}
+            >
+              <GrGallery className="w-6 h-6 mr-2" />
+              Gallery
+            </li>
+  
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/contributor-request" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/contributor-request")}
+            >
+              <IoPeopleOutline className="w-6 h-6 mr-2" />
+              Contributor Request
+              {requestCount > 0 && (
+                <span className="ml-2 bg-red-500 text-white text-sm px-2 py-1 rounded-full">
+                  {requestCount}
+                </span>
+              )}
+            </li>
+  
+            <li
+              className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+                activeTab === "/create-question" ? "bg-gray-700" : ""
+              }`}
+              onClick={() => handleNavigation("/create-question")}
+            >
+              <FaFileCircleQuestion className="w-6 h-6 mr-2" />
+              Create Question
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
   );
 }
 
