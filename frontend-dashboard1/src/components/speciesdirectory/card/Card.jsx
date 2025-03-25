@@ -136,7 +136,7 @@ function Card() {
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`p-6 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-50 h-40`}
+            className={`p-6 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-{30%} h-40`}
             onClick={() => openModal(category)}
           >
             <div className="text-3xl">{category.icon}</div>
