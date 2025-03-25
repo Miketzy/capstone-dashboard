@@ -1,31 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
 import { RxDashboard } from "react-icons/rx";
-import { FaAngleRight } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
-import { MdEditCalendar } from "react-icons/md";
-import { MdCategory, MdAnalytics } from "react-icons/md";
-import { GrStatusGood, GrGallery } from "react-icons/gr";
-import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
-import { useNavigate, useLocation } from "react-router-dom";
+import { MdAnalytics } from "react-icons/md";
+import { GrGallery } from "react-icons/gr";
+import { IoPeopleOutline } from "react-icons/io5";
 import { FaFileCircleQuestion } from "react-icons/fa6";
 import axios from "axios";
-//Side bar
-function Sidebar() {
+import { IoCloseSharp, IoMenu } from "react-icons/io5";
+
+function Sidebar({ isOpen, toggleSidebar }) {
   const [activeTab, setActiveTab] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
   const [requestCount, setRequestCount] = useState(0);
-
-  useEffect(() => {
-    setActiveTab(location.pathname);
-  }, [location]);
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    setActiveTab(path);
-  };
 
   useEffect(() => {
     const fetchRequestCount = async () => {
@@ -41,60 +26,48 @@ function Sidebar() {
     fetchRequestCount();
   }, []);
 
-  const toggleDropdown = (dropdownName) => {
-    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
-  };
-
   return (
-    <div className="w-64 bg-gray-800 fixed h-full mt-14 text-white">
-      <div className="p-4">
-        <ul className="space-y-2">
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/species-directory" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/species-directory")}
-          >
+    <>
+      {/* Sidebar Overlay for Mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+
+      {/* Sidebar Container */}
+      <div
+        className={`fixed h-full bg-gray-800 text-white z-50 w-64 transition-all duration-300 ${
+          isOpen ? "left-0" : "-left-64"
+        } md:left-0`}
+      >
+        {/* Close Button for Mobile */}
+        <div className="md:hidden flex justify-end p-3">
+          <IoCloseSharp
+            className="text-white w-6 h-6 cursor-pointer"
+            onClick={toggleSidebar}
+          />
+        </div>
+
+        <ul className="p-4 space-y-2">
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <RxDashboard className="w-6 h-6 mr-2" />
             Species Directory
           </li>
-
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/add-species" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/add-species")}
-          >
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <IoMdAddCircle className="w-6 h-6 mr-2" />
             Add Species
           </li>
-
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/analytics" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/analytics")}
-          >
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <MdAnalytics className="w-6 h-6 mr-2" />
             Analytics
           </li>
-
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/gallery" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/gallery")}
-          >
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <GrGallery className="w-6 h-6 mr-2" />
             Gallery
           </li>
-
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/contributor-request" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/contributor-request")}
-          >
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <IoPeopleOutline className="w-6 h-6 mr-2" />
             Contributor Request
             {requestCount > 0 && (
@@ -103,19 +76,13 @@ function Sidebar() {
               </span>
             )}
           </li>
-
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/create-question" ? "bg-gray-700" : ""
-            }`}
-            onClick={() => handleNavigation("/create-question")}
-          >
+          <li className="flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700">
             <FaFileCircleQuestion className="w-6 h-6 mr-2" />
             Create Question
           </li>
         </ul>
       </div>
-    </div>
+    </>
   );
 }
 
