@@ -4,7 +4,7 @@ import SpeciesDirectoryHome from "../../PagesHome/species-directory-home/Species
 
 function Dashboard() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col w-full">
       <Navbar />
       <div className="flex flex-grow">
         <Sidebar />
