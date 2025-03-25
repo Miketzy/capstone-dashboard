@@ -114,9 +114,9 @@ function Navbar() {
         </div>
 
         <div className="relative ">
-          <button className="text-white">
+          <button className="text-white group">
             <CgProfile className="w-6 h-6 mt-2" />
-            <div className="z-10 hidden absolute rounded-lg shadow w-32">
+            <div className="z-10 hidden absolute rounded-lg shadow w-32 group-focus:block top-full right-0">
               <ul>
                 <li>
                   <span>Profile</span>
