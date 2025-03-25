@@ -92,6 +92,7 @@ function Navbar() {
   };
 
   const handleProfile = () => navigate("/my-profile");
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   return (
     <nav className="bg-gray-800 px-4 py-3 flex justify-between w-full fixed top-0 left-0 z-50">
@@ -113,18 +114,32 @@ function Navbar() {
           />
         </div>
 
-        <div className="relative ">
-          <button className="text-white group">
-            <CgProfile className="w-6 h-6 mt-2" />
-            <div className="z-10 hidden absolute rounded-lg shadow w-32 group-focus:block top-full right-0">
-              <ul>
-                <li>
-                  <span>Profile</span>
-                  <span>Logout</span>
+        {/* Right Side - User Dropdown */}
+        <div className="relative">
+          <button
+            className="text-white focus:outline-none cursor-pointer"
+            onClick={() => setDropdownOpen(!isDropdownOpen)}
+          >
+            <FaRegUserCircle className="w-8 h-8" />
+          </button>
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg overflow-hidden">
+              <div className="bg-gray-100 px-4 py-3 border-b">
+                <p className="text-gray-800 font-semibold">John Doe</p>
+                <p className="text-gray-600 text-sm">johndoe@example.com</p>
+              </div>
+              <ul className="text-gray-800">
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
+                  <FaUser className="text-gray-600" /> Profile
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2 border-t">
+                  <FaSignOutAlt className="text-red-600" /> Log out
                 </li>
               </ul>
             </div>
-          </button>
+          )}
         </div>
       </div>
     </nav>
