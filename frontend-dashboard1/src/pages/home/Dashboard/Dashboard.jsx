@@ -1,6 +1,6 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import SpeciesDirectoryHome from "../../PagesHome/species-directory-home/SpeciesDirectoryHome";
+import Card from "../../../components/speciesdirectory/card/Card";
 
 function Dashboard() {
   return (
@@ -15,7 +15,7 @@ function Dashboard() {
             </h1>
           </div>
           <div className="bg-white shadow-lg rounded-lg p-4">
-            <SpeciesDirectoryHome />
+            <Card />
           </div>
         </div>
       </div>
