@@ -1,88 +1,37 @@
-import React, { useEffect, useState } from "react";
-import "./card.css"; // Ensure the path is correct
-import axios from "axios";
+import React from "react";
 
 function Card() {
-  const [totalSpecies, setTotalSpecies] = useState(0);
-  const [mammalsCount, setMammalsCount] = useState(0);
-  const [birdsCount, setBirdsCount] = useState(0);
-  const [reptilesCount, setReptilesCount] = useState(0);
-
-  useEffect(() => {
-    // Fetch total species count
-    axios
-      .get("https://bioexplorer-backend.onrender.com/countSpecies")
-      .then((res) => {
-        console.log("API Response:", res.data); // Debugging log
-        if (res.data && typeof res.data.count !== "undefined") {
-          setTotalSpecies(res.data.count);
-        } else {
-          console.error("Invalid response format:", res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching species count:", err);
-      });
-
-    axios
-      .get("https://bioexplorer-backend.onrender.com/countmammals")
-      .then((res) => {
-        console.log("Mammals Count:", res.data.count); // Log the mammals count
-        setMammalsCount(res.data.count);
-      })
-      .catch((err) => {
-        console.error("Error fetching mammals count:", err);
-      });
-
-    axios
-      .get("https://bioexplorer-backend.onrender.com/countbirds")
-      .then((res) => {
-        console.log("Birds Count:", res.data.count); // Log the birds count
-        setBirdsCount(res.data.count);
-      })
-      .catch((err) => {
-        console.error("Error fetching birds count:", err);
-      });
-
-    axios
-      .get("https://bioexplorer-backend.onrender.com/countReptiles")
-      .then((res) => {
-        console.log("Reptiles Count:", res.data.count); // Log the reptiles count
-        setReptilesCount(res.data.count);
-      })
-      .catch((err) => {
-        console.error("Error fetching reptiles count:", err);
-      });
-  }, []);
+  const categories = [
+    { name: "All Species", color: "bg-green-600" },
+    { name: "Mammals", color: "bg-red-500" },
+    { name: "Fish", color: "bg-blue-500" },
+    { name: "Birds", color: "bg-yellow-500" },
+    { name: "Reptiles", color: "bg-green-700" },
+    { name: "Amphibians", color: "bg-teal-500" },
+    { name: "Insects", color: "bg-orange-500" },
+    { name: "Arachnids", color: "bg-gray-700" },
+    { name: "Mollusks", color: "bg-purple-500" },
+    { name: "Echinoderms", color: "bg-indigo-500" },
+    { name: "Cnidarians", color: "bg-pink-500" },
+    { name: "Worms", color: "bg-brown-500" },
+    { name: "Sponges", color: "bg-cyan-500" },
+  ];
 
   return (
-    <div className="card1">
-      <div className="col-div-3">
-        <div className="boxes">
-          <span className="boxes2">All Species</span>
-          <p className="boxes1">{totalSpecies}</p>
-        </div>
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
+        Species Categories
+      </h2>
 
-      <div className="col-div-3">
-        <div className="box-1">
-          <span className="boxs">Mammals</span>
-          <p className="box1">{mammalsCount}</p>
-        </div>
-      </div>
-
-      <div className="col-div-3">
-        <div className="box-2">
-          <span className="boxs2">Birds</span>
-          <p className="box2">{birdsCount}</p>
-        </div>
-      </div>
-
-      <div className="col-div-3">
-        <div className="box-3">
-          <span className="boxs3">Reptiles</span>
-          <p className="box3">{reptilesCount}</p>
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {categories.map((category, index) => (
+          <div
+            key={index}
+            className={`p-6 rounded-xl shadow-lg ${category.color} text-white flex flex-col items-center justify-center hover:scale-105 transition-all`}
+          >
+            <span className="text-xl font-semibold">{category.name}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
