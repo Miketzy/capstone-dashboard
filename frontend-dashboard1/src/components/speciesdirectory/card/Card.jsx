@@ -24,21 +24,21 @@ function Card() {
       name: "All Species",
       count: 250,
       color: "bg-green-600",
-      icon: <FaPaw size={30} />,
+      icon: <FaPaw />,
       description: "All species across different classifications.",
     },
     {
       name: "Mammals",
       count: 45,
       color: "bg-red-500",
-      icon: <FaPaw size={30} />,
+      icon: <FaPaw />,
       description: "Warm-blooded vertebrates with hair or fur and live birth.",
     },
     {
       name: "Fish",
       count: 80,
       color: "bg-blue-500",
-      icon: <FaFish size={30} />,
+      icon: <FaFish />,
       description:
         "Cold-blooded animals that live in water and breathe through gills.",
     },
@@ -46,21 +46,28 @@ function Card() {
       name: "Birds",
       count: 65,
       color: "bg-yellow-500",
-      icon: <FaFeather size={30} />,
+      icon: <FaFeather />,
       description: "Warm-blooded vertebrates with feathers and wings.",
     },
     {
       name: "Reptiles",
       count: 30,
       color: "bg-green-700",
-      icon: <FaFrog size={30} />,
+      icon: <FaFrog />,
       description: "Cold-blooded vertebrates with scales, most lay eggs.",
+    },
+    {
+      name: "Amphibians",
+      count: 25,
+      color: "bg-teal-500",
+      icon: <FaWater />,
+      description: "Cold-blooded vertebrates that live in water and on land.",
     },
     {
       name: "Insects",
       count: 120,
       color: "bg-orange-500",
-      icon: <FaBug size={30} />,
+      icon: <FaBug />,
       description:
         "Six-legged invertebrates, the most diverse group of animals.",
     },
@@ -68,7 +75,7 @@ function Card() {
       name: "Arachnids",
       count: 40,
       color: "bg-gray-700",
-      icon: <FaSpider size={30} />,
+      icon: <FaSpider />,
       description:
         "Eight-legged invertebrates including spiders and scorpions.",
     },
@@ -76,17 +83,40 @@ function Card() {
       name: "Mollusks",
       count: 15,
       color: "bg-purple-500",
-      icon: <FaSkullCrossbones size={30} />,
+      icon: <FaSkullCrossbones />,
       description:
         "Soft-bodied animals, many have shells like snails and clams.",
+    },
+    {
+      name: "Echinoderms",
+      count: 10,
+      color: "bg-indigo-500",
+      icon: <FaLeaf />,
+      description:
+        "Marine animals like starfish and sea urchins with radial symmetry.",
+    },
+    {
+      name: "Cnidarians",
+      count: 8,
+      color: "bg-pink-500",
+      icon: <FaVirus />,
+      description:
+        "Marine animals with stinging cells like jellyfish and corals.",
     },
     {
       name: "Worms",
       count: 20,
       color: "bg-amber-700",
-      icon: <FaBone size={30} />,
+      icon: <FaBone />,
       description:
         "Invertebrates with elongated bodies, living in soil and water.",
+    },
+    {
+      name: "Sponges",
+      count: 5,
+      color: "bg-cyan-500",
+      icon: <FaShapes />,
+      description: "Simple aquatic animals with porous bodies.",
     },
   ];
 
@@ -96,22 +126,24 @@ function Card() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ml-[14rem]">
       <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
         Species Categories
       </h2>
 
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`w-40 h-40 p-4 flex flex-col items-center justify-center rounded-2xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer`}
+            className={`p-6 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-50 h-40`}
             onClick={() => openModal(category)}
           >
-            <div className="text-2xl">{category.icon}</div>
-            <span className="text-lg font-semibold mt-2">{category.name}</span>
-            <p className="text-xl font-bold">{category.count}</p>
+            <div className="text-3xl">{category.icon}</div>
+            <span className="text-xl font-semibold mt-2 block">
+              {category.name}
+            </span>
+            <p className="text-2xl font-bold mt-1">{category.count}</p>
           </div>
         ))}
       </div>
@@ -121,9 +153,9 @@ function Card() {
         <Dialog
           open={isOpen}
           onClose={() => setIsOpen(false)}
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          className="fixed inset-0 flex items-center justify-center z-50"
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-80 max-w-full">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-2xl font-bold text-gray-800">
               {selectedCategory.name}
             </h3>
