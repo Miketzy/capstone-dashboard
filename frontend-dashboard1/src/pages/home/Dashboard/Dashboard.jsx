@@ -8,8 +8,8 @@ function Dashboard() {
       <div>
         <div className=" main ">
           <Navbar />
-          <div>
-            <div className="flex">
+          <div className="flex">
+            <div className="">
               <Sidebar />
             </div>
 
