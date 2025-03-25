@@ -126,7 +126,7 @@ function Card() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ml-55">
       <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
         Species Categories
       </h2>
