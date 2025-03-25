@@ -111,6 +111,8 @@ function Navbar() {
             className="w-full px-4 py-1 pl-12 rounded shadow outline-none hidden md:block w-full"
           />
         </div>
+
+        <div></div>
       </div>
     </nav>
   );
