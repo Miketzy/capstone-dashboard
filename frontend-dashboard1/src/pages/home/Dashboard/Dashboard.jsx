@@ -6,7 +6,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col w-full">
       <Navbar />
-      <div className="flex flex-grow">
+      <div className="flex flex-grow h-screen">
         <Sidebar />
         <div className="flex flex-col flex-grow p-6">
           <div className="mb-6 text-center">
