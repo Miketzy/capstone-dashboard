@@ -14,7 +14,7 @@ function Dashboard() {
               Species Directory
             </h1>
           </div>
-          <div className="bg-white shadow-lg rounded-lg p-4 ml-50">
+          <div className="shadow-lg rounded-lg p-4 ">
             <Card />
           </div>
         </div>
