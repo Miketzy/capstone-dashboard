@@ -8,19 +8,20 @@ function Dashboard() {
   return (
     <>
       <div>
-        <div className=" main d-flex">
-          <div className="sidebarWrapper">
-            <Sidebar />
-          </div>
-
-          <div className="content">
-            <Navbar />
-
-            <div className="tit">
-              <h1 className="tit1">Species Directory</h1>
+        <div className=" main ">
+          <Navbar />
+          <div>
+            <div className="flex">
+              <Sidebar />
             </div>
-            <div className="speciestable">
-              <SpeciesDirectoryHome />
+
+            <div className="content">
+              <div className="tit">
+                <h1 className="tit1">Species Directory</h1>
+              </div>
+              <div className="speciestable">
+                <SpeciesDirectoryHome />
+              </div>
             </div>
           </div>
         </div>
