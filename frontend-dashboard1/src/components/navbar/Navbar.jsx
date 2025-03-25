@@ -93,40 +93,28 @@ function Navbar() {
 
   const handleProfile = () => navigate("/my-profile");
 
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
   return (
-    <>
-      <nav className="bg-gray-800 px-4 py-3 flex justify-between items-center w-full fixed top-0 left-0 z-50">
-        <div className="flex items-center text-xl">
-          <MenuIcon
-            className="text-white me-4 cursor-pointer"
-            onClick={toggleSidebar}
+    <nav className="bg-gray-800 px-4 py-3 flex justify-between w-full fixed top-0 left-0 z-50">
+      <div className="flex items-center text-xl">
+        <MenuIcon className="text-white me-4 cursor-pointer" />
+        <span className="text-white font-semibold">BioExplorer</span>
+      </div>
+      <div className="flex items-center gap-x-5">
+        <div className="relative md:w-65">
+          <span className="relative md:absolute inset-y-0 left-0 flex items-center pl-2">
+            <button className="p-1 focus:outline-none text-white md:text-black">
+              <IoSearchCircle />
+            </button>
+          </span>
+          <input
+            type="text"
+            className="w-full px-4 py-1 pl-12 rounded shadow outline-none hidden md:block w-full"
           />
-          <span className="text-white font-semibold">BioExplorer</span>
         </div>
-        <div className="flex items-center gap-x-5">
-          <div className="relative md:w-65">
-            <span className="relative md:absolute inset-y-0 left-0 flex items-center pl-2">
-              <button className="p-1 focus:outline-none text-white md:text-black">
-                <IoSearchCircle />
-              </button>
-            </span>
-            <input
-              type="text"
-              className="w-full px-4 py-1 pl-12 rounded shadow outline-none hidden md:block w-full"
-            />
-          </div>
 
-          <div></div>
-        </div>
-      </nav>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-    </>
+        <div></div>
+      </div>
+    </nav>
   );
 }
 
