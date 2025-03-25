@@ -2,8 +2,6 @@ import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import SpeciesDirectoryHome from "../../PagesHome/species-directory-home/SpeciesDirectoryHome";
 
-import "./dashboard.css";
-//
 function Dashboard() {
   return (
     <>
