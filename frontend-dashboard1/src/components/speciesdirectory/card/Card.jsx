@@ -21,13 +21,6 @@ function Card() {
 
   const categories = [
     {
-      name: "All Species",
-      count: 250,
-      color: "bg-green-600",
-      icon: <FaPaw />,
-      description: "All species across different classifications.",
-    },
-    {
       name: "Mammals",
       count: 45,
       color: "bg-red-500",
