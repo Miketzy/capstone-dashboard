@@ -3,7 +3,7 @@ import axios from "axios";
 import { Menu, MenuItem, Avatar, ListItemIcon } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchBox from "../searchbar/Searchbox";
+import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { IoSearchCircle } from "react-icons/io5";
 
@@ -113,7 +113,19 @@ function Navbar() {
           />
         </div>
 
-        <div></div>
+        <div className="relative ">
+          <button className="text-white">
+            <CgProfile className="w-6 h-6 mt-2" />
+            <div className="z-10 hidden absolute rounded-lg shadow w-32">
+              <ul>
+                <li>
+                  <span>Profile</span>
+                  <span>Logout</span>
+                </li>
+              </ul>
+            </div>
+          </button>
+        </div>
       </div>
     </nav>
   );
