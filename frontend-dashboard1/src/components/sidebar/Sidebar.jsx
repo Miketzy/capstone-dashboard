@@ -46,7 +46,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-gray-800 fixed h-full mt-16 text-white">
+    <div className="w-64 bg-gray-800 fixed h-full mt-10 text-white">
       <div className="p-4">
         <ul className="space-y-2">
           <li
