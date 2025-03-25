@@ -128,7 +128,7 @@ function Navbar() {
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg overflow-hidden">
               <div className="bg-gray-100 px-4 py-3 border-b">
-                <p className="text-gray-800 font-semibold">
+                <p className="text-gray-800 font-semibold text-sm">
                   {" "}
                   {`${user.firstname} ${user.middlename} ${user.lastname}`}
                 </p>
