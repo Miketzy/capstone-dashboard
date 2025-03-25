@@ -94,7 +94,7 @@ function Navbar() {
   const handleProfile = () => navigate("/my-profile");
 
   return (
-    <nav className="bg-gray-800 px-4 py-3 flex justify-between w-full">
+    <nav className="bg-gray-800 px-4 py-3 flex justify-between w-full fixed top-0 left-0 z-50">
       <div className="flex items-center text-xl">
         <MenuIcon className="text-white me-4 cursor-pointer" />
         <span className="text-white font-semibold">BioExplorer</span>
