@@ -145,12 +145,12 @@ function Card() {
       </div>
 
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2">
+      <div className="flex flex-wrap justify-center gap-4">
         {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
           (category, index) => (
             <div
               key={index}
-              className={`p-2 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[90%] max-w-[200px] h-32 flex flex-col items-center justify-center`}
+              className={`p-2 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer min-w-[150px] max-w-[200px] flex-grow h-32 flex flex-col items-center justify-center`}
               onClick={() => openModal(category)}
             >
               <div className="text-2xl">{category.icon}</div>
