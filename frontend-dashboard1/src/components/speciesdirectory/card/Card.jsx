@@ -145,7 +145,7 @@ function Card() {
       </div>
 
       {/* Responsive Grid Layout */}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 ml-63">
         {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
           (category, index) => (
             <div
