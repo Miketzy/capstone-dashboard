@@ -145,22 +145,24 @@ function Card() {
       </div>
 
       {/* Grid Layout for Cards */}
-      <div className="grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-1">
-        {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
-          (category, index) => (
-            <div
-              key={index}
-              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer h-36 w-20`}
-              onClick={() => openModal(category)}
-            >
-              <div className="text-3xl">{category.icon}</div>
-              <span className="text-lg font-semibold mt-1">
-                {category.name}
-              </span>
-              <p className="text-xl font-bold">{category.count}</p>
-            </div>
-          )
-        )}
+      <div className="flex flex-col gap-y-4">
+        <div className="grid grid-cols-1 gap-4 grid-colssm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  ">
+          {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
+            (category, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer`}
+                onClick={() => openModal(category)}
+              >
+                <div className="text-3xl">{category.icon}</div>
+                <span className="text-lg font-semibold mt-1">
+                  {category.name}
+                </span>
+                <p className="text-xl font-bold">{category.count}</p>
+              </div>
+            )
+          )}
+        </div>
       </div>
 
       {/* Modal for Species Explanation */}
