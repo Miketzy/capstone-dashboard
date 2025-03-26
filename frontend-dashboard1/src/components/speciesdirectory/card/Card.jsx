@@ -125,11 +125,11 @@ function Card() {
       </h2>
 
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {categories.map((category, index) => (
           <div
             key={index}
-            className={`p-6 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] h-40`}
+            className={`p-3 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] h-40`}
             onClick={() => openModal(category)}
           >
             <div className="text-3xl">{category.icon}</div>
