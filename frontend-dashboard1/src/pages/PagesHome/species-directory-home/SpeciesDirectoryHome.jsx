@@ -22,9 +22,7 @@ function SpeciesDirectoryHome() {
       <div className="cards">
         <Card />
       </div>
-      <div className="card2">
-        <Card2 />
-      </div>
+      <div className="card2"></div>
       <div className="tablehome">
         <DirecotoryTable />
       </div>
