@@ -72,7 +72,6 @@ function Navbar() {
         BioExplorer
       </div>
 
-      {/* Search Bar */}
       <div className="relative w-64 hidden md:block">
         <input
           type="text"
