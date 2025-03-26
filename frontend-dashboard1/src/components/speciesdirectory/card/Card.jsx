@@ -123,7 +123,7 @@ function Card() {
   };
 
   return (
-    <div className="container px-4 py-8 ml-[14rem]">
+    <div className="container py-8 ml-[14rem]">
       {/* Buttons for Vertebrates and Invertebrates */}
       <div className="flex justify-center mb-6">
         <button
