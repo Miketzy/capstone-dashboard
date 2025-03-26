@@ -18,8 +18,9 @@ import { Dialog } from "@headlessui/react";
 function Card() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [activeTab, setActiveTab] = useState("vertebrates");
 
-  const categories = [
+  const vertebrates = [
     {
       name: "Mammals",
       count: 45,
@@ -56,6 +57,9 @@ function Card() {
       icon: <FaWater />,
       description: "Cold-blooded vertebrates that live in water and on land.",
     },
+  ];
+
+  const invertebrates = [
     {
       name: "Insects",
       count: 120,
@@ -120,25 +124,43 @@ function Card() {
 
   return (
     <div className="container mx-auto px-4 py-8 ml-[14rem]">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
-        Species Categories
-      </h2>
+      {/* Buttons for Vertebrates and Invertebrates */}
+      <div className="flex justify-center mb-6">
+        <button
+          className={`px-6 py-2 mx-2 rounded-lg text-white ${
+            activeTab === "vertebrates" ? "bg-green-600" : "bg-gray-400"
+          }`}
+          onClick={() => setActiveTab("vertebrates")}
+        >
+          Vertebrates
+        </button>
+        <button
+          className={`px-6 py-2 mx-2 rounded-lg text-white ${
+            activeTab === "invertebrates" ? "bg-green-600" : "bg-gray-400"
+          }`}
+          onClick={() => setActiveTab("invertebrates")}
+        >
+          Invertebrates
+        </button>
+      </div>
 
       {/* Responsive Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {categories.map((category, index) => (
-          <div
-            key={index}
-            className={`p-3 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] h-40`}
-            onClick={() => openModal(category)}
-          >
-            <div className="text-3xl">{category.icon}</div>
-            <span className="text-xl font-semibold mt-2 block">
-              {category.name}
-            </span>
-            <p className="text-2xl font-bold mt-1">{category.count}</p>
-          </div>
-        ))}
+        {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
+          (category, index) => (
+            <div
+              key={index}
+              className={`p-3 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] h-40`}
+              onClick={() => openModal(category)}
+            >
+              <div className="text-3xl">{category.icon}</div>
+              <span className="text-xl font-semibold mt-2 block">
+                {category.name}
+              </span>
+              <p className="text-2xl font-bold mt-1">{category.count}</p>
+            </div>
+          )
+        )}
       </div>
 
       {/* Modal for Species Explanation */}
