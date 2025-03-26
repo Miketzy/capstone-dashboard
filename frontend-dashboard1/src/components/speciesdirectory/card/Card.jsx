@@ -151,11 +151,8 @@ function Card() {
             (category, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-lg shadow-md ${
-                  category.color
-                } text-white text-center hover:scale-105 transition-all cursor-pointer w-[20%] ${
-                  [1, 3, 5].includes(index) ? "ml-4" : ""
-                }`}
+                className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-[40%]
+                 `}
                 onClick={() => openModal(category)}
               >
                 <div className="text-3xl">{category.icon}</div>
