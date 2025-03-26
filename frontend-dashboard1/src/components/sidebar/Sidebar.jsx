@@ -9,6 +9,7 @@ import { GrStatusGood, GrGallery } from "react-icons/gr";
 import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaFileCircleQuestion } from "react-icons/fa6";
+import { FaListAlt } from "react-icons/fa";
 import axios from "axios";
 //Side bar
 function Sidebar() {
@@ -67,6 +68,16 @@ function Sidebar() {
           >
             <IoMdAddCircle className="w-6 h-6 mr-2" />
             Add Species
+          </li>
+
+          <li
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+              activeTab === "/list-of-species" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleNavigation("/list-of-species")}
+          >
+            <FaListAlt className="w-6 h-6 mr-2" />
+            List of Species
           </li>
 
           <li
