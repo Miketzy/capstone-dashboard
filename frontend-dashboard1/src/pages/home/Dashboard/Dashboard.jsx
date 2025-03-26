@@ -15,7 +15,7 @@ function Dashboard() {
             </h1>
           </div>
           <div className="shadow-lg rounded-lg p-4 ">
-            <Card />
+            <Card className="flex flex-col gap-y-4 rounded-lg border " />
           </div>
         </div>
       </div>
