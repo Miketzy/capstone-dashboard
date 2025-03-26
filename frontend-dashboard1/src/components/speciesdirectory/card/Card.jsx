@@ -150,7 +150,7 @@ function Card() {
           (category, index) => (
             <div
               key={index}
-              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer h-36 flex flex-col items-center justify-center w-20`}
+              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer h-36 w-20`}
               onClick={() => openModal(category)}
             >
               <div className="text-3xl">{category.icon}</div>
