@@ -9,7 +9,6 @@ import { GrStatusGood, GrGallery } from "react-icons/gr";
 import { IoCloseSharp, IoPeopleOutline } from "react-icons/io5";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaFileCircleQuestion } from "react-icons/fa6";
-import { FaListUl } from "react-icons/fa";
 import axios from "axios";
 //Side bar
 function Sidebar() {
@@ -47,14 +46,12 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-green-900 shadow-lg fixed h-full mt-12 text-white">
+    <div className="w-64 bg-gray-800 fixed h-full mt-12 text-white">
       <div className="p-4">
         <ul className="space-y-2">
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
-              activeTab === "/species-directory"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
+              activeTab === "/species-directory" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/species-directory")}
           >
@@ -64,59 +61,44 @@ function Sidebar() {
 
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
-              activeTab === "/add-species"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
+              activeTab === "/add-species" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/add-species")}
           >
             <IoMdAddCircle className="w-6 h-6 mr-2" />
             Add Species
           </li>
+
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
-              activeTab === "/list-of-species"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
-            }`}
-            onClick={() => handleNavigation("/list-of-species")}
-          >
-            <FaListUl className="w-6 h-6 mr-2" />
-            List of Species
-          </li>
-          <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
-              activeTab === "/species-analytics"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
+              activeTab === "/species-analytics" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/species-analytics")}
           >
             <MdAnalytics className="w-6 h-6 mr-2" />
             Analytics
           </li>
+
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5${
-              activeTab === "/createQuestion"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
+              activeTab === "/createQuestion" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/createQuestion")}
           >
             <FaFileCircleQuestion className="w-6 h-6 mr-2" />
             Create Question
           </li>
+
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
-              activeTab === "/image-gallery"
-                ? "bg-green-700"
-                : "hover:bg-green-800"
+              activeTab === "/image-gallery" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/image-gallery")}
           >
             <GrGallery className="w-6 h-6 mr-2" />
             Gallery
           </li>
+
           <li
             className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
               activeTab === "/contributor-request" ? "bg-gray-700" : ""
