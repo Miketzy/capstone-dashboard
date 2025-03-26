@@ -145,19 +145,19 @@ function Card() {
       </div>
 
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
         {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
           (category, index) => (
             <div
               key={index}
-              className={`p-3 rounded-xl shadow-lg ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-full h-40`}
+              className={`p-2 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer w-full h-32 flex flex-col items-center justify-center`}
               onClick={() => openModal(category)}
             >
-              <div className="text-3xl">{category.icon}</div>
-              <span className="text-xl font-semibold mt-2 block">
+              <div className="text-2xl">{category.icon}</div>
+              <span className="text-lg font-semibold mt-1">
                 {category.name}
               </span>
-              <p className="text-2xl font-bold mt-1">{category.count}</p>
+              <p className="text-xl font-bold">{category.count}</p>
             </div>
           )
         )}
