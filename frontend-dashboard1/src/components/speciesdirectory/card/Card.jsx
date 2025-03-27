@@ -163,6 +163,9 @@ function Card() {
     <div>
       <br />
       <br />
+      <div>
+        <h1>Dashboard</h1>
+      </div>
       <div className="flex justify-center mb-6">
         <button
           className={`px-6 py-2 mx-2 rounded-lg text-white ${
