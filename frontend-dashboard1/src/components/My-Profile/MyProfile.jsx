@@ -3,6 +3,7 @@ import "./MyProfile.css";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function MyProfile() {
   const [userData, setUserData] = useState({
@@ -21,19 +22,16 @@ function MyProfile() {
     // Fetch user data from backend
     const fetchUserData = async () => {
       try {
-        const res = await axios.get(
-          "https://bioexplorer-backend.onrender.com/myprofile",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`${API_URL}/myprofile`, {
+          withCredentials: true,
+        });
         console.log("Fetched profile data:", res.data); // Log response
 
         // Access the user data from the response
         const user = res.data.user; // Get user object from response
 
         const imageUrl = user.image
-          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+          ? `${API_URL}/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png"; // Default image
 
         setUserData({

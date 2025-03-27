@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ContributorImage.css";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 // Debounce function to optimize search input
 function useDebounce(value, delay) {
@@ -28,7 +29,7 @@ function ContributorImageGallery() {
   useEffect(() => {
     // Fetch images from the backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images")
+      .get(`${API_URL}/api/images`)
       .then((response) => {
         console.log("Fetched Images:", response.data); // Debugging
         setImages(response.data);

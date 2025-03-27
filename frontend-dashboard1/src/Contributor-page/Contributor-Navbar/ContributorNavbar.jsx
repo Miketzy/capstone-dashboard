@@ -14,7 +14,7 @@ import { CarContext } from "../../pages/Contributor-Home/Contributor-Image-Galle
 import { ProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
 import { EditProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-EditProfile-Dashboard/ContributorEditProfileDashboard";
 import { ChangeContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-ChangePassword-Dashboard/ContributorChangePasswordDashboard";
-
+import API_URL from "../../config"; // Dalawang level up ✅
 function ContributorNavbar() {
   const [user, setUser] = useState({
     firstname: "",
@@ -38,7 +38,7 @@ function ContributorNavbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/contrbutornavbar", {
+      .get(`${API_URL}/contrbutornavbar`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -49,7 +49,7 @@ function ContributorNavbar() {
             lastname: response.data.user.lastname || "",
             email: response.data.user.email || "",
             image: response.data.user.image
-              ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${response.data.user.image}`
+              ? `${API_URL}/uploads/avatar/${response.data.user.image}`
               : "/images/unknown-person-icon-Image-from_20220304.png",
           });
         } else {
@@ -70,7 +70,7 @@ function ContributorNavbar() {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       axios
-        .get("https://bioexplorer-backend.onrender.com/logout", {
+        .get(`${API_URL}/logout`, {
           withCredentials: true,
         })
         .then((res) => {

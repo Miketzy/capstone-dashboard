@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./ContributorSideBar.css";
 import { MyContext } from "../../pages/Contributor-Home/Contributor-Dashboard/ContributorDashboard";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function ContributorSideBar() {
   const [activeTab, setActiveTab] = useState(null);
@@ -23,7 +24,7 @@ function ContributorSideBar() {
 
   const handleGallery = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/gallery")
+      .get(`${API_URL}/gallery`)
       .then((res) => {
         if (res.data.Message === "Success") {
           navigate("/contributor-Gallery");

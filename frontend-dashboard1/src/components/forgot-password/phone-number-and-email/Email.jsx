@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function Email() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ function Email() {
 
     setLoading(true);
     axios
-      .post("https://bioexplorer-backend.onrender.com/send-otp", { email })
+      .post(`${API_URL}/send-otp`, { email })
       .then((response) => {
         setMessage(response.data);
         navigate("/otp", { state: { email } });

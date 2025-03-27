@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the CSS file for react-toastify
+import API_URL from "../../config"; // Dalawang level up ✅
 
 const style = {
   position: "absolute",
@@ -75,7 +76,7 @@ function ViewAndEditSpecies() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/listspecies")
+      .get(`${API_URL}/listspecies`)
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -154,7 +155,7 @@ function ViewAndEditSpecies() {
 
     try {
       await axios.put(
-        `https://bioexplorer-backend.onrender.com/listspecies/${selectedSpecies.id}`,
+        `${API_URL}/listspecies/${selectedSpecies.id}`,
         formData,
         {
           headers: {
@@ -204,9 +205,7 @@ function ViewAndEditSpecies() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(
-            `https://bioexplorer-backend.onrender.com/delete-species/${id}`
-          );
+          await axios.delete(`${API_URL}/delete-species/${id}`);
           setListspecies(listspecies.filter((item) => item.id !== id));
           Swal.fire("Species data successfully deleted! 😊"); // Success message with emoji
         } catch (error) {

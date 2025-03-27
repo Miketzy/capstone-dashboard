@@ -3,6 +3,7 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function AddSpecies() {
   const [image, setImage] = useState(null);
@@ -53,7 +54,7 @@ function AddSpecies() {
     formData.append("file", file);
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/create", formData)
+      .post(`${API_URL}/create`, formData)
       .then((response) => {
         setUploadStatus("Species added successfully!");
         toast.success("🦄 Species added successfully!", {

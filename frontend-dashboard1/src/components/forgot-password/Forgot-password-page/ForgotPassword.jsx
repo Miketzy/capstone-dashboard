@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function ForgotPassword() {
   const location = useLocation();
@@ -30,7 +31,7 @@ function ForgotPassword() {
     }
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/reset-password", {
+      .post(`${API_URL}/reset-password`, {
         email,
         password: newPassword,
       })

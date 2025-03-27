@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./CreateQuezes.css";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function CreateQuizzes() {
   const [question, setQuestion] = useState("");
@@ -36,17 +37,14 @@ function CreateQuizzes() {
     }
 
     try {
-      const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/api/questions",
-        {
-          question,
-          optiona: optionA.toLowerCase(), // ✅ Convert to lowercase
-          optionb: optionB.toLowerCase(),
-          optionc: optionC.toLowerCase(),
-          optiond: optionD.toLowerCase(),
-          correctanswer: correctAnswer.toLowerCase(),
-        }
-      );
+      const response = await axios.post(`${API_URL}/api/questions`, {
+        question,
+        optiona: optionA.toLowerCase(), // ✅ Convert to lowercase
+        optionb: optionB.toLowerCase(),
+        optionc: optionC.toLowerCase(),
+        optiond: optionD.toLowerCase(),
+        correctanswer: correctAnswer.toLowerCase(),
+      });
 
       console.log("Response from server:", response.data);
       alert(response.data.message);

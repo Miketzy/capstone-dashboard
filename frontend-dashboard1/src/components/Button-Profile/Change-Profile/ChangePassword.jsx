@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./ChangePassword.css"; // Import the CSS file
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -24,7 +25,7 @@ function ChangePassword() {
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/password-changes",
+        `${API_URL}/password-changes`,
         {
           currentPassword,
           newPassword,

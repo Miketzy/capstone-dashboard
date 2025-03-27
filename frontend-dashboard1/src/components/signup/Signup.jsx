@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config"; // Dalawang level up ✅
 //login form
 function Register() {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ function Register() {
 
     const updatedFormData = { ...formData, phone_number: formattedPhoneNumber };
 
-    fetch("https://bioexplorer-backend.onrender.com/register", {
+    fetch(`${API_URL}/register`, {
       method: "POST",
       body: JSON.stringify(updatedFormData),
       headers: {

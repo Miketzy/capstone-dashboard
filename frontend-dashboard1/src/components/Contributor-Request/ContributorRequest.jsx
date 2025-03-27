@@ -3,6 +3,7 @@ import "./ContributorRequest.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function ContributorRequest() {
   const [contributor, setContributor] = useState([]); // Store contributor requests
@@ -15,7 +16,7 @@ function ContributorRequest() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("https://bioexplorer-backend.onrender.com/request-table");
+        const res = await axios.get(`${API_URL}/request-table`);
         setContributor(res.data); // Set the fetched contributor data
       } catch (err) {
         console.log(err);
@@ -53,7 +54,7 @@ function ContributorRequest() {
   // Handle approval action
   const handleApprove = (id) => {
     axios
-      .put(`https://bioexplorer-backend.onrender.com/species/approve/${id}`)
+      .put(`${API_URL}/species/approve/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the approved entry from the state
@@ -68,7 +69,7 @@ function ContributorRequest() {
   // Handle disapproval action (reject)
   const handleDisapprove = (id) => {
     axios
-      .delete(`https://bioexplorer-backend.onrender.com/species/reject/${id}`)
+      .delete(`${API_URL}/species/reject/${id}`)
       .then((res) => {
         setMessage(res.data.message);
         // Remove the rejected entry from the state

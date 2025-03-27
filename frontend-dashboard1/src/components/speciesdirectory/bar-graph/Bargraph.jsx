@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./bargraph.css";
+import API_URL from "../../config"; // Dalawang level up ✅
 import {
   BarChart,
   Bar,
@@ -27,7 +28,7 @@ function Bargraph() {
   useEffect(() => {
     // Fetch species counts from the backend API
     axios
-      .get("https://bioexplorer-backend.onrender.com/speciesCounts")
+      .get(`${API_URL}/speciesCounts`)
       .then((res) => {
         const counts = res.data;
         setData([

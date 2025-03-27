@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // css file
 import "./directorypie.css";
+import API_URL from "../../config"; // Dalawang level up ✅
 import {
   PieChart,
   Pie,
@@ -20,7 +21,7 @@ function Directorypie() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://bioexplorer-backend.onrender.com/api/conservation-status-count"
+          `${API_URL}/api/conservation-status-count`
         );
 
         const rawData = response.data;

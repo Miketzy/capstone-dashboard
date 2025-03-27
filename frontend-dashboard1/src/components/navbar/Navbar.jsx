@@ -7,6 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { IoSearchCircle } from "react-icons/io5";
 import { FaRegUserCircle, FaUser, FaSignOutAlt } from "react-icons/fa";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function Navbar() {
   const [user, setUser] = useState({
@@ -25,7 +26,7 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/`, {
+      .get(`${API_URL}/`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -42,7 +43,7 @@ function Navbar() {
               lastname: user.lastname || "",
               email: user.email || "",
               image: user.image
-                ? `${process.env.REACT_APP_API_URL}/uploads/avatar/${user.image}`
+                ? `${API_URL}/uploads/avatar/${user.image}`
                 : "/images/unknown-person-icon-Image-from_20220304.png",
             });
           } else {
@@ -68,7 +69,7 @@ function Navbar() {
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/logout`, {
+        .get(`${API_URL}/logout`, {
           withCredentials: true,
         })
         .then((res) => {

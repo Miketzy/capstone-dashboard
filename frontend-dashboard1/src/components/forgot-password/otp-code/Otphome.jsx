@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function Otphome() {
   const location = useLocation();
@@ -48,7 +49,7 @@ function Otphome() {
     setCanResend(false);
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/send-otp", { email })
+      .post(`${API_URL}/send-otp`, { email })
       .then((response) => {
         setVerificationMessage("OTP has been resent to your email.");
       })
@@ -61,7 +62,7 @@ function Otphome() {
     const otpCode = otp.join("");
 
     axios
-      .post("https://bioexplorer-backend.onrender.com/verify-otp", {
+      .post(`${API_URL}/verify-otp`, {
         email,
         otp: otpCode,
       })

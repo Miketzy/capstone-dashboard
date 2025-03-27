@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function ContributorEditProfile({ onUpdateProfile }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,15 +31,12 @@ function ContributorEditProfile({ onUpdateProfile }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get(
-          "https://bioexplorer-backend.onrender.com/myprofile",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`${API_URL}/myprofile`, {
+          withCredentials: true,
+        });
         const user = res.data.user;
         const imageUrl = user.image
-          ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+          ? `${API_URL}/uploads/avatar/${user.image}`
           : "/images/unknown-person-icon-Image-from_20220304.png";
         setUserData({
           ...userData,
@@ -87,16 +85,12 @@ function ContributorEditProfile({ onUpdateProfile }) {
 
     try {
       const token = localStorage.getItem("authToken");
-      const res = await axios.put(
-        "https://bioexplorer-backend.onrender.com/contributor-profile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put(`${API_URL}/contributor-profile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       alert(res.data.message);
     } catch (error) {

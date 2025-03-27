@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaFileCircleQuestion } from "react-icons/fa6";
 import { FaListAlt } from "react-icons/fa";
 import axios from "axios";
+import API_URL from "../../config"; // Dalawang level up ✅
 //Side bar
 function Sidebar() {
   const [activeTab, setActiveTab] = useState(null);
@@ -31,9 +32,7 @@ function Sidebar() {
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
-        const response = await axios.get(
-          "https://bioexplorer-backend.onrender.com/pending-request-count"
-        );
+        const response = await axios.get(`${API_URL}/pending-request-count`);
         setRequestCount(response.data.count);
       } catch (error) {
         console.error("Error fetching request count:", error);

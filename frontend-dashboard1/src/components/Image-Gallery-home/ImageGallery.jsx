@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 // Custom hook para sa debouncing input
 const useDebounce = (value, delay) => {
@@ -27,7 +28,7 @@ function ImageGallery() {
   useEffect(() => {
     // Fetch images mula sa backend
     axios
-      .get("https://bioexplorer-backend.onrender.com/api/images")
+      .get(`${API_URL}/api/images`)
       .then((response) => {
         console.log("Fetched Images:", response.data); // Debugging
         setImages(response.data);

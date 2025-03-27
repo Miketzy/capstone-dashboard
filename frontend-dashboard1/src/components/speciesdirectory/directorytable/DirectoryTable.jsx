@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./directorytable.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function DirectoryTable() {
   const [listspecies, setListspecies] = useState([]);
@@ -10,7 +11,7 @@ function DirectoryTable() {
 
   useEffect(() => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/listspecies")
+      .get(`${API_URL}/listspecies`)
       .then((res) => setListspecies(res.data))
       .catch((err) => console.log(err));
   }, []);

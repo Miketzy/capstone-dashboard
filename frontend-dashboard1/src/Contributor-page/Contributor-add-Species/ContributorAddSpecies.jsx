@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ContributorAddSpecies.css";
+import API_URL from "../../config"; // Dalawang level up ✅
 //conreibutor
 function ContributorAddSpecies() {
   const [image, setImage] = useState(null);
@@ -94,15 +95,11 @@ function ContributorAddSpecies() {
     setLoading(true); // Set loading to true
 
     axios
-      .post(
-        "https://bioexplorer-backend.onrender.com/species/pending",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(`${API_URL}/species/pending`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         setUploadStatus("Species added successfully! Awaiting admin approval.");
         toast.success(
