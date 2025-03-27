@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"; // For cookie handling
-import API_URL from "../config"; // Adjust path kung nasa ibang folder
+import API_URL from "../../config"; // Dalawang level up ✅
 
 function Login() {
   const [values, setValues] = useState({
