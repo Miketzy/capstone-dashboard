@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"; // For cookie handling
+import API_URL from "../config"; // Adjust path kung nasa ibang folder
 
 function Login() {
   const [values, setValues] = useState({
@@ -31,13 +32,9 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/login`,
-        values,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${API_URL}/login`, values, {
+        withCredentials: true,
+      });
 
       if (response.data) {
         // Log response data for debugging
