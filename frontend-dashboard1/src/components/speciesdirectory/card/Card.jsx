@@ -162,7 +162,7 @@ function Card() {
   return (
     <div>
       <br />
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-50">
         <button
           className={`px-6 py-2 mx-2 rounded-lg text-white ${
             activeTab === "vertebrates" ? "bg-green-600" : "bg-gray-400"
