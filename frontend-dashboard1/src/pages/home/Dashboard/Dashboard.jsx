@@ -10,7 +10,7 @@ function Dashboard() {
         <Sidebar />
         <div className="flex flex-col flex-grow p-6">
           <div className="mb-64 text-center ml-64">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-gray-800 ml-64">
               Species Directory
             </h1>
           </div>
