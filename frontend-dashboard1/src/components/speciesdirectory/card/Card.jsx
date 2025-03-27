@@ -142,7 +142,7 @@ function Card() {
           Invertebrates
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-x-4 gap-y-5">
+      <div className="grid grid-cols-3 gap-x-3 gap-y-3">
         {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
           (category, index) => (
             <div
