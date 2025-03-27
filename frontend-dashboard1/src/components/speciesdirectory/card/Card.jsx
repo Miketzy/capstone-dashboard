@@ -122,6 +122,11 @@ function Card() {
     setIsOpen(true);
   };
 
+  const openSeeAll = (category) => {
+    setSelectedCategory(category);
+    setIsSeeAllOpen(true);
+  };
+
   return (
     <div>
       <div className="flex justify-center mb-6">
@@ -142,36 +147,56 @@ function Card() {
           Invertebrates
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-x-3 gap-y-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
+      <div className="grid grid-cols-3 gap-x-3 gap-y-3">
+        {(activeTab === "vertebrates" ? vertebrates : []).map(
           (category, index) => (
             <div
               key={index}
-              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer `}
-              onClick={() => openModal(category)}
+              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer`}
             >
               <div className="text-3xl">{category.icon}</div>
               <span className="text-lg font-semibold mt-1">
                 {category.name}
               </span>
               <p className="text-xl font-bold">{category.count}</p>
+              <button
+                className="mt-2 bg-white text-black px-2 py-1 rounded"
+                onClick={() => openModal(category)}
+              >
+                See Details
+              </button>
+              <button
+                className="mt-2 bg-black text-white px-2 py-1 rounded ml-2"
+                onClick={() => openSeeAll(category)}
+              >
+                See All
+              </button>
             </div>
           )
         )}
       </div>
-      {isOpen && selectedCategory && (
+      {isSeeAllOpen && selectedCategory && (
         <Dialog
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
+          open={isSeeAllOpen}
+          onClose={() => setIsSeeAllOpen(false)}
           className="fixed inset-0 flex items-center justify-center z-50"
         >
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-2xl font-bold text-gray-800">
-              {selectedCategory.name}
+              {selectedCategory.name} Images
             </h3>
-            <p className="text-gray-600 mt-2">{selectedCategory.description}</p>
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              {speciesImages[selectedCategory.name]?.map((image, index) => (
+                <img
+                  key={index}
+                  src={`/images/${image}`}
+                  alt={selectedCategory.name}
+                  className="w-24 h-24 object-cover rounded"
+                />
+              ))}
+            </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsSeeAllOpen(false)}
               className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md"
             >
               Close
