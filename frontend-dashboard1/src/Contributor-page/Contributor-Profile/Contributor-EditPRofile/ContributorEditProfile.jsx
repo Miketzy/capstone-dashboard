@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function ContributorEditProfile({ onUpdateProfile }) {
   const [selectedImage, setSelectedImage] = useState(null);

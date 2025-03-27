@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function ContributorChangepass() {
   const [currentPassword, setCurrentPassword] = useState("");

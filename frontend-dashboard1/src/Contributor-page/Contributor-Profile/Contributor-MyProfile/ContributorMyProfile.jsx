@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ContributorMyProfile.css";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function ContributorMyProfile() {
   const [userData, setUserData] = useState({
