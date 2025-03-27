@@ -23,6 +23,7 @@ import CreateQuizesDashboard from "./pages/home/Create-Quizes-Dashboard/CreateQu
 import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-Profile-Dashboard/ContributotMyProfileDashboard/ContributorMyprofileDashboard";
 import CheckAuth from "./checkAuth/CheckAuth";
 import { useEffect } from 'react';
+import SpeciesAnalyticsDasboard from "./pages/home/Species-Analytics-Dashboard/SpeciesAnalyticsDasboard";
 
 
 
