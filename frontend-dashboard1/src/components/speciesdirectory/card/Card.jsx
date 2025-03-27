@@ -122,11 +122,6 @@ function Card() {
     setIsOpen(true);
   };
 
-  const openSeeAll = (category) => {
-    setSelectedCategory(category);
-    setIsSeeAllOpen(true);
-  };
-
   return (
     <div>
       <div className="flex justify-center mb-6">
