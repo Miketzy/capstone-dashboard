@@ -14,8 +14,8 @@ function Dashboard() {
               Species Directory
             </h1>
           </div>
-          <div className=" rounded-lg p-4 ">
-            <Card className="flex flex-col gap-y-4 rounded-lg border " />
+          <div className=" rounded-lg ml-64 ">
+            <Card />
           </div>
         </div>
       </div>
