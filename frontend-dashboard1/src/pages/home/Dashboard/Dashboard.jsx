@@ -9,7 +9,7 @@ function Dashboard() {
       <div className="flex flex-grow h-screen">
         <Sidebar />
         <div className="flex flex-col flex-grow p-6 mb-6">
-          <div className=" rounded-lg ml-64 mb-20 ">
+          <div className=" rounded-lg ml-64 mb-60 ">
             <Card />
           </div>
         </div>
