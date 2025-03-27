@@ -30,6 +30,7 @@ function Sidebar() {
   };
 
   useEffect(() => {
+    console.log("API_URL:", API_URL); // Debugging log
     const fetchRequestCount = async () => {
       try {
         const response = await axios.get(`${API_URL}/pending-request-count`);
