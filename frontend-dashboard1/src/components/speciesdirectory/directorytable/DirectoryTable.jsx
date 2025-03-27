@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./directorytable.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function DirectoryTable() {
   const [listspecies, setListspecies] = useState([]);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./bargraph.css";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
+
 import {
   BarChart,
   Bar,

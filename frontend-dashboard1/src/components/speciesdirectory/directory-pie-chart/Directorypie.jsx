@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // css file
 import "./directorypie.css";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
+
 import {
   PieChart,
   Pie,
