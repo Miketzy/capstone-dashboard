@@ -153,13 +153,18 @@ function Card() {
             <div
               key={index}
               className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer `}
-              onClick={() => openModal(category)}
             >
               <div className="text-3xl">{category.icon}</div>
               <span className="text-lg font-semibold mt-1">
                 {category.name}
               </span>
               <p className="text-xl font-bold">{category.count}</p>
+              <button
+                className="mt-2 bg-white text-black px-2 py-1 rounded"
+                onClick={() => openModal(category)}
+              >
+                See Details
+              </button>
             </div>
           )
         )}
