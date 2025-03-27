@@ -118,6 +118,45 @@ function Card() {
     },
   ];
 
+  const speciesImages = {
+    Mammals: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+    Fish: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+    Birds: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+    Reptiles: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Amphibians: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Insects: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+    Arachnids: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Mollusks: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Echinoderms: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Cnidarians: [
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+      "/images/animal.jpg",
+    ],
+    Worms: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+    Sponges: ["/images/animal.jpg", "/images/animal.jpg", "/images/animal.jpg"],
+  };
+
   const openModal = (category) => {
     setSelectedCategory(category);
     setIsOpen(true);
