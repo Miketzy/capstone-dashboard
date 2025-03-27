@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./ChangePassword.css"; // Import the CSS file
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
