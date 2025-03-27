@@ -25,7 +25,7 @@ function Navbar() {
 
   const fetchUserData = () => {
     axios
-      .get("https://bioexplorer-backend.onrender.com/", {
+      .get(`${process.env.REACT_APP_API_URL}/`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -42,7 +42,7 @@ function Navbar() {
               lastname: user.lastname || "",
               email: user.email || "",
               image: user.image
-                ? `https://bioexplorer-backend.onrender.com/uploads/avatar/${user.image}`
+                ? `${process.env.REACT_APP_API_URL}/uploads/avatar/${user.image}`
                 : "/images/unknown-person-icon-Image-from_20220304.png",
             });
           } else {
@@ -68,7 +68,7 @@ function Navbar() {
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       axios
-        .get("https://bioexplorer-backend.onrender.com/logout", {
+        .get(`${process.env.REACT_APP_API_URL}/logout`, {
           withCredentials: true,
         })
         .then((res) => {

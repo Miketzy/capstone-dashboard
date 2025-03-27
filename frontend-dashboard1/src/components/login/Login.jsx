@@ -32,7 +32,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://bioexplorer-backend.onrender.com/login",
+        `${process.env.REACT_APP_API_URL}/login`,
         values,
         {
           withCredentials: true,
