@@ -123,7 +123,7 @@ function Card() {
   };
 
   return (
-    <div className="container py-8 ml-[14rem]">
+    <div className="flex flex-col gap-y-4">
       {/* Buttons for Vertebrates and Invertebrates */}
       <div className="flex justify-center mb-6">
         <button
@@ -145,28 +145,27 @@ function Card() {
       </div>
 
       {/* Grid Layout for Cards */}
-      <div className="flex flex-col gap-y-4">
-        <div className="grid grid-cols-1 gap-4 grid-colssm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  ">
-          {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
-            (category, index) => (
-              <div
-                key={index}
-                className={`p-4 rounded-lg shadow-md ${
-                  category.color
-                } text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] ${
-                  [1, 4, 5].includes(index) ? "ml-[75%]" : ""
-                }`}
-                onClick={() => openModal(category)}
-              >
-                <div className="text-3xl">{category.icon}</div>
-                <span className="text-lg font-semibold mt-1">
-                  {category.name}
-                </span>
-                <p className="text-xl font-bold">{category.count}</p>
-              </div>
-            )
-          )}
-        </div>
+
+      <div className="grid grid-cols-1 gap-4 grid-colssm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  ">
+        {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
+          (category, index) => (
+            <div
+              key={index}
+              className={`p-4 rounded-lg shadow-md ${
+                category.color
+              } text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] ${
+                [1, 4, 5].includes(index) ? "ml-[75%]" : ""
+              }`}
+              onClick={() => openModal(category)}
+            >
+              <div className="text-3xl">{category.icon}</div>
+              <span className="text-lg font-semibold mt-1">
+                {category.name}
+              </span>
+              <p className="text-xl font-bold">{category.count}</p>
+            </div>
+          )
+        )}
       </div>
 
       {/* Modal for Species Explanation */}
