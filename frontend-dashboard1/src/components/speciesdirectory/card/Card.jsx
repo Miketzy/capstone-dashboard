@@ -119,7 +119,23 @@ function Card() {
   ];
 
   const speciesImages = {
-    Mammals: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
+    Mammals: [
+      "mammal1.jpg",
+      "mammal2.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+      "mammal3.jpg",
+    ],
     Fish: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
     Birds: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
     Reptiles: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
