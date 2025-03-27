@@ -181,6 +181,12 @@ function Card() {
               >
                 See Details
               </button>
+              <button
+                className="mt-2 bg-black text-white px-2 py-1 rounded ml-2 cursor-pointer"
+                onClick={() => openSeeAll(category)}
+              >
+                See All
+              </button>
             </div>
           )
         )}
