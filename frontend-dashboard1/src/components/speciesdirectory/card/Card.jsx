@@ -154,7 +154,7 @@ function Card() {
                 className={`p-4 rounded-lg shadow-md ${
                   category.color
                 } text-white text-center hover:scale-105 transition-all cursor-pointer w-[80%] ${
-                  [1, 4, 5].includes(index) ? "ml-4" : ""
+                  [1, 4, 5].includes(index) ? "ml-[76%]" : ""
                 }`}
                 onClick={() => openModal(category)}
               >
