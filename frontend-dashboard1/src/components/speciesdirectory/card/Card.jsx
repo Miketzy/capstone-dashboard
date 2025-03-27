@@ -161,8 +161,8 @@ function Card() {
 
   return (
     <div>
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-center mb-10">Dashboard</h1>
+      <div className="bg-white shadow-lg rounded-lg p-6 mt-50">
+        <h1 className="text-3xl font-bold text-center ">Dashboard</h1>
       </div>
       <div className="flex justify-center mb-6">
         <button
