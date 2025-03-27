@@ -19,6 +19,7 @@ function Card() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [activeTab, setActiveTab] = useState("vertebrates");
+  const [isSeeAllOpen, setIsSeeAllOpen] = useState(false);
 
   const vertebrates = [
     {
@@ -117,6 +118,26 @@ function Card() {
     },
   ];
 
+  const speciesImages = {
+    Mammals: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
+    Fish: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
+    Birds: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
+    Reptiles: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
+    Amphibians: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
+    Insects: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
+    Arachnids: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
+    Mollusks: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
+    Echinoderms: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
+    Cnidarians: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
+    Worms: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
+    Sponges: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
+  };
+
+  const openSeeAll = (category) => {
+    setSelectedCategory(category);
+    setIsSeeAllOpen(true);
+  };
+
   const openModal = (category) => {
     setSelectedCategory(category);
     setIsOpen(true);
@@ -147,7 +168,7 @@ function Card() {
           (category, index) => (
             <div
               key={index}
-              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer `}
+              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all`}
             >
               <div className="text-3xl">{category.icon}</div>
               <span className="text-lg font-semibold mt-1">
@@ -155,7 +176,7 @@ function Card() {
               </span>
               <p className="text-xl font-bold">{category.count}</p>
               <button
-                className="mt-2 bg-white text-black px-2 py-1 rounded"
+                className="mt-2 bg-white text-black px-2 py-1 rounded cursor-pointer"
                 onClick={() => openModal(category)}
               >
                 See Details
@@ -177,6 +198,36 @@ function Card() {
             <p className="text-gray-600 mt-2">{selectedCategory.description}</p>
             <button
               onClick={() => setIsOpen(false)}
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        </Dialog>
+      )}
+
+      {isSeeAllOpen && selectedCategory && (
+        <Dialog
+          open={isSeeAllOpen}
+          onClose={() => setIsSeeAllOpen(false)}
+          className="fixed inset-0 flex items-center justify-center z-50"
+        >
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-2xl font-bold text-gray-800">
+              {selectedCategory.name} Images
+            </h3>
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              {speciesImages[selectedCategory.name]?.map((image, index) => (
+                <img
+                  key={index}
+                  src={`/images/${image}`}
+                  alt={selectedCategory.name}
+                  className="w-24 h-24 object-cover rounded"
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => setIsSeeAllOpen(false)}
               className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md"
             >
               Close
