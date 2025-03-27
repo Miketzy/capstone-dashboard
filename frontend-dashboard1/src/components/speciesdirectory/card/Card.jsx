@@ -142,12 +142,12 @@ function Card() {
           Invertebrates
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-x-2 gap-y-3">
+      <div className="grid grid-cols-3 gap-x-4 gap-y-5">
         {(activeTab === "vertebrates" ? vertebrates : invertebrates).map(
           (category, index) => (
             <div
               key={index}
-              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer`}
+              className={`p-4 rounded-lg shadow-md ${category.color} text-white text-center hover:scale-105 transition-all cursor-pointer `}
               onClick={() => openModal(category)}
             >
               <div className="text-3xl">{category.icon}</div>
