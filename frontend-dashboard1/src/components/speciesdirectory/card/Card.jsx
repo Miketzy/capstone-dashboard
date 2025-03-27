@@ -19,6 +19,7 @@ function Card() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [activeTab, setActiveTab] = useState("vertebrates");
+  const [isSeeAllOpen, setIsSeeAllOpen] = useState(false);
 
   const vertebrates = [
     {
