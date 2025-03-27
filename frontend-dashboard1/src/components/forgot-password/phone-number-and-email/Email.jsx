@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../../config";
 
 function Email() {
   const [email, setEmail] = useState("");
