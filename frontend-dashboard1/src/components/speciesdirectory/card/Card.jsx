@@ -163,8 +163,10 @@ function Card() {
     <div>
       <br />
       <br />
-      <div>
-        <h1>Dashboard</h1>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <h1 className="text-3xl font-bold  mb-6 bg-blue-500 text-white p-4 rounded-lg">
+          Dashboard
+        </h1>
       </div>
       <div className="flex justify-center mb-6">
         <button
