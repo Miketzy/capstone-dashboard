@@ -23,6 +23,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const cloudinary = cloudinaryModule.v2;
+const allowedOrigin = process.env.ALLOWED_ORIGIN;
+const backendUrl = process.env.BACKEND_URL;
+const port = process.env.PORT || 8080; // Default port if not defined in .env
 
 // Cloudinary Config
 cloudinary.config({
@@ -35,14 +38,13 @@ cloudinary.config({
 const app = express(); // Move app initialization here
 const server = http.createServer(app); // Create HTTP server with app
 
-const port = process.env.PORT || 8080; // Default port if not defined in .env
 
 app.use(express.json()); // Middleware for parsing JSON requests
 
 // Enable CORS with a specific origin
 app.use(
   cors({
-    origin: "https://davor-bioexplorer-admin.vercel.app", // Allow requests from this origin
+    origin: allowedOrigin, // Allow requests from this origin
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"], // Allowed methods
     credentials: true, // Allow cookies, if needed
   })
@@ -394,7 +396,7 @@ app.get("/listspecies", (req, res) => {
     // Adjust path for images in 'uploads/images' directory
     const result = data.rows.map((item) => ({
       ...item,
-      uploadimage: `https://bioexplorer-backend.onrender.com/uploads/images/${item.uploadimage}`,
+      uploadimage: `${backendUrl}/uploads/images/${item.uploadimage}`,
     }));
     
     return res.json(result);
