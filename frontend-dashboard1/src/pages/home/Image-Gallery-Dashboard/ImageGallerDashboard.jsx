@@ -1,32 +1,22 @@
-import React from "react";
-import ImageGallery from "../../../components/Image-Gallery-home/ImageGallery";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import "./ImageGalleryDashboard.css";
-//
+import ImageGallery from "../../../components/Image-Gallery-home/ImageGallery";
+
 function ImageGallerDashboard() {
   return (
-    <>
-      <div>
-        <div className="gallery-main d-flex">
-          <div className="gallery-sidebarWrapper">
-            <Sidebar />
-          </div>
-
-          <div className="gallery-content">
-            <Navbar />
-
-            <div className="gallery-tit">
-              <h1 className="gallery-tit1">Image Gallery</h1>
-            </div>
-
-            <div className="images-gallery">
+    <div className="min-h-screen flex flex-col w-full">
+      <Navbar />
+      <div className="flex flex-grow h-screen">
+        <Sidebar />
+        <div className="flex flex-col flex-grow p-6">
+          <div className="mb-60">
+            <div className=" rounded-lg ml-64  ">
               <ImageGallery />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

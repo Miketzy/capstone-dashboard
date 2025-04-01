@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   FaPaw,
   FaFish,
@@ -14,6 +15,7 @@ import {
   FaShapes,
 } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
+import API_URL from "../../../config"; // Dalawang level up ✅
 
 function Card() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,17 +23,171 @@ function Card() {
   const [activeTab, setActiveTab] = useState("vertebrates");
   const [isSeeAllOpen, setIsSeeAllOpen] = useState(false);
 
+  //count of species vertebrates
+  const [mammalsCount, setMammalsCount] = useState(0);
+  const [fishCount, setFishCount] = useState(0);
+  const [birdsCount, setBirdsCount] = useState(0);
+  const [reptilesCount, setReptilesCount] = useState(0);
+  const [amphibiansCount, setAmphibiansCount] = useState(0);
+
+  //count of species Invertebrates countinsects
+  const [insectsCount, setInsectsCount] = useState(0);
+  const [arachnidsCount, setArachnidsCount] = useState(0);
+  const [mollusksCount, setMollusksCount] = useState(0);
+  const [echinodermsCount, setEchinodermsCount] = useState(0);
+  const [cnidariansCount, setCnidariansCount] = useState(0);
+  const [wormsCount, setWormsCount] = useState(0);
+  const [spongesCount, setSpongesCount] = useState(0);
+
+  //get image
+
+  //Endpoint of species vertebrates
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countmammals`)
+      .then((response) => {
+        setMammalsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countfish`)
+      .then((response) => {
+        setFishCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countbirds`)
+      .then((response) => {
+        setBirdsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countreptiles`)
+      .then((response) => {
+        setReptilesCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countamphibians`)
+      .then((response) => {
+        setAmphibiansCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  //countsponges
+
+  //Endpoint of species Invertebrates
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countinsects`)
+      .then((response) => {
+        setInsectsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countarachnids`)
+      .then((response) => {
+        setArachnidsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countmollusks`)
+      .then((response) => {
+        setMollusksCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countechinoderms`)
+      .then((response) => {
+        setEchinodermsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countcnidarians`)
+      .then((response) => {
+        setCnidariansCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countworms`)
+      .then((response) => {
+        setWormsCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/countsponges`)
+      .then((response) => {
+        setSpongesCount(response.data.count);
+      })
+      .catch((error) => {
+        console.error("Error fetching mammal count:", error);
+      });
+  }, []);
+
   const vertebrates = [
     {
       name: "Mammals",
-      count: 45,
+      count: mammalsCount,
       color: "bg-red-500",
       icon: <FaPaw />,
       description: "Warm-blooded vertebrates with hair or fur and live birth.",
     },
     {
       name: "Fish",
-      count: 80,
+      count: fishCount,
       color: "bg-blue-500",
       icon: <FaFish />,
       description:
@@ -39,21 +195,21 @@ function Card() {
     },
     {
       name: "Birds",
-      count: 65,
+      count: birdsCount,
       color: "bg-yellow-500",
       icon: <FaFeather />,
       description: "Warm-blooded vertebrates with feathers and wings.",
     },
     {
       name: "Reptiles",
-      count: 30,
+      count: reptilesCount,
       color: "bg-green-700",
       icon: <FaFrog />,
       description: "Cold-blooded vertebrates with scales, most lay eggs.",
     },
     {
       name: "Amphibians",
-      count: 25,
+      count: amphibiansCount,
       color: "bg-teal-500",
       icon: <FaWater />,
       description: "Cold-blooded vertebrates that live in water and on land.",
@@ -63,7 +219,7 @@ function Card() {
   const invertebrates = [
     {
       name: "Insects",
-      count: 120,
+      count: insectsCount,
       color: "bg-orange-500",
       icon: <FaBug />,
       description:
@@ -71,7 +227,7 @@ function Card() {
     },
     {
       name: "Arachnids",
-      count: 40,
+      count: arachnidsCount,
       color: "bg-gray-700",
       icon: <FaSpider />,
       description:
@@ -79,7 +235,7 @@ function Card() {
     },
     {
       name: "Mollusks",
-      count: 15,
+      count: mollusksCount,
       color: "bg-purple-500",
       icon: <FaSkullCrossbones />,
       description:
@@ -87,7 +243,7 @@ function Card() {
     },
     {
       name: "Echinoderms",
-      count: 10,
+      count: echinodermsCount,
       color: "bg-indigo-500",
       icon: <FaLeaf />,
       description:
@@ -95,7 +251,7 @@ function Card() {
     },
     {
       name: "Cnidarians",
-      count: 8,
+      count: cnidariansCount,
       color: "bg-pink-500",
       icon: <FaVirus />,
       description:
@@ -103,7 +259,7 @@ function Card() {
     },
     {
       name: "Worms",
-      count: 20,
+      count: wormsCount,
       color: "bg-amber-700",
       icon: <FaBone />,
       description:
@@ -111,43 +267,32 @@ function Card() {
     },
     {
       name: "Sponges",
-      count: 5,
+      count: spongesCount,
       color: "bg-cyan-500",
       icon: <FaShapes />,
       description: "Simple aquatic animals with porous bodies.",
     },
   ];
 
-  const speciesImages = {
-    Mammals: [
-      "mammal1.jpg",
-      "mammal2.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-      "mammal3.jpg",
-    ],
-    Fish: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
-    Birds: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
-    Reptiles: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
-    Amphibians: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
-    Insects: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
-    Arachnids: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
-    Mollusks: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
-    Echinoderms: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
-    Cnidarians: ["mammal1.jpg", "mammal2.jpg", "mammal3.jpg"],
-    Worms: ["fish1.jpg", "fish2.jpg", "fish3.jpg"],
-    Sponges: ["bird1.jpg", "bird2.jpg", "bird3.jpg"],
+  const handleSeeAll = (category) => {
+    setSelectedCategory(category.name); // Ensure it's a string
+    setIsSeeAllOpen(true);
   };
+
+  const [speciesImages, setSpeciesImages] = useState([]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      axios
+        .get(`${API_URL}/api/images/${selectedCategory}`) // Ensure selectedCategory is a string
+        .then((response) => {
+          setSpeciesImages(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching images:", error);
+        });
+    }
+  }, [selectedCategory]); // Runs when selectedCategory changes
 
   const openSeeAll = (category) => {
     setSelectedCategory(category);
@@ -163,11 +308,11 @@ function Card() {
     <div>
       <br />
       <br />
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl font-bold  mb-6 bg-blue-500 text-white p-4 rounded-lg">
-          Dashboard
-        </h1>
+      <div className="bg-blue-500 shadow-lg rounded-lg p-6 h-10 flex items-center">
+        <h1 className="text-2xl text-white">Dashboard</h1>
       </div>
+
+      <br />
       <div className="flex justify-center mb-6">
         <button
           className={`px-6 py-2 mx-2 rounded-lg text-white ${
@@ -206,7 +351,7 @@ function Card() {
               </button>
               <button
                 className="mt-2 bg-black text-white px-2 py-1 rounded ml-2 cursor-pointer"
-                onClick={() => openSeeAll(category)}
+                onClick={() => handleSeeAll(category)}
               >
                 See All
               </button>
@@ -243,15 +388,16 @@ function Card() {
         >
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-2xl font-bold text-gray-800">
-              {selectedCategory.name} Images
+              {selectedCategory} Images
             </h3>
-            <div className="grid grid-cols-3 gap-2 mt-4">
-              {speciesImages[selectedCategory.name]?.map((image, index) => (
+            <div className="grid grid-cols-3 gap-2 mt-4 max-h-60 overflow-y-auto">
+              {speciesImages.map((image, index) => (
                 <img
                   key={index}
-                  src={`/images/${image}`}
-                  alt={selectedCategory.name}
-                  className="w-24 h-24 object-cover rounded"
+                  src={image.image_filename} // ✅ Uses full Cloudinary URL correctly
+                  alt={selectedCategory}
+                  className="w-24 h-24 rounded"
+                  onError={(e) => (e.target.src = "/fallback-image.jpg")} // 🔄 Optional: Prevent broken images
                 />
               ))}
             </div>

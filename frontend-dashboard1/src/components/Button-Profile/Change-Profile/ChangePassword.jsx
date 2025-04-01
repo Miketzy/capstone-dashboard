@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./ChangePassword.css"; // Import the CSS file
 import API_URL from "../../../config";
 
 function ChangePassword() {
@@ -53,42 +52,68 @@ function ChangePassword() {
   };
 
   return (
-    <div className="change-password-container">
-      <div className="change-password">
-        <label htmlFor="current-password">Current Password</label>
-        <input
-          id="current-password"
-          type="password"
-          placeholder="Enter your current password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-        />
+    <div>
+      <br />
+      <br />
+      <br />
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          Change Password
+        </h2>
+        <div className="mb-4">
+          <label
+            htmlFor="current-password"
+            className="block text-gray-600 mb-1"
+          >
+            Current Password
+          </label>
+          <input
+            id="current-password"
+            type="password"
+            placeholder="Enter your current password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="new-password" className="block text-gray-600 mb-1">
+            New Password
+          </label>
+          <input
+            id="new-password"
+            type="password"
+            placeholder="Enter your new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="confirm-password"
+            className="block text-gray-600 mb-1"
+          >
+            Confirm Password
+          </label>
+          <input
+            id="confirm-password"
+            type="password"
+            placeholder="Confirm your new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          onClick={handlePasswordChange}
+          className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-300"
+        >
+          Change Password
+        </button>
+        {error && <p className="mt-3 text-red-500 text-sm">{error}</p>}
+        {message && <p className="mt-3 text-green-500 text-sm">{message}</p>}
       </div>
-      <div className="change-password">
-        <label htmlFor="new-password">New Password</label>
-        <input
-          id="new-password"
-          type="password"
-          placeholder="Enter your new password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-      </div>
-      <div className="change-password">
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <input
-          id="confirm-password"
-          type="password"
-          placeholder="Confirm your new password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </div>
-      <button onClick={handlePasswordChange} className="change-password-button">
-        Change Password
-      </button>
-      {error && <p className="error-message">{error}</p>}
-      {message && <p className="success-message">{message}</p>}
     </div>
   );
 }

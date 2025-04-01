@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from "react";
-import "./ContributorRequest.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import { CiSearch } from "react-icons/ci";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../config";
 
 function ContributorRequest() {
-  const [contributor, setContributor] = useState([]); // Store contributor requests
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
-  const [itemsPerPage] = useState(10); // Number of items per page
-  const [searchTerm, setSearchTerm] = useState(""); // Search term for filtering
-  const [message, setMessage] = useState(""); // Message for notifications
+  const [contributor, setContributor] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [message, setMessage] = useState("");
 
-  // Fetch contributor requests
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const res = await axios.get(`${API_URL}/request-table`);
-        setContributor(res.data); // Set the fetched contributor data
+        setContributor(res.data);
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchRequests();
-  }, []); // Empty dependency array to fetch once when component mounts
+  }, []);
 
-  // Filter the data based on the search term
   const filteredBirds = contributor.filter((data) =>
     [
       data.specificname,
@@ -38,26 +35,21 @@ function ContributorRequest() {
     )
   );
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredBirds.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page handler
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Calculate total pages
   const totalPages = Math.ceil(filteredBirds.length / itemsPerPage);
 
-  // Handle approval action
   const handleApprove = (id) => {
     axios
       .put(`${API_URL}/species/approve/${id}`)
       .then((res) => {
         setMessage(res.data.message);
-        // Remove the approved entry from the state
         setContributor((prev) => prev.filter((item) => item.id !== id));
       })
       .catch((err) => {
@@ -66,13 +58,11 @@ function ContributorRequest() {
       });
   };
 
-  // Handle disapproval action (reject)
   const handleDisapprove = (id) => {
     axios
       .delete(`${API_URL}/species/reject/${id}`)
       .then((res) => {
         setMessage(res.data.message);
-        // Remove the rejected entry from the state
         setContributor((prev) => prev.filter((item) => item.id !== id));
       })
       .catch((err) => {
@@ -82,86 +72,99 @@ function ContributorRequest() {
   };
 
   return (
-    <div className="contribuor-requestContainer">
-      <div className="search-container">
-        <CiSearch className="search-icon" />
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="table-responsiveRequest">
-        <table className="request-table table-bordered">
-          <thead className="thead-dark4">
-            <tr>
-              <th>No.</th>
-              <th>Contributor Fullname</th>
-              <th>Email</th>
-              <th>Specific Name</th>
-              <th>Scientific Name</th>
-              <th>Common Name</th>
-              <th>Species Categories</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.length > 0 ? (
-              currentItems.map((data, i) => (
-                <tr key={data.id}>
-                  <td>{indexOfFirstItem + i + 1}</td>
-                  <td>
-                    <span style={{ marginRight: "5px" }}>
-                      {data.contributor_firstname}
-                    </span>
-                    <span>{data.contributor_lastname}</span>
-                  </td>
-                  <td>{data.contributor_email}</td>
-                  <td>{data.specificname}</td>
-                  <td>{data.scientificname}</td>
-                  <td>{data.commonname}</td>
-                  <td>{data.speciescategory}</td>
-                  <td>
-                    <div className="approve-disapproved">
+    <div className="mb-20">
+      <br />
+      <br />
+      <div className="p-4 min-h-screen">
+        <div className="bg-blue-500 shadow-lg rounded-lg p-4 flex items-center justify-between h-12">
+          <h1 className="text-xl md:text-2xl text-white font-semibold">
+            Contributor Request
+          </h1>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mt-4 flex items-center bg-white shadow-md rounded-lg p-3 w-full max-w-lg mx-auto">
+          <CiSearch className="text-gray-500 text-xl" />
+          <input
+            type="text"
+            className="ml-2 w-full border-none focus:outline-none text-sm md:text-base"
+            placeholder="Search species..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {/* Table Container */}
+        <div className="overflow-x-auto mt-4 bg-white shadow-md rounded-lg">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-green-600 text-white text-sm md:text-base">
+              <tr>
+                <th className="p-2 md:p-3">No.</th>
+                <th className="p-2 md:p-3">Contributor</th>
+                <th className="p-2 md:p-3">Email</th>
+                <th className="p-2 md:p-3">Specific Name</th>
+                <th className="p-2 md:p-3">Scientific Name</th>
+                <th className="p-2 md:p-3">Common Name</th>
+                <th className="p-2 md:p-3">Category</th>
+                <th className="p-2 md:p-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.length > 0 ? (
+                currentItems.map((data, i) => (
+                  <tr
+                    key={data.id}
+                    className="border-b hover:bg-gray-100 text-sm md:text-base"
+                  >
+                    <td className="p-2 md:p-3">{indexOfFirstItem + i + 1}</td>
+                    <td className="p-2 md:p-3">
+                      {data.contributor_firstname} {data.contributor_lastname}
+                    </td>
+                    <td className="p-2 md:p-3">{data.contributor_email}</td>
+                    <td className="p-2 md:p-3">{data.specificname}</td>
+                    <td className="p-2 md:p-3">{data.scientificname}</td>
+                    <td className="p-2 md:p-3">{data.commonname}</td>
+                    <td className="p-2 md:p-3">{data.speciescategory}</td>
+                    <td className="p-2 md:p-3 flex flex-col md:flex-row gap-2">
                       <button
-                        className="contributor-approved"
+                        className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-700 text-xs md:text-sm"
                         onClick={() => handleApprove(data.id)}
                       >
                         Approve
                       </button>
                       <button
-                        className="contributor-disaproved"
+                        className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700 text-xs md:text-sm"
                         onClick={() => handleDisapprove(data.id)}
                       >
                         Reject
                       </button>
-                    </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="8"
+                    className="p-5 text-center text-gray-600 text-sm md:text-base"
+                  >
+                    {message || "No requests available"}
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="message">
-                  <div>
-                    <p>{message || "No Request"}</p>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className="tablefooter">
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          variant="outlined"
-          color="primary"
-          className="pagination"
-        />
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-4">
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            color="primary"
+          />
+        </div>
       </div>
     </div>
   );

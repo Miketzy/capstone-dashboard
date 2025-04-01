@@ -1,27 +1,19 @@
-import React from "react";
-import "./vieweditdashboard.css";
-import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
+import Sidebar from "../../../components/sidebar/Sidebar";
 import ViewAndEditSpecies from "../../../components/viewspecies/ViewAndEditSpecies";
 
 function ViewAndEditDashboard() {
   return (
-    <div>
-      <div className="main3 d-flex">
-        <div className="sidebarWrapper3">
-          <Sidebar />
-        </div>
-
-        <div className="content3">
-          <Navbar />
-        </div>
-
-        <div className="tit3">
-          <h1> LIST OF SPECIES</h1>
-        </div>
-
-        <div className="view-edit-species">
-          <ViewAndEditSpecies />
+    <div className="min-h-screen flex flex-col w-full">
+      <Navbar />
+      <div className="flex flex-grow h-screen">
+        <Sidebar />
+        <div className="flex flex-col flex-grow p-6">
+          <div className="mb-60">
+            <div className=" rounded-lg ml-64  ">
+              <ViewAndEditSpecies />
+            </div>
+          </div>
         </div>
       </div>
     </div>

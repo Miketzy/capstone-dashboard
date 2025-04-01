@@ -14,6 +14,7 @@ function AddSpecies() {
   const [habitat, setHabitat] = useState("");
   const [population, setPopulation] = useState("");
   const [threats, setThreats] = useState("");
+  const [classification, setClassification] = useState("");
   const [speciescategory, setSpeciescategory] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
@@ -21,6 +22,7 @@ function AddSpecies() {
   const [conservationeffort, setConservationeffort] = useState("");
   const [description, setDescription] = useState("");
   const [uploadStatus, setUploadStatus] = useState(""); // For user feedback
+  const [type, setType] = useState(""); // ✅ Idinefine ang setType
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -51,6 +53,7 @@ function AddSpecies() {
     formData.append("conservationstatus", conservationstatus);
     formData.append("conservationeffort", conservationeffort);
     formData.append("description", description);
+    formData.append("classification", classification); // Append the file to the form data
     formData.append("file", file);
 
     axios
@@ -88,7 +91,7 @@ function AddSpecies() {
   };
 
   return (
-    <div className="mx-auto p-6">
+    <div className="mx-auto p-6 mb-[80px]">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="col-span-1 sm:col-span-2">
@@ -191,11 +194,11 @@ function AddSpecies() {
                 htmlFor="species-categories"
                 className="block font-bold text-xl text-gray-700"
               >
-                Classification
+                Category
               </label>
               <select
                 id="species-categories"
-                className="w-full p-2 border border-gray-300 rounded-md mt-1"
+                className="w-full p-2 border border-gray-300 rounded-md mt-1 max-h-20 overflow-y-auto "
                 onChange={(e) => setSpeciescategory(e.target.value)}
               >
                 <option value="">Select classification</option>
@@ -203,9 +206,14 @@ function AddSpecies() {
                 <option value="birds">Birds</option>
                 <option value="reptiles">Reptiles</option>
                 <option value="amphibians">Amphibians</option>
-                <option value="invertebrates">Invertebrates</option>
-                <option value="vertebrates">Vertebrates</option>
                 <option value="fish">Fish</option>
+                <option value="insects">Insects</option>
+                <option value="arachnids">Arachnids</option>
+                <option value="mollusks">Mollusks</option>
+                <option value="echinoderms">Echinoderms</option>
+                <option value="cnidarians">Cnidarians</option>
+                <option value="worms">Worms</option>
+                <option value="sponges">Sponges</option>
               </select>
             </div>
 
@@ -231,6 +239,24 @@ function AddSpecies() {
                 <option value="least-concern">Least-concern</option>
               </select>
             </div>
+          </div>
+
+          <div className="col-span-1 sm:col-span-2">
+            <label
+              htmlFor="type"
+              className="block font-bold text-xl text-gray-700"
+            >
+              Type
+            </label>
+            <select
+              id="type"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1"
+              onChange={(e) => setClassification(e.target.value)}
+            >
+              <option value="">Select Type</option>
+              <option value="vertebrates">Vertebrates</option>
+              <option value="invertebrates">Invertebrates</option>
+            </select>
           </div>
 
           <div className="col-span-1 sm:col-span-2">

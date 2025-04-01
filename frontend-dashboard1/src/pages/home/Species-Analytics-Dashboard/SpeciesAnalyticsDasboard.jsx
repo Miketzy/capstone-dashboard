@@ -2,35 +2,26 @@ import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Bargraph from "../../../components/speciesdirectory/bar-graph/Bargraph";
 import Directorypie from "../../../components/speciesdirectory/directory-pie-chart/Directorypie";
-import "./SpeciesAnalyticsDasboard.css";
 
-function SpeciesAnalyticsDasboard() {
+function Dashboard() {
   return (
-    <>
-      <div>
-        <div className=" main10 d-flex">
-          <div className="sidebarWrapper10">
-            <Sidebar />
-          </div>
-
-          <div className="content10">
-            <Navbar />
-
-            <div className="tit10">
-              <h1 className="tit11">Species Analytics</h1>
-            </div>
-            <div className="graph1">
+    <div className="min-h-screen flex flex-col w-full">
+      <Navbar />
+      <div className="flex flex-grow h-screen">
+        <Sidebar />
+        <div className="flex flex-col flex-grow p-6">
+          <div className="mb-60">
+            <div className=" rounded-lg ml-64  ">
               <Bargraph />
             </div>
-            <div className="piechart1">
+            <div className=" rounded-lg ml-64  ">
               <Directorypie />
             </div>
-            <br />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
-export default SpeciesAnalyticsDasboard;
+export default Dashboard;

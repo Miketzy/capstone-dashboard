@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./EditProfile.css";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../../../config";
@@ -131,121 +131,116 @@ function EditProfile({ onUpdateProfile }) {
   }
 
   return (
-    <div className="edit-profile-container">
-      <div className="edit-profile">
-        <div className="edit-profile-cards edit-profile-imgholder">
-          <img src={userData.image} alt="Profile" width="150" height="150" />
-        </div>
-      </div>
-
-      <div className="edit-profile-inputfield">
-        <div className="edit-profile-inputfield-1">
-          <div className="edit-profile-1">
-            <label htmlFor="firstname">Firstname</label>
-            <input
-              type="text"
-              placeholder="Enter your Firstname"
-              value={userData.firstname || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, firstname: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="edit-profile-1">
-            <label htmlFor="middlename">Middle Name</label>
-            <input
-              type="text"
-              placeholder="Enter your Middle Name"
-              value={userData.middlename || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, middlename: e.target.value })
-              }
-            />
-          </div>
+    <div>
+      <br />
+      <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+        <div className="flex flex-col items-center mb-6">
+          <img
+            className="w-32 h-32 rounded-full border"
+            src={userData.image}
+            alt="Profile"
+          />
         </div>
 
-        <div className="edit-profile-inputfield-2">
-          <div className="edit-profile-1">
-            <label htmlFor="lastname">Lastname</label>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Firstname</label>
+              <input
+                className="w-full p-2 border rounded-md"
+                type="text"
+                value={userData.firstname}
+                onChange={(e) =>
+                  setUserData({ ...userData, firstname: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Middlename</label>
+              <input
+                className="w-full p-2 border rounded-md"
+                type="text"
+                value={userData.middlename}
+                onChange={(e) =>
+                  setUserData({ ...userData, middlename: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Lastname</label>
+              <input
+                className="w-full p-2 border rounded-md"
+                type="text"
+                value={userData.lastname}
+                onChange={(e) =>
+                  setUserData({ ...userData, lastname: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Email</label>
+              <input
+                className="w-full p-2 border rounded-md"
+                type="email"
+                value={userData.email}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Gender</label>
+              <select
+                className="w-full p-2 border rounded-md"
+                value={userData.gender}
+                onChange={(e) =>
+                  setUserData({ ...userData, gender: e.target.value })
+                }
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block font-medium">Phone Number</label>
+              <input
+                className="w-full p-2 border rounded-md"
+                type="tel"
+                value={userData.phone_number}
+                onChange={(e) =>
+                  setUserData({ ...userData, phone_number: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block font-medium">Username</label>
             <input
+              className="w-full p-2 border rounded-md"
               type="text"
-              placeholder="Enter your Lastname"
-              value={userData.lastname || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, lastname: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="edit-profile-1">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your Email"
-              value={userData.email || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, email: e.target.value })
-              }
-            />
-          </div>
-        </div>
-
-        <div className="edit-profile-inputfield-2">
-          <div className="edit-profile-1">
-            <label htmlFor="gender">Gender</label>
-            <select
-              id="gender"
-              value={userData.gender || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, gender: e.target.value })
-              }
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div className="edit-profile-1">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              placeholder="Enter your Phone number"
-              value={userData.phone_number || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, phone_number: e.target.value })
-              }
-            />
-          </div>
-        </div>
-
-        <div className="edit-profile-inputfield-3">
-          <div className="edit-profile-2">
-            <label htmlFor="username" className="username">
-              Username
-            </label>
-            <input
-              type="text"
-              className="edit-username"
-              placeholder="Enter Username"
-              value={userData.username || ""}
+              value={userData.username}
               onChange={(e) =>
                 setUserData({ ...userData, username: e.target.value })
               }
             />
           </div>
-        </div>
-
-        <div className="edit-profile-inputfield-2">
-          <div className="save-changes-button">
-            <button className="edit-button" onClick={handleSubmit}>
+          <div className="text-center">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+            >
               Save Changes
             </button>
           </div>
-        </div>
+        </form>
       </div>
+      <br />
     </div>
   );
 }

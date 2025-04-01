@@ -23,7 +23,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const cloudinary = cloudinaryModule.v2;
-const allowedOrigin = process.env.ALLOWED_ORIGIN;
 const backendUrl = process.env.BACKEND_URL;
 const port = process.env.PORT || 8080; // Default port if not defined in .env
 
@@ -44,7 +43,7 @@ app.use(express.json()); // Middleware for parsing JSON requests
 // Enable CORS with a specific origin
 app.use(
   cors({
-    origin: allowedOrigin, // Allow requests from this origin
+    origin: "http://localhost:3000", // Allow requests from this origin
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"], // Allowed methods
     credentials: true, // Allow cookies, if needed
   })
@@ -198,8 +197,8 @@ app.post("/login", async (req, res) => {
 
           res.cookie("token", token, {
             httpOnly: true,
-            secure: true, // Use only in production
-            sameSite: "None",
+            secure: false, // Use only in production
+            sameSite: "lax",
           });
 
           // Send the token in the response body
@@ -246,17 +245,23 @@ app.post("/register", async (req, res) => {
     confirmPassword,
   } = req.body;
 
+  // Check if passwords match
   if (password !== confirmPassword) {
     return res.status(400).json({ error: "Passwords do not match." });
   }
 
   try {
-    // Check if the username or email already exists
-    const checkUserSql = "SELECT * FROM users WHERE username = $1 OR email = $2";
-    const result = await pool.query(checkUserSql, [username, email]);
+    // Check if username, email, or phone number already exists
+    const checkUserSql = `
+      SELECT * FROM users WHERE username = $1 OR email = $2 OR phone_number = $3
+    `;
+    const result = await pool.query(checkUserSql, [username, email, phone_number]);
+
+    // Log query result for debugging
+    console.log("Check User Query Result:", result.rows);
 
     if (result.rows.length > 0) {
-      return res.status(409).json({ error: "Username or email already exists." });
+      return res.status(409).json({ error: "Username, email, or phone number already exists." });
     }
 
     // Hash the password
@@ -267,6 +272,19 @@ app.post("/register", async (req, res) => {
       INSERT INTO users (username, firstname, middlename, lastname, phone_number, email, gender, role, password)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id
     `;
+
+    // Debug log before inserting
+    console.log("Inserting user into database:", {
+      username,
+      firstname,
+      middlename,
+      lastname,
+      phone_number,
+      email,
+      gender,
+      role,
+    });
+
     const insertResult = await pool.query(insertUserSql, [
       username,
       firstname,
@@ -322,9 +340,10 @@ app.post("/register", async (req, res) => {
     });
   } catch (err) {
     console.error("Database error:", err);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).json({ error: "Server error.", details: err.message });
   }
 });
+
 // Cloudinary Storage Setup
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -350,6 +369,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
     location,
     conservationstatus,
     conservationeffort,
+    classification,
     description,
   } = req.body;
 
@@ -357,8 +377,8 @@ app.post("/create", upload.single("file"), async (req, res) => {
   const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
 
   // Save to Database
-  const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, uploadimage)
-                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`;
+  const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, classification, uploadimage)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
 
   try {
     const result = await pool.query(query, [
@@ -373,6 +393,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
       conservationstatus,
       conservationeffort,
       description,
+      classification,
       uploadimage, // Cloudinary URL na ito
     ]);
 
@@ -589,12 +610,17 @@ app.delete("/delete-species/:id", async (req, res) => {
 app.get("/speciesCounts", async (req, res) => {
   const queries = [
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'",
     "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'",
-    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'invertebrates'",
-    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'vertebrates'",
-    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'insects'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'arachnids'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mollusks'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'echinoderms'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'cnidarians'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'worms'",
+    "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'sponges'",
   ];
 
   try {
@@ -602,12 +628,17 @@ app.get("/speciesCounts", async (req, res) => {
     
     res.json({
       mammals: results[0].rows[0].count,
-      birds: results[1].rows[0].count,
-      reptiles: results[2].rows[0].count,
-      amphibians: results[3].rows[0].count,
-      invertebrates: results[4].rows[0].count,
-      vertebrates: results[5].rows[0].count,
-      fish: results[6].rows[0].count,
+      fish: results[1].rows[0].count,
+      birds: results[2].rows[0].count,
+      reptiles: results[3].rows[0].count,
+      amphibians: results[4].rows[0].count,
+      insects: results[5].rows[0].count,
+      arachnids: results[6].rows[0].count,
+      mollusks: results[7].rows[0].count,
+      echinoderms: results[8].rows[0].count,
+      cnidarians: results[9].rows[0].count,
+      worms: results[10].rows[0].count,
+      sponges: results[11].rows[0].count,
     });
   } catch (err) {
     console.error("Error fetching species counts:", err);
@@ -635,9 +666,13 @@ app.get("/api/conservation-status-count", async (req, res) => {
       })
     );
 
-    // Convert array into an object for easier use in frontend
+    // Get total count for calculating percentages
+    const totalCount = results.reduce((acc, item) => acc + item.count, 0);
+
+    // Convert array into an object for easier use in frontend, adding percentage
     const formattedData = results.reduce((acc, item) => {
-      acc[item.status] = item.count;
+      const percentage = ((item.count / totalCount) * 100).toFixed(2);
+      acc[item.status] = { count: item.count, percentage };
       return acc;
     }, {});
 
@@ -648,6 +683,9 @@ app.get("/api/conservation-status-count", async (req, res) => {
   }
 });
 
+
+
+//Multiple choice
 app.post("/api/questions", async (req, res) => {
   const { question, optiona, optionb, optionc, optiond, correctanswer } = req.body;
 
@@ -669,6 +707,46 @@ app.post("/api/questions", async (req, res) => {
   } catch (err) {
     console.error("Error saving question:", err.message);
     res.status(500).json({ error: "Failed to save question." });
+  }
+});
+
+// POST route to save identification question
+app.post("/api/identification-questions", async (req, res) => {
+  const { statement, answer } = req.body;
+
+  if (!statement || !answer) {
+    return res.status(400).json({ error: "Statement and answer are required." });
+  }
+
+  try {
+    const query = `INSERT INTO identification_questions (statement, answer) VALUES ($1, $2) RETURNING *;`;
+    const values = [statement, answer];
+
+    const result = await pool.query(query, values);
+    res.status(201).json({ message: "Question saved successfully.", data: result.rows[0] });
+  } catch (err) {
+    console.error("Error saving question:", err.message);
+    res.status(500).json({ error: "Failed to save question." });
+  }
+});
+
+// POST route to save a matching type question
+app.post("/api/matching-questions", async (req, res) => {
+  const { itemA, itemB } = req.body;
+
+  if (!itemA || !itemB) {
+    return res.status(400).json({ error: "Both columns A and B are required." });
+  }
+
+  try {
+    const query = `INSERT INTO matching_questions (item_a, item_b) VALUES ($1, $2) RETURNING *;`;
+    const values = [itemA, itemB];
+
+    const result = await pool.query(query, values);
+    res.status(201).json({ message: "Matching question saved successfully.", data: result.rows[0] });
+  } catch (err) {
+    console.error("Error saving matching question:", err.message);
+    res.status(500).json({ error: "Failed to save matching question." });
   }
 });
 
@@ -1295,7 +1373,314 @@ app.post("/reset-password", async (req, res) => {
   }
 });
 
+//Count OF Species
 
+// Endpoint to get the count of mammals
+app.get("/countmammals", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mammals'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Fish
+app.get("/countfish", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'fish'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of birds
+app.get("/countbirds", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'birds'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Reptiles
+app.get("/countreptiles", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'reptiles'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Amphibians
+app.get("/countamphibians", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'amphibians'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Insects
+app.get("/countinsects", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'insects'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Arachnids
+app.get("/countarachnids", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'arachnids'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Mollusks
+app.get("/countmollusks", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'mollusks'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Echinoderms
+app.get("/countechinoderms", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'echinoderms'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Cnidarians
+app.get("/countcnidarians", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'cnidarians'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Worms
+app.get("/countworms", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'worms'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+// Endpoint to get the count of Sponges
+app.get("/countsponges", async (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM species WHERE speciescategory = 'sponges'"; // Adjust the field name if necessary
+
+  try {
+    const result = await pool.query(query);
+    res.status(200).json(result.rows[0]); // Send back the count
+  } catch (err) {
+    console.error("Error fetching birds count:", err);
+    res.status(500).send("Server error. Failed to fetch birds count.");
+  }
+});
+
+app.get('/api/images/:category', async (req, res) => {
+  const { category } = req.params;
+  try {
+    const { rows: images } = await pool.query(
+      'SELECT uploadimage FROM species WHERE LOWER(speciescategory) = LOWER($1)',
+      [category]
+    );
+
+    console.log("Fetched images from DB:", images); // Debugging log
+
+    const formattedImages = images.map(img => ({
+      image_filename: img.uploadimage.startsWith('http') 
+        ? img.uploadimage // ✅ If it's already a full URL, keep it
+        : `https://res.cloudinary.com/dvj4mroel/image/upload/v1742857519/species-images/${img.uploadimage}`
+    }));
+
+    res.json(formattedImages);
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    res.status(500).json({ message: 'Error fetching images' });
+  }
+});
+
+
+// POST endpoint to create a quiz question
+app.post("/api/quizzes", async (req, res) => {
+  const { question, options, correctAnswer, questionType } = req.body;
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO quizzes(question, options, correct_answer, question_type) VALUES($1, $2, $3, $4) RETURNING *",
+      [question, options, correctAnswer, questionType]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error inserting quiz question:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+app.get("/api/species/:id", async (req, res) => {
+  const speciesId = req.params.id;
+
+  try {
+    const { rows } = await pool.query("SELECT * FROM species WHERE id = $1", [speciesId]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Species not found" });
+    }
+
+    const species = rows[0];
+
+    // ✅ Huwag gumamit ng default image, kung walang image, walang ilalagay
+    const formattedSpecies = {
+      ...species,
+      uploadimage: species.uploadimage?.includes("cloudinary.com")
+        ? species.uploadimage
+        : species.uploadimage
+        ? `https://res.cloudinary.com/dvj4mroel/image/upload/v1742857519/species-images/${species.uploadimage}`
+        : "", // Walang ilalagay kapag walang image
+    };
+
+    res.json(formattedSpecies);
+  } catch (error) {
+    console.error("Error fetching species:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
+  const speciesId = req.params.id;
+
+  // Ensure speciesId is valid (non-empty and a number)
+  if (!speciesId || isNaN(speciesId)) {
+    return res.status(400).json({ message: 'Invalid species ID' });
+  }
+
+  const {
+    specificname,
+    scientificname,
+    commonname,
+    habitat,
+    population,
+    location,
+    conservationstatus,
+    threats,
+    conservationeffort,
+    speciescategory,
+    description,
+  } = req.body;
+
+  // Check if image URL or file is provided
+  let imageUrl = req.body.existingimage;
+
+  if (req.file) {
+    // If the uploaded file exists, store its file path
+    imageUrl = path.join('uploads/images', req.file.filename);
+  } else if (req.body.imageUrl && req.body.imageUrl.startsWith('https://')) {
+    // If the image is a Cloudinary URL, store it as a string
+    imageUrl = req.body.imageUrl;
+  }
+
+  // Ensure no undefined or null values are passed into the SQL query
+  const values = [
+    specificname || '', // Provide default values if missing
+    scientificname || '',
+    commonname || '',
+    habitat || '',
+    population || '',
+    location || '',
+    conservationstatus || '',
+    threats || '',
+    conservationeffort || '',
+    speciescategory || '',
+    description || '',
+    imageUrl || '', // Ensure a fallback for imageUrl
+    speciesId, // Make sure speciesId is valid
+  ];
+
+  // Log the values for debugging
+  console.log('Update query values:', values);
+
+  try {
+    const updateSpeciesQuery = `
+      UPDATE species 
+      SET specificname = $1, scientificname = $2, commonname = $3, habitat = $4,
+          population = $5, location = $6, conservationstatus = $7, threats = $8,
+          conservationeffort = $9, speciescategory = $10, description = $11,
+          uploadimage = $12
+      WHERE id = $13
+      RETURNING *;
+    `;
+
+    const result = await pool.query(updateSpeciesQuery, values);
+
+    // Check if species was updated successfully
+    if (result.rows.length > 0) {
+      res.status(200).json({ message: 'Species updated successfully', species: result.rows[0] });
+    } else {
+      res.status(404).json({ message: 'Species not found' });
+    }
+  } catch (error) {
+    console.error('Error updating species:', error);
+    res.status(500).json({ message: 'Error updating species. Please try again.' });
+  }
+});
+
+
+
+ 
 
 
 // Start the server

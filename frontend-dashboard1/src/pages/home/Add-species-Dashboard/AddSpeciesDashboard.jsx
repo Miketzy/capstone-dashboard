@@ -1,30 +1,28 @@
-import React from "react";
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
-import "./addspeciesdashboard.css";
 import AddSpeciesHome from "../../PagesHome/add-species-home/AddSpeciesHome";
+
 function AddSpeciesDashboard() {
   return (
-    <>
-      <div>
-        <div className=" main2 d-flex">
-          <div className="sidebarWrapper2">
-            <Sidebar />
+    <div className="min-h-screen flex flex-col w-full">
+      <Navbar />
+      <div className="flex flex-grow h-screen">
+        <Sidebar />
+
+        <div className="flex flex-col flex-grow p-6">
+          <br />
+          <br />
+          <div className="bg-blue-500 shadow-lg rounded-lg p-6 h-10 flex items-center ml-64">
+            <h1 className="text-2xl text-white">Add Species</h1>
           </div>
-
-          <div className="content2">
-            <Navbar />
-
-            <div className="tit2">
-              <h1> Add Species</h1>
-            </div>
-            <div className="add-species">
+          <div className="mb-60">
+            <div className=" rounded-lg">
               <AddSpeciesHome />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-// css file
-import "./directorypie.css";
 import API_URL from "../../../config";
-
 import {
   PieChart,
   Pie,
@@ -27,10 +24,10 @@ function Directorypie() {
 
         const rawData = response.data;
 
-        // Convert object into array format
+        // Convert object into array format and use percentage instead of count
         const formattedData = Object.entries(rawData).map(([key, value]) => ({
           name: key, // Conservation status
-          value: Number(value), // Count converted to number
+          value: Number(value.percentage), // Use percentage instead of count
         }));
 
         setData(formattedData);
@@ -43,30 +40,34 @@ function Directorypie() {
   }, []);
 
   return (
-    <div className="pie-chart-container">
-      <h1 className="pie-chart-title">Species Status</h1>
-      <ResponsiveContainer width="100%" height={540} className="pie">
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={200}
-            label
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="flex justify-center items-center my-10">
+      <div className="w-full max-w-3xl p-6 from-purple-100 via-indigo-100 to-pink-100 rounded-lg shadow-lg">
+        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
+          Species Status
+        </h1>
+        <ResponsiveContainer width="100%" height={540}>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value" // Now using 'value' as percentage
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={200}
+              label={({ name, value }) => `${name}: ${value}%`} // Show percentage on the chart
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip formatter={(value) => `${value}%`} />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

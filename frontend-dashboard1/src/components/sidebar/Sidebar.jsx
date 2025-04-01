@@ -51,7 +51,7 @@ function Sidebar() {
       <div className="p-4">
         <ul className="space-y-2">
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-700 ${
               activeTab === "/species-directory" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/species-directory")}
@@ -61,7 +61,7 @@ function Sidebar() {
           </li>
 
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/add-species" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/add-species")}
@@ -71,7 +71,7 @@ function Sidebar() {
           </li>
 
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/list-of-species" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/list-of-species")}
@@ -81,7 +81,7 @@ function Sidebar() {
           </li>
 
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/species-analytics" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/species-analytics")}
@@ -91,7 +91,7 @@ function Sidebar() {
           </li>
 
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/createQuestion" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/createQuestion")}
@@ -99,9 +99,8 @@ function Sidebar() {
             <FaFileCircleQuestion className="w-6 h-6 mr-2" />
             Create Question
           </li>
-
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/image-gallery" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/image-gallery")}
@@ -111,7 +110,7 @@ function Sidebar() {
           </li>
 
           <li
-            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 ${
+            className={`flex items-center px-4 py-2 cursor-pointer rounded-lg mt-5 hover:bg-gray-700 ${
               activeTab === "/contributor-request" ? "bg-gray-700" : ""
             }`}
             onClick={() => handleNavigation("/contributor-request")}

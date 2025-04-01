@@ -57,57 +57,65 @@ function ImageGallery() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-6">
-      {/* Search Input */}
-      <div className="w-full max-w-2xl mb-6">
-        <input
-          type="text"
-          className="w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-          placeholder="Search species..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+    <div>
+      <br />
+      <br />
+      <div className="bg-blue-500 shadow-lg rounded-lg p-6 h-10 flex items-center">
+        <h1 className="text-2xl text-white">Gallery</h1>
       </div>
-
-      {/* Loading State */}
-      {loading ? (
-        <p className="text-center text-gray-500">Loading images...</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
-          {/* Display Filtered Images */}
-          {filteredImages.length > 0 ? (
-            filteredImages.map((image, index) => (
-              <div
-                key={index}
-                className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
-              >
-                {image.uploadimage ? (
-                  <img
-                    src={image.uploadimage} // Cloudinary URL directly
-                    alt={image.commonname || "No image available"}
-                    className="w-full h-40 rounded-lg object-cover"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/150?text=No+Image"; // Default image if broken
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
-                    No Image
-                  </div>
-                )}
-                <p className="text-center mt-2 font-medium text-gray-700 ml-2">
-                  {image.commonname}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="col-span-full text-center text-gray-500">
-              No species found.
-            </p>
-          )}
+      <br />
+      <div className="min-h-screen flex flex-col items-center px-4 py-6">
+        {/* Search Input */}
+        <div className="w-full max-w-2xl mb-6">
+          <input
+            type="text"
+            className="w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+            placeholder="Search species..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-      )}
+
+        {/* Loading State */}
+        {loading ? (
+          <p className="text-center text-gray-500">Loading images...</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl">
+            {/* Display Filtered Images */}
+            {filteredImages.length > 0 ? (
+              filteredImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="bg-white relative p-2 rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col items-center"
+                >
+                  {image.uploadimage ? (
+                    <img
+                      src={image.uploadimage} // Cloudinary URL directly
+                      alt={image.commonname || "No image available"}
+                      className="w-full h-40 rounded-lg object-cover"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://via.placeholder.com/150?text=No+Image"; // Default image if broken
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">
+                      No Image
+                    </div>
+                  )}
+                  <p className="text-center mt-2 font-medium text-gray-700 ml-2">
+                    {image.commonname}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="col-span-full text-center text-gray-500">
+                No species found.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
