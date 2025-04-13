@@ -225,13 +225,14 @@ function CreateQuizzes() {
             <h2 className="text-gray-800 font-semibold mb-2">
               Identification Question
             </h2>
-            <input
-              type="text"
+            <textarea
               placeholder="Enter statement"
               className="border p-2 w-full rounded-md bg-white text-gray-900"
               value={statement}
               onChange={(e) => setStatement(e.target.value)}
+              rows={4} // optional: adjust number of rows
             />
+
             <input
               type="text"
               placeholder="Answer"
