@@ -43,7 +43,7 @@ app.use(express.json()); // Middleware for parsing JSON requests
 // Enable CORS with a specific origin
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from this origin
+    origin: "davor-bioexplorer-admin.vercel.app", // Allow requests from this origin
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"], // Allowed methods
     credentials: true, // Allow cookies, if needed
   })
@@ -149,13 +149,13 @@ const verifyUser = (req, res, next) => {
 };
 
 // Login route
+// Login route
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Query to fetch user from PostgreSQL database
     const result = await pool.query(
-      "SELECT * FROM users WHERE username = $1", // Using $1 as a placeholder for parameterized query
+      "SELECT * FROM users WHERE username = $1",
       [username]
     );
 
@@ -163,15 +163,15 @@ app.post("/login", async (req, res) => {
       const user = result.rows[0];
       const hashedPassword = user.password;
 
-      // Compare passwords using bcrypt
-      bcrypt.compare(password, hashedPassword, (err, isMatch) => {
+      bcrypt.compare(password, hashedPassword, async (err, isMatch) => {
         if (err) {
           console.error("Password comparison error:", err);
           return res.status(500).json({ Message: "Error comparing passwords" });
         }
 
         if (isMatch) {
-          console.log("JWT_SECRET before signing:", process.env.JWT_SECRET);
+          // ✅ Set is_active = true after successful login
+          await pool.query("UPDATE users SET is_active = true WHERE id = $1", [user.id]);
 
           const token = jwt.sign(
             {
@@ -189,19 +189,16 @@ app.post("/login", async (req, res) => {
               newPassword: user.newPassword,
               confirmPassword: user.confirmPassword,
             },
-            process.env.JWT_SECRET, // Use the secret key from the .env file
+            process.env.JWT_SECRET,
             { expiresIn: "30d" }
           );
 
-          console.log("Generated Token:", token);
-
           res.cookie("token", token, {
             httpOnly: true,
-            secure: false, // Use only in production
-            sameSite: "lax",
+            secure: true,
+            sameSite: "None",
           });
 
-          // Send the token in the response body
           return res.json({
             token: token,
             role: "Success",
@@ -229,6 +226,21 @@ app.post("/login", async (req, res) => {
     return res.status(500).json({ Message: "Server Side Error" });
   }
 });
+
+
+app.get("/contributors", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, firstname, lastname, email, is_active FROM users WHERE role = 'contributor'"
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Fetch error:", err);
+    res.status(500).json({ error: "Could not fetch contributors" });
+  }
+});
+
+
 
 // Register endpoint
 app.post("/register", async (req, res) => {
@@ -320,8 +332,8 @@ app.post("/register", async (req, res) => {
     // Set the token in a cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // Set to true in production (when using HTTPS)
-      sameSite: "lax",
+      secure: true, // Set to true in production (when using HTTPS)
+      sameSite: "None",
     });
 
     return res.json({
@@ -451,6 +463,26 @@ app.get("/logout", (req, res) => {
   res.clearCookie("authToken");
   res.json({ Message: "Success" });
 });
+
+app.get("/contrilogout", async (req, res) => {
+  const { username } = req.query; // make sure pinapasa sa frontend
+
+  try {
+    // Ito ang nagse-set ng is_active = false
+    await pool.query("UPDATE users SET is_active = false WHERE username = $1", [username]);
+
+    // I-clear din ang token/cookie kung meron
+    res.clearCookie("authToken");
+    res.json({ Message: "Success" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ Message: "Logout failed" });
+  }
+});
+
+
+
+
 
 app.get("/countSpecies", async (req, res) => {
   const query = "SELECT COUNT(*) AS count FROM species";

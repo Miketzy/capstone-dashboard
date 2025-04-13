@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend-dashboard1/server.js", 
+    "start": "node backend-dashboard1/server.js",
     "server": "nodemon backend-dashboard1/server.js",
     "client": "npm start --prefix frontend-dashboard1",
     "dev": "concurrently \"npm run server\" \"npm run client\""
@@ -15,5 +15,8 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "jwt-decode": "^4.0.0"
   }
 }

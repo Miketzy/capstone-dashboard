@@ -1,6 +1,7 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
 import Card from "../../../components/speciesdirectory/card/Card";
+import ListContributor from "../../../list-contributor/ListContributor";
 
 function Dashboard() {
   return (
@@ -12,6 +13,9 @@ function Dashboard() {
           <div className="mb-60">
             <div className=" rounded-lg ml-64  ">
               <Card />
+            </div>
+            <div className=" rounded-lg ml-64  ">
+              <ListContributor />
             </div>
           </div>
         </div>

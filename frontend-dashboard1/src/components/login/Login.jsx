@@ -44,7 +44,7 @@ function Login() {
         const token = response.data.token;
         Cookies.set("token", token, {
           expires: 30,
-          secure: false,
+          secure: true,
           sameSite: "None",
         });
         localStorage.setItem("authToken", token);

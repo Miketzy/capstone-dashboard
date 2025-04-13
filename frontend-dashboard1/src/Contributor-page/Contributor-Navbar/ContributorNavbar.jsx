@@ -15,6 +15,8 @@ import { ProfileContext } from "../../pages/Contributor-Home/Contributor-Profile
 import { EditProfileContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-EditProfile-Dashboard/ContributorEditProfileDashboard";
 import { ChangeContext } from "../../pages/Contributor-Home/Contributor-Profile-Dashboard/Contributor-ChangePassword-Dashboard/ContributorChangePasswordDashboard";
 import API_URL from "../../config"; // Dalawang level up ✅
+import { jwtDecode } from "jwt-decode";
+
 function ContributorNavbar() {
   const [user, setUser] = useState({
     firstname: "",
@@ -66,31 +68,33 @@ function ContributorNavbar() {
     fetchUserData(); // Fetch user data on component mount
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
-      axios
-        .get(`${API_URL}/logout`, {
+      try {
+        // Gamitin ang tamang key ng token sa localStorage
+        const token = localStorage.getItem("authToken");
+
+        // Decode para makuha ang username (or email)
+        const decoded = jwtDecode(token);
+        const username = decoded.username; // o decoded.email kung email ang gamit mo
+
+        // Send GET request para i-set inactive si user
+        const res = await axios.get(`${API_URL}/contrilogout`, {
+          params: { username },
           withCredentials: true,
-        })
-        .then((res) => {
-          if (res.data.Message === "Success") {
-            setUser({
-              firstname: "",
-              middlename: "",
-              lastname: "",
-              email: "",
-              image: "/images/unknown-person-icon-Image-from_20220304.png",
-            });
-            navigate("/"); // Redirect to home or login page
-          } else {
-            alert("Logout failed: " + (res.data.Message || "Unknown error"));
-          }
-        })
-        .catch((err) => {
-          console.error("Logout error:", err);
-          alert("An error occurred during logout. Please try again.");
         });
+
+        if (res.data.Message === "Success") {
+          localStorage.removeItem("authToken"); // remove token
+          navigate("/");
+        } else {
+          alert("Logout failed.");
+        }
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("An error occurred during logout.");
+      }
     }
   };
 
