@@ -43,7 +43,7 @@ app.use(express.json()); // Middleware for parsing JSON requests
 // Enable CORS with a specific origin
 app.use(
   cors({
-    origin: "davor-bioexplorer-admin.vercel.app", // Allow requests from this origin
+    origin: "https://davor-bioexplorer-admin.vercel.app", // Allow requests from this origin
     methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"], // Allowed methods
     credentials: true, // Allow cookies, if needed
   })
