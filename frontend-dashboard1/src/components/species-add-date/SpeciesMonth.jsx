@@ -42,9 +42,7 @@ const SpeciesMonth = () => {
             legend: {
               labels: {
                 color: "#333",
-                font: {
-                  size: 14,
-                },
+                font: { size: 14 },
               },
             },
           },
@@ -55,9 +53,7 @@ const SpeciesMonth = () => {
                 display: true,
                 text: "Species Count",
                 color: "#333",
-                font: {
-                  size: 14,
-                },
+                font: { size: 14 },
               },
             },
             x: {
@@ -65,9 +61,7 @@ const SpeciesMonth = () => {
                 display: true,
                 text: "Months",
                 color: "#333",
-                font: {
-                  size: 14,
-                },
+                font: { size: 14 },
               },
             },
           },
@@ -84,7 +78,21 @@ const SpeciesMonth = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 mt-16">
-      <canvas ref={chartRef}></canvas>
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <h2
+          style={{ textAlign: "center", marginBottom: "20px", color: "#333" }}
+        >
+          Monthly Added Species
+        </h2>
+        <canvas ref={chartRef}></canvas>
+      </div>
     </div>
   );
 };
