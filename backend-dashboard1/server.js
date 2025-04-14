@@ -388,9 +388,12 @@ app.post("/create", upload.single("file"), async (req, res) => {
   // Get Cloudinary URL
   const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
 
+  // Get current date and time in Manila timezone (or you can set this to your desired timezone)
+  const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+
   // Save to Database
-  const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, classification, uploadimage)
-                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`;
+  const query = `INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, speciescategory, location, conservationstatus, conservationeffort, description, classification, uploadimage, created_at)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`;
 
   try {
     const result = await pool.query(query, [
@@ -407,6 +410,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
       description,
       classification,
       uploadimage, // Cloudinary URL na ito
+      currentTime, // Insert the current local time
     ]);
 
     res.status(201).json({
@@ -419,6 +423,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
     res.status(500).send("Server error. Failed to add species.");
   }
 });
+
 
 // End point to get the species table
 app.get("/listspecies", (req, res) => {
