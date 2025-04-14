@@ -84,6 +84,7 @@ const SpeciesMonth = () => {
           padding: "20px",
           borderRadius: "12px",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          marginTop: "100%",
         }}
       >
         <h2
