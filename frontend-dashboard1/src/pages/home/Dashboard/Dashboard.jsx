@@ -18,7 +18,7 @@ function Dashboard() {
             <div className=" rounded-lg ml-64  ">
               <ListContributor />
             </div>
-            <div className=" rounded-lg ml-64  ">
+            <div className=" rounded-lg ml-64 mb-50">
               <SpeciesMonth />
             </div>
           </div>
