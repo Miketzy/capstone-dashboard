@@ -11,7 +11,7 @@ function Dashboard() {
       <div className="flex flex-grow h-screen">
         <Sidebar />
         <div className="flex flex-col flex-grow p-6">
-          <div className="mb-60">
+          <div className="">
             <div className=" rounded-lg ml-64  ">
               <Card />
             </div>
