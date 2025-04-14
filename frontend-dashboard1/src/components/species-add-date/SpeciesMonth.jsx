@@ -77,14 +77,13 @@ const SpeciesMonth = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-[100%]">
+    <div className="container mx-auto px-4 py-8 mt-[-100px]">
       <div
         style={{
           backgroundColor: "white",
           padding: "20px",
           borderRadius: "12px",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          marginTop: "100%",
         }}
       >
         <h2
