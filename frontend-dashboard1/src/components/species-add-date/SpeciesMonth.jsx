@@ -27,7 +27,7 @@ const SpeciesMonth = () => {
           datasets: [
             {
               label: "Number of Species Added",
-              data: [2, 5, 3, 4, 6, 7, 8, 4, 6, 5, 3, 9], // sample species data
+              data: [2, 5, 3, 4, 6, 7, 8, 4, 6, 5, 3, 9],
               backgroundColor: "rgba(54, 162, 235, 0.2)",
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 2,
@@ -77,17 +77,22 @@ const SpeciesMonth = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-1">
+    <div className="container mx-auto px-4 py-4">
       <div
         style={{
           backgroundColor: "white",
-          padding: "20px",
+          padding: "16px",
           borderRadius: "12px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
         <h2
-          style={{ textAlign: "center", marginBottom: "20px", color: "#333" }}
+          style={{
+            textAlign: "center",
+            marginBottom: "16px",
+            color: "#333",
+            fontSize: "18px",
+          }}
         >
           Monthly Added Species
         </h2>
