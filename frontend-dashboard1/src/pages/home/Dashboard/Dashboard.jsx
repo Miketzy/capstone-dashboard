@@ -1,5 +1,6 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Sidebar from "../../../components/sidebar/Sidebar";
+import SpeciesMonth from "../../../components/species-add-date/SpeciesMonth";
 import Card from "../../../components/speciesdirectory/card/Card";
 import ListContributor from "../../../list-contributor/ListContributor";
 
@@ -16,6 +17,9 @@ function Dashboard() {
             </div>
             <div className=" rounded-lg ml-64  ">
               <ListContributor />
+            </div>
+            <div className=" rounded-lg ml-64  ">
+              <SpeciesMonth />
             </div>
           </div>
         </div>
