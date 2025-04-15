@@ -1717,8 +1717,31 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
+// API to get species count per month
+app.get("/api/species/monthly", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        EXTRACT(MONTH FROM created_at) AS month,
+        COUNT(*) AS count
+      FROM species
+      GROUP BY month
+      ORDER BY month;
+    `);
 
+    const data = new Array(12).fill(0);
 
+    result.rows.forEach(row => {
+      const monthIndex = parseInt(row.month, 10) - 1;
+      data[monthIndex] = parseInt(row.count, 10);
+    });
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching monthly species data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
  
 
 
