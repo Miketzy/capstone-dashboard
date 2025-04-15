@@ -1,7 +1,9 @@
+// SpeciesMonth.js
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-import API_URL from "../../config"; // Make sure this points to your backend base URL
+
+const API_URL = "http://localhost:5000"; // change if deploying to production
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
@@ -12,9 +14,7 @@ const SpeciesMonth = () => {
     axios
       .get(`${API_URL}/api/species/monthly`)
       .then((res) => setMonthlyData(res.data))
-      .catch((err) =>
-        console.error("❌ Error fetching chart data:", err.response || err)
-      );
+      .catch((err) => console.error("Error fetching chart data:", err));
   }, []);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const SpeciesMonth = () => {
   }, [monthlyData]);
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-[-100px] sm:mt-[-100px] md:mt-[-298px] lg:mt-[-300px] xl:mt-[-350px] 2xl:mt-[-350px]">
+    <div className="container mx-auto px-4 py-8">
       <div
         style={{
           backgroundColor: "white",
