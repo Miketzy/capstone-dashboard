@@ -1717,7 +1717,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// ✅ Monthly species count
+// Route to get monthly species count
 app.get("/api/species/monthly", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -1732,7 +1732,7 @@ app.get("/api/species/monthly", async (req, res) => {
 
     const data = new Array(12).fill(0);
 
-    result.rows.forEach((row) => {
+    result.rows.forEach(row => {
       const monthIndex = parseInt(row.month, 10) - 1;
       data[monthIndex] = parseInt(row.count, 10);
     });
@@ -1744,24 +1744,6 @@ app.get("/api/species/monthly", async (req, res) => {
   }
 });
 
-// ✅ Dynamic species route (must come AFTER /monthly)
-app.get("/api/species/:id", async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: "Invalid ID" });
-
-  try {
-    const result = await pool.query("SELECT * FROM species WHERE id = $1", [
-      id,
-    ]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Species not found" });
-    }
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("❌ Error fetching species by ID:", error);
-    res.status(500).json({ error: error.message });
-  }
-});
 
  
 
