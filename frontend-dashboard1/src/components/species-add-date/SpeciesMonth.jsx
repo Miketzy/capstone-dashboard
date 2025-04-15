@@ -2,8 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000"; // change if deploying to production
+import API_URL from "../../config"; // Dalawang level up ✅
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
