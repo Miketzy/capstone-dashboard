@@ -1717,7 +1717,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// ✅ Get species count per month (place this BEFORE /api/species/:id)
+// Get species count per month
 app.get("/api/species/monthly", async (req, res) => {
   const query = `
     SELECT 
@@ -1731,36 +1731,17 @@ app.get("/api/species/monthly", async (req, res) => {
   try {
     const result = await pool.query(query);
 
-    // Prepare array of 12 months with default 0 count
+    // Prepare data array with 12 months (fill zeros for months with no data)
     const monthlyCounts = new Array(12).fill(0);
 
     result.rows.forEach(row => {
-      const monthIndex = parseInt(row.month, 10) - 1; // Convert to 0-based index
+      const monthIndex = parseInt(row.month, 10) - 1; // convert month to 0-indexed
       monthlyCounts[monthIndex] = parseInt(row.count, 10);
     });
 
     res.json({ monthlyCounts });
   } catch (error) {
     console.error("Error fetching monthly species data:", error);
-    res.status(500).json({ message: "Server error." });
-  }
-});
-
-
-// 🛑 Make sure this comes AFTER the /monthly route
-app.get("/api/species/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const result = await pool.query("SELECT * FROM species WHERE id = $1", [id]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Species not found" });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error fetching species:", error);
     res.status(500).json({ message: "Server error." });
   }
 });

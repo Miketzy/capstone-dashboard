@@ -9,12 +9,11 @@ const SpeciesMonth = () => {
   const [chartData, setChartData] = useState(new Array(12).fill(0));
 
   useEffect(() => {
+    // Fetch data from backend
     axios
       .get(`${API_URL}/api/species/monthly`)
       .then((response) => {
-        const monthlyCounts = response.data.monthlyCounts;
-
-        // Then pass monthlyCounts as your chart's dataset `data`
+        setChartData(response.data.monthlyCounts);
       })
       .catch((error) => {
         console.error("Error fetching species chart data:", error);
