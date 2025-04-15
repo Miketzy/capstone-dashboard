@@ -1717,8 +1717,10 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// Get species count per month
 app.get("/api/species/monthly", async (req, res) => {
+  console.log("Request received at /api/species/monthly");
+  console.log(req.query);  // Log the query parameters to debug if any are being passed
+
   const query = `
     SELECT 
       EXTRACT(MONTH FROM created_at) AS month,
@@ -1731,11 +1733,10 @@ app.get("/api/species/monthly", async (req, res) => {
   try {
     const result = await pool.query(query);
 
-    // Prepare data array with 12 months (fill zeros for months with no data)
     const monthlyCounts = new Array(12).fill(0);
 
     result.rows.forEach(row => {
-      const monthIndex = parseInt(row.month, 10) - 1; // convert month to 0-indexed
+      const monthIndex = parseInt(row.month, 10) - 1;
       monthlyCounts[monthIndex] = parseInt(row.count, 10);
     });
 
@@ -1745,6 +1746,7 @@ app.get("/api/species/monthly", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 
