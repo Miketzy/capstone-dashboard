@@ -156,6 +156,10 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
         status.includes(searchLower))
     );
   });
+  // Paginated data
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
