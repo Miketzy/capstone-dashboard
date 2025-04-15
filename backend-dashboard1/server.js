@@ -1717,9 +1717,12 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
+// Get species count per month
 app.get("/api/species/monthly", async (req, res) => {
   const query = `
-    SELECT EXTRACT(MONTH FROM created_at) AS month, COUNT(*) AS count
+    SELECT 
+      EXTRACT(MONTH FROM created_at) AS month,
+      COUNT(*) AS count
     FROM species
     GROUP BY month
     ORDER BY month;
@@ -1727,17 +1730,22 @@ app.get("/api/species/monthly", async (req, res) => {
 
   try {
     const result = await pool.query(query);
-    const data = Array(12).fill(0);
+
+    // Prepare data array with 12 months (fill zeros for months with no data)
+    const monthlyCounts = new Array(12).fill(0);
+
     result.rows.forEach(row => {
-      data[parseInt(row.month) - 1] = parseInt(row.count);
+      const monthIndex = parseInt(row.month, 10) - 1; // convert month to 0-indexed
+      monthlyCounts[monthIndex] = parseInt(row.count, 10);
     });
 
-    res.json({ monthlyCounts: data });
-  } catch (err) {
-    console.error("Error getting monthly species count:", err);
-    res.status(500).send("Server error");
+    res.json({ monthlyCounts });
+  } catch (error) {
+    console.error("Error fetching monthly species data:", error);
+    res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 // Start the server
