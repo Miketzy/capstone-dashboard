@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
+import API_URL from "../../config"; // Dalawang level up ✅
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
@@ -10,7 +11,7 @@ const SpeciesMonth = () => {
   useEffect(() => {
     // Fetch data from backend
     axios
-      .get("http://localhost:5000/api/species/monthly")
+      .get(`${API_URL}/api/species/monthly`)
       .then((response) => {
         setChartData(response.data.monthlyCounts);
       })
