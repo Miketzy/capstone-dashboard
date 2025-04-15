@@ -159,7 +159,6 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
   // Paginated data
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -704,6 +703,11 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
     );
   }
 
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="p-6">
       <br />
@@ -814,7 +818,6 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
           count={Math.ceil(filteredData.length / itemsPerPage)}
           page={currentPage}
           onChange={(e, value) => setCurrentPage(value)}
-          variant="outlined"
           color="primary"
         />
       </div>
