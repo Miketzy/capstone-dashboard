@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-import API_URL from "../../config"; // Dalawang level up ✅
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
@@ -10,11 +9,12 @@ const SpeciesMonth = () => {
 
   useEffect(() => {
     // Fetch data from backend
-    axios.get(`${API_URL}/api/species/monthly`)
-      .then(response => {
+    axios
+      .get("http://localhost:5000/api/species/monthly")
+      .then((response) => {
         setChartData(response.data.monthlyCounts);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching species chart data:", error);
       });
   }, []);
@@ -29,8 +29,18 @@ const SpeciesMonth = () => {
         type: "line",
         data: {
           labels: [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
           ],
           datasets: [
             {
@@ -96,4 +106,18 @@ const SpeciesMonth = () => {
       >
         <h2
           style={{
-            textAlign: "
+            textAlign: "center",
+            marginBottom: "16px",
+            color: "#333",
+            fontSize: "18px",
+          }}
+        >
+          Monthly Added Species
+        </h2>
+        <canvas ref={chartRef}></canvas>
+      </div>
+    </div>
+  );
+};
+
+export default SpeciesMonth;
