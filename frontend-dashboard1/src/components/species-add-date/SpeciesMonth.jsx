@@ -11,7 +11,7 @@ const SpeciesMonth = () => {
   useEffect(() => {
     // Fetch data from backend
     axios
-      .get(`${API_URL}/api/species/monthly`)
+      .get(`${API_URL}/api/species/month`)
       .then((response) => {
         setChartData(response.data.monthlyCounts);
       })

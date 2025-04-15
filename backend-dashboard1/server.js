@@ -1717,7 +1717,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-app.get("/api/species/monthly", async (req, res) => {
+app.get("/api/species/month", async (req, res) => {
   const { month } = req.query;  // Extract the 'month' query parameter
 
   console.log("Request Parameters:", req.query);  // Log the query parameters
