@@ -1717,7 +1717,6 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// Get species count per month
 app.get("/api/species/monthly", async (req, res) => {
   const query = `
     SELECT EXTRACT(MONTH FROM created_at) AS month, COUNT(*) AS count
