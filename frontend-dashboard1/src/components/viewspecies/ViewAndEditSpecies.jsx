@@ -57,6 +57,7 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
     threats: "",
     date: "",
     conservationeffort: "",
+    classification: "",
     speciescategory: "",
     description: "",
     uploadimage: "", // Add any other properties you need
@@ -240,6 +241,7 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
     formData.append("conservationstatus", selectSpecies.conservationstatus);
     formData.append("threats", selectSpecies.threats);
     formData.append("date", selectSpecies.date);
+    formData.append("classification", selectSpecies.classification);
     formData.append("conservationeffort", selectSpecies.conservationeffort);
     formData.append("speciescategory", selectSpecies.speciescategory);
     formData.append("description", selectSpecies.description);
