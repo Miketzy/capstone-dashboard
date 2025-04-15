@@ -44,6 +44,7 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [viewingSpecies, setViewingSpecies] = useState(null);
   const [editingSpecies, setEditingSpecies] = useState(null);
+  const [classification, setClassification] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState(null);
   const [selectSpecies, setSelectSpecies] = useState({

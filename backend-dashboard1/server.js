@@ -1655,6 +1655,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
     conservationstatus,
     threats,
     conservationeffort,
+    classification,
     speciescategory,
     description,
   } = req.body;
@@ -1681,6 +1682,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
     conservationstatus || '',
     threats || '',
     conservationeffort || '',
+    classification || '',
     speciescategory || '',
     description || '',
     imageUrl || '', // Ensure a fallback for imageUrl
@@ -1695,9 +1697,9 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
       UPDATE species 
       SET specificname = $1, scientificname = $2, commonname = $3, habitat = $4,
           population = $5, location = $6, conservationstatus = $7, threats = $8,
-          conservationeffort = $9, speciescategory = $10, description = $11,
-          uploadimage = $12
-      WHERE id = $13
+          conservationeffort = $9, classification = $10, speciescategory = $11, description = $12,
+          uploadimage = $13
+      WHERE id = $14
       RETURNING *;
     `;
 
