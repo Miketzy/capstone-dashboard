@@ -1717,7 +1717,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// Route to get monthly species count
+// ✅ Place this FIRST
 app.get("/api/species/monthly", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -1731,7 +1731,6 @@ app.get("/api/species/monthly", async (req, res) => {
     `);
 
     const data = new Array(12).fill(0);
-
     result.rows.forEach(row => {
       const monthIndex = parseInt(row.month, 10) - 1;
       data[monthIndex] = parseInt(row.count, 10);
@@ -1740,6 +1739,18 @@ app.get("/api/species/monthly", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("❌ Error fetching monthly species data:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// 👇 Put this AFTER
+app.get("/api/species/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM species WHERE id = $1", [parseInt(id)]);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("❌ Error fetching species by ID:", error);
     res.status(500).json({ error: error.message });
   }
 });
