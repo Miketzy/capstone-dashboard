@@ -1717,46 +1717,34 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// ✅ Place this FIRST
+// Get species count per month
 app.get("/api/species/monthly", async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT 
-        EXTRACT(MONTH FROM created_at) AS month,
-        COUNT(*) AS count
-      FROM species
-      WHERE created_at IS NOT NULL
-      GROUP BY month
-      ORDER BY month;
-    `);
+  const query = `
+    SELECT 
+      EXTRACT(MONTH FROM created_at) AS month,
+      COUNT(*) AS count
+    FROM species
+    GROUP BY month
+    ORDER BY month;
+  `;
 
-    const data = new Array(12).fill(0);
+  try {
+    const result = await pool.query(query);
+
+    // Prepare data array with 12 months (fill zeros for months with no data)
+    const monthlyCounts = new Array(12).fill(0);
+
     result.rows.forEach(row => {
-      const monthIndex = parseInt(row.month, 10) - 1;
-      data[monthIndex] = parseInt(row.count, 10);
+      const monthIndex = parseInt(row.month, 10) - 1; // convert month to 0-indexed
+      monthlyCounts[monthIndex] = parseInt(row.count, 10);
     });
 
-    res.json(data);
+    res.json({ monthlyCounts });
   } catch (error) {
-    console.error("❌ Error fetching monthly species data:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching monthly species data:", error);
+    res.status(500).json({ message: "Server error." });
   }
 });
-
-// 👇 Put this AFTER
-app.get("/api/species/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const result = await pool.query("SELECT * FROM species WHERE id = $1", [parseInt(id)]);
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("❌ Error fetching species by ID:", error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-
- 
 
 
 // Start the server
