@@ -1717,6 +1717,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
+
 app.get("/api/species/monthly", async (req, res) => {
   const { month } = req.query;
 
@@ -1749,6 +1750,7 @@ app.get("/api/species/monthly", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 
