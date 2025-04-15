@@ -1,8 +1,8 @@
-// SpeciesMonth.js
+// frontend-dashboard1/src/Components/SpeciesMonth.js
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../config";
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
@@ -56,10 +56,7 @@ const SpeciesMonth = () => {
         responsive: true,
         plugins: {
           legend: {
-            labels: {
-              color: "#333",
-              font: { size: 14 },
-            },
+            labels: { color: "#333", font: { size: 14 } },
           },
         },
         scales: {
