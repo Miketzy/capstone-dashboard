@@ -1718,8 +1718,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
 });
 
 app.get("/api/species/monthly", async (req, res) => {
-  console.log("Request received at /api/species/monthly");
-  console.log(req.query);  // Log the query parameters to debug if any are being passed
+  console.log("Request Parameters:", req.query);  // Log the query parameters
 
   const query = `
     SELECT 
@@ -1732,7 +1731,6 @@ app.get("/api/species/monthly", async (req, res) => {
 
   try {
     const result = await pool.query(query);
-
     const monthlyCounts = new Array(12).fill(0);
 
     result.rows.forEach(row => {
@@ -1742,7 +1740,7 @@ app.get("/api/species/monthly", async (req, res) => {
 
     res.json({ monthlyCounts });
   } catch (error) {
-    console.error("Error fetching monthly species data:", error);
+    console.error("Error fetching monthly species data:", error);  // Log the error details
     res.status(500).json({ message: "Server error." });
   }
 });
