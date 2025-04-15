@@ -1721,8 +1721,9 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
 app.get("/api/species/monthly", async (req, res) => {
   const { month } = req.query;
 
-  if (month && (isNaN(month) || month < 1 || month > 12)) {
-    return res.status(400).json({ message: "Invalid month parameter. Must be a number from 1 to 12." });
+  // Validation: make sure 'month' is either undefined or a valid number from 1–12
+  if (month && (!/^\d+$/.test(month) || month < 1 || month > 12)) {
+    return res.status(400).json({ message: "Invalid 'month' parameter. It must be a number between 1 and 12." });
   }
 
   let query = `
@@ -1736,7 +1737,7 @@ app.get("/api/species/monthly", async (req, res) => {
   `;
 
   try {
-    const result = await pool.query(query, month ? [month] : []);
+    const result = await pool.query(query, month ? [parseInt(month)] : []);
     const monthlyCounts = new Array(12).fill(0);
 
     result.rows.forEach(row => {
@@ -1750,12 +1751,6 @@ app.get("/api/species/monthly", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
-
-
-
-
-
-
 
 
 // Start the server
