@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-import API_URL from "../../config"; // Dalawang level up ✅
+import API_URL from "../../config"; // Make sure this points to your backend base URL
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
@@ -12,7 +12,9 @@ const SpeciesMonth = () => {
     axios
       .get(`${API_URL}/api/species/monthly`)
       .then((res) => setMonthlyData(res.data))
-      .catch((err) => console.error("Error fetching chart data:", err));
+      .catch((err) =>
+        console.error("❌ Error fetching chart data:", err.response || err)
+      );
   }, []);
 
   useEffect(() => {
