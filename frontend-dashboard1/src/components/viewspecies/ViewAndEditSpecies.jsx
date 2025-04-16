@@ -774,7 +774,9 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
             {paginatedData.length > 0 ? (
               paginatedData.map((sp, index) => (
                 <tr key={sp.id} className="border-b hover:bg-gray-100">
-                  <td className="p-3">{index + 1}</td>
+                  <td className="p-3">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
                   <td className="p-3">{sp.commonname}</td>
                   <td className="p-3">{sp.classification}</td>
                   <td className="p-3">{sp.speciescategory}</td>
