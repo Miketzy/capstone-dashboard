@@ -370,10 +370,6 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-
-
-import axios from 'axios';
-
 app.post("/create", upload.single("file"), async (req, res) => {
   const {
     specificname,
