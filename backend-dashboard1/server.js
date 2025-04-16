@@ -1736,32 +1736,17 @@ app.get("/api/month", async (req, res) => {
 
   try {
     const query = `
-      SELECT created_month, COUNT(*) AS count
+      SELECT TO_CHAR(created_at, 'Month') AS created_month, COUNT(*) AS count
       FROM species
-      WHERE created_month IS NOT NULL
+      WHERE created_at IS NOT NULL
       GROUP BY created_month
-      ORDER BY 
-        CASE created_month
-          WHEN 'January' THEN 1
-          WHEN 'February' THEN 2
-          WHEN 'March' THEN 3
-          WHEN 'April' THEN 4
-          WHEN 'May' THEN 5
-          WHEN 'June' THEN 6
-          WHEN 'July' THEN 7
-          WHEN 'August' THEN 8
-          WHEN 'September' THEN 9
-          WHEN 'October' THEN 10
-          WHEN 'November' THEN 11
-          WHEN 'December' THEN 12
-          ELSE 13
-        END
+      ORDER BY EXTRACT(MONTH FROM created_at)  -- Order by actual month number
     `;
 
     const result = await pool.query(query);
 
     const monthlyCounts = monthNames.map(month => {
-      const row = result.rows.find(r => r.created_month === month);
+      const row = result.rows.find(r => r.created_month.trim() === month);  // Trim in case of extra spaces in month names
       return row ? parseInt(row.count) : 0;
     });
 
