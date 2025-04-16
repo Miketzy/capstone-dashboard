@@ -1739,8 +1739,8 @@ app.get("/api/month", async (req, res) => {
       SELECT TO_CHAR(created_at, 'Month') AS created_month, COUNT(*) AS count
       FROM species
       WHERE created_at IS NOT NULL
-      GROUP BY created_month
-      ORDER BY EXTRACT(MONTH FROM created_at)  -- Order by actual month number
+      GROUP BY EXTRACT(MONTH FROM created_at), TO_CHAR(created_at, 'Month')
+      ORDER BY EXTRACT(MONTH FROM created_at)
     `;
 
     const result = await pool.query(query);
