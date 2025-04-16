@@ -1728,7 +1728,6 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-// Backend API route to fetch monthly species count
 app.get("/api/species/monthly", async (req, res) => {
   const query = `
     SELECT 
@@ -1736,33 +1735,36 @@ app.get("/api/species/monthly", async (req, res) => {
       COUNT(*) AS count
     FROM species
     GROUP BY created_month
-    ORDER BY EXTRACT(MONTH FROM TO_DATE(created_month, 'FMMonth')) -- Sort by actual month order
   `;
 
   try {
     const result = await pool.query(query);
-    
-    // Create an array of monthly counts, matching the month names
-    const monthlyCounts = new Array(12).fill(0); // Initialize with 0 counts for all months
-    result.rows.forEach(row => {
-      const monthNames = [
-        "January", "February", "March", "April", "May", "June", 
-        "July", "August", "September", "October", "November", "December"
-      ];
 
-      // Find the index for the month and set the corresponding count
+    // Define the month names in the correct order
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June", 
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Initialize an array for counts for each month
+    const monthlyCounts = new Array(12).fill(0);
+
+    // Process the query results
+    result.rows.forEach(row => {
       const monthIndex = monthNames.indexOf(row.created_month);
       if (monthIndex !== -1) {
         monthlyCounts[monthIndex] = parseInt(row.count, 10);
       }
     });
 
-    res.json({ monthlyCounts }); // Send back the array of counts
+    // Send back the monthly counts
+    res.json({ monthlyCounts });
   } catch (error) {
     console.error("Error fetching monthly species data:", error);
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 // Start the server
