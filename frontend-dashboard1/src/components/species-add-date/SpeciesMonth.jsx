@@ -12,7 +12,7 @@ const SpeciesMonth = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/species/monthly`); // Adjust with your backend URL
+        const response = await axios.get(`${API_URL}/api/month`); // Adjust with your backend URL
         setMonthlyCounts(response.data.monthlyCounts); // Update state with the fetched counts
       } catch (error) {
         console.error("Error fetching species data:", error);

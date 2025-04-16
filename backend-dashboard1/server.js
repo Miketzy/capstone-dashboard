@@ -1728,7 +1728,7 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-app.get("/api/species/monthly-counts", async (req, res) => {
+app.get("/api/month", async (req, res) => {
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -1760,13 +1760,9 @@ app.get("/api/species/monthly-counts", async (req, res) => {
 
     const result = await pool.query(query);
 
-    // Initialize with 0 counts for each month
     const monthlyCounts = monthNames.map(month => {
       const row = result.rows.find(r => r.created_month === month);
-      return {
-        month,
-        count: row ? parseInt(row.count) : 0
-      };
+      return row ? parseInt(row.count) : 0;
     });
 
     res.json({ monthlyCounts });
