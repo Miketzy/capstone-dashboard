@@ -1720,11 +1720,12 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
 
 app.get("/api/species/monthly", async (req, res) => {
   const { month } = req.query;
-
-  // Validate month param - must be an integer from 1 to 12
   const isValidMonth = /^\d+$/.test(month) && +month >= 1 && +month <= 12;
 
-  // Base SQL
+  if (month && !isValidMonth) {
+    return res.status(400).json({ message: "Invalid month parameter." });
+  }
+
   const baseQuery = `
     SELECT 
       EXTRACT(MONTH FROM created_at) AS month,
@@ -1750,6 +1751,7 @@ app.get("/api/species/monthly", async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 });
+
 
 
 // Start the server
