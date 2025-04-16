@@ -15,6 +15,8 @@ import nodemailer from "nodemailer";
 import crypto from "crypto"; // For OTP generation
 import http from "http";
 import { Server } from "socket.io";
+import axios from 'axios';
+
 
 dotenv.config(); // Load environment variables from .env
 
@@ -368,6 +370,8 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
+
+
 app.post("/create", upload.single("file"), async (req, res) => {
   const {
     specificname,
@@ -393,14 +397,43 @@ app.post("/create", upload.single("file"), async (req, res) => {
   // Automatically set the current month (e.g., "January", "February", etc.)
   const createdMonth = new Date().toLocaleString('en-US', { month: 'long', timeZone: 'Asia/Manila' });
 
-  // Save to Database
+  // Initialize latitude and longitude
+  let latitude = null;
+  let longitude = null;
+
+  // Get latitude and longitude from location if available
+  if (location) {
+    try {
+      // Use Nominatim API to get coordinates based on the location
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+        params: {
+          q: location,
+          format: 'json',
+          addressdetails: 1,
+          limit: 1,
+        },
+      });
+
+      if (response.data && response.data.length > 0) {
+        // Extract latitude and longitude
+        latitude = response.data[0].lat;
+        longitude = response.data[0].lon;
+      } else {
+        console.log("Location not found on Nominatim.");
+      }
+    } catch (err) {
+      console.error("Error fetching coordinates:", err);
+    }
+  }
+
+  // Save to Database with latitude and longitude
   const query = `
     INSERT INTO species (
       specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
       location, conservationstatus, conservationeffort, description, classification, 
-      uploadimage, created_at, created_month
+      uploadimage, latitude, longitude, created_at, created_month
     ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) 
     RETURNING *`;
 
   try {
@@ -418,6 +451,8 @@ app.post("/create", upload.single("file"), async (req, res) => {
       description,
       classification,
       uploadimage, // Cloudinary URL
+      latitude,     // Latitude from geocoding
+      longitude,    // Longitude from geocoding
       currentTime,  // Current date and time
       createdMonth  // Automatically generated current month
     ]);
@@ -432,6 +467,7 @@ app.post("/create", upload.single("file"), async (req, res) => {
     res.status(500).send("Server error. Failed to add species.");
   }
 });
+
 
 
 
