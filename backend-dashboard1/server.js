@@ -389,50 +389,48 @@ app.post("/create", upload.single("file"), async (req, res) => {
   // Get Cloudinary URL
   const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
 
-  // Get current date and time in Manila timezone (or you can set this to your desired timezone)
-  const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-
-  // Automatically set the current month (e.g., "January", "February", etc.)
-  const createdMonth = new Date().toLocaleString('en-US', { month: 'long', timeZone: 'Asia/Manila' });
-
-  // Fetch latitude and longitude using Nominatim API
-  async function getCoordinates(location) {
-    try {
-      const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+  // Fetch latitude and longitude for location using Nominatim
+  let latitude = null;
+  let longitude = null;
+  
+  try {
+    const response = await axios.get(
+      `https://nominatim.openstreetmap.org/search`,
+      {
         params: {
           q: location,
-          format: 'json',
+          format: "json",
           addressdetails: 1,
           limit: 1,
-        }
-      });
-
-      if (response.data && response.data.length > 0) {
-        const lat = response.data[0].lat;
-        const lon = response.data[0].lon;
-        return { latitude: lat, longitude: lon };
-      } else {
-        console.error('Location not found!');
-        return { latitude: null, longitude: null }; // Return null if location is not found
+        },
       }
-    } catch (error) {
-      console.error('Error fetching coordinates:', error);
-      return { latitude: null, longitude: null }; // Return null if error occurs
+    );
+
+    // If the response is not empty, set latitude and longitude
+    if (response.data.length > 0) {
+      latitude = response.data[0].lat;
+      longitude = response.data[0].lon;
     }
+  } catch (err) {
+    console.error("Error fetching location data:", err);
   }
 
-  // Get coordinates for the provided location
-  const { latitude, longitude } = await getCoordinates(location);
+  // Get current date and time in Manila timezone (or you can set this to your desired timezone)
+  const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
 
-  // Save to Database
+  // Automatically set the current month (e.g., "January", "February", etc.)
+  const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
+
+  // Save to Database (Include latitude and longitude)
   const query = `
     INSERT INTO species (
       specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
       location, conservationstatus, conservationeffort, description, classification, 
       uploadimage, created_at, created_month, latitude, longitude
     ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) 
-    RETURNING *`;
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) 
+    RETURNING *
+  `;
 
   try {
     const result = await pool.query(query, [
@@ -450,20 +448,22 @@ app.post("/create", upload.single("file"), async (req, res) => {
       classification,
       uploadimage, // Cloudinary URL
       currentTime,  // Current date and time
-      createdMonth,  // Automatically generated current month
-      latitude,     // Latitude
-      longitude,    // Longitude
+      createdMonth, // Automatically generated current month
+      latitude,     // Latitude from Nominatim
+      longitude,    // Longitude from Nominatim
     ]);
 
     res.status(201).json({
       message: "Species added successfully!",
       species: result.rows[0],
     });
+
   } catch (err) {
     console.error("Error inserting species data:", err);
     res.status(500).send("Server error. Failed to add species.");
   }
 });
+
 
 
 
