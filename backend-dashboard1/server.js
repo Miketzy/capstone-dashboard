@@ -372,6 +372,8 @@ const upload = multer({ storage });
 
 
 
+import axios from 'axios';
+
 app.post("/create", upload.single("file"), async (req, res) => {
   const {
     specificname,
@@ -397,43 +399,43 @@ app.post("/create", upload.single("file"), async (req, res) => {
   // Automatically set the current month (e.g., "January", "February", etc.)
   const createdMonth = new Date().toLocaleString('en-US', { month: 'long', timeZone: 'Asia/Manila' });
 
-  // Initialize latitude and longitude
-  let latitude = null;
-  let longitude = null;
-
-  // Get latitude and longitude from location if available
-  if (location) {
+  // Fetch latitude and longitude using Nominatim API
+  async function getCoordinates(location) {
     try {
-      // Use Nominatim API to get coordinates based on the location
-      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+      const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
           q: location,
           format: 'json',
           addressdetails: 1,
           limit: 1,
-        },
+        }
       });
 
       if (response.data && response.data.length > 0) {
-        // Extract latitude and longitude
-        latitude = response.data[0].lat;
-        longitude = response.data[0].lon;
+        const lat = response.data[0].lat;
+        const lon = response.data[0].lon;
+        return { latitude: lat, longitude: lon };
       } else {
-        console.log("Location not found on Nominatim.");
+        console.error('Location not found!');
+        return { latitude: null, longitude: null }; // Return null if location is not found
       }
-    } catch (err) {
-      console.error("Error fetching coordinates:", err);
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+      return { latitude: null, longitude: null }; // Return null if error occurs
     }
   }
 
-  // Save to Database with latitude and longitude
+  // Get coordinates for the provided location
+  const { latitude, longitude } = await getCoordinates(location);
+
+  // Save to Database
   const query = `
     INSERT INTO species (
       specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
       location, conservationstatus, conservationeffort, description, classification, 
-      uploadimage, latitude, longitude, created_at, created_month
+      uploadimage, created_at, created_month, latitude, longitude
     ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) 
     RETURNING *`;
 
   try {
@@ -451,23 +453,21 @@ app.post("/create", upload.single("file"), async (req, res) => {
       description,
       classification,
       uploadimage, // Cloudinary URL
-      latitude,     // Latitude from geocoding
-      longitude,    // Longitude from geocoding
       currentTime,  // Current date and time
-      createdMonth  // Automatically generated current month
+      createdMonth,  // Automatically generated current month
+      latitude,     // Latitude
+      longitude,    // Longitude
     ]);
 
     res.status(201).json({
       message: "Species added successfully!",
       species: result.rows[0],
     });
-
   } catch (err) {
     console.error("Error inserting species data:", err);
     res.status(500).send("Server error. Failed to add species.");
   }
 });
-
 
 
 
