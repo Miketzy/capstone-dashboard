@@ -1728,52 +1728,47 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
   }
 });
 
-app.get("/api/species/monthly", async (req, res) => {
-  const query = `
-    SELECT 
-      created_month, 
-      COUNT(*) AS count
-    FROM species
-    GROUP BY created_month
-    ORDER BY 
-      CASE created_month
-        WHEN 'January' THEN 1
-        WHEN 'February' THEN 2
-        WHEN 'March' THEN 3
-        WHEN 'April' THEN 4
-        WHEN 'May' THEN 5
-        WHEN 'June' THEN 6
-        WHEN 'July' THEN 7
-        WHEN 'August' THEN 8
-        WHEN 'September' THEN 9
-        WHEN 'October' THEN 10
-        WHEN 'November' THEN 11
-        WHEN 'December' THEN 12
-        ELSE 13
-      END
-  `;
+app.get("/api/species/monthly-counts", async (req, res) => {
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 
   try {
+    const query = `
+      SELECT created_month, COUNT(*) AS count
+      FROM species
+      WHERE created_month IS NOT NULL
+      GROUP BY created_month
+      ORDER BY 
+        CASE created_month
+          WHEN 'January' THEN 1
+          WHEN 'February' THEN 2
+          WHEN 'March' THEN 3
+          WHEN 'April' THEN 4
+          WHEN 'May' THEN 5
+          WHEN 'June' THEN 6
+          WHEN 'July' THEN 7
+          WHEN 'August' THEN 8
+          WHEN 'September' THEN 9
+          WHEN 'October' THEN 10
+          WHEN 'November' THEN 11
+          WHEN 'December' THEN 12
+          ELSE 13
+        END
+    `;
+
     const result = await pool.query(query);
 
-    // Define the month names in the correct order
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June", 
-      "July", "August", "September", "October", "November", "December"
-    ];
-
-    // Initialize an array for counts for each month
-    const monthlyCounts = new Array(12).fill(0);
-
-    // Process the query results
-    result.rows.forEach(row => {
-      const monthIndex = monthNames.indexOf(row.created_month);
-      if (monthIndex !== -1) {
-        monthlyCounts[monthIndex] = parseInt(row.count, 10);
-      }
+    // Initialize with 0 counts for each month
+    const monthlyCounts = monthNames.map(month => {
+      const row = result.rows.find(r => r.created_month === month);
+      return {
+        month,
+        count: row ? parseInt(row.count) : 0
+      };
     });
 
-    // Send back the monthly counts
     res.json({ monthlyCounts });
   } catch (error) {
     console.error("Error fetching monthly species data:", error);
