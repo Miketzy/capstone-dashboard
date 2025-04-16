@@ -92,7 +92,7 @@ function ImageGallery() {
                     <img
                       src={image.uploadimage} // Cloudinary URL directly
                       alt={image.commonname || "No image available"}
-                      className="w-full h-40 rounded-lg object-cover"
+                      className="w-full h-40 rounded-lg"
                       onError={(e) => {
                         e.target.src =
                           "https://via.placeholder.com/150?text=No+Image"; // Default image if broken
