@@ -1721,23 +1721,22 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
 app.get("/api/species/monthly", async (req, res) => {
   const { month } = req.query;
 
-  // Validation: make sure 'month' is either undefined or a valid number from 1–12
-  if (month && (!/^\d+$/.test(month) || month < 1 || month > 12)) {
-    return res.status(400).json({ message: "Invalid 'month' parameter. It must be a number between 1 and 12." });
-  }
+  // Validate month param - must be an integer from 1 to 12
+  const isValidMonth = /^\d+$/.test(month) && +month >= 1 && +month <= 12;
 
-  let query = `
+  // Base SQL
+  const baseQuery = `
     SELECT 
       EXTRACT(MONTH FROM created_at) AS month,
       COUNT(*) AS count
     FROM species
-    ${month ? "WHERE EXTRACT(MONTH FROM created_at) = $1" : ""}
+    ${isValidMonth ? "WHERE EXTRACT(MONTH FROM created_at) = $1" : ""}
     GROUP BY month
     ORDER BY month;
   `;
 
   try {
-    const result = await pool.query(query, month ? [parseInt(month)] : []);
+    const result = await pool.query(baseQuery, isValidMonth ? [+month] : []);
     const monthlyCounts = new Array(12).fill(0);
 
     result.rows.forEach(row => {
