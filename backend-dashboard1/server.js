@@ -1729,42 +1729,6 @@ app.put('/listspecies/:id', upload.single('uploadimage'), async (req, res) => {
 });
 
 
-app.get("/api/species/monthly", async (req, res) => {
-  const { month } = req.query;
-  const isValidMonth = /^\d+$/.test(month) && +month >= 1 && +month <= 12;
-
-  if (month && !isValidMonth) {
-    return res.status(400).json({ message: "Invalid month parameter." });
-  }
-
-  const baseQuery = `
-    SELECT 
-      EXTRACT(MONTH FROM created_at) AS month,
-      COUNT(*) AS count
-    FROM species
-    ${isValidMonth ? "WHERE EXTRACT(MONTH FROM created_at) = $1" : ""}
-    GROUP BY month
-    ORDER BY month;
-  `;
-
-  try {
-    const result = await pool.query(baseQuery, isValidMonth ? [+month] : []);
-    const monthlyCounts = new Array(12).fill(0);
-
-    result.rows.forEach(row => {
-      const monthIndex = parseInt(row.month, 10) - 1;
-      monthlyCounts[monthIndex] = parseInt(row.count, 10);
-    });
-
-    res.json({ monthlyCounts });
-  } catch (error) {
-    console.error("Error fetching monthly species data:", error);
-    res.status(500).json({ message: "Server error." });
-  }
-});
-
-
-
 // Start the server
 server.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
