@@ -1,11 +1,27 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Chart } from "chart.js/auto";
+import axios from "axios"; // Import axios to make the API request
+import API_URL from "../../config"; // Dalawang level up ✅
 
 const SpeciesMonth = () => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const [monthlyCounts, setMonthlyCounts] = useState(new Array(12).fill(0)); // Initialize with zero counts
 
+  // Fetch the monthly species count from the backend
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/species/monthly`); // Adjust with your backend URL
+        setMonthlyCounts(response.data.monthlyCounts); // Update state with the fetched counts
+      } catch (error) {
+        console.error("Error fetching species data:", error);
+      }
+    };
+
+    fetchData(); // Call the function to fetch the data
+
+    // Create the chart once the data is fetched
     if (chartRef && chartRef.current) {
       chartInstance.current = new Chart(chartRef.current, {
         type: "line",
@@ -27,7 +43,7 @@ const SpeciesMonth = () => {
           datasets: [
             {
               label: "Number of Species Added",
-              data: [2, 5, 3, 4, 6, 7, 8, 4, 6, 5, 3, 9],
+              data: monthlyCounts, // Use the dynamic data from the state
               backgroundColor: "rgba(54, 162, 235, 0.2)",
               borderColor: "rgba(54, 162, 235, 1)",
               borderWidth: 2,
@@ -71,10 +87,10 @@ const SpeciesMonth = () => {
 
     return () => {
       if (chartInstance.current) {
-        chartInstance.current.destroy();
+        chartInstance.current.destroy(); // Cleanup the chart when component unmounts
       }
     };
-  }, []);
+  }, [monthlyCounts]); // Only re-run the effect when `monthlyCounts` changes
 
   return (
     <div className="container mx-auto px-4 py-8 mt-[-100px] sm:mt-[-100px] md:mt-[-298px] lg:mt-[-300px] xl:mt-[-350px] 2xl:mt-[-350px]">
