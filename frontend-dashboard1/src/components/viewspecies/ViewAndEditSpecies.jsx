@@ -361,7 +361,9 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
                   {selectSpecies?.commonname}
                 </p>
                 <p className="text-lg text-gray-800">
-                  <strong className="text-green-800">Habitat:</strong>{" "}
+                  <strong className="text-green-800 text-justify">
+                    Habitat:
+                  </strong>{" "}
                   {selectSpecies?.habitat}
                 </p>
                 <p className="text-lg text-gray-800">
@@ -373,7 +375,9 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
                   {selectSpecies?.classification}
                 </p>
                 <p className="text-lg text-gray-800">
-                  <strong className="text-green-800">Population:</strong>{" "}
+                  <strong className="text-green-800 text-justify">
+                    Population:
+                  </strong>{" "}
                   {selectSpecies?.population}
                 </p>
                 <p className="text-lg text-gray-800">
@@ -389,11 +393,11 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
                   </strong>{" "}
                   {selectSpecies?.conservationstatus}
                 </p>
-                <p className="text-lg text-gray-800">
+                <p className="text-lg text-gray-800 text-justify">
                   <strong className="text-green-800">Threats:</strong>{" "}
                   {selectSpecies?.threats}
                 </p>
-                <p className="text-lg text-gray-800">
+                <p className="text-lg text-gray-800 text-justify">
                   <strong className="text-green-800">
                     Conservation Efforts:
                   </strong>{" "}
