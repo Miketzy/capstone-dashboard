@@ -24,6 +24,7 @@ import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-
 import CheckAuth from "./checkAuth/CheckAuth";
 import { useEffect } from 'react';
 import SpeciesAnalyticsDasboard from "./pages/home/Species-Analytics-Dashboard/SpeciesAnalyticsDasboard";
+import API_URL from "../../config";
 
 
 
@@ -35,7 +36,7 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("https://capstone2-client.onrender.com/keep-alive")
+      fetch(`${API_URL}/keep-alive`)
       .then(res => console.log("keeping backend awake..."))
       .catch(err => console.error("Failed to ping backend:", err));
     }, 5 * 60 * 1000);
