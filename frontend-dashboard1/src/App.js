@@ -24,7 +24,7 @@ import ContributorMyprofileDashboard from "./pages/Contributor-Home/Contributor-
 import CheckAuth from "./checkAuth/CheckAuth";
 import { useEffect } from 'react';
 import SpeciesAnalyticsDasboard from "./pages/home/Species-Analytics-Dashboard/SpeciesAnalyticsDasboard";
-import API_URL from "../../config";
+import API_URL from "./config";
 
 
 
