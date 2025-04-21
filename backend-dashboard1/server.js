@@ -1024,7 +1024,6 @@ app.get("/contrbutornavbar", verifyUser, (req, res) => {
   });
 });
 
-// Route to add species to pending request
 app.post("/species/pending", upload.single("file"), async (req, res) => {
   try {
     const {
@@ -1058,25 +1057,45 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
       });
     }
 
-    const timestamp = Date.now();
-    let uploadimage = null;
+    // Get Cloudinary URL
+    const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
 
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "species-images",
-        public_id: timestamp.toString(),
-        format: "jpg",
-      });
+    // Fetch latitude and longitude for location using Nominatim
+    let latitude = null;
+    let longitude = null;
 
-      uploadimage = `https://res.cloudinary.com/dvj4mroel/image/upload/v${timestamp}/species-images/${timestamp}.jpg`;
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search`,
+        {
+          params: {
+            q: location,
+            format: "json",
+            addressdetails: 1,
+            limit: 1,
+          },
+        }
+      );
+
+      if (response.data.length > 0) {
+        latitude = response.data[0].lat;
+        longitude = response.data[0].lon;
+      }
+    } catch (err) {
+      console.error("Error fetching location data:", err);
     }
 
+    // Get current date and month in Manila timezone
+    const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+    const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
+
+    // Save to Database
     const sql = `
       INSERT INTO pending_request
       (specificname, scientificname, commonname, habitat, population, threats, 
        location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, 
-       contributor_firstname, contributor_lastname, contributor_email)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+       contributor_firstname, contributor_lastname, contributor_email, latitude, longitude, created_at, created_month)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
       RETURNING *;
     `;
 
@@ -1096,6 +1115,10 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
       contributor_firstname,
       contributor_lastname,
       contributor_email,
+      latitude,
+      longitude,
+      currentTime,
+      createdMonth
     ]);
 
     res.status(201).json({
