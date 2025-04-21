@@ -1245,6 +1245,19 @@ app.put("/species/approve/:id", async (req, res) => {
   }
 });
 
+// Endpoint to get the count of pending requests (PostgreSQL version)
+app.get("/pending-request-count", async (req, res) => {
+  const sql = "SELECT COUNT(*) AS count FROM pending_request";
+
+  try {
+    const result = await pool.query(sql);
+    res.status(200).json({ count: result.rows[0].count });
+  } catch (err) {
+    console.error("Error fetching pending request count:", err);
+    res.status(500).json({ message: "Failed to fetch request count" });
+  }
+});
+
 
 app.delete("/species/reject/:id", async (req, res) => {
   const speciesId = req.params.id;
