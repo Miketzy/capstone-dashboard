@@ -1832,6 +1832,18 @@ app.get("/api/month", async (req, res) => {
   }
 });
 
+// Endpoint to keep the database connection alive (PostgreSQL version)
+app.get("/keep-alive", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    res.send("Backend and database are alive");
+  } catch (err) {
+    console.error("Database keep-alive error:", err);
+    res.status(500).send("Database connection error");
+  }
+});
+
+
 
 
 // Start the server
