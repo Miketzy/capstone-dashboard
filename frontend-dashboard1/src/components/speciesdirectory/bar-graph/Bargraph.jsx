@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  LabelList, // Import LabelList for positioning labels
+  LabelList,
 } from "recharts";
 import axios from "axios";
 
