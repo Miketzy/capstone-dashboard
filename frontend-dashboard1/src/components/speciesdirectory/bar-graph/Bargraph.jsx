@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import API_URL from "../../../config";
+import API_URL from "../../../Config";
 import {
   BarChart,
   Bar,
@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import axios from "axios";
 
-function Graph() {
+function Bargraph() {
   const [data, setData] = useState([
     { name: "Mammals", count: 0, color: "#FFB3C6" },
     { name: "Fish", count: 0, color: "#FFE6A6" },
@@ -124,4 +124,4 @@ function Graph() {
   );
 }
 
-export default Graph;
+export default Bargraph;
