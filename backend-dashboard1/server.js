@@ -1181,7 +1181,7 @@ app.put("/species/approve/:id", async (req, res) => {
   const speciesId = req.params.id;
 
   try {
-    // Fetch the pending request
+    // 1. Fetch the pending request
     const fetchSql = "SELECT * FROM pending_request WHERE id = $1";
     const result = await pool.query(fetchSql, [speciesId]);
 
@@ -1191,11 +1191,14 @@ app.put("/species/approve/:id", async (req, res) => {
 
     const species = result.rows[0];
 
-    // Insert into species table
+    // 2. Insert into species table (including created_at, created_month, latitude, longitude)
     const insertSql = `
-      INSERT INTO species (specificname, scientificname, commonname, habitat, population, threats, 
-      location, conservationstatus, speciescategory, conservationeffort, description, uploadimage)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      INSERT INTO species (
+        specificname, scientificname, commonname, habitat, population, threats, 
+        location, conservationstatus, speciescategory, conservationeffort, description, 
+        uploadimage, created_at, created_month, latitude, longitude
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
     `;
 
     await pool.query(insertSql, [
@@ -1211,18 +1214,22 @@ app.put("/species/approve/:id", async (req, res) => {
       species.conservationeffort,
       species.description,
       species.uploadimage,
+      species.created_at,    // ✔ kasama na
+      species.created_month, // ✔ kasama na
+      species.latitude,      // ✔ kasama na
+      species.longitude,     // ✔ kasama na
     ]);
 
-    // Delete from pending_request after approval
+    // 3. Delete from pending_request after approval
     const deleteSql = "DELETE FROM pending_request WHERE id = $1";
     await pool.query(deleteSql, [speciesId]);
 
-    // Send email notification to the contributor
+    // 4. Send email notification to the contributor
     if (species.contributor_email) {
       sendEmailNotification(species.contributor_email, species.specificname);
     }
 
-    // Emit a WebSocket notification to the contributor
+    // 5. Emit a WebSocket notification to the contributor
     if (species.contributor_id) {
       console.log(`Notifying contributor ${species.contributor_id}`);
       io.emit(`notify-contributor-${species.contributor_id}`, {
@@ -1230,12 +1237,14 @@ app.put("/species/approve/:id", async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: "No Request" });
+    res.status(200).json({ message: "Species approved successfully!" });
+
   } catch (error) {
     console.error("Error processing species approval:", error);
     res.status(500).json({ message: "Failed to approve species" });
   }
 });
+
 
 app.delete("/species/reject/:id", async (req, res) => {
   const speciesId = req.params.id;
