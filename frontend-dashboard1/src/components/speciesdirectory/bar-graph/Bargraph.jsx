@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import API_URL from "../../config";
+import API_URL from "../../../config";
 import {
   BarChart,
   Bar,
@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  LabelList,
+  LabelList, // Import LabelList for positioning labels
 } from "recharts";
 import axios from "axios";
 
@@ -31,23 +31,24 @@ function Bargraph() {
   ]);
 
   useEffect(() => {
+    // Fetch species counts from the backend API
     axios
       .get(`${API_URL}/speciesCounts`)
       .then((res) => {
         const counts = res.data;
         setData([
-          { name: "Mammals", count: counts.mammals, color: "#4CAF50" },
-          { name: "Fish", count: counts.fish, color: "#4CAF50" },
-          { name: "Birds", count: counts.birds, color: "#4CAF50" },
-          { name: "Reptiles", count: counts.reptiles, color: "#4CAF50" },
-          { name: "Amphibians", count: counts.amphibians, color: "#4CAF50" },
-          { name: "Insects", count: counts.insects, color: "#4CAF50" },
-          { name: "Arachnids", count: counts.arachnids, color: "#4CAF50" },
-          { name: "Mollusks", count: counts.mollusks, color: "#4CAF50" },
-          { name: "Echinoderms", count: counts.echinoderms, color: "#4CAF50" },
-          { name: "Cnidarians", count: counts.cnidarians, color: "#4CAF50" },
-          { name: "Worms", count: counts.worms, color: "#4CAF50" },
-          { name: "Sponges", count: counts.sponges, color: "#4CAF50" },
+          { name: "Mammals", count: counts.mammals, color: "#FFB3C6" },
+          { name: "Fish", count: counts.fish, color: "#FFE6A6" },
+          { name: "Birds", count: counts.birds, color: "#B3E0FF" },
+          { name: "Reptiles", count: counts.reptiles, color: "#D9FFCC" },
+          { name: "Amphibians", count: counts.amphibians, color: "#FFDAA6" },
+          { name: "Insects", count: counts.insects, color: "#FFB3C6" },
+          { name: "Arachnids", count: counts.arachnids, color: "#B3E0FF" },
+          { name: "Mollusks", count: counts.mollusks, color: "#D9FFCC" },
+          { name: "Echinoderms", count: counts.echinoderms, color: "#FFDAA6" },
+          { name: "Cnidarians", count: counts.cnidarians, color: "#FFDAA6" },
+          { name: "Worms", count: counts.worms, color: "#C1A3FF" },
+          { name: "Sponges", count: counts.sponges, color: "#A8E6CF" },
         ]);
       })
       .catch((err) => {
@@ -55,69 +56,69 @@ function Bargraph() {
       });
   }, []);
 
+  // Helper function to format large numbers
   const formatNumber = (number) => {
     if (number >= 1_000_000) {
-      return (number / 1_000_000).toFixed(1) + "M";
+      return (number / 1_000_000).toFixed(1) + "M"; // Show in millions
     } else if (number >= 1_000) {
-      return (number / 1_000).toFixed(1) + "K";
+      return (number / 1_000).toFixed(1) + "K"; // Show in thousands
     }
     return number;
   };
 
-  // Get the maximum count to set the YAxis domain dynamically
-  const maxCount = Math.max(...data.map((entry) => entry.count));
-
   return (
-    <div className="min-h-screen py-12">
-      <div className="mt-1 p-8 bg-white rounded-lg shadow-2xl max-w-7xl mx-auto">
-        <div className="flex justify-center overflow-x-auto">
-          <div
-            style={{
-              width: data.length > 8 ? `${data.length * 100}px` : "100%",
-            }}
-          >
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart
-                data={data}
-                margin={{
-                  top: 20,
-                  right: 30,
-                  left: 20,
-                  bottom: 50,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                <XAxis
-                  dataKey="name"
-                  interval={0}
-                  angle={-45}
-                  textAnchor="end"
-                  fontSize={14}
-                  fill="#4B5563"
+    <div className="from-purple-200 via-indigo-200 to-pink-200 min-h-screen py-12">
+      <div className="bg-blue-500 shadow-lg rounded-lg p-4 flex items-center justify-between h-12">
+        <h1 className="text-xl md:text-2xl text-white font-semibold">
+          Analytics
+        </h1>
+      </div>
+      <div className="mt-12 p-8 bg-gradient-to-r from-purple-100 via-indigo-100 to-pink-100 rounded-lg shadow-2xl max-w-5xl mx-auto">
+        <h1 className="text-4xl font-bold text-gray-800 text-center mb-10">
+          Species Comparison
+        </h1>
+        <div className="flex justify-center">
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 50,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+              <XAxis
+                dataKey="name"
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                fontSize={14}
+                fill="#4B5563"
+              />
+              <YAxis
+                fontSize={14}
+                tickFormatter={formatNumber}
+                fill="#4B5563"
+              />
+              <Tooltip formatter={(value) => formatNumber(value)} />
+              <Legend />
+              <Bar dataKey="count" radius={[10, 10, 0, 0]}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+                {/* Add LabelList to display the count above each bar */}
+                <LabelList
+                  dataKey="count"
+                  position="top" // Position the label at the top of each bar
+                  fill="#4B5563" // Label color
+                  fontSize={12} // Font size for the labels
+                  formatter={(value) => formatNumber(value)} // Format the numbers
                 />
-                <YAxis
-                  fontSize={14}
-                  tickFormatter={formatNumber}
-                  fill="#4B5563"
-                  domain={[0, maxCount]} // Dynamically adjust the YAxis domain
-                />
-                <Tooltip formatter={(value) => formatNumber(value)} />
-                <Legend />
-                <Bar dataKey="count" radius={[10, 10, 0, 0]}>
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                  <LabelList
-                    dataKey="count"
-                    position="top"
-                    fill="#4B5563"
-                    fontSize={12}
-                    formatter={(value) => formatNumber(value)}
-                  />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
