@@ -65,7 +65,7 @@ function Bargraph() {
   };
 
   return (
-    <div className="from-purple-200 via-indigo-200 to-pink-200 min-h-screen py-12">
+    <div className="bg-white min-h-screen py-12">
       <div className="bg-blue-500 shadow-lg rounded-lg p-4 flex items-center justify-between h-12">
         <h1 className="text-xl md:text-2xl text-white font-semibold">
           Analytics
