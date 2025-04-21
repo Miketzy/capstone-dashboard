@@ -65,13 +65,13 @@ function Bargraph() {
   };
 
   return (
-    <div className="bg-white min-h-screen py-12">
+    <div className="min-h-screen py-12">
       <div className="bg-blue-500 shadow-lg rounded-lg p-4 flex items-center justify-between h-12">
         <h1 className="text-xl md:text-2xl text-white font-semibold">
           Analytics
         </h1>
       </div>
-      <div className="mt-12 p-8 bg-gradient-to-r from-purple-100 via-indigo-100 to-pink-100 rounded-lg shadow-2xl max-w-5xl mx-auto">
+      <div className="mt-12 p-8 bg-white rounded-lg shadow-2xl max-w-5xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-800 text-center mb-10">
           Species Comparison
         </h1>
