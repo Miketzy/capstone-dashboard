@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  LabelList, // Import LabelList for positioning labels
+  LabelList,
 } from "recharts";
 import axios from "axios";
 
@@ -31,7 +31,6 @@ function Bargraph() {
   ]);
 
   useEffect(() => {
-    // Fetch species counts from the backend API
     axios
       .get(`${API_URL}/speciesCounts`)
       .then((res) => {
@@ -56,12 +55,11 @@ function Bargraph() {
       });
   }, []);
 
-  // Helper function to format large numbers
   const formatNumber = (number) => {
     if (number >= 1_000_000) {
-      return (number / 1_000_000).toFixed(1) + "M"; // Show in millions
+      return (number / 1_000_000).toFixed(1) + "M";
     } else if (number >= 1_000) {
-      return (number / 1_000).toFixed(1) + "K"; // Show in thousands
+      return (number / 1_000).toFixed(1) + "K";
     }
     return number;
   };
@@ -101,6 +99,7 @@ function Bargraph() {
                 fontSize={14}
                 tickFormatter={formatNumber}
                 fill="#4B5563"
+                domain={[0, "dataMax + 5"]} // <-- ito yung fix para auto adjust ang Y-axis
               />
               <Tooltip formatter={(value) => formatNumber(value)} />
               <Legend />
@@ -108,13 +107,12 @@ function Bargraph() {
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
-                {/* Add LabelList to display the count above each bar */}
                 <LabelList
                   dataKey="count"
-                  position="top" // Position the label at the top of each bar
-                  fill="#4B5563" // Label color
-                  fontSize={12} // Font size for the labels
-                  formatter={(value) => formatNumber(value)} // Format the numbers
+                  position="top"
+                  fill="#4B5563"
+                  fontSize={12}
+                  formatter={(value) => formatNumber(value)}
                 />
               </Bar>
             </BarChart>
