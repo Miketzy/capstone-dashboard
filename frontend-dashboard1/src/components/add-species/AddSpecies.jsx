@@ -11,6 +11,9 @@ function AddSpecies() {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [file, setFile] = useState(null);
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
   const [specificname, setSpecificname] = useState("");
   const [scientificname, setScientificname] = useState("");
   const [commonname, setCommonname] = useState("");
@@ -84,7 +87,9 @@ function AddSpecies() {
     formData.append("description", description);
     formData.append("classification", classification); // Append the file to the form data
     formData.append("file", file);
-
+    formData.append("file", file1);
+    formData.append("file", file2);
+    formData.append("file", file3);
     axios
       .post(`${API_URL}/create`, formData)
       .then((response) => {
