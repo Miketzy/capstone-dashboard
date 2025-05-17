@@ -1225,7 +1225,7 @@ app.put("/species/approve/:id", async (req, res) => {
         location, conservationstatus, speciescategory, conservationeffort, description, 
         uploadimage, uploadimage1, uploadimage2, uploadimage3, created_at, created_month, latitude, longitude
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20 )
     `;
 
     await pool.query(insertSql, [
