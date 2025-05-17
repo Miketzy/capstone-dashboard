@@ -388,6 +388,9 @@ app.post("/create", upload.single("file"), async (req, res) => {
 
   // Get Cloudinary URL
   const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage1 = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage2 = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage3 = req.file ? req.file.path : null; // Cloudinary URL
 
   // Fetch latitude and longitude for location using Nominatim
   let latitude = null;
@@ -426,9 +429,9 @@ app.post("/create", upload.single("file"), async (req, res) => {
     INSERT INTO species (
       specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
       location, conservationstatus, conservationeffort, description, classification, 
-      uploadimage, created_at, created_month, latitude, longitude
+      uploadimage,uploadimage1,uploadimage2,uploadimage3, created_at, created_month, latitude, longitude
     ) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) 
     RETURNING *
   `;
 
@@ -447,6 +450,9 @@ app.post("/create", upload.single("file"), async (req, res) => {
       description,
       classification,
       uploadimage, // Cloudinary URL
+      uploadimage1, // Cloudinary URL
+      uploadimage2, // Cloudinary URL
+      uploadimage3, // Cloudinary URL
       currentTime,  // Current date and time
       createdMonth, // Automatically generated current month
       latitude,     // Latitude from Nominatim
