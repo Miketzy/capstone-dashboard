@@ -66,9 +66,9 @@ function AddSpecies() {
   };
 
   const upload = () => {
-    if (!file) {
-      setUploadStatus("Please select an image to upload");
-      window.alert("Please select an image to upload"); // Alert message for missing file
+    if (!file && !file1 && !file2 && !file3) {
+      setUploadStatus("Please select at least one image to upload");
+      window.alert("Please select at least one image to upload");
       return;
     }
 
@@ -79,17 +79,19 @@ function AddSpecies() {
     formData.append("habitat", habitat);
     formData.append("population", population);
     formData.append("threats", threats);
-    formData.append("speciescategory", speciescategory); // Correct field name
+    formData.append("speciescategory", speciescategory);
     formData.append("date", date);
     formData.append("location", location);
     formData.append("conservationstatus", conservationstatus);
     formData.append("conservationeffort", conservationeffort);
     formData.append("description", description);
-    formData.append("classification", classification); // Append the file to the form data
-    formData.append("file", file);
-    formData.append("file", file1);
-    formData.append("file", file2);
-    formData.append("file", file3);
+    formData.append("classification", classification);
+
+    if (file) formData.append("files[]", file);
+    if (file1) formData.append("files[]", file1);
+    if (file2) formData.append("files[]", file2);
+    if (file3) formData.append("files[]", file3);
+
     axios
       .post(`${API_URL}/create`, formData)
       .then((response) => {
