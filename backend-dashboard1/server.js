@@ -1030,7 +1030,7 @@ app.get("/contrbutornavbar", verifyUser, (req, res) => {
   });
 });
 
-app.post("/species/pending", upload.single("file"), async (req, res) => {
+app.post("/species/pending", upload.array("file", 4), async (req, res) => {
   try {
     const {
       specificname,
@@ -1063,16 +1063,22 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
       });
     }
 
-    // Get Cloudinary URL
-    const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
-    const uploadimage1 = req.file ? req.file.path : null; // Cloudinary URL
-    const uploadimage2 = req.file ? req.file.path : null; // Cloudinary URL
-    const uploadimage3 = req.file ? req.file.path : null; // Cloudinary URL
+    // Upload all files to Cloudinary (map through req.files)
+    const uploadResults = await Promise.all(
+      req.files.map(file =>
+        cloudinary.uploader.upload(file.path, { folder: 'species-images' })
+      )
+    );
 
-    // Fetch latitude and longitude for location using Nominatim
+    // Get the URLs from the upload results
+    const uploadimage = uploadResults[0]?.secure_url || null;
+    const uploadimage1 = uploadResults[1]?.secure_url || null;
+    const uploadimage2 = uploadResults[2]?.secure_url || null;
+    const uploadimage3 = uploadResults[3]?.secure_url || null;
+
+    // Fetch latitude and longitude using Nominatim
     let latitude = null;
     let longitude = null;
-
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search`,
@@ -1098,7 +1104,7 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
     const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
     const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
 
-    // Save to Database
+    // Insert into DB
     const sql = `
       INSERT INTO pending_request
       (specificname, scientificname, commonname, habitat, population, threats, 
