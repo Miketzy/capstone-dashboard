@@ -1221,9 +1221,9 @@ app.put("/species/approve/:id", async (req, res) => {
     // 2. Insert into species table (including created_at, created_month, latitude, longitude)
     const insertSql = `
       INSERT INTO species (
-      specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
-      location, conservationstatus, conservationeffort, description, classification, 
-      uploadimage, uploadimage1, uploadimage2, uploadimage3, created_at, created_month, latitude, longitude
+      specificname, scientificname, commonname, habitat, population, threats, location,speciescategory, 
+      conservationstatus, conservationeffort, description, 
+      uploadimage, classification, created_at, created_month, latitude, longitude,  uploadimage1, uploadimage2, uploadimage3,
       )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20 )
     `;
@@ -1236,19 +1236,19 @@ app.put("/species/approve/:id", async (req, res) => {
       species.population,
       species.threats,
       species.location,
-      species.conservationstatus,
       species.speciescategory,
+      species.conservationstatus,
       species.conservationeffort,
-      species.classification,
-      species.description,
+      species.description,     
       species.uploadimage,
-      species.uploadimage1,
-      species.uploadimage2,
-      species.uploadimage3,
+      species.classification,
       species.created_at,    // ✔ kasama na
       species.created_month, // ✔ kasama na
       species.latitude,      // ✔ kasama na
       species.longitude,     // ✔ kasama na
+      species.uploadimage1,
+      species.uploadimage2,
+      species.uploadimage3,
     ]);
 
     // 3. Delete from pending_request after approval
