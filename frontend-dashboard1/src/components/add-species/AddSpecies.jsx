@@ -32,7 +32,6 @@ function AddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage(imageUrl);
-      setImage1(imageUrl);
       setFile(selectedFile); // Set the file object
     }
   };
