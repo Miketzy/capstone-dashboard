@@ -66,9 +66,19 @@ function AddSpecies() {
   };
 
   const upload = () => {
-    if (!file && !file1 && !file2 && !file3) {
-      setUploadStatus("Please select at least one image to upload");
-      window.alert("Please select at least one image to upload");
+    if (!file) {
+      setUploadStatus("Please select an image to upload");
+      toast.error("Please select an image to upload", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
       return;
     }
 
