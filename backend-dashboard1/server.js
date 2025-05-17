@@ -1244,6 +1244,7 @@ app.put("/species/approve/:id", async (req, res) => {
       species.uploadimage1,
       species.uploadimage2,
       species.uploadimage3,
+      species.classification,
       species.created_at,    // ✔ kasama na
       species.created_month, // ✔ kasama na
       species.latitude,      // ✔ kasama na
