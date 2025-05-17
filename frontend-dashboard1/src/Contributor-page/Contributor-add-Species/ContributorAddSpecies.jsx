@@ -97,7 +97,6 @@ function ContributorAddSpecies() {
     formData.append("file1", file1);
     formData.append("file2", file2);
     formData.append("file3", file3);
-
     // Retrieve contributor's name from local storage
     const contributor_firstname = localStorage.getItem("contributor_firstname");
     const contributor_lastname = localStorage.getItem("contributor_lastname");
@@ -244,7 +243,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file1"
+                    type="file"
                     id="imginput2"
                     className="hidden"
                     onChange={handleImageChange1}
@@ -272,7 +271,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file2"
+                    type="file"
                     id="imginput3"
                     className="hidden"
                     onChange={handleImageChange2}
@@ -300,7 +299,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file3"
+                    type="file"
                     id="imginput4"
                     className="hidden"
                     onChange={handleImageChange3}
