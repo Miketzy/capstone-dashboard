@@ -94,9 +94,9 @@ function ContributorAddSpecies() {
     formData.append("conservationeffort", conservationeffort);
     formData.append("description", description);
     formData.append("file", file);
-    formData.append("file1", file1);
-    formData.append("file2", file2);
-    formData.append("file3", file3);
+    formData.append("file", file1);
+    formData.append("file", file2);
+    formData.append("file", file3);
     // Retrieve contributor's name from local storage
     const contributor_firstname = localStorage.getItem("contributor_firstname");
     const contributor_lastname = localStorage.getItem("contributor_lastname");

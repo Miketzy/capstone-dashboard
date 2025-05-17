@@ -1030,6 +1030,7 @@ app.get("/contrbutornavbar", verifyUser, (req, res) => {
   });
 });
 
+// ✅ Add this route
 app.post("/species/pending", upload.array("file", 4), async (req, res) => {
   try {
     const {
@@ -1058,60 +1059,64 @@ app.post("/species/pending", upload.array("file", 4), async (req, res) => {
       !contributor_email
     ) {
       return res.status(400).json({
-        message:
-          "Specific name, scientific name, common name, contributor first name, and contributor last name are required.",
+        message: "Required fields are missing.",
       });
     }
 
-    // Upload all files to Cloudinary (map through req.files)
     const uploadResults = await Promise.all(
       req.files.map(file =>
-        cloudinary.uploader.upload(file.path, { folder: 'species-images' })
+        cloudinary.uploader.upload(file.path, {
+          folder: 'species-images',
+        })
       )
     );
 
-    // Get the URLs from the upload results
     const uploadimage = uploadResults[0]?.secure_url || null;
     const uploadimage1 = uploadResults[1]?.secure_url || null;
     const uploadimage2 = uploadResults[2]?.secure_url || null;
     const uploadimage3 = uploadResults[3]?.secure_url || null;
 
-    // Fetch latitude and longitude using Nominatim
     let latitude = null;
     let longitude = null;
     try {
-      const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search`,
-        {
-          params: {
-            q: location,
-            format: "json",
-            addressdetails: 1,
-            limit: 1,
-          },
-        }
-      );
-
-      if (response.data.length > 0) {
-        latitude = response.data[0].lat;
-        longitude = response.data[0].lon;
+      const geoResponse = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+        params: {
+          q: location,
+          format: "json",
+          addressdetails: 1,
+          limit: 1,
+        },
+      });
+      if (geoResponse.data.length > 0) {
+        latitude = geoResponse.data[0].lat;
+        longitude = geoResponse.data[0].lon;
       }
     } catch (err) {
-      console.error("Error fetching location data:", err);
+      console.error("Location fetch error:", err.message);
     }
 
-    // Get current date and month in Manila timezone
-    const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
-    const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
+    const currentTime = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Manila"
+    });
+    const createdMonth = new Date().toLocaleString("en-US", {
+      month: "long",
+      timeZone: "Asia/Manila"
+    });
 
-    // Insert into DB
     const sql = `
-      INSERT INTO pending_request
-      (specificname, scientificname, commonname, habitat, population, threats, 
-       location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, uploadimage1, uploadimage2, uploadimage3,
-       contributor_firstname, contributor_lastname, contributor_email, latitude, longitude, created_at, created_month)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
-      RETURNING *;
+      INSERT INTO pending_request (
+        specificname, scientificname, commonname, habitat, population, threats,
+        location, speciescategory, conservationstatus, conservationeffort,
+        description, uploadimage, uploadimage1, uploadimage2, uploadimage3,
+        contributor_firstname, contributor_lastname, contributor_email,
+        latitude, longitude, created_at, created_month
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6,
+        $7, $8, $9, $10,
+        $11, $12, $13, $14, $15,
+        $16, $17, $18,
+        $19, $20, $21, $22
+      ) RETURNING *;
     `;
 
     const result = await pool.query(sql, [
@@ -1145,11 +1150,10 @@ app.post("/species/pending", upload.array("file", 4), async (req, res) => {
     });
 
   } catch (err) {
-    console.error("Error adding species to pending_request:", err);
-    res.status(500).json({ message: "Failed to submit species request." });
+    console.error("Error:", err);
+    res.status(500).json({ message: "Something went wrong submitting the request." });
   }
 });
-
 
 
 // Initialize Socket.IO with additional CORS settings
