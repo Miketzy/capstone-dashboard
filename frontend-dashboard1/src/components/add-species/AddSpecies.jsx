@@ -95,116 +95,121 @@ function AddSpecies() {
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="col-span-1 sm:col-span-2">
-            <div className="relative">
-              <label
-                htmlFor="imginput"
-                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
-              >
-                <input
-                  type="file"
-                  id="imginput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+            {/* Responsive layout: flex on medium and up, stacked on small screens */}
+            <div className="flex flex-wrap gap-4 sm:flex-col md:flex-row">
+              {/* Image Upload 1 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput1"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput1"
+                    className="hidden"
+                    onChange={handleImageChange}
+                  />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
 
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Uploaded Species"
-                    className="w-32 h-32  mx-auto my-4"
+              {/* Image Upload 2 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput2"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput2"
+                    className="hidden"
+                    onChange={handleImageChange}
                   />
-                ) : (
-                  <img
-                    src="/images/animals.jpg"
-                    alt="Default Species"
-                    className="w-32 h-32  mx-auto my-4"
-                  />
-                )}
-              </label>
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="imginput"
-                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
-              >
-                <input
-                  type="file"
-                  id="imginput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
 
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Uploaded Species"
-                    className="w-32 h-32  mx-auto my-4"
+              {/* Image Upload 3 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput3"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput3"
+                    className="hidden"
+                    onChange={handleImageChange}
                   />
-                ) : (
-                  <img
-                    src="/images/animals.jpg"
-                    alt="Default Species"
-                    className="w-32 h-32  mx-auto my-4"
-                  />
-                )}
-              </label>
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="imginput"
-                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
-              >
-                <input
-                  type="file"
-                  id="imginput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
 
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Uploaded Species"
-                    className="w-32 h-32  mx-auto my-4"
+              {/* Image Upload 4 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput4"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput4"
+                    className="hidden"
+                    onChange={handleImageChange}
                   />
-                ) : (
-                  <img
-                    src="/images/animals.jpg"
-                    alt="Default Species"
-                    className="w-32 h-32  mx-auto my-4"
-                  />
-                )}
-              </label>
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="imginput"
-                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
-              >
-                <input
-                  type="file"
-                  id="imginput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Uploaded Species"
-                    className="w-32 h-32  mx-auto my-4"
-                  />
-                ) : (
-                  <img
-                    src="/images/animals.jpg"
-                    alt="Default Species"
-                    className="w-32 h-32  mx-auto my-4"
-                  />
-                )}
-              </label>
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
             </div>
           </div>
-
           <div className="col-span-1">
             <label
               htmlFor="specific-name"
