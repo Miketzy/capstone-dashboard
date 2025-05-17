@@ -370,7 +370,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-app.post("/create", upload.single("file"), async (req, res) => {
+app.post("/create", upload.array("file", 4), async (req, res) => {
   const {
     specificname,
     scientificname,
@@ -386,50 +386,53 @@ app.post("/create", upload.single("file"), async (req, res) => {
     description,
   } = req.body;
 
-  // Get Cloudinary URL
-  const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
-  const uploadimage1 = req.file ? req.file.path : null; // Cloudinary URL
-  const uploadimage2 = req.file ? req.file.path : null; // Cloudinary URL
-  const uploadimage3 = req.file ? req.file.path : null; // Cloudinary URL
+  // req.files is an array of files, each with .path (Cloudinary URL or local path)
+  // You can assign them like this:
+  const uploadimage = req.files[0] ? req.files[0].path : null;
+  const uploadimage1 = req.files[1] ? req.files[1].path : null;
+  const uploadimage2 = req.files[2] ? req.files[2].path : null;
+  const uploadimage3 = req.files[3] ? req.files[3].path : null;
 
-  // Fetch latitude and longitude for location using Nominatim
-  let latitude = null;
-  let longitude = null;
+  // ... rest of your code (location lookup, DB insert) ...
   
-  try {
-    const response = await axios.get(
-      `https://nominatim.openstreetmap.org/search`,
-      {
-        params: {
-          q: location,
-          format: "json",
-          addressdetails: 1,
-          limit: 1,
-        },
-      }
-    );
-
-    // If the response is not empty, set latitude and longitude
-    if (response.data.length > 0) {
-      latitude = response.data[0].lat;
-      longitude = response.data[0].lon;
-    }
-  } catch (err) {
-    console.error("Error fetching location data:", err);
-  }
-
-  // Get current date and time in Manila timezone (or you can set this to your desired timezone)
-  const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
-
-  // Automatically set the current month (e.g., "January", "February", etc.)
-  const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
-
-  // Save to Database (Include latitude and longitude)
+   // Fetch latitude and longitude for location using Nominatim
+   let latitude = null;
+   let longitude = null;
+   
+   try {
+     const response = await axios.get(
+       `https://nominatim.openstreetmap.org/search`,
+       {
+         params: {
+           q: location,
+           format: "json",
+           addressdetails: 1,
+           limit: 1,
+         },
+       }
+     );
+ 
+     // If the response is not empty, set latitude and longitude
+     if (response.data.length > 0) {
+       latitude = response.data[0].lat;
+       longitude = response.data[0].lon;
+     }
+   } catch (err) {
+     console.error("Error fetching location data:", err);
+   }
+ 
+   // Get current date and time in Manila timezone (or you can set this to your desired timezone)
+   const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+ 
+   // Automatically set the current month (e.g., "January", "February", etc.)
+   const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
+ 
+ 
   const query = `
     INSERT INTO species (
       specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
       location, conservationstatus, conservationeffort, description, classification, 
-      uploadimage,uploadimage1,uploadimage2,uploadimage3, created_at, created_month, latitude, longitude
+      uploadimage, uploadimage1, uploadimage2, uploadimage3, created_at, created_month, latitude, longitude
     ) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) 
     RETURNING *
@@ -449,21 +452,20 @@ app.post("/create", upload.single("file"), async (req, res) => {
       conservationeffort,
       description,
       classification,
-      uploadimage, // Cloudinary URL
-      uploadimage1, // Cloudinary URL
-      uploadimage2, // Cloudinary URL
-      uploadimage3, // Cloudinary URL
-      currentTime,  // Current date and time
-      createdMonth, // Automatically generated current month
-      latitude,     // Latitude from Nominatim
-      longitude,    // Longitude from Nominatim
+      uploadimage,
+      uploadimage1,
+      uploadimage2,
+      uploadimage3,
+      currentTime,
+      createdMonth,
+      latitude,
+      longitude,
     ]);
 
     res.status(201).json({
       message: "Species added successfully!",
       species: result.rows[0],
     });
-
   } catch (err) {
     console.error("Error inserting species data:", err);
     res.status(500).send("Server error. Failed to add species.");
