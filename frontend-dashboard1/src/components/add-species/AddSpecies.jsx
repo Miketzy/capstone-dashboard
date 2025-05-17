@@ -43,7 +43,7 @@ function AddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage1(imageUrl);
-      setFile(selectedFile); // Set the file object
+      setFile1(selectedFile); // Set the file object
     }
   };
 
@@ -52,7 +52,7 @@ function AddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage2(imageUrl);
-      setFile(selectedFile); // Set the file object
+      setFile2(selectedFile); // Set the file object
     }
   };
 
@@ -61,7 +61,7 @@ function AddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage3(imageUrl);
-      setFile(selectedFile); // Set the file object
+      setFile3(selectedFile); // Set the file object
     }
   };
 
