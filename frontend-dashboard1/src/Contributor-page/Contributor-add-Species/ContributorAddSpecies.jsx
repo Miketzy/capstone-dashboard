@@ -8,6 +8,9 @@ import API_URL from "../../config"; // Dalawang level up ✅
 //conreibutor
 function ContributorAddSpecies() {
   const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
   const [file, setFile] = useState(null);
   const [specificname, setSpecificname] = useState("");
   const [scientificname, setScientificname] = useState("");
@@ -32,6 +35,32 @@ function ContributorAddSpecies() {
     }
   };
 
+  const handleImageChange1 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage1(imageUrl);
+      setFile(selectedFile);
+    }
+  };
+
+  const handleImageChange2 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage2(imageUrl);
+      setFile(selectedFile);
+    }
+  };
+
+  const handleImageChange3 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage3(imageUrl);
+      setFile(selectedFile);
+    }
+  };
   const upload = () => {
     if (!file) {
       setUploadStatus("Please select an image to upload");
@@ -172,32 +201,119 @@ function ContributorAddSpecies() {
       <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
           <div className="col-span-1 sm:col-span-2">
-            <div className="relative flex justify-center items-center">
-              <label
-                htmlFor="imginput"
-                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
-              >
-                <input
-                  type="file"
-                  id="imginput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+            {/* Responsive layout: flex on medium and up, stacked on small screens */}
+            <div className="flex flex-wrap gap-4 sm:flex-col md:flex-row">
+              {/* Image Upload 1 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput1"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput1"
+                    className="hidden"
+                    onChange={handleImageChange}
+                  />
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
 
-                {image ? (
-                  <img
-                    src={image}
-                    alt="Uploaded Species"
-                    className="w-32 h-32  mx-auto my-4"
+              {/* Image Upload 2 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput2"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput2"
+                    className="hidden"
+                    onChange={handleImageChange1}
                   />
-                ) : (
-                  <img
-                    src="/images/animals.jpg"
-                    alt="Default Species"
-                    className="w-32 h-32  mx-auto my-4"
+                  {image1 ? (
+                    <img
+                      src={image1}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
+
+              {/* Image Upload 3 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput3"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput3"
+                    className="hidden"
+                    onChange={handleImageChange2}
                   />
-                )}
-              </label>
+                  {image2 ? (
+                    <img
+                      src={image2}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
+
+              {/* Image Upload 4 */}
+              <div className="relative">
+                <label
+                  htmlFor="imginput4"
+                  className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+                >
+                  <input
+                    type="file"
+                    id="imginput4"
+                    className="hidden"
+                    onChange={handleImageChange3}
+                  />
+                  {image3 ? (
+                    <img
+                      src={image3}
+                      alt="Uploaded Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  ) : (
+                    <img
+                      src="/images/animals.jpg"
+                      alt="Default Species"
+                      className="w-32 h-32 mx-auto my-4"
+                    />
+                  )}
+                </label>
+              </div>
             </div>
           </div>
 
