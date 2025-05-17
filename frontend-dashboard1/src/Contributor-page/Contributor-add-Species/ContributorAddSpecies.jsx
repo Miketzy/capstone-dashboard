@@ -12,6 +12,9 @@ function ContributorAddSpecies() {
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [file, setFile] = useState(null);
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
   const [specificname, setSpecificname] = useState("");
   const [scientificname, setScientificname] = useState("");
   const [commonname, setCommonname] = useState("");
@@ -40,7 +43,7 @@ function ContributorAddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage1(imageUrl);
-      setFile(selectedFile);
+      setFile1(selectedFile);
     }
   };
 
@@ -49,7 +52,7 @@ function ContributorAddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage2(imageUrl);
-      setFile(selectedFile);
+      setFile2(selectedFile);
     }
   };
 
@@ -58,7 +61,7 @@ function ContributorAddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage3(imageUrl);
-      setFile(selectedFile);
+      setFile3(selectedFile);
     }
   };
   const upload = () => {
@@ -91,6 +94,9 @@ function ContributorAddSpecies() {
     formData.append("conservationeffort", conservationeffort);
     formData.append("description", description);
     formData.append("file", file);
+    formData.append("file1", file1);
+    formData.append("file2", file2);
+    formData.append("file3", file3);
 
     // Retrieve contributor's name from local storage
     const contributor_firstname = localStorage.getItem("contributor_firstname");
@@ -238,7 +244,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file"
+                    type="file1"
                     id="imginput2"
                     className="hidden"
                     onChange={handleImageChange1}
@@ -266,7 +272,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file"
+                    type="file2"
                     id="imginput3"
                     className="hidden"
                     onChange={handleImageChange2}
@@ -294,7 +300,7 @@ function ContributorAddSpecies() {
                   className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
                 >
                   <input
-                    type="file"
+                    type="file3"
                     id="imginput4"
                     className="hidden"
                     onChange={handleImageChange3}
