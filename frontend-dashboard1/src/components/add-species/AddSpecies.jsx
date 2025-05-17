@@ -96,10 +96,10 @@ function AddSpecies() {
     formData.append("conservationeffort", conservationeffort);
     formData.append("description", description);
     formData.append("classification", classification);
-    formData.append("file", file);
-    formData.append("file", file1);
-    formData.append("file", file2);
-    formData.append("file", file3);
+    formData.append("file", file); // Main image
+    formData.append("file1", file1); // Additional image 1
+    formData.append("file2", file2); // Additional image 2
+    formData.append("file3", file3); // Additional image 3
 
     axios
       .post(`${API_URL}/create`, formData)
