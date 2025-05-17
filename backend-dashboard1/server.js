@@ -473,9 +473,6 @@ app.post("/create", upload.array("file", 4), async (req, res) => {
 });
 
 
-
-
-
 // End point to get the species table
 app.get("/listspecies", (req, res) => {
   const sql = "SELECT * FROM species";
@@ -1226,7 +1223,7 @@ app.put("/species/approve/:id", async (req, res) => {
       INSERT INTO species (
         specificname, scientificname, commonname, habitat, population, threats, 
         location, conservationstatus, speciescategory, conservationeffort, description, 
-        uploadimage, created_at, created_month, latitude, longitude
+        uploadimage, uploadimage1, uploadimage2, uploadimage3, created_at, created_month, latitude, longitude
       )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
     `;
@@ -1244,6 +1241,9 @@ app.put("/species/approve/:id", async (req, res) => {
       species.conservationeffort,
       species.description,
       species.uploadimage,
+      species.uploadimage1,
+      species.uploadimage2,
+      species.uploadimage3,
       species.created_at,    // ✔ kasama na
       species.created_month, // ✔ kasama na
       species.latitude,      // ✔ kasama na
