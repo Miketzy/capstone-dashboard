@@ -7,6 +7,9 @@ import API_URL from "../../config"; // Dalawang level up ✅
 
 function AddSpecies() {
   const [image, setImage] = useState(null);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
   const [file, setFile] = useState(null);
   const [specificname, setSpecificname] = useState("");
   const [scientificname, setScientificname] = useState("");
@@ -29,6 +32,33 @@ function AddSpecies() {
     if (selectedFile) {
       const imageUrl = URL.createObjectURL(selectedFile);
       setImage(imageUrl);
+      setImage1(imageUrl);
+      setFile(selectedFile); // Set the file object
+    }
+  };
+  const handleImageChange1 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage1(imageUrl);
+      setFile(selectedFile); // Set the file object
+    }
+  };
+
+  const handleImageChange2 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage2(imageUrl);
+      setFile(selectedFile); // Set the file object
+    }
+  };
+
+  const handleImageChange3 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setImage3(imageUrl);
       setFile(selectedFile); // Set the file object
     }
   };
@@ -135,11 +165,11 @@ function AddSpecies() {
                     type="file"
                     id="imginput2"
                     className="hidden"
-                    onChange={handleImageChange}
+                    onChange={handleImageChange1}
                   />
-                  {image ? (
+                  {image1 ? (
                     <img
-                      src={image}
+                      src={image1}
                       alt="Uploaded Species"
                       className="w-32 h-32 mx-auto my-4"
                     />
@@ -163,11 +193,11 @@ function AddSpecies() {
                     type="file"
                     id="imginput3"
                     className="hidden"
-                    onChange={handleImageChange}
+                    onChange={handleImageChange2}
                   />
-                  {image ? (
+                  {image2 ? (
                     <img
-                      src={image}
+                      src={image2}
                       alt="Uploaded Species"
                       className="w-32 h-32 mx-auto my-4"
                     />
@@ -191,11 +221,11 @@ function AddSpecies() {
                     type="file"
                     id="imginput4"
                     className="hidden"
-                    onChange={handleImageChange}
+                    onChange={handleImageChange3}
                   />
-                  {image ? (
+                  {image3 ? (
                     <img
-                      src={image}
+                      src={image3}
                       alt="Uploaded Species"
                       className="w-32 h-32 mx-auto my-4"
                     />
