@@ -1064,12 +1064,18 @@ app.post("/species/pending", upload.array("file", 4), async (req, res) => {
     }
 
     const uploadResults = await Promise.all(
-      req.files.map(file =>
-        cloudinary.uploader.upload(file.path, {
+      req.files.map((file, index) => {
+        // Generate numeric-only public_id, e.g. using timestamp + index
+        const numericId = Date.now().toString() + (index + 1).toString();
+        return cloudinary.uploader.upload(file.path, {
           folder: 'species-images',
-        })
-      )
+          public_id: numericId,  // numeric file name without extension
+          overwrite: true,       // overwrite if needed
+          resource_type: "image"
+        });
+      })
     );
+    
 
     const uploadimage = uploadResults[0]?.secure_url || null;
     const uploadimage1 = uploadResults[1]?.secure_url || null;
