@@ -1102,7 +1102,7 @@ app.post("/species/pending", upload.single("file"), async (req, res) => {
     const sql = `
       INSERT INTO pending_request
       (specificname, scientificname, commonname, habitat, population, threats, 
-       location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, uploadimage1, uploadimage2, uploadimage3
+       location, speciescategory, conservationstatus, conservationeffort, description, uploadimage, uploadimage1, uploadimage2, uploadimage3,
        contributor_firstname, contributor_lastname, contributor_email, latitude, longitude, created_at, created_month)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
       RETURNING *;
