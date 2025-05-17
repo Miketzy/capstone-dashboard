@@ -370,7 +370,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-app.post("/create",upload.array("file", 4), async (req, res) => {
+app.post('/create', upload.array('file', 4), async (req, res) => {
   try {
     const {
       specificname,
@@ -386,31 +386,50 @@ app.post("/create",upload.array("file", 4), async (req, res) => {
       description,
     } = req.body;
 
+    // Basic validation example
+    if (!specificname || !scientificname || !commonname || !location) {
+      return res.status(400).json({ message: 'Missing required fields.' });
+    }
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'At least one image file is required.' });
+    }
+
+    // Upload files to Cloudinary in parallel
     const uploadResults = await Promise.all(
       req.files.map((file, index) => {
-        // Generate numeric-only public_id, e.g. using timestamp + index
-        const numericId = Date.now().toString() + (index + 1).toString();
+        // Generate unique numeric public_id (timestamp + index + random)
+        const numericId = Date.now().toString() + (index + 1).toString() + Math.floor(Math.random() * 1000).toString();
         return cloudinary.uploader.upload(file.path, {
           folder: 'species-images',
-          public_id: numericId,  // numeric file name without extension
-          overwrite: true,       // overwrite if needed
-          resource_type: "image"
+          public_id: numericId,
+          overwrite: true,
+          resource_type: 'image'
         });
       })
     );
-    
+
+    // Delete local temp files after upload
+    req.files.forEach(file => {
+      fs.unlink(file.path, err => {
+        if (err) console.error('Failed to delete temp file:', file.path);
+      });
+    });
+
+    // Extract uploaded image URLs or fallback to null
     const uploadimage = uploadResults[0]?.secure_url || null;
     const uploadimage1 = uploadResults[1]?.secure_url || null;
     const uploadimage2 = uploadResults[2]?.secure_url || null;
     const uploadimage3 = uploadResults[3]?.secure_url || null;
 
+    // Get latitude and longitude from location string
     let latitude = null;
     let longitude = null;
     try {
-      const geoResponse = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+      const geoResponse = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
           q: location,
-          format: "json",
+          format: 'json',
           addressdetails: 1,
           limit: 1,
         },
@@ -420,17 +439,15 @@ app.post("/create",upload.array("file", 4), async (req, res) => {
         longitude = geoResponse.data[0].lon;
       }
     } catch (err) {
-      console.error("Location fetch error:", err.message);
+      console.error('Location fetch error:', err.message);
+      // You can choose to proceed or return error here
     }
 
-    const currentTime = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Manila"
-    });
-    const createdMonth = new Date().toLocaleString("en-US", {
-      month: "long",
-      timeZone: "Asia/Manila"
-    });
+    // Get current date/time in Asia/Manila timezone
+    const currentTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+    const createdMonth = new Date().toLocaleString('en-US', { month: 'long', timeZone: 'Asia/Manila' });
 
+    // SQL Insert query
     const sql = `
       INSERT INTO pending_request (
         specificname, scientificname, commonname, habitat, population, threats,
@@ -441,8 +458,7 @@ app.post("/create",upload.array("file", 4), async (req, res) => {
         $1, $2, $3, $4, $5, $6,
         $7, $8, $9, $10,
         $11, $12, $13, $14, $15,
-        $16, $17, $18,
-        $19
+        $16, $17, $18, $19
       ) RETURNING *;
     `;
 
@@ -465,17 +481,16 @@ app.post("/create",upload.array("file", 4), async (req, res) => {
       latitude,
       longitude,
       currentTime,
-      createdMonth
+      createdMonth,
     ]);
 
     res.status(201).json({
-      message: "Species request submitted successfully!",
+      message: 'Species request submitted successfully!',
       species: result.rows[0],
     });
-
   } catch (err) {
-    console.error("Error:", err);
-    res.status(500).json({ message: "Something went wrong submitting the request." });
+    console.error('Error:', err);
+    res.status(500).json({ message: 'Something went wrong submitting the request.', error: err.message });
   }
 });
 
