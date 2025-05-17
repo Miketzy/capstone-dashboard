@@ -370,112 +370,103 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-app.post("/create",upload.array("file", 4), async (req, res) => {
+app.post("/create", upload.single("file"), async (req, res) => {
+  const {
+    specificname,
+    scientificname,
+    commonname,
+    habitat,
+    population,
+    threats,
+    speciescategory,
+    location,
+    conservationstatus,
+    conservationeffort,
+    classification,
+    description,
+  } = req.body;
+
+  // Get Cloudinary URL
+  const uploadimage = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage1 = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage2 = req.file ? req.file.path : null; // Cloudinary URL
+  const uploadimage3 = req.file ? req.file.path : null; // Cloudinary URL
+
+  // Fetch latitude and longitude for location using Nominatim
+  let latitude = null;
+  let longitude = null;
+  
   try {
-    const {
-      specificname,
-      scientificname,
-      commonname,
-      habitat,
-      population,
-      threats,
-      location,
-      conservationstatus,
-      speciescategory,
-      conservationeffort,
-      description,
-    } = req.body;
-
-    const uploadResults = await Promise.all(
-      req.files.map((file, index) => {
-        // Generate numeric-only public_id, e.g. using timestamp + index
-        const numericId = Date.now().toString() + (index + 1).toString();
-        return cloudinary.uploader.upload(file.path, {
-          folder: 'species-images',
-          public_id: numericId,  // numeric file name without extension
-          overwrite: true,       // overwrite if needed
-          resource_type: "image"
-        });
-      })
-    );
-    
-    const uploadimage = uploadResults[0]?.secure_url || null;
-    const uploadimage1 = uploadResults[1]?.secure_url || null;
-    const uploadimage2 = uploadResults[2]?.secure_url || null;
-    const uploadimage3 = uploadResults[3]?.secure_url || null;
-
-    let latitude = null;
-    let longitude = null;
-    try {
-      const geoResponse = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+    const response = await axios.get(
+      `https://nominatim.openstreetmap.org/search`,
+      {
         params: {
           q: location,
           format: "json",
           addressdetails: 1,
           limit: 1,
         },
-      });
-      if (geoResponse.data.length > 0) {
-        latitude = geoResponse.data[0].lat;
-        longitude = geoResponse.data[0].lon;
       }
-    } catch (err) {
-      console.error("Location fetch error:", err.message);
+    );
+
+    // If the response is not empty, set latitude and longitude
+    if (response.data.length > 0) {
+      latitude = response.data[0].lat;
+      longitude = response.data[0].lon;
     }
+  } catch (err) {
+    console.error("Error fetching location data:", err);
+  }
 
-    const currentTime = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Manila"
-    });
-    const createdMonth = new Date().toLocaleString("en-US", {
-      month: "long",
-      timeZone: "Asia/Manila"
-    });
+  // Get current date and time in Manila timezone (or you can set this to your desired timezone)
+  const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
 
-    const sql = `
-      INSERT INTO pending_request (
-        specificname, scientificname, commonname, habitat, population, threats,
-        location, speciescategory, conservationstatus, conservationeffort,
-        description, uploadimage, uploadimage1, uploadimage2, uploadimage3,
-        latitude, longitude, created_at, created_month
-      ) VALUES (
-        $1, $2, $3, $4, $5, $6,
-        $7, $8, $9, $10,
-        $11, $12, $13, $14, $15,
-        $16, $17, $18,
-        $19
-      ) RETURNING *;
-    `;
+  // Automatically set the current month (e.g., "January", "February", etc.)
+  const createdMonth = new Date().toLocaleString("en-US", { month: "long", timeZone: "Asia/Manila" });
 
-    const result = await pool.query(sql, [
+  // Save to Database (Include latitude and longitude)
+  const query = `
+    INSERT INTO species (
+      specificname, scientificname, commonname, habitat, population, threats, speciescategory, 
+      location, conservationstatus, conservationeffort, description, classification, 
+      uploadimage,uploadimage1,uploadimage2,uploadimage3, created_at, created_month, latitude, longitude
+    ) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) 
+    RETURNING *
+  `;
+
+  try {
+    const result = await pool.query(query, [
       specificname,
       scientificname,
       commonname,
       habitat,
       population,
       threats,
-      location,
       speciescategory,
+      location,
       conservationstatus,
       conservationeffort,
       description,
-      uploadimage,
-      uploadimage1,
-      uploadimage2,
-      uploadimage3,
-      latitude,
-      longitude,
-      currentTime,
-      createdMonth
+      classification,
+      uploadimage, // Cloudinary URL
+      uploadimage1, // Cloudinary URL
+      uploadimage2, // Cloudinary URL
+      uploadimage3, // Cloudinary URL
+      currentTime,  // Current date and time
+      createdMonth, // Automatically generated current month
+      latitude,     // Latitude from Nominatim
+      longitude,    // Longitude from Nominatim
     ]);
 
     res.status(201).json({
-      message: "Species request submitted successfully!",
+      message: "Species added successfully!",
       species: result.rows[0],
     });
 
   } catch (err) {
-    console.error("Error:", err);
-    res.status(500).json({ message: "Something went wrong submitting the request." });
+    console.error("Error inserting species data:", err);
+    res.status(500).send("Server error. Failed to add species.");
   }
 });
 
