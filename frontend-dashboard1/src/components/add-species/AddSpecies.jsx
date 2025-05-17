@@ -122,6 +122,87 @@ function AddSpecies() {
                 )}
               </label>
             </div>
+            <div className="relative">
+              <label
+                htmlFor="imginput"
+                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+              >
+                <input
+                  type="file"
+                  id="imginput"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+
+                {image ? (
+                  <img
+                    src={image}
+                    alt="Uploaded Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                ) : (
+                  <img
+                    src="/images/animals.jpg"
+                    alt="Default Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                )}
+              </label>
+            </div>
+            <div className="relative">
+              <label
+                htmlFor="imginput"
+                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+              >
+                <input
+                  type="file"
+                  id="imginput"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+
+                {image ? (
+                  <img
+                    src={image}
+                    alt="Uploaded Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                ) : (
+                  <img
+                    src="/images/animals.jpg"
+                    alt="Default Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                )}
+              </label>
+            </div>
+            <div className="relative">
+              <label
+                htmlFor="imginput"
+                className="cursor-pointer w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md"
+              >
+                <input
+                  type="file"
+                  id="imginput"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+
+                {image ? (
+                  <img
+                    src={image}
+                    alt="Uploaded Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                ) : (
+                  <img
+                    src="/images/animals.jpg"
+                    alt="Default Species"
+                    className="w-32 h-32  mx-auto my-4"
+                  />
+                )}
+              </label>
+            </div>
           </div>
 
           <div className="col-span-1">
