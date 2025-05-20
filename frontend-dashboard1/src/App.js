@@ -25,6 +25,8 @@ import CheckAuth from "./checkAuth/CheckAuth";
 import { useEffect } from 'react';
 import SpeciesAnalyticsDasboard from "./pages/home/Species-Analytics-Dashboard/SpeciesAnalyticsDasboard";
 import API_URL from "./config";
+import MobileNotSupported from "./components/mobilenotsupported/MobileNotSupported";
+import DeviceChecker from "./components/devicechicker/DeviceChecker";
 
 
 
@@ -47,33 +49,37 @@ function App() {
   return (
     <BrowserRouter>
      <Routes>
-        <Route path="/" element={<Login/>} />
-        <Route path='/registration' element={<Signup />} />
+      <Route path="/not-available" element={<MobileNotSupported />} />
+        <Route path="/" element={ <DeviceChecker><Login/></DeviceChecker> } />
+        <Route path='/registration' element={ <DeviceChecker><Signup /></DeviceChecker>} />
+        
         <Route path='/species-directory' element={
           <>
+          <DeviceChecker>
             <CheckAuth />
             <Dashboard />
+          </DeviceChecker>
           </>
       } />
 
-        <Route path='/search' element={<SearchbarDashboard/>} />
-        <Route path='/add-species' element={<AddSpeciesDashboard/>} />
-        <Route path='/contributor-request' element={<ContributorRequestDashboards/>} />
-        <Route path='/list-of-species' element={<ViewAndEditDashboard/>} />
-        <Route path='/createQuestion' element={<CreateQuizesDashboard/>} />
-        <Route path='/species-analytics' element={<SpeciesAnalyticsDasboard/>} />
-        <Route path='/my-profile' element={<MyProfileDashboard/>} />
-        <Route path='/my-profile/edit-profile' element={<EditProfileDashboard/>} />
-        <Route path='/my-profile/change-password' element={<ChangePasswordDashboard/>} />
-        <Route path='/image-gallery' element={<ImageGallerDashboard/>} />
-        <Route path='/new-password' element={<ForgotPassword/>} />
-        <Route path='/email-request' element={<Email/>} />
-        <Route path='/otp' element={<Otphome/>} />
-        <Route path='/contributor-dashboard' element={<ContributorDashboard/>} />
-        <Route path='/contributor-Gallery' element={<ContributorImageGalleryDashboard/>} />
-        <Route path='/contributor-MyProfile' element={<ContributorMyprofileDashboard/>} />
-        <Route path='/contributor-MyProfile/contributor-EditProfile' element={<ContributorEditProfileDashboard/>} />
-        <Route path='/contributor-MyProfile/contributor-changepassword' element={<ContributorChangePasswordDashboard/>} />
+        <Route path='/search' element={ <DeviceChecker><SearchbarDashboard/></DeviceChecker>} />
+        <Route path='/add-species' element={ <DeviceChecker><AddSpeciesDashboard/></DeviceChecker>  } />
+        <Route path='/contributor-request' element={ <DeviceChecker><ContributorRequestDashboards/></DeviceChecker>} />
+        <Route path='/list-of-species' element={<DeviceChecker><ViewAndEditDashboard/></DeviceChecker>} />
+        <Route path='/createQuestion' element={<DeviceChecker><CreateQuizesDashboard/></DeviceChecker>} />
+        <Route path='/species-analytics' element={<DeviceChecker><SpeciesAnalyticsDasboard/></DeviceChecker>} />
+        <Route path='/my-profile' element={<DeviceChecker><MyProfileDashboard/></DeviceChecker>} />
+        <Route path='/my-profile/edit-profile' element={ <DeviceChecker><EditProfileDashboard/></DeviceChecker>} />
+        <Route path='/my-profile/change-password' element={<DeviceChecker><ChangePasswordDashboard/></DeviceChecker>} />
+        <Route path='/image-gallery' element={<DeviceChecker><ImageGallerDashboard/></DeviceChecker>} />
+        <Route path='/new-password' element={<DeviceChecker><ForgotPassword/></DeviceChecker>} />
+        <Route path='/email-request' element={<DeviceChecker><Email/></DeviceChecker>} />
+        <Route path='/otp' element={<DeviceChecker><Otphome/></DeviceChecker>} />
+        <Route path='/contributor-dashboard' element={<DeviceChecker><ContributorDashboard/></DeviceChecker>} />
+        <Route path='/contributor-Gallery' element={<DeviceChecker><ContributorImageGalleryDashboard/></DeviceChecker>} />
+        <Route path='/contributor-MyProfile' element={<DeviceChecker><ContributorMyprofileDashboard/></DeviceChecker>} />
+        <Route path='/contributor-MyProfile/contributor-EditProfile' element={<DeviceChecker><ContributorEditProfileDashboard/></DeviceChecker>} />
+        <Route path='/contributor-MyProfile/contributor-changepassword' element={<DeviceChecker><ContributorChangePasswordDashboard/></DeviceChecker>} />
       </Routes>
     </BrowserRouter>
   );
