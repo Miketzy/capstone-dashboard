@@ -497,7 +497,7 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
               <input
                 type="text"
                 placeholder="Enter Scientific Name"
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded italic"
                 value={selectSpecies.scientificname || ""}
                 onChange={(e) =>
                   setSelectSpecies({
