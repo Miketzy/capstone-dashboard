@@ -353,7 +353,9 @@ const ViewAndEditSpecies = ({ selectedSpeciesId }) => {
                   {selectSpecies?.specificname || ""}
                 </p>
                 <p className="text-lg text-gray-800">
-                  <strong className="text-green-800">Scientific Name:</strong>{" "}
+                  <strong className="text-green-800 italic">
+                    Scientific Name:
+                  </strong>{" "}
                   {selectSpecies?.scientificname || ""}
                 </p>
                 <p className="text-lg text-gray-800">

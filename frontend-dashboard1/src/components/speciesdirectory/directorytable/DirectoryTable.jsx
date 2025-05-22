@@ -56,7 +56,7 @@ function DirectoryTable() {
                 <tr key={data.id}>
                   <td>{indexOfFirstItem + index + 1}</td>{" "}
                   <td>{data.specificname}</td>
-                  <td>{data.scientificname}</td>
+                  <td className="italic">{data.scientificname}</td>
                   <td>{data.commonname}</td>
                   <td>{data.habitat}</td>
                   <td>{data.population}</td>
