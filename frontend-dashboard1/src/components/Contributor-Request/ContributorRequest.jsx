@@ -103,7 +103,7 @@ function ContributorRequest() {
                 <th className="p-2 md:p-3">Contributor</th>
                 <th className="p-2 md:p-3">Email</th>
                 <th className="p-2 md:p-3">Specific Name</th>
-                <th className="p-2 md:p-3 italic">Scientific Name</th>
+                <th className="p-2 md:p-3">Scientific Name</th>
                 <th className="p-2 md:p-3">Common Name</th>
                 <th className="p-2 md:p-3">Category</th>
                 <th className="p-2 md:p-3">Action</th>
@@ -121,7 +121,7 @@ function ContributorRequest() {
                       {data.contributor_firstname} {data.contributor_lastname}
                     </td>
                     <td className="p-2 md:p-3">{data.contributor_email}</td>
-                    <td className="p-2 md:p-3">{data.specificname}</td>
+                    <td className="p-2 md:p-3 italic">{data.specificname}</td>
                     <td className="p-2 md:p-3">{data.scientificname}</td>
                     <td className="p-2 md:p-3">{data.commonname}</td>
                     <td className="p-2 md:p-3">{data.speciescategory}</td>
