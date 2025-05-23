@@ -274,7 +274,7 @@ function AddSpecies() {
           <div className="col-span-1">
             <label
               htmlFor="scientific-name"
-              className="block font-bold text-xl text-gray-700 italic"
+              className="block font-bold text-xl text-gray-700 "
             >
               Scientific Name
             </label>
@@ -282,7 +282,7 @@ function AddSpecies() {
               type="text"
               id="scientific-name"
               placeholder="Enter scientific name"
-              className="w-full p-2 border border-gray-300 rounded-md mt-1"
+              className="w-full p-2 border border-gray-300 rounded-md mt-1 italic"
               onChange={(e) => setScientificname(e.target.value)}
             />
           </div>
