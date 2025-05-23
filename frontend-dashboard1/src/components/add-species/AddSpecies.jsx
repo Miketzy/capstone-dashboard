@@ -274,7 +274,7 @@ function AddSpecies() {
           <div className="col-span-1">
             <label
               htmlFor="scientific-name"
-              className="block font-bold text-xl text-gray-700"
+              className="block font-bold text-xl text-gray-700 italic"
             >
               Scientific Name
             </label>
